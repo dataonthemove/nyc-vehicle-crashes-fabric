@@ -24,13 +24,13 @@
 -- # 01 — DDL: Dimension Tables
 -- **Warehouse:** NYC_VehicleCrashes_Warehouse  
 -- **Created:** 2026-06-08  
--- **Fabric Warehouse T-SQL constraints discovered:**
+-- **Updated:** 2026-06-09 — added dim_damage; removed pre_crash, point_of_impact from dim_vehicle
+-- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
--- - IDENTITY columns must be BIGINT
--- - IDENTITY does not accept SEED or INCREMENT parameters
+-- - IDENTITY columns must be BIGINT with no SEED/INCREMENT params
 -- - Uniqueness enforced at stored procedure level
--- - Drop order respects dependencies — facts and bridges dropped before dims.
+-- - Drop order respects dependencies — facts and bridges dropped before dims
 
 -- MARKDOWN ********************
 
@@ -56,6 +56,7 @@ IF OBJECT_ID('dbo.fact_crashes',         'U') IS NOT NULL DROP TABLE dbo.fact_cr
 
 -- CELL ********************
 
+IF OBJECT_ID('dbo.dim_damage',              'U') IS NOT NULL DROP TABLE dbo.dim_damage;
 IF OBJECT_ID('dbo.dim_vehicle',             'U') IS NOT NULL DROP TABLE dbo.dim_vehicle;
 IF OBJECT_ID('dbo.dim_person',              'U') IS NOT NULL DROP TABLE dbo.dim_person;
 IF OBJECT_ID('dbo.dim_contributing_factor', 'U') IS NOT NULL DROP TABLE dbo.dim_contributing_factor;
@@ -184,6 +185,7 @@ CREATE TABLE dbo.dim_person (
 -- MARKDOWN ********************
 
 -- ## Step 8 — Create dim_vehicle
+-- > pre_crash and point_of_impact removed — those belong exclusively to dim_damage
 
 -- CELL ********************
 
@@ -195,6 +197,8 @@ CREATE TABLE dbo.dim_vehicle (
     vehicle_year                 SMALLINT     NULL,
     state_registration           VARCHAR(10)  NULL,
     travel_direction             VARCHAR(20)  NULL,
+    vehicle_occupants            VARCHAR(10)  NULL,
+    driver_sex                   VARCHAR(10)  NULL,
     driver_license_status        VARCHAR(50)  NULL,
     driver_license_jurisdiction  VARCHAR(50)  NULL
 );
@@ -208,13 +212,34 @@ CREATE TABLE dbo.dim_vehicle (
 
 -- MARKDOWN ********************
 
--- ## Step 9 — Verify all dimension tables created
+-- ## Step 9 — Create dim_damage (junk dimension)
+-- > Junk dimension collapsing low-cardinality vehicle-event damage descriptors
+-- > Profiled distinct combinations: 4,523 across 4.4M vehicle rows
+-- > pre_crash and point_of_impact exclusively here — removed from dim_vehicle
 
 -- CELL ********************
 
-SELECT 
-    TABLE_NAME,
-    TABLE_TYPE
+CREATE TABLE dbo.dim_damage (
+    damage_key       BIGINT        NOT NULL IDENTITY,
+    pre_crash        VARCHAR(100)  NULL,
+    point_of_impact  VARCHAR(100)  NULL,
+    vehicle_damage   VARCHAR(100)  NULL
+);
+
+-- METADATA ********************
+
+-- META {
+-- META   "language": "sql",
+-- META   "language_group": "sqldatawarehouse"
+-- META }
+
+-- MARKDOWN ********************
+
+-- ## Step 10 — Verify all dimension tables created
+
+-- CELL ********************
+
+SELECT *
 FROM INFORMATION_SCHEMA.TABLES
 WHERE TABLE_NAME LIKE 'dim_%'
 ORDER BY TABLE_NAME;

@@ -3,6 +3,9 @@
 -- METADATA ********************
 
 -- META {
+-- META   "kernel_info": {
+-- META     "name": "sqldatawarehouse"
+-- META   },
 -- META   "dependencies": {
 -- META     "warehouse": {
 -- META       "default_warehouse": "da2b14e1-b933-a3f7-47de-f697ddedf601",
@@ -21,6 +24,7 @@
 -- # 02 — DDL: Fact & Bridge Tables
 -- **Warehouse:** NYC_VehicleCrashes_Warehouse  
 -- **Created:** 2026-06-08  
+-- **Updated:** 2026-06-09 — added damage_key to fact_crash_vehicle
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -56,18 +60,18 @@ IF OBJECT_ID('dbo.fact_crashes',         'U') IS NOT NULL DROP TABLE dbo.fact_cr
 -- CELL ********************
 
 CREATE TABLE dbo.fact_crashes (
-    crash_id            BIGINT    NOT NULL IDENTITY,
-    collision_key       BIGINT    NOT NULL,  -- FK dim_collision
-    date_key            INT       NOT NULL,  -- FK dim_date (YYYYMMDD)
-    location_key        BIGINT    NOT NULL,  -- FK dim_location
-    persons_injured     INT       NULL,
-    persons_killed      INT       NULL,
-    pedestrians_injured INT       NULL,
-    pedestrians_killed  INT       NULL,
-    cyclists_injured    INT       NULL,
-    cyclists_killed     INT       NULL,
-    motorists_injured   INT       NULL,
-    motorists_killed    INT       NULL
+    crash_id            BIGINT  NOT NULL IDENTITY,
+    date_key            INT     NOT NULL,  -- FK dim_date (YYYYMMDD)        
+    collision_key       BIGINT  NOT NULL,  -- FK dim_collision
+    location_key        BIGINT  NOT NULL,  -- FK dim_location
+    persons_injured     INT     NULL,
+    persons_killed      INT     NULL,
+    pedestrians_injured INT     NULL,
+    pedestrians_killed  INT     NULL,
+    cyclists_injured    INT     NULL,
+    cyclists_killed     INT     NULL,
+    motorists_injured   INT     NULL,
+    motorists_killed    INT     NULL
 );
 
 -- METADATA ********************
@@ -87,13 +91,13 @@ CREATE TABLE dbo.fact_crashes (
 -- CELL ********************
 
 CREATE TABLE dbo.fact_persons (
-    fact_person_id      BIGINT    NOT NULL IDENTITY,
-    collision_key       BIGINT    NOT NULL,  -- FK dim_collision
-    date_key            INT       NOT NULL,  -- FK dim_date (YYYYMMDD)
-    person_key          BIGINT    NOT NULL,  -- FK dim_person
-    person_age          INT       NULL,
-    is_injured          BIT       NOT NULL,
-    is_killed           BIT       NOT NULL
+    fact_person_id  BIGINT  NOT NULL IDENTITY,
+    date_key        INT     NOT NULL,  -- FK dim_date (YYYYMMDD)
+    collision_key   BIGINT  NOT NULL,  -- FK dim_collision
+    person_key      BIGINT  NOT NULL,  -- FK dim_person
+    person_age      INT     NULL,
+    is_injured      BIT     NOT NULL,
+    is_killed       BIT     NOT NULL
 );
 
 -- METADATA ********************
@@ -108,6 +112,7 @@ CREATE TABLE dbo.fact_persons (
 -- ## Step 4 — Create fact_crash_vehicle (factless fact)
 -- > Grain: one row per collision x vehicle combination
 -- > Resolves many-to-many between crashes and vehicles
+-- > damage_key links to dim_damage junk dimension (PRE_CRASH, POINT_OF_IMPACT, VEHICLE_DAMAGE)
 -- > Replaces VEHICLE_TYPE_CODE_1-5 columns on fact_crashes
 
 -- CELL ********************
@@ -115,7 +120,8 @@ CREATE TABLE dbo.fact_persons (
 CREATE TABLE dbo.fact_crash_vehicle (
     fact_crash_vehicle_id   BIGINT  NOT NULL IDENTITY,
     collision_key           BIGINT  NOT NULL,  -- FK dim_collision
-    vehicle_key             BIGINT  NOT NULL   -- FK dim_vehicle
+    vehicle_key             BIGINT  NOT NULL,  -- FK dim_vehicle
+    damage_key              BIGINT  NOT NULL   -- FK dim_damage
 );
 
 -- METADATA ********************
@@ -152,9 +158,7 @@ CREATE TABLE dbo.bridge_crash_factor (
 
 -- CELL ********************
 
-SELECT 
-    TABLE_NAME,
-    TABLE_TYPE
+SELECT *
 FROM INFORMATION_SCHEMA.TABLES
 WHERE TABLE_NAME LIKE 'fact_%'
    OR TABLE_NAME LIKE 'bridge_%'
