@@ -1,0 +1,48 @@
+table dim_damage
+	lineageTag: fcd885df-27a4-4fd3-b113-4a2e506bb8e5
+	sourceLineageTag: [dbo].[dim_damage]
+
+	column damage_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f303dee8-f023-4bdb-b453-fd44e0bae67c
+		sourceLineageTag: damage_key
+		summarizeBy: none
+		sourceColumn: damage_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column pre_crash
+		dataType: string
+		lineageTag: a42b921f-f95e-4c12-b4ba-4dbf0e211cec
+		sourceLineageTag: pre_crash
+		summarizeBy: none
+		sourceColumn: pre_crash
+
+		annotation SummarizationSetBy = Automatic
+
+	column point_of_impact
+		dataType: string
+		lineageTag: 95302391-42c5-4ec9-b461-316aa17e47ff
+		sourceLineageTag: point_of_impact
+		summarizeBy: none
+		sourceColumn: point_of_impact
+
+		annotation SummarizationSetBy = Automatic
+
+	column vehicle_damage
+		dataType: string
+		lineageTag: 35861c58-c886-43e9-a612-5e9e8ced298b
+		sourceLineageTag: vehicle_damage
+		summarizeBy: none
+		sourceColumn: vehicle_damage
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_damage = entity
+		mode: directLake
+		source
+			entityName: dim_damage
+			schemaName: dbo
+			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+

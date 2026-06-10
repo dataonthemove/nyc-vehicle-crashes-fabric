@@ -1,0 +1,133 @@
+table fact_crashes
+	lineageTag: fe85b61c-824e-4b76-954d-795fdba99a03
+	sourceLineageTag: [dbo].[fact_crashes]
+
+	column crash_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 401e8dd1-295b-4727-9506-7af3e0f23376
+		sourceLineageTag: crash_id
+		summarizeBy: none
+		sourceColumn: crash_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: b0acdd1b-69a7-42c4-ba85-f4a94992f440
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column collision_key
+		dataType: int64
+		formatString: 0
+		lineageTag: cd295f3b-cb53-496a-b73e-b76546768050
+		sourceLineageTag: collision_key
+		summarizeBy: none
+		sourceColumn: collision_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 06e0cbcf-1e3a-47f4-a2b6-ca9e1e41e41b
+		sourceLineageTag: location_key
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column persons_injured
+		dataType: int64
+		formatString: 0
+		lineageTag: 0091b681-5da2-4e36-9dfd-b72b0ce4651f
+		sourceLineageTag: persons_injured
+		summarizeBy: sum
+		sourceColumn: persons_injured
+
+		annotation SummarizationSetBy = Automatic
+
+	column persons_killed
+		dataType: int64
+		formatString: 0
+		lineageTag: 04d6bec2-ec4a-4553-8bc2-5cb3ca6e4454
+		sourceLineageTag: persons_killed
+		summarizeBy: sum
+		sourceColumn: persons_killed
+
+		annotation SummarizationSetBy = Automatic
+
+	column pedestrians_injured
+		dataType: int64
+		formatString: 0
+		lineageTag: c7c05ecd-9687-4579-9668-4e0e2ec9ed1d
+		sourceLineageTag: pedestrians_injured
+		summarizeBy: sum
+		sourceColumn: pedestrians_injured
+
+		annotation SummarizationSetBy = Automatic
+
+	column pedestrians_killed
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c61d9ee-6c98-416f-87e9-649cce2eb512
+		sourceLineageTag: pedestrians_killed
+		summarizeBy: sum
+		sourceColumn: pedestrians_killed
+
+		annotation SummarizationSetBy = Automatic
+
+	column cyclists_injured
+		dataType: int64
+		formatString: 0
+		lineageTag: 662e2773-daf6-40ba-8457-45137bd034fa
+		sourceLineageTag: cyclists_injured
+		summarizeBy: sum
+		sourceColumn: cyclists_injured
+
+		annotation SummarizationSetBy = Automatic
+
+	column cyclists_killed
+		dataType: int64
+		formatString: 0
+		lineageTag: 04ba2c93-5648-43c8-b520-cad0adc2d25f
+		sourceLineageTag: cyclists_killed
+		summarizeBy: sum
+		sourceColumn: cyclists_killed
+
+		annotation SummarizationSetBy = Automatic
+
+	column motorists_injured
+		dataType: int64
+		formatString: 0
+		lineageTag: f6088692-671b-4215-9e1a-e1d0ef725ba5
+		sourceLineageTag: motorists_injured
+		summarizeBy: sum
+		sourceColumn: motorists_injured
+
+		annotation SummarizationSetBy = Automatic
+
+	column motorists_killed
+		dataType: int64
+		formatString: 0
+		lineageTag: 1aff1286-7a00-4146-8ce3-49a090de94bb
+		sourceLineageTag: motorists_killed
+		summarizeBy: sum
+		sourceColumn: motorists_killed
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_crashes = entity
+		mode: directLake
+		source
+			entityName: fact_crashes
+			schemaName: dbo
+			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+

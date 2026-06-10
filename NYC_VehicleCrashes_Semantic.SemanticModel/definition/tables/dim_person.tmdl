@@ -1,0 +1,111 @@
+table dim_person
+	lineageTag: 4052a705-0544-4a1e-87c2-337b9c51c876
+	sourceLineageTag: [dbo].[dim_person]
+
+	column person_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 4aa731c9-78b5-4f13-8f86-8afb220a14d0
+		sourceLineageTag: person_key
+		summarizeBy: none
+		sourceColumn: person_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column person_type
+		dataType: string
+		lineageTag: 838aba28-d4ff-4c9a-86c8-ed754de845af
+		sourceLineageTag: person_type
+		summarizeBy: none
+		sourceColumn: person_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column person_sex
+		dataType: string
+		lineageTag: 62c5f5b2-3b96-40f3-bcb9-0ac8883fa4ee
+		sourceLineageTag: person_sex
+		summarizeBy: none
+		sourceColumn: person_sex
+
+		annotation SummarizationSetBy = Automatic
+
+	column ejection
+		dataType: string
+		lineageTag: 1f238129-cd27-4d26-aa8e-d2767e20e0f9
+		sourceLineageTag: ejection
+		summarizeBy: none
+		sourceColumn: ejection
+
+		annotation SummarizationSetBy = Automatic
+
+	column emotional_status
+		dataType: string
+		lineageTag: b3d2574e-9ee4-4706-93fb-7771de218a91
+		sourceLineageTag: emotional_status
+		summarizeBy: none
+		sourceColumn: emotional_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column bodily_injury
+		dataType: string
+		lineageTag: 0a3a2cb6-dc9b-4260-b6b1-d0bce0a4ec25
+		sourceLineageTag: bodily_injury
+		summarizeBy: none
+		sourceColumn: bodily_injury
+
+		annotation SummarizationSetBy = Automatic
+
+	column position_in_vehicle
+		dataType: string
+		lineageTag: 521fc8de-8042-40a7-a409-8e920214e296
+		sourceLineageTag: position_in_vehicle
+		summarizeBy: none
+		sourceColumn: position_in_vehicle
+
+		annotation SummarizationSetBy = Automatic
+
+	column safety_equipment
+		dataType: string
+		lineageTag: 04d8ec01-e494-4c0b-87e4-d1c53f97035e
+		sourceLineageTag: safety_equipment
+		summarizeBy: none
+		sourceColumn: safety_equipment
+
+		annotation SummarizationSetBy = Automatic
+
+	column ped_location
+		dataType: string
+		lineageTag: 3eeb6fb1-2950-4d1a-b67f-7b83df99dfbf
+		sourceLineageTag: ped_location
+		summarizeBy: none
+		sourceColumn: ped_location
+
+		annotation SummarizationSetBy = Automatic
+
+	column ped_action
+		dataType: string
+		lineageTag: af669515-b420-4e02-a3cd-462d0dfbc1ef
+		sourceLineageTag: ped_action
+		summarizeBy: none
+		sourceColumn: ped_action
+
+		annotation SummarizationSetBy = Automatic
+
+	column ped_role
+		dataType: string
+		lineageTag: 965d6ac6-4cfd-4e71-9c77-124e4ee4233f
+		sourceLineageTag: ped_role
+		summarizeBy: none
+		sourceColumn: ped_role
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_person = entity
+		mode: directLake
+		source
+			entityName: dim_person
+			schemaName: dbo
+			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+

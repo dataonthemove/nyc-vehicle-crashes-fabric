@@ -13,6 +13,75 @@
     "sourceQueryCulture": "en-US",
     "tables": [
       {
+        "name": "bridge_crash_factor",
+        "sourceLineageTag": "[dbo].[bridge_crash_factor]",
+        "columns": [
+          {
+            "name": "bridge_id",
+            "dataType": "int64",
+            "sourceColumn": "bridge_id",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "bridge_id",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "collision_key",
+            "dataType": "int64",
+            "sourceColumn": "collision_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "collision_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "factor_key",
+            "dataType": "int64",
+            "sourceColumn": "factor_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "factor_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "bridge_crash_factor",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "dbo"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
         "name": "dim_collision",
         "sourceLineageTag": "[dbo].[dim_collision]",
         "columns": [
@@ -107,6 +176,87 @@
             "source": {
               "type": "entity",
               "entityName": "dim_contributing_factor",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "dbo"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
+        "name": "dim_damage",
+        "sourceLineageTag": "[dbo].[dim_damage]",
+        "columns": [
+          {
+            "name": "damage_key",
+            "dataType": "int64",
+            "sourceColumn": "damage_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "damage_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "pre_crash",
+            "dataType": "string",
+            "sourceColumn": "pre_crash",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "pre_crash",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "point_of_impact",
+            "dataType": "string",
+            "sourceColumn": "point_of_impact",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "point_of_impact",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "vehicle_damage",
+            "dataType": "string",
+            "sourceColumn": "vehicle_damage",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "vehicle_damage",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "dim_damage",
               "expressionSource": "DatabaseQuery",
               "schemaName": "dbo"
             }
@@ -704,6 +854,34 @@
                 "value": "Automatic"
               }
             ]
+          },
+          {
+            "name": "vehicle_occupants",
+            "dataType": "string",
+            "sourceColumn": "vehicle_occupants",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "vehicle_occupants",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "driver_sex",
+            "dataType": "string",
+            "sourceColumn": "driver_sex",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "driver_sex",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
           }
         ],
         "partitions": [
@@ -713,6 +891,423 @@
             "source": {
               "type": "entity",
               "entityName": "dim_vehicle",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "dbo"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
+        "name": "fact_crash_vehicle",
+        "sourceLineageTag": "[dbo].[fact_crash_vehicle]",
+        "columns": [
+          {
+            "name": "fact_crash_vehicle_id",
+            "dataType": "int64",
+            "sourceColumn": "fact_crash_vehicle_id",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "fact_crash_vehicle_id",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "collision_key",
+            "dataType": "int64",
+            "sourceColumn": "collision_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "collision_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "vehicle_key",
+            "dataType": "int64",
+            "sourceColumn": "vehicle_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "vehicle_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "damage_key",
+            "dataType": "int64",
+            "sourceColumn": "damage_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "damage_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "fact_crash_vehicle",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "dbo"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
+        "name": "fact_crashes",
+        "sourceLineageTag": "[dbo].[fact_crashes]",
+        "columns": [
+          {
+            "name": "crash_id",
+            "dataType": "int64",
+            "sourceColumn": "crash_id",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "crash_id",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "date_key",
+            "dataType": "int64",
+            "sourceColumn": "date_key",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "date_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "collision_key",
+            "dataType": "int64",
+            "sourceColumn": "collision_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "collision_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "location_key",
+            "dataType": "int64",
+            "sourceColumn": "location_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "location_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "persons_injured",
+            "dataType": "int64",
+            "sourceColumn": "persons_injured",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "persons_injured",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "persons_killed",
+            "dataType": "int64",
+            "sourceColumn": "persons_killed",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "persons_killed",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "pedestrians_injured",
+            "dataType": "int64",
+            "sourceColumn": "pedestrians_injured",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "pedestrians_injured",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "pedestrians_killed",
+            "dataType": "int64",
+            "sourceColumn": "pedestrians_killed",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "pedestrians_killed",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "cyclists_injured",
+            "dataType": "int64",
+            "sourceColumn": "cyclists_injured",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "cyclists_injured",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "cyclists_killed",
+            "dataType": "int64",
+            "sourceColumn": "cyclists_killed",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "cyclists_killed",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "motorists_injured",
+            "dataType": "int64",
+            "sourceColumn": "motorists_injured",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "motorists_injured",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "motorists_killed",
+            "dataType": "int64",
+            "sourceColumn": "motorists_killed",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "motorists_killed",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "fact_crashes",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "dbo"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
+        "name": "fact_persons",
+        "sourceLineageTag": "[dbo].[fact_persons]",
+        "columns": [
+          {
+            "name": "fact_person_id",
+            "dataType": "int64",
+            "sourceColumn": "fact_person_id",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "fact_person_id",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "date_key",
+            "dataType": "int64",
+            "sourceColumn": "date_key",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "date_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "collision_key",
+            "dataType": "int64",
+            "sourceColumn": "collision_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "collision_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "person_key",
+            "dataType": "int64",
+            "sourceColumn": "person_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "person_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "person_age",
+            "dataType": "int64",
+            "sourceColumn": "person_age",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "person_age",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "is_injured",
+            "dataType": "boolean",
+            "sourceColumn": "is_injured",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "sourceProviderType": "bit",
+            "sourceLineageTag": "is_injured",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "is_killed",
+            "dataType": "boolean",
+            "sourceColumn": "is_killed",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "sourceProviderType": "bit",
+            "sourceLineageTag": "is_killed",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "fact_persons",
               "expressionSource": "DatabaseQuery",
               "schemaName": "dbo"
             }

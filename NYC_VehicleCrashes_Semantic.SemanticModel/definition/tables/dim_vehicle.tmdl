@@ -1,0 +1,112 @@
+table dim_vehicle
+	lineageTag: d68fa441-68ae-4872-92cb-f2e67fb1cf79
+	sourceLineageTag: [dbo].[dim_vehicle]
+
+	column vehicle_key
+		dataType: int64
+		formatString: 0
+		lineageTag: bd99d057-7aa7-4c68-a27a-87ad7f783c16
+		sourceLineageTag: vehicle_key
+		summarizeBy: none
+		sourceColumn: vehicle_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column vehicle_type
+		dataType: string
+		lineageTag: 4fbaea3e-f5cd-4258-999b-00a5fc6f0641
+		sourceLineageTag: vehicle_type
+		summarizeBy: none
+		sourceColumn: vehicle_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column vehicle_make
+		dataType: string
+		lineageTag: a735561e-fbf2-4b5c-bfe4-f6cc6001e003
+		sourceLineageTag: vehicle_make
+		summarizeBy: none
+		sourceColumn: vehicle_make
+
+		annotation SummarizationSetBy = Automatic
+
+	column vehicle_model
+		dataType: string
+		lineageTag: 0d3d7de3-647a-4611-af07-6b2a79980941
+		sourceLineageTag: vehicle_model
+		summarizeBy: none
+		sourceColumn: vehicle_model
+
+		annotation SummarizationSetBy = Automatic
+
+	column vehicle_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 944ac915-3c91-4ef3-a9e3-435516df9e91
+		sourceLineageTag: vehicle_year
+		summarizeBy: none
+		sourceColumn: vehicle_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_registration
+		dataType: string
+		lineageTag: 08316ccb-6b9c-4269-bf24-e0b2c4692f4a
+		sourceLineageTag: state_registration
+		summarizeBy: none
+		sourceColumn: state_registration
+
+		annotation SummarizationSetBy = Automatic
+
+	column travel_direction
+		dataType: string
+		lineageTag: 3642fd7b-8383-4000-b0c4-90e8aedebb6c
+		sourceLineageTag: travel_direction
+		summarizeBy: none
+		sourceColumn: travel_direction
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_license_status
+		dataType: string
+		lineageTag: 5a6fb3ce-99d7-4b2e-85f2-b0b26fa63353
+		sourceLineageTag: driver_license_status
+		summarizeBy: none
+		sourceColumn: driver_license_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_license_jurisdiction
+		dataType: string
+		lineageTag: 3a119ce4-39d5-4889-bea3-9034aa717f56
+		sourceLineageTag: driver_license_jurisdiction
+		summarizeBy: none
+		sourceColumn: driver_license_jurisdiction
+
+		annotation SummarizationSetBy = Automatic
+
+	column vehicle_occupants
+		dataType: string
+		lineageTag: b443a4ea-60b1-447b-bc0a-dafe9c2968ae
+		sourceLineageTag: vehicle_occupants
+		summarizeBy: none
+		sourceColumn: vehicle_occupants
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_sex
+		dataType: string
+		lineageTag: f6aafaaa-7654-41fe-91f5-8e6dbc74c445
+		sourceLineageTag: driver_sex
+		summarizeBy: none
+		sourceColumn: driver_sex
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_vehicle = entity
+		mode: directLake
+		source
+			entityName: dim_vehicle
+			schemaName: dbo
+			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+

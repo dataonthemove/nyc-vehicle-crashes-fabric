@@ -1,0 +1,83 @@
+table fact_persons
+	lineageTag: c8b74240-51f3-4119-b12d-be7fb1cd4518
+	sourceLineageTag: [dbo].[fact_persons]
+
+	column fact_person_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d100cda-4bf4-46c3-82b1-f4c71afc2301
+		sourceLineageTag: fact_person_id
+		summarizeBy: none
+		sourceColumn: fact_person_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 09b4630a-c021-480b-8328-30f923c4b45d
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column collision_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 51c7eced-55c7-482e-b486-859c2cc66e30
+		sourceLineageTag: collision_key
+		summarizeBy: none
+		sourceColumn: collision_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column person_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 0bc17a03-23f6-4037-8e91-400876428aa0
+		sourceLineageTag: person_key
+		summarizeBy: none
+		sourceColumn: person_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column person_age
+		dataType: int64
+		formatString: 0
+		lineageTag: 31126131-3259-4dbc-816b-84dff76c9388
+		sourceLineageTag: person_age
+		summarizeBy: average
+		sourceColumn: person_age
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column is_injured
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fe54b894-da18-48d7-8af7-196acbfcb912
+		sourceLineageTag: is_injured
+		summarizeBy: none
+		sourceColumn: is_injured
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_killed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 41898486-4c40-4f2c-a30e-6dd862a43bc1
+		sourceLineageTag: is_killed
+		summarizeBy: none
+		sourceColumn: is_killed
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_persons = entity
+		mode: directLake
+		source
+			entityName: fact_persons
+			schemaName: dbo
+			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+

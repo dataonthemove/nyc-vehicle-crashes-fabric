@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "NYC_VehicleCrashes_Semantic"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4a1a6b15-1803-8483-488d-629f8a225065"
+  }
+}
