@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[dim_person] (
 	[ejection] varchar(50) NULL, 
 	[emotional_status] varchar(50) NULL, 
 	[bodily_injury] varchar(100) NULL, 
-	[position_in_vehicle] varchar(50) NULL, 
+	[position_in_vehicle] varchar(100) NULL, 
 	[safety_equipment] varchar(100) NULL, 
 	[ped_location] varchar(100) NULL, 
 	[ped_action] varchar(100) NULL, 
