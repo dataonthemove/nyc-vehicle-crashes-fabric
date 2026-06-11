@@ -25,6 +25,8 @@
 -- **Warehouse:** NYC_VehicleCrashes_Warehouse  
 -- **Created:** 2026-06-08  
 -- **Updated:** 2026-06-09 — added dim_damage; removed pre_crash, point_of_impact from dim_vehicle
+-- **Updated:** 2026-06-10 — dim_vehicle: vehicle_make VARCHAR(60), vehicle_occupants VARCHAR(15)
+-- **Updated:** 2026-06-10 — dim_person: position_in_vehicle VARCHAR(100) — source max 86 chars
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -158,6 +160,7 @@ CREATE TABLE dbo.dim_contributing_factor (
 -- MARKDOWN ********************
 
 -- ## Step 7 — Create dim_person
+-- > 2026-06-10: position_in_vehicle VARCHAR(100) — source max 86 chars
 
 -- CELL ********************
 
@@ -168,7 +171,7 @@ CREATE TABLE dbo.dim_person (
     ejection                VARCHAR(50)   NULL,
     emotional_status        VARCHAR(50)   NULL,
     bodily_injury           VARCHAR(100)  NULL,
-    position_in_vehicle     VARCHAR(50)   NULL,
+    position_in_vehicle     VARCHAR(100)  NULL,
     safety_equipment        VARCHAR(100)  NULL,
     ped_location            VARCHAR(100)  NULL,
     ped_action              VARCHAR(100)  NULL,
@@ -186,18 +189,19 @@ CREATE TABLE dbo.dim_person (
 
 -- ## Step 8 — Create dim_vehicle
 -- > pre_crash and point_of_impact removed — those belong exclusively to dim_damage
+-- > 2026-06-10: vehicle_make VARCHAR(60), vehicle_occupants VARCHAR(15) — profiled from source
 
 -- CELL ********************
 
 CREATE TABLE dbo.dim_vehicle (
     vehicle_key                  BIGINT       NOT NULL IDENTITY,
     vehicle_type                 VARCHAR(100) NULL,
-    vehicle_make                 VARCHAR(50)  NULL,
+    vehicle_make                 VARCHAR(60)  NULL,
     vehicle_model                VARCHAR(50)  NULL,
     vehicle_year                 SMALLINT     NULL,
     state_registration           VARCHAR(10)  NULL,
     travel_direction             VARCHAR(20)  NULL,
-    vehicle_occupants            VARCHAR(10)  NULL,
+    vehicle_occupants            VARCHAR(15)  NULL,
     driver_sex                   VARCHAR(10)  NULL,
     driver_license_status        VARCHAR(50)  NULL,
     driver_license_jurisdiction  VARCHAR(50)  NULL
