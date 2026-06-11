@@ -10,6 +10,8 @@ table bridge_crash_factor
 		summarizeBy: none
 		sourceColumn: bridge_id
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column collision_key
@@ -19,6 +21,8 @@ table bridge_crash_factor
 		sourceLineageTag: collision_key
 		summarizeBy: none
 		sourceColumn: collision_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -30,6 +34,8 @@ table bridge_crash_factor
 		summarizeBy: none
 		sourceColumn: factor_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	partition bridge_crash_factor = entity
@@ -38,4 +44,6 @@ table bridge_crash_factor
 			entityName: bridge_crash_factor
 			schemaName: dbo
 			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+
+	changedProperty = IsHidden
 

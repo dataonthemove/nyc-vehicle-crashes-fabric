@@ -10,6 +10,8 @@ table dim_damage
 		summarizeBy: none
 		sourceColumn: damage_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column pre_crash
@@ -18,6 +20,8 @@ table dim_damage
 		sourceLineageTag: pre_crash
 		summarizeBy: none
 		sourceColumn: pre_crash
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -28,6 +32,8 @@ table dim_damage
 		summarizeBy: none
 		sourceColumn: point_of_impact
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column vehicle_damage
@@ -37,6 +43,8 @@ table dim_damage
 		summarizeBy: none
 		sourceColumn: vehicle_damage
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	partition dim_damage = entity
@@ -45,4 +53,6 @@ table dim_damage
 			entityName: dim_damage
 			schemaName: dbo
 			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+
+	changedProperty = IsHidden
 
