@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "11_ETL_fact_persons",
+    "description": "ETL stored procedure — CREATE PROCEDURE for fact_persons. Joins lakehouse persons to dim_collision and dim_person to resolve surrogate keys, derives is_injured/is_killed flags from PERSON_INJURY."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2e6bd549-c838-8ca8-4790-f55f3a823007"
+  }
+}

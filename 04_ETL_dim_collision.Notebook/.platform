@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "04_ETL_dim_collision",
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_collision. Loads distinct collision_id values from the lakehouse crashes table. Run Cell 1 to create proc; Cell 2 to execute."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "834de45b-1112-972a-47b4-a10778d6a908"
+  }
+}

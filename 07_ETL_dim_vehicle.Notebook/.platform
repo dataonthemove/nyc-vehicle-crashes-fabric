@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "07_ETL_dim_vehicle",
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_vehicle. Loads distinct vehicle attribute combinations from the lakehouse vehicles table."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5b9bc9b1-dee9-b1d7-424a-93b46ac9d788"
+  }
+}
