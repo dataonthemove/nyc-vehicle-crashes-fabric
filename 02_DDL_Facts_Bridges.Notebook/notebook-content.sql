@@ -25,6 +25,7 @@
 -- **Warehouse:** NYC_VehicleCrashes_Warehouse  
 -- **Created:** 2026-06-08  
 -- **Updated:** 2026-06-09 — added damage_key to fact_crash_vehicle
+-- **Updated:** 2026-06-12 — fact_crashes: added factor_group_key (FK dim_factor_group); bridge_crash_factor: collision_key replaced by factor_group_key (Kimball factor-group bridge pattern); fact_crash_vehicle: added vehicle_occupants (relocated from dim_vehicle, now numeric)
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -55,7 +56,8 @@ IF OBJECT_ID('dbo.fact_crashes',         'U') IS NOT NULL DROP TABLE dbo.fact_cr
 -- ## Step 2 — Create fact_crashes
 -- > Grain: one row per collision event (COLLISION_ID)
 -- > All measure columns cast to INT at load time via stored proc
--- > FK references: dim_collision, dim_date, dim_location
+-- > FK references: dim_collision, dim_date, dim_location, dim_factor_group
+-- > 2026-06-12: added factor_group_key — restores conventional many-to-one join to bridge_crash_factor via dim_factor_group
 
 -- CELL ********************
 
@@ -64,6 +66,7 @@ CREATE TABLE dbo.fact_crashes (
     date_key            INT     NOT NULL,  -- FK dim_date (YYYYMMDD)        
     collision_key       BIGINT  NOT NULL,  -- FK dim_collision
     location_key        BIGINT  NOT NULL,  -- FK dim_location
+    factor_group_key    BIGINT  NOT NULL,  -- FK dim_factor_group
     persons_injured     INT     NULL,
     persons_killed      INT     NULL,
     pedestrians_injured INT     NULL,
@@ -92,7 +95,6 @@ CREATE TABLE dbo.fact_crashes (
 
 CREATE TABLE dbo.fact_persons (
     fact_person_id  BIGINT  NOT NULL IDENTITY,
-    date_key        INT     NOT NULL,  -- FK dim_date (YYYYMMDD)
     collision_key   BIGINT  NOT NULL,  -- FK dim_collision
     person_key      BIGINT  NOT NULL,  -- FK dim_person
     person_age      INT     NULL,
@@ -114,6 +116,7 @@ CREATE TABLE dbo.fact_persons (
 -- > Resolves many-to-many between crashes and vehicles
 -- > damage_key links to dim_damage junk dimension (PRE_CRASH, POINT_OF_IMPACT, VEHICLE_DAMAGE)
 -- > Replaces VEHICLE_TYPE_CODE_1-5 columns on fact_crashes
+-- > 2026-06-12: added vehicle_occupants (INT) — relocated from dim_vehicle, source is numeric by nature
 
 -- CELL ********************
 
@@ -121,7 +124,8 @@ CREATE TABLE dbo.fact_crash_vehicle (
     fact_crash_vehicle_id   BIGINT  NOT NULL IDENTITY,
     collision_key           BIGINT  NOT NULL,  -- FK dim_collision
     vehicle_key             BIGINT  NOT NULL,  -- FK dim_vehicle
-    damage_key              BIGINT  NOT NULL   -- FK dim_damage
+    damage_key              BIGINT  NOT NULL,  -- FK dim_damage
+    vehicle_occupants       INT     NULL
 );
 
 -- METADATA ********************
@@ -134,15 +138,18 @@ CREATE TABLE dbo.fact_crash_vehicle (
 -- MARKDOWN ********************
 
 -- ## Step 5 — Create bridge_crash_factor
--- > Resolves many-to-many between crashes and contributing factors
+-- > Resolves many-to-many between crash factor-groups and contributing factors
 -- > Source: CONTRIBUTING_FACTOR_VEHICLE_1-5 unpivoted from motor_vehicle_collisionscrashes
+-- > 2026-06-12: collision_key replaced by factor_group_key — Kimball factor-group bridge pattern.
+-- > fact_crashes -> dim_factor_group -> bridge_crash_factor -> dim_contributing_factor,
+-- > conventional many-to-one joins in all directions (Fig. 14-4 analog)
 
 -- CELL ********************
 
 CREATE TABLE dbo.bridge_crash_factor (
-    bridge_id       BIGINT  NOT NULL IDENTITY,
-    collision_key   BIGINT  NOT NULL,  -- FK dim_collision
-    factor_key      BIGINT  NOT NULL   -- FK dim_contributing_factor
+    bridge_id         BIGINT  NOT NULL IDENTITY,
+    factor_group_key  BIGINT  NOT NULL,  -- FK dim_factor_group
+    factor_key        BIGINT  NOT NULL   -- FK dim_contributing_factor
 );
 
 -- METADATA ********************

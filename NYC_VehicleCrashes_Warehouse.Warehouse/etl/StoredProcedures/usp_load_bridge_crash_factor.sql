@@ -16,14 +16,18 @@ BEGIN
         UNION
         SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_5), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
     )
-    INSERT INTO dbo.bridge_crash_factor (collision_key, factor_key)
+    INSERT INTO dbo.bridge_crash_factor (factor_group_key, factor_key)
     SELECT
-        dc.collision_key,
+        dfg.factor_group_key,
         df.factor_key
     FROM  unpivoted u
 
     INNER JOIN dbo.dim_collision dc
         ON dc.collision_id = TRY_CAST(u.COLLISION_ID AS INT)
+
+    -- Resolve factor_group_key (1:1 with collision_key)
+    INNER JOIN dbo.dim_factor_group dfg
+        ON dfg.collision_key = dc.collision_key
 
     INNER JOIN dbo.dim_contributing_factor df
         ON df.factor_desc = u.factor_desc
@@ -35,7 +39,7 @@ BEGIN
       (
           SELECT 1
           FROM   dbo.bridge_crash_factor tgt
-          WHERE  tgt.collision_key = dc.collision_key
+          WHERE  tgt.factor_group_key = dfg.factor_group_key
       );
 
 END;

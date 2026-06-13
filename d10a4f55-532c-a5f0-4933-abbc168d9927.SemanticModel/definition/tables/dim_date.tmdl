@@ -1,122 +1,102 @@
 table dim_date
-	lineageTag: 08b0a470-862b-4778-be1f-38521103ab09
+	lineageTag: ccd3e92f-9da3-4a70-af10-9bb3c9b33dc7
 	sourceLineageTag: [dbo].[dim_date]
 
 	column date_key
 		dataType: int64
 		formatString: 0
-		lineageTag: 7d69c068-81a2-4d6c-b077-170060345615
+		lineageTag: 5cfebd5d-ce23-4c87-9583-b26e4d830909
 		sourceLineageTag: date_key
 		summarizeBy: none
 		sourceColumn: date_key
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column full_date
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: 2ea3b7f1-3316-4b43-a8b2-237afbd43197
+		lineageTag: 5e4c6c61-ffe4-4517-baba-9ade8138f74d
 		sourceLineageTag: full_date
 		summarizeBy: none
 		sourceColumn: full_date
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column year
 		dataType: int64
 		formatString: 0
-		lineageTag: 7b5e6edc-b7f1-498d-a4bd-a495fa4c44c7
+		lineageTag: cc1c2ac0-e1bd-4af1-8432-83e25585443a
 		sourceLineageTag: year
 		summarizeBy: none
 		sourceColumn: year
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column quarter
 		dataType: int64
 		formatString: 0
-		lineageTag: d5d29496-fb5f-497c-b3a6-1a1156fb8c5c
+		lineageTag: cd403c55-55bc-480d-b4ad-5d4427d60e8e
 		sourceLineageTag: quarter
 		summarizeBy: none
 		sourceColumn: quarter
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column month
 		dataType: int64
 		formatString: 0
-		lineageTag: 1f9621fb-6683-49e9-9f8e-c7a2cd664eea
+		lineageTag: 0065130d-ceda-469a-ac30-ee3bbc11b204
 		sourceLineageTag: month
 		summarizeBy: none
 		sourceColumn: month
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column month_name
 		dataType: string
-		lineageTag: 03ef2f8f-0299-41ba-bb41-ef2ad4a73022
+		lineageTag: 7d5daab3-02bc-49e3-b6c2-fe4b05a52832
 		sourceLineageTag: month_name
 		summarizeBy: none
 		sourceColumn: month_name
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column day
 		dataType: int64
 		formatString: 0
-		lineageTag: af35ce87-fcc1-4682-ae90-22f95ecd2ab9
+		lineageTag: d967badd-c748-4a3d-a6c7-f38cea6e3faf
 		sourceLineageTag: day
 		summarizeBy: none
 		sourceColumn: day
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column day_of_week
 		dataType: int64
 		formatString: 0
-		lineageTag: 7e9ffa31-6ab0-4fc5-9323-a6cb1aec3102
+		lineageTag: f73ddd96-c5d2-4c52-a18a-b3c9876315be
 		sourceLineageTag: day_of_week
 		summarizeBy: none
 		sourceColumn: day_of_week
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column day_name
 		dataType: string
-		lineageTag: 26c6ae42-4a36-4b64-b351-b64f5ed53fb8
+		lineageTag: afeb37df-22d6-4091-b899-0d86fef269b2
 		sourceLineageTag: day_name
 		summarizeBy: none
 		sourceColumn: day_name
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column is_weekend
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 1ca31f37-a02a-4728-8d10-12d178ffe1c0
+		lineageTag: bdef0774-61ea-499b-a12b-043612dab08a
 		sourceLineageTag: is_weekend
 		summarizeBy: none
 		sourceColumn: is_weekend
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -126,6 +106,4 @@ table dim_date
 			entityName: dim_date
 			schemaName: dbo
 			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
-
-	changedProperty = IsHidden
 

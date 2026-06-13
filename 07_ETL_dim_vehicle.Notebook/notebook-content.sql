@@ -30,6 +30,8 @@
 -- 
 -- **Logic:** Incremental insert of distinct vehicle attribute combinations not already in target.
 -- 
+-- **Updated 2026-06-12:** vehicle_occupants removed — relocated to fact_crash_vehicle (numeric measure, see 12_ETL_fact_crash_vehicle)
+-- 
 -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
 -- 2. Run Cell 1 — DROP/CREATE procedure.
@@ -55,7 +57,6 @@ BEGIN
         vehicle_year,
         state_registration,
         travel_direction,
-        vehicle_occupants,
         driver_sex,
         driver_license_status,
         driver_license_jurisdiction
@@ -67,7 +68,6 @@ BEGIN
         TRY_CAST(src.VEHICLE_YEAR AS SMALLINT)            AS vehicle_year,
         NULLIF(TRIM(src.STATE_REGISTRATION),           '') AS state_registration,
         NULLIF(TRIM(src.TRAVEL_DIRECTION),             '') AS travel_direction,
-        NULLIF(TRIM(src.VEHICLE_OCCUPANTS),            '') AS vehicle_occupants,
         NULLIF(TRIM(src.DRIVER_SEX),                   '') AS driver_sex,
         NULLIF(TRIM(src.DRIVER_LICENSE_STATUS),        '') AS driver_license_status,
         NULLIF(TRIM(src.DRIVER_LICENSE_JURISDICTION),  '') AS driver_license_jurisdiction
@@ -82,7 +82,6 @@ BEGIN
           AND  ISNULL(tgt.vehicle_year,                -1) = ISNULL(TRY_CAST(src.VEHICLE_YEAR AS SMALLINT),      -1)
           AND  ISNULL(tgt.state_registration,          '') = ISNULL(NULLIF(TRIM(src.STATE_REGISTRATION),        ''), '')
           AND  ISNULL(tgt.travel_direction,            '') = ISNULL(NULLIF(TRIM(src.TRAVEL_DIRECTION),          ''), '')
-          AND  ISNULL(tgt.vehicle_occupants,           '') = ISNULL(NULLIF(TRIM(src.VEHICLE_OCCUPANTS),         ''), '')
           AND  ISNULL(tgt.driver_sex,                  '') = ISNULL(NULLIF(TRIM(src.DRIVER_SEX),                ''), '')
           AND  ISNULL(tgt.driver_license_status,       '') = ISNULL(NULLIF(TRIM(src.DRIVER_LICENSE_STATUS),     ''), '')
           AND  ISNULL(tgt.driver_license_jurisdiction, '') = ISNULL(NULLIF(TRIM(src.DRIVER_LICENSE_JURISDICTION),''), '')

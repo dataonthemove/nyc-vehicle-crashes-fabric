@@ -4,6 +4,7 @@ CREATE TABLE [dbo].[fact_crashes] (
 	[date_key] int NOT NULL, 
 	[collision_key] bigint NOT NULL, 
 	[location_key] bigint NOT NULL, 
+	[factor_group_key] bigint NOT NULL, 
 	[persons_injured] int NULL, 
 	[persons_killed] int NULL, 
 	[pedestrians_injured] int NULL, 

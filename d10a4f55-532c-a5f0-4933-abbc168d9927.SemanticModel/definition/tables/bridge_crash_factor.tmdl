@@ -1,40 +1,34 @@
 table bridge_crash_factor
-	lineageTag: a9cb0977-7f99-406e-b01e-0bca8aa249f2
+	lineageTag: 23ef7794-e7f0-4aa3-980d-787842751f72
 	sourceLineageTag: [dbo].[bridge_crash_factor]
 
 	column bridge_id
 		dataType: int64
 		formatString: 0
-		lineageTag: c74a6ec7-fa42-494a-8fe1-d9773d8ef89d
+		lineageTag: af0960d8-2bd6-4f49-aba5-457b78762f38
 		sourceLineageTag: bridge_id
 		summarizeBy: none
 		sourceColumn: bridge_id
 
-		changedProperty = IsHidden
-
 		annotation SummarizationSetBy = Automatic
 
-	column collision_key
+	column factor_group_key
 		dataType: int64
 		formatString: 0
-		lineageTag: 28feec58-26e0-4c5c-94cb-cabd6e1cc1ea
-		sourceLineageTag: collision_key
+		lineageTag: 196402ca-af37-4f52-a0f3-ae9cda23cdc5
+		sourceLineageTag: factor_group_key
 		summarizeBy: none
-		sourceColumn: collision_key
-
-		changedProperty = IsHidden
+		sourceColumn: factor_group_key
 
 		annotation SummarizationSetBy = Automatic
 
 	column factor_key
 		dataType: int64
 		formatString: 0
-		lineageTag: fcf0f4c2-f52f-4d4f-ad1f-6771911e7607
+		lineageTag: 13948a6f-de1d-4ef5-9c72-675593ce3cf3
 		sourceLineageTag: factor_key
 		summarizeBy: none
 		sourceColumn: factor_key
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -44,6 +38,4 @@ table bridge_crash_factor
 			entityName: bridge_crash_factor
 			schemaName: dbo
 			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
-
-	changedProperty = IsHidden
 

@@ -8,6 +8,7 @@ BEGIN
         date_key,
         collision_key,
         location_key,
+        factor_group_key,
         persons_injured,
         persons_killed,
         pedestrians_injured,
@@ -21,6 +22,7 @@ BEGIN
         CAST(FORMAT(TRY_CAST(src.CRASH_DATE AS DATE), 'yyyyMMdd') AS INT) AS date_key,
         dc.collision_key,
         ISNULL(dl.location_key, -1)                                        AS location_key,
+        dfg.factor_group_key                                               AS factor_group_key,
         TRY_CAST(src.NUMBER_OF_PERSONS_INJURED    AS INT)                  AS persons_injured,
         TRY_CAST(src.NUMBER_OF_PERSONS_KILLED     AS INT)                  AS persons_killed,
         TRY_CAST(src.NUMBER_OF_PEDESTRIANS_INJURED AS INT)                 AS pedestrians_injured,
@@ -34,6 +36,10 @@ BEGIN
     -- Resolve collision_key
     INNER JOIN dbo.dim_collision dc
         ON dc.collision_id = TRY_CAST(src.COLLISION_ID AS INT)
+
+    -- Resolve factor_group_key (1:1 with collision_key)
+    INNER JOIN dbo.dim_factor_group dfg
+        ON dfg.collision_key = dc.collision_key
 
     -- Resolve location_key (NULL-safe match on all four columns)
     LEFT JOIN dbo.dim_location dl

@@ -32,12 +32,12 @@
             ]
           },
           {
-            "name": "collision_key",
+            "name": "factor_group_key",
             "dataType": "int64",
-            "sourceColumn": "collision_key",
+            "sourceColumn": "factor_group_key",
             "formatString": "0",
             "sourceProviderType": "bigint",
-            "sourceLineageTag": "collision_key",
+            "sourceLineageTag": "factor_group_key",
             "summarizeBy": "sum",
             "annotations": [
               {
@@ -442,6 +442,60 @@
         ]
       },
       {
+        "name": "dim_factor_group",
+        "sourceLineageTag": "[dbo].[dim_factor_group]",
+        "columns": [
+          {
+            "name": "factor_group_key",
+            "dataType": "int64",
+            "sourceColumn": "factor_group_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "factor_group_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "collision_key",
+            "dataType": "int64",
+            "sourceColumn": "collision_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "collision_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "dim_factor_group",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "dbo"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
         "name": "dim_location",
         "sourceLineageTag": "[dbo].[dim_location]",
         "columns": [
@@ -828,6 +882,20 @@
             ]
           },
           {
+            "name": "driver_sex",
+            "dataType": "string",
+            "sourceColumn": "driver_sex",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "driver_sex",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
             "name": "driver_license_status",
             "dataType": "string",
             "sourceColumn": "driver_license_status",
@@ -847,34 +915,6 @@
             "sourceColumn": "driver_license_jurisdiction",
             "sourceProviderType": "varchar",
             "sourceLineageTag": "driver_license_jurisdiction",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "vehicle_occupants",
-            "dataType": "string",
-            "sourceColumn": "vehicle_occupants",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "vehicle_occupants",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "driver_sex",
-            "dataType": "string",
-            "sourceColumn": "driver_sex",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "driver_sex",
             "summarizeBy": "none",
             "annotations": [
               {
@@ -966,6 +1006,21 @@
                 "value": "Automatic"
               }
             ]
+          },
+          {
+            "name": "vehicle_occupants",
+            "dataType": "int64",
+            "sourceColumn": "vehicle_occupants",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "vehicle_occupants",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
           }
         ],
         "partitions": [
@@ -1043,6 +1098,21 @@
             "formatString": "0",
             "sourceProviderType": "bigint",
             "sourceLineageTag": "location_key",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "factor_group_key",
+            "dataType": "int64",
+            "sourceColumn": "factor_group_key",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "factor_group_key",
             "summarizeBy": "sum",
             "annotations": [
               {
@@ -1202,21 +1272,6 @@
             "formatString": "0",
             "sourceProviderType": "bigint",
             "sourceLineageTag": "fact_person_id",
-            "summarizeBy": "sum",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "date_key",
-            "dataType": "int64",
-            "sourceColumn": "date_key",
-            "formatString": "0",
-            "sourceProviderType": "int",
-            "sourceLineageTag": "date_key",
             "summarizeBy": "sum",
             "annotations": [
               {

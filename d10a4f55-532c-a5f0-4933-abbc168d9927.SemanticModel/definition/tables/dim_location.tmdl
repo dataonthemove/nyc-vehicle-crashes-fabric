@@ -1,11 +1,11 @@
 table dim_location
-	lineageTag: a3dcf913-862d-4f48-acfa-3cd64845f4e9
+	lineageTag: 1944405f-9ba2-4d80-8089-7aa8c73d4fcd
 	sourceLineageTag: [dbo].[dim_location]
 
 	column location_key
 		dataType: int64
 		formatString: 0
-		lineageTag: 296b672a-bfeb-4a98-85f9-a27542b6f5e1
+		lineageTag: 33b2de67-74cc-4120-a6da-5785f21e0db2
 		sourceLineageTag: location_key
 		summarizeBy: none
 		sourceColumn: location_key
@@ -14,7 +14,7 @@ table dim_location
 
 	column borough
 		dataType: string
-		lineageTag: ff2c8400-4e4e-403b-8fa6-8b9b4c548979
+		lineageTag: 46ecc632-edb7-4dc2-b4dd-613d3090afef
 		sourceLineageTag: borough
 		summarizeBy: none
 		sourceColumn: borough
@@ -23,7 +23,7 @@ table dim_location
 
 	column zip_code
 		dataType: string
-		lineageTag: 4aac6f77-036e-45fa-843b-0fb20bfd94a8
+		lineageTag: 46e937c1-7426-4c91-9445-6a2774c7cac6
 		sourceLineageTag: zip_code
 		summarizeBy: none
 		sourceColumn: zip_code
@@ -32,9 +32,9 @@ table dim_location
 
 	column latitude
 		dataType: double
-		lineageTag: 83b1c1c8-a972-4657-a6a6-760fd7450a51
+		lineageTag: cc2b1020-106f-4ef7-a7d3-9169d2b1c608
 		sourceLineageTag: latitude
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: latitude
 
 		annotation SummarizationSetBy = Automatic
@@ -43,9 +43,9 @@ table dim_location
 
 	column longitude
 		dataType: double
-		lineageTag: c3971656-e518-4a6b-9955-e32055b8f49f
+		lineageTag: 53497743-b384-416a-9062-2e97b4592730
 		sourceLineageTag: longitude
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: longitude
 
 		annotation SummarizationSetBy = Automatic

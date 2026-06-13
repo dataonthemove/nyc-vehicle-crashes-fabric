@@ -27,6 +27,7 @@
 -- **Updated:** 2026-06-09 — added dim_damage; removed pre_crash, point_of_impact from dim_vehicle
 -- **Updated:** 2026-06-10 — dim_vehicle: vehicle_make VARCHAR(60), vehicle_occupants VARCHAR(15)
 -- **Updated:** 2026-06-10 — dim_person: position_in_vehicle VARCHAR(100) — source max 86 chars
+-- **Updated:** 2026-06-12 — added dim_factor_group (Kimball factor-group bridge pattern); removed vehicle_occupants from dim_vehicle (relocated to fact_crash_vehicle as numeric measure)
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -58,6 +59,7 @@ IF OBJECT_ID('dbo.fact_crashes',         'U') IS NOT NULL DROP TABLE dbo.fact_cr
 
 -- CELL ********************
 
+IF OBJECT_ID('dbo.dim_factor_group',        'U') IS NOT NULL DROP TABLE dbo.dim_factor_group;
 IF OBJECT_ID('dbo.dim_damage',              'U') IS NOT NULL DROP TABLE dbo.dim_damage;
 IF OBJECT_ID('dbo.dim_vehicle',             'U') IS NOT NULL DROP TABLE dbo.dim_vehicle;
 IF OBJECT_ID('dbo.dim_person',              'U') IS NOT NULL DROP TABLE dbo.dim_person;
@@ -190,6 +192,7 @@ CREATE TABLE dbo.dim_person (
 -- ## Step 8 — Create dim_vehicle
 -- > pre_crash and point_of_impact removed — those belong exclusively to dim_damage
 -- > 2026-06-10: vehicle_make VARCHAR(60), vehicle_occupants VARCHAR(15) — profiled from source
+-- > 2026-06-12: vehicle_occupants removed — relocated to fact_crash_vehicle as numeric measure
 
 -- CELL ********************
 
@@ -201,7 +204,6 @@ CREATE TABLE dbo.dim_vehicle (
     vehicle_year                 SMALLINT     NULL,
     state_registration           VARCHAR(10)  NULL,
     travel_direction             VARCHAR(20)  NULL,
-    vehicle_occupants            VARCHAR(15)  NULL,
     driver_sex                   VARCHAR(10)  NULL,
     driver_license_status        VARCHAR(50)  NULL,
     driver_license_jurisdiction  VARCHAR(50)  NULL
@@ -239,7 +241,30 @@ CREATE TABLE dbo.dim_damage (
 
 -- MARKDOWN ********************
 
--- ## Step 10 — Verify all dimension tables created
+-- ## Step 10 — Create dim_factor_group
+-- > 2026-06-12: Kimball factor-group bridge pattern (Fig. 14-4 analog)
+-- > One row per collision — restores conventional many-to-one joins on both
+-- > fact_crashes (factor_group_key FK) and bridge_crash_factor (factor_group_key FK)
+-- > collision_key: 1:1 correlation to dim_collision — used by ETL to resolve factor_group_key,
+-- > not a descriptive attribute (Kimball diagram shows this as ETL plumbing, omitted from the figure)
+
+-- CELL ********************
+
+CREATE TABLE dbo.dim_factor_group (
+    factor_group_key  BIGINT  NOT NULL IDENTITY,
+    collision_key     BIGINT  NOT NULL
+);
+
+-- METADATA ********************
+
+-- META {
+-- META   "language": "sql",
+-- META   "language_group": "sqldatawarehouse"
+-- META }
+
+-- MARKDOWN ********************
+
+-- ## Step 11 — Verify all dimension tables created
 
 -- CELL ********************
 

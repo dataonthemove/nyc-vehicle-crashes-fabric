@@ -34,14 +34,16 @@
 -- - `collision_key` resolved via lookup to `dim_collision` on `collision_id`
 -- - `date_key` derived as INT in YYYYMMDD format from `CRASH_DATE`
 -- - `location_key` resolved via lookup to `dim_location` on borough/zip/lat/long
+-- - `factor_group_key` resolved via lookup to `dim_factor_group` on `collision_key` (2026-06-12, Kimball factor-group bridge pattern)
 -- - All measure columns cast to INT; NULL-safe via TRY_CAST
 -- - Incremental: skips collision_keys already present in fact_crashes
 -- 
 -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
--- 2. Ensure dim_collision, dim_date, dim_location are populated first.
+-- 2. Ensure dim_collision, dim_date, dim_location, dim_factor_group are populated first (run 09b_ETL_dim_factor_group before this).
 -- 3. Run Cell 1 — DROP/CREATE procedure.
 -- 4. Run Cell 2 — execute and verify.
+
 
 -- CELL ********************
 
@@ -60,6 +62,7 @@ BEGIN
         date_key,
         collision_key,
         location_key,
+        factor_group_key,
         persons_injured,
         persons_killed,
         pedestrians_injured,
@@ -73,6 +76,7 @@ BEGIN
         CAST(FORMAT(TRY_CAST(src.CRASH_DATE AS DATE), 'yyyyMMdd') AS INT) AS date_key,
         dc.collision_key,
         ISNULL(dl.location_key, -1)                                        AS location_key,
+        dfg.factor_group_key                                               AS factor_group_key,
         TRY_CAST(src.NUMBER_OF_PERSONS_INJURED    AS INT)                  AS persons_injured,
         TRY_CAST(src.NUMBER_OF_PERSONS_KILLED     AS INT)                  AS persons_killed,
         TRY_CAST(src.NUMBER_OF_PEDESTRIANS_INJURED AS INT)                 AS pedestrians_injured,
@@ -86,6 +90,10 @@ BEGIN
     -- Resolve collision_key
     INNER JOIN dbo.dim_collision dc
         ON dc.collision_id = TRY_CAST(src.COLLISION_ID AS INT)
+
+    -- Resolve factor_group_key (1:1 with collision_key)
+    INNER JOIN dbo.dim_factor_group dfg
+        ON dfg.collision_key = dc.collision_key
 
     -- Resolve location_key (NULL-safe match on all four columns)
     LEFT JOIN dbo.dim_location dl

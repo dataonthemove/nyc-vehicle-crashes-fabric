@@ -1,11 +1,11 @@
 table dim_person
-	lineageTag: 4052a705-0544-4a1e-87c2-337b9c51c876
+	lineageTag: e93fae93-f1c0-4d81-9742-9b96aa8a4515
 	sourceLineageTag: [dbo].[dim_person]
 
 	column person_key
 		dataType: int64
 		formatString: 0
-		lineageTag: 4aa731c9-78b5-4f13-8f86-8afb220a14d0
+		lineageTag: 3f766911-ae41-40e4-bb1b-8c842018e57c
 		sourceLineageTag: person_key
 		summarizeBy: none
 		sourceColumn: person_key
@@ -14,7 +14,7 @@ table dim_person
 
 	column person_type
 		dataType: string
-		lineageTag: 838aba28-d4ff-4c9a-86c8-ed754de845af
+		lineageTag: 95d43359-297a-45ca-a263-6ae06a68fb0a
 		sourceLineageTag: person_type
 		summarizeBy: none
 		sourceColumn: person_type
@@ -23,7 +23,7 @@ table dim_person
 
 	column person_sex
 		dataType: string
-		lineageTag: 62c5f5b2-3b96-40f3-bcb9-0ac8883fa4ee
+		lineageTag: 1de99b43-10fa-4df0-af30-1cad62d54741
 		sourceLineageTag: person_sex
 		summarizeBy: none
 		sourceColumn: person_sex
@@ -32,7 +32,7 @@ table dim_person
 
 	column ejection
 		dataType: string
-		lineageTag: 1f238129-cd27-4d26-aa8e-d2767e20e0f9
+		lineageTag: 481cc78f-3a32-48aa-8834-1fecfe51395d
 		sourceLineageTag: ejection
 		summarizeBy: none
 		sourceColumn: ejection
@@ -41,7 +41,7 @@ table dim_person
 
 	column emotional_status
 		dataType: string
-		lineageTag: b3d2574e-9ee4-4706-93fb-7771de218a91
+		lineageTag: 9b1757cd-82a7-407e-8026-4368da29ffd7
 		sourceLineageTag: emotional_status
 		summarizeBy: none
 		sourceColumn: emotional_status
@@ -50,7 +50,7 @@ table dim_person
 
 	column bodily_injury
 		dataType: string
-		lineageTag: 0a3a2cb6-dc9b-4260-b6b1-d0bce0a4ec25
+		lineageTag: 80d33de1-af4d-4431-978e-db34ea29f850
 		sourceLineageTag: bodily_injury
 		summarizeBy: none
 		sourceColumn: bodily_injury
@@ -59,7 +59,7 @@ table dim_person
 
 	column position_in_vehicle
 		dataType: string
-		lineageTag: 521fc8de-8042-40a7-a409-8e920214e296
+		lineageTag: 0993ac99-6b99-45dc-8b65-767d96a1e8ea
 		sourceLineageTag: position_in_vehicle
 		summarizeBy: none
 		sourceColumn: position_in_vehicle
@@ -68,7 +68,7 @@ table dim_person
 
 	column safety_equipment
 		dataType: string
-		lineageTag: 04d8ec01-e494-4c0b-87e4-d1c53f97035e
+		lineageTag: 7f3abbda-4ac7-436d-b1f7-8b4b95b95ab4
 		sourceLineageTag: safety_equipment
 		summarizeBy: none
 		sourceColumn: safety_equipment
@@ -77,7 +77,7 @@ table dim_person
 
 	column ped_location
 		dataType: string
-		lineageTag: 3eeb6fb1-2950-4d1a-b67f-7b83df99dfbf
+		lineageTag: 8f1d74b5-2780-41b7-b0fc-6b7850fe700f
 		sourceLineageTag: ped_location
 		summarizeBy: none
 		sourceColumn: ped_location
@@ -86,7 +86,7 @@ table dim_person
 
 	column ped_action
 		dataType: string
-		lineageTag: af669515-b420-4e02-a3cd-462d0dfbc1ef
+		lineageTag: 83f3c204-843e-4292-b0ba-8e10f3025bee
 		sourceLineageTag: ped_action
 		summarizeBy: none
 		sourceColumn: ped_action
@@ -95,7 +95,7 @@ table dim_person
 
 	column ped_role
 		dataType: string
-		lineageTag: 965d6ac6-4cfd-4e71-9c77-124e4ee4233f
+		lineageTag: 45d6b6ca-90ef-4872-a3dc-627297e761be
 		sourceLineageTag: ped_role
 		summarizeBy: none
 		sourceColumn: ped_role

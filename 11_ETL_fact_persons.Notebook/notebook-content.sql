@@ -62,7 +62,6 @@ BEGIN
 
     INSERT INTO dbo.fact_persons
     (
-        date_key,
         collision_key,
         person_key,
         person_age,
@@ -70,7 +69,6 @@ BEGIN
         is_killed
     )
     SELECT
-        CAST(FORMAT(TRY_CAST(src.CRASH_DATE AS DATE), 'yyyyMMdd') AS INT) AS date_key,
         dc.collision_key,
         dp.person_key,
         TRY_CAST(src.PERSON_AGE AS INT)                                    AS person_age,

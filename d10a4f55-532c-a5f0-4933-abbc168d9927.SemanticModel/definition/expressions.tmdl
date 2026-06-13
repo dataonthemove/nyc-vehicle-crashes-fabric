@@ -1,0 +1,9 @@
+expression 'DirectLake - NYC_VehicleCrashes_Warehouse' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/6e56c48d-2491-4bbe-a283-0efd43bb7d19/b0befa58-9752-441f-861d-bb04c9fed2c1", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: cdc2a42b-b0e3-4100-8a0e-dc6ec458fb9f
+
+	annotation PBI_IncludeFutureArtifacts = False
+

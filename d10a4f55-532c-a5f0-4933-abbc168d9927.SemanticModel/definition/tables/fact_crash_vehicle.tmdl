@@ -1,11 +1,11 @@
 table fact_crash_vehicle
-	lineageTag: fa452206-a6f7-493e-834c-315c6c6b22b0
+	lineageTag: b8540bca-cde8-408b-ac4f-0a67761442f5
 	sourceLineageTag: [dbo].[fact_crash_vehicle]
 
 	column fact_crash_vehicle_id
 		dataType: int64
 		formatString: 0
-		lineageTag: ce5b1f43-6d7b-42e4-a913-2488b4fcae1a
+		lineageTag: a9e8cce1-8754-4cc1-9fed-c7e4b78e8720
 		sourceLineageTag: fact_crash_vehicle_id
 		summarizeBy: none
 		sourceColumn: fact_crash_vehicle_id
@@ -15,7 +15,7 @@ table fact_crash_vehicle
 	column collision_key
 		dataType: int64
 		formatString: 0
-		lineageTag: a3eebdfe-d086-4539-963b-b66e16247ac0
+		lineageTag: 6fcff260-b52a-4e2c-b6b7-32ede9063045
 		sourceLineageTag: collision_key
 		summarizeBy: none
 		sourceColumn: collision_key
@@ -25,7 +25,7 @@ table fact_crash_vehicle
 	column vehicle_key
 		dataType: int64
 		formatString: 0
-		lineageTag: 15df9f2e-9e5e-4eec-9b6c-b9ba245635a6
+		lineageTag: 42dfc810-ba53-4163-882b-dca49a787914
 		sourceLineageTag: vehicle_key
 		summarizeBy: none
 		sourceColumn: vehicle_key
@@ -35,10 +35,20 @@ table fact_crash_vehicle
 	column damage_key
 		dataType: int64
 		formatString: 0
-		lineageTag: bf9cf581-21cb-4001-9fc8-d3ba04d15346
+		lineageTag: 0af7ff52-5747-4cbe-8e74-6cfb81d7247e
 		sourceLineageTag: damage_key
 		summarizeBy: none
 		sourceColumn: damage_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column vehicle_occupants
+		dataType: int64
+		formatString: 0
+		lineageTag: cc43c4c4-e5d3-48df-a0aa-9aa8472ab6cf
+		sourceLineageTag: vehicle_occupants
+		summarizeBy: sum
+		sourceColumn: vehicle_occupants
 
 		annotation SummarizationSetBy = Automatic
 

@@ -1,11 +1,11 @@
 table dim_contributing_factor
-	lineageTag: 44a6a997-f181-400d-88dd-b0f57c7c2de7
+	lineageTag: ee63080d-12ac-440c-ac21-4b6140fa5d4b
 	sourceLineageTag: [dbo].[dim_contributing_factor]
 
 	column factor_key
 		dataType: int64
 		formatString: 0
-		lineageTag: 46768edd-d240-43fe-aa96-4b81e08d0d6c
+		lineageTag: be20da5a-1747-491c-9ddc-f0bf0e21b476
 		sourceLineageTag: factor_key
 		summarizeBy: none
 		sourceColumn: factor_key
@@ -14,7 +14,7 @@ table dim_contributing_factor
 
 	column factor_desc
 		dataType: string
-		lineageTag: 42d35155-225d-404a-b43b-3dbb22f620bb
+		lineageTag: 9f7a072c-b5db-4fab-8d23-4d602fde8619
 		sourceLineageTag: factor_desc
 		summarizeBy: none
 		sourceColumn: factor_desc
