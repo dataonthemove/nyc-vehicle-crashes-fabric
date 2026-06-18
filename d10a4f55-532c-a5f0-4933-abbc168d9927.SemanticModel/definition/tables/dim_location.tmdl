@@ -1,0 +1,61 @@
+table dim_location
+	lineageTag: 1944405f-9ba2-4d80-8089-7aa8c73d4fcd
+	sourceLineageTag: [dbo].[dim_location]
+
+	column location_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 33b2de67-74cc-4120-a6da-5785f21e0db2
+		sourceLineageTag: location_key
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column borough
+		dataType: string
+		lineageTag: 46ecc632-edb7-4dc2-b4dd-613d3090afef
+		sourceLineageTag: borough
+		summarizeBy: none
+		sourceColumn: borough
+
+		annotation SummarizationSetBy = Automatic
+
+	column zip_code
+		dataType: string
+		lineageTag: 46e937c1-7426-4c91-9445-6a2774c7cac6
+		sourceLineageTag: zip_code
+		summarizeBy: none
+		sourceColumn: zip_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: cc2b1020-106f-4ef7-a7d3-9169d2b1c608
+		sourceLineageTag: latitude
+		summarizeBy: sum
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: 53497743-b384-416a-9062-2e97b4592730
+		sourceLineageTag: longitude
+		summarizeBy: sum
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_location = entity
+		mode: directLake
+		source
+			entityName: dim_location
+			schemaName: dbo
+			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+

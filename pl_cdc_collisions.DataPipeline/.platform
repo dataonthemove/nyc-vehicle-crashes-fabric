@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "pl_cdc_collisions",
+    "description": "Incremental CDC pipeline for NYC Motor Vehicle Collisions — Crashes, Persons, Vehicles"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "cd83e544-f319-b764-44a2-f5193e07625b"
+  }
+}

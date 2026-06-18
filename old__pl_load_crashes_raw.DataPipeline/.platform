@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "old__pl_load_crashes_raw",
+    "description": "Copy raw Motor Vehicle Collisions data from NYC Open Data SODA API into the lakehouse"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "7f32f830-4c7a-a3fc-4a5b-29bb6af3fceb"
+  }
+}

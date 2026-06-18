@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "03_ETL_dim_date",
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_date. Generates date dimension rows from 2012-01-01 to 2026-12-31. Run once to create the proc; execute via pipeline Script activity."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1caa77bb-f1e2-83c8-4e6a-1992e02698b3"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "05_ETL_dim_location",
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_location. Loads distinct borough/zip/lat/long combinations from lakehouse crashes table."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2bf4f073-ed03-b480-4873-87912a0b082d"
+  }
+}

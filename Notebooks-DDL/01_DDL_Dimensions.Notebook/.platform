@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "01_DDL_Dimensions",
+    "description": "DDL script — create all dimension tables in NYC_VehicleCrashes_Warehouse. Includes drop-if-exists logic for safe reruns."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0e3d588e-a1dc-b60e-4f2b-74461875ea0c"
+  }
+}

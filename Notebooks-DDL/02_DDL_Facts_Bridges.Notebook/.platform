@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "02_DDL_Facts_Bridges",
+    "description": "DDL script — create all fact and bridge tables in NYC_VehicleCrashes_Warehouse. Includes drop-if-exists logic for safe reruns."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "b40e3910-fa72-af5f-404c-5c91959bed88"
+  }
+}

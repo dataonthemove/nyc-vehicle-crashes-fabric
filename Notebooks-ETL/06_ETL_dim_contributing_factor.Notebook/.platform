@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "06_ETL_dim_contributing_factor",
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_contributing_factor. Loads distinct contributing factor values from all 5 factor columns in the lakehouse crashes table."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "602b2c73-b5c1-83d3-4eae-118ad949126e"
+  }
+}

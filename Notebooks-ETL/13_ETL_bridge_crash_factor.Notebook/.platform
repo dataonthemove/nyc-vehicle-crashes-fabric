@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "13_ETL_bridge_crash_factor",
+    "description": "ETL stored procedure — CREATE PROCEDURE for bridge_crash_factor. Unpivots 5 contributing factor columns from lakehouse crashes into collision x factor pairs, resolving surrogate keys from dim_collision and dim_contributing_factor."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "dedb6d79-0665-8656-41b0-1104fccbad0e"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "09_ETL_dim_person",
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_person. Loads distinct person attribute combinations from lakehouse persons table."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f2b4d0b9-f258-9d11-4cfb-6b43488fd54b"
+  }
+}

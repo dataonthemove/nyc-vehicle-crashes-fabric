@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["DirectLake - NYC_VehicleCrashes_Warehouse"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit","MCP-PBIModeling","DaxQueryView_Desktop"]
+
+ref table dim_damage
+ref table dim_person
+ref table dim_location
+ref table dim_contributing_factor
+ref table dim_collision
+ref table dim_vehicle
+ref table dim_date
+ref table bridge_crash_factor
+ref table fact_crashes
+ref table fact_crash_vehicle
+ref table dim_factor_group
+ref table fact_persons
+
