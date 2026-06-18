@@ -38,6 +38,7 @@ table fact_persons
 		lineageTag: 459bee3b-933a-4497-924c-076ec9a384e7
 		sourceLineageTag: person_age
 		summarizeBy: average		
+		description: "Age of person involved in collision"		
 		sourceColumn: person_age
 
 		annotation SummarizationSetBy = Automatic
