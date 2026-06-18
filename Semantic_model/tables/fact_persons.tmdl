@@ -39,7 +39,7 @@ table fact_persons
 		formatString: 0
 		lineageTag: 459bee3b-933a-4497-924c-076ec9a384e7
 		sourceLineageTag: person_age
-		summarizeBy: average		
+		summarizeBy: sum
 		sourceColumn: person_age
 
 		annotation SummarizationSetBy = Automatic
