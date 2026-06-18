@@ -32,7 +32,6 @@ table fact_persons
 
 		annotation SummarizationSetBy = Automatic
 
-
 	column person_age
 		dataType: int64
 		formatString: 0
