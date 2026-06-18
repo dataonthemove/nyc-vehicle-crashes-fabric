@@ -33,7 +33,6 @@ table fact_persons
 		annotation SummarizationSetBy = Automatic
 
 
-	/// Age of person involved in collision
 	column person_age
 		dataType: int64
 		formatString: 0
