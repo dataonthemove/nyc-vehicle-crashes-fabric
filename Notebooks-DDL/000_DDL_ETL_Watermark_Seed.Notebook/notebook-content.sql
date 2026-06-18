@@ -24,8 +24,6 @@
 -- Create etl_watermark control table 
 IF OBJECT_ID('dbo.etl_watermark', 'U') IS NOT NULL drop table [dbo].[etl_watermark] 
 
-GO 
-
 
 BEGIN
     CREATE TABLE dbo.etl_watermark
