@@ -7,3 +7,5 @@ expression 'DirectLake - NYC_VehicleCrashes_Warehouse' =
 
 	annotation PBI_IncludeFutureArtifacts = False
 
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[etl_watermark]"}},"objectType":"Table"}]
+
