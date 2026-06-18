@@ -12,7 +12,7 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation __LastRPTime = 134257462418723780
 
-annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit","MCP-PBIModeling","DaxQueryView_Desktop"]
+annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit","MCP-PBIModeling","DaxQueryView_Desktop","TMDL-Extension"]
 
 ref table dim_damage
 ref table dim_person
