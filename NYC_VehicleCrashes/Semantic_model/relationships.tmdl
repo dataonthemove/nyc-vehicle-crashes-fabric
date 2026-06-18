@@ -1,0 +1,44 @@
+relationship fact_crashes_date_key_dim_date_date_key
+	fromColumn: fact_crashes.date_key
+	toColumn: dim_date.date_key
+
+relationship fact_crashes_location_key_dim_location_location_key
+	fromColumn: fact_crashes.location_key
+	toColumn: dim_location.location_key
+
+relationship fact_crashes_collision_key_dim_collision_collision_key
+	fromColumn: fact_crashes.collision_key
+	toColumn: dim_collision.collision_key
+
+relationship fact_crashes_factor_group_key_dim_factor_group_factor_group_key
+	fromColumn: fact_crashes.factor_group_key
+	toColumn: dim_factor_group.factor_group_key
+
+relationship bridge_crash_factor_factor_group_key_dim_factor_group_factor_group_key
+	fromColumn: bridge_crash_factor.factor_group_key
+	toColumn: dim_factor_group.factor_group_key
+
+relationship bridge_crash_factor_factor_key_dim_contributing_factor_factor_key
+	fromColumn: bridge_crash_factor.factor_key
+	toColumn: dim_contributing_factor.factor_key
+
+relationship fact_crash_vehicle_collision_key_dim_collision_collision_key
+	fromColumn: fact_crash_vehicle.collision_key
+	toColumn: dim_collision.collision_key
+
+relationship fact_crash_vehicle_vehicle_key_dim_vehicle_vehicle_key
+	fromColumn: fact_crash_vehicle.vehicle_key
+	toColumn: dim_vehicle.vehicle_key
+
+relationship fact_crash_vehicle_damage_key_dim_damage_damage_key
+	fromColumn: fact_crash_vehicle.damage_key
+	toColumn: dim_damage.damage_key
+
+relationship db687bb3-43da-73c0-04aa-02ec5ad8fb47
+	fromColumn: fact_persons.person_key
+	toColumn: dim_person.person_key
+
+relationship ca561ec0-9d46-5248-59a9-0e0aaa7954b0
+	fromColumn: fact_persons.collision_key
+	toColumn: dim_collision.collision_id
+

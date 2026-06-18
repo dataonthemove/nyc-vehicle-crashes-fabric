@@ -1,0 +1,41 @@
+table bridge_crash_factor
+	lineageTag: 23ef7794-e7f0-4aa3-980d-787842751f72
+	sourceLineageTag: [dbo].[bridge_crash_factor]
+
+	column bridge_id
+		dataType: int64
+		formatString: 0
+		lineageTag: af0960d8-2bd6-4f49-aba5-457b78762f38
+		sourceLineageTag: bridge_id
+		summarizeBy: none
+		sourceColumn: bridge_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column factor_group_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 196402ca-af37-4f52-a0f3-ae9cda23cdc5
+		sourceLineageTag: factor_group_key
+		summarizeBy: none
+		sourceColumn: factor_group_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column factor_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 13948a6f-de1d-4ef5-9c72-675593ce3cf3
+		sourceLineageTag: factor_key
+		summarizeBy: none
+		sourceColumn: factor_key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition bridge_crash_factor = entity
+		mode: directLake
+		source
+			entityName: bridge_crash_factor
+			schemaName: dbo
+			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+

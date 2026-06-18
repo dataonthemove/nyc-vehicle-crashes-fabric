@@ -1,0 +1,31 @@
+table dim_collision
+	lineageTag: b64d038a-1360-4601-a1d8-9d3785b18c60
+	sourceLineageTag: [dbo].[dim_collision]
+
+	column collision_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 90adff1f-68b5-4b48-8700-a043efe88548
+		sourceLineageTag: collision_key
+		summarizeBy: none
+		sourceColumn: collision_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column collision_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 791e5efd-cdb9-4719-96e2-f23ff60c68aa
+		sourceLineageTag: collision_id
+		summarizeBy: none
+		sourceColumn: collision_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_collision = entity
+		mode: directLake
+		source
+			entityName: dim_collision
+			schemaName: dbo
+			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+
