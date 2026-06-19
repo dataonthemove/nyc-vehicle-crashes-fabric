@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "RefreshSemanticModel"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "dd7244d9-b3ac-ad5d-4ec7-9353166e6595"
+  }
+}
