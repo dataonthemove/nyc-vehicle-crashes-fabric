@@ -13,17 +13,49 @@
       "Bash(git commit:*)",
       "Bash(git checkout:*)",
       "Bash(git stash:*)",
-      "Bash(git fetch:*)"
-    ],
-    "ask": [
-      "Bash(git push:*)",
-      "Edit",
-      "Write"
+      "Bash(git fetch:*)",
+      "Read(//c/Users/DataO/AppData/Roaming/Claude/**)",
+      "Read(//c/Users/DataO/AppData/Local/**)",
+      "Bash(xargs grep -l -i \"fabric\\\\|powerbi\\\\|power_bi\\\\|power-bi\\\\|tabular\\\\|microsoft\")",
+      "Bash(xargs grep -l -i \"mcp\\\\|mcpServers\\\\|fabric\\\\|powerbi\")",
+      "Bash(xargs grep -l \"tool\\\\|Tool\")",
+      "mcp__ms-fabric-mcp-server__execute_dax_query",
+      "mcp__ms-fabric-mcp-server__get_dataflow_definition",
+      "mcp__ms-fabric-mcp-server__get_item",
+      "mcp__ms-fabric-mcp-server__get_job_status",
+      "mcp__ms-fabric-mcp-server__get_job_status_by_url",
+      "mcp__ms-fabric-mcp-server__get_notebook_definition",
+      "mcp__ms-fabric-mcp-server__get_notebook_driver_logs",
+      "mcp__ms-fabric-mcp-server__get_notebook_run_details",
+      "mcp__ms-fabric-mcp-server__get_operation_result",
+      "mcp__ms-fabric-mcp-server__get_pipeline_activity_runs",
+      "mcp__ms-fabric-mcp-server__get_pipeline_definition",
+      "mcp__ms-fabric-mcp-server__get_semantic_model_definition",
+      "mcp__ms-fabric-mcp-server__get_semantic_model_details",
+      "mcp__ms-fabric-mcp-server__list_folders",
+      "mcp__ms-fabric-mcp-server__list_items",
+      "mcp__ms-fabric-mcp-server__list_lakehouse_files",
+      "mcp__ms-fabric-mcp-server__list_notebook_runs",
+      "mcp__ms-fabric-mcp-server__list_workspaces",
+      "mcp__ms-fabric-mcp-server__livy_get_session_log",
+      "mcp__ms-fabric-mcp-server__livy_get_session_status",
+      "mcp__ms-fabric-mcp-server__livy_get_statement_status",
+      "mcp__ms-fabric-mcp-server__livy_list_sessions",
+      "mcp__powerbi-modeling-mcp__dax_query_operations"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
       "Bash(git clean:*)",
       "Bash(rm:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Edit",
+      "Write"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "ms-fabric-mcp-server",
+    "powerbi-modeling-mcp"
+  ]
 }
