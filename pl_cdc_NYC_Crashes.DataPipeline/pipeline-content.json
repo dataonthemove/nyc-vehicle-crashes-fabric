@@ -458,77 +458,26 @@
           "secureOutput": false
         },
         "name": "Update_Watermark_crashes_vehicles_persons",
-        "dependsOn": []
-      },
-      {
-        "type": "Script",
-        "typeProperties": {
-          "scripts": [
-            {
-              "text": "UPDATE dbo.etl_watermark SET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME() WHERE source_name = 'persons'",
-              "type": "NonQuery"
-            }
-          ]
-        },
-        "connectionSettings": {
-          "name": "NYC_VehicleCrashes_Warehouse",
-          "properties": {
-            "type": "DataWarehouse",
-            "typeProperties": {
-              "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-rxcfm3ures7exiudb36uho35de.datawarehouse.fabric.microsoft.com",
-              "workspaceId": "00000000-0000-0000-0000-000000000000"
-            },
-            "externalReferences": {
-              "connection": "1de56b14-e844-4550-bfe4-a679696728e6"
-            },
-            "annotations": []
+        "dependsOn": [
+          {
+            "activity": "nb_delta_Crashes",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "nb_delta_Persons",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "nb_delta_Vehicles",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
           }
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "Update_Persons_Watermark",
-        "dependsOn": []
-      },
-      {
-        "type": "Script",
-        "typeProperties": {
-          "scripts": [
-            {
-              "text": "UPDATE dbo.etl_watermark SET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME() WHERE source_name = 'vehicles'",
-              "type": "NonQuery"
-            }
-          ]
-        },
-        "connectionSettings": {
-          "name": "NYC_VehicleCrashes_Warehouse",
-          "properties": {
-            "type": "DataWarehouse",
-            "typeProperties": {
-              "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-rxcfm3ures7exiudb36uho35de.datawarehouse.fabric.microsoft.com",
-              "workspaceId": "00000000-0000-0000-0000-000000000000"
-            },
-            "externalReferences": {
-              "connection": "1de56b14-e844-4550-bfe4-a679696728e6"
-            },
-            "annotations": []
-          }
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "Update_Vehicles_Watermark",
-        "dependsOn": []
+        ]
       },
       {
         "type": "TridentNotebook",
