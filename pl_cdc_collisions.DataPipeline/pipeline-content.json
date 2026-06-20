@@ -427,7 +427,10 @@
         "typeProperties": {
           "scripts": [
             {
-              "text": "UPDATE dbo.etl_watermark SET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME() WHERE source_name = 'crashes'",
+              "text": {
+                "value": "UPDATE dbo.etl_watermark\nSET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME()\nWHERE source_name = 'crashes'\n\nUPDATE dbo.etl_watermark\nSET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME() \nWHERE source_name = 'persons'\n\nUPDATE dbo.etl_watermark\nSET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME()\nWHERE source_name = 'vehicles'",
+                "type": "Expression"
+              },
               "type": "NonQuery"
             }
           ]
@@ -454,15 +457,8 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Update_Crashes_Watermark",
-        "dependsOn": [
-          {
-            "activity": "Copy_Crashes_CDC",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ]
+        "name": "Update_Watermark_crashes_vehicles_persons",
+        "dependsOn": []
       },
       {
         "type": "Script",
@@ -497,14 +493,7 @@
           "secureOutput": false
         },
         "name": "Update_Persons_Watermark",
-        "dependsOn": [
-          {
-            "activity": "Copy_Persons_CDC",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ]
+        "dependsOn": []
       },
       {
         "type": "Script",
@@ -539,6 +528,68 @@
           "secureOutput": false
         },
         "name": "Update_Vehicles_Watermark",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_delta_Crashes",
+        "dependsOn": [
+          {
+            "activity": "Copy_Crashes_CDC",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_delta_Persons",
+        "dependsOn": [
+          {
+            "activity": "Copy_Persons_CDC",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_delta_Vehicles",
         "dependsOn": [
           {
             "activity": "Copy_Vehicles_CDC",
