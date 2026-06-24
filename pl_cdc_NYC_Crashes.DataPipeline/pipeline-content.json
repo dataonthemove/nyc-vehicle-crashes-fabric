@@ -427,7 +427,10 @@
         "typeProperties": {
           "scripts": [
             {
-              "text": "UPDATE dbo.etl_watermark SET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME() WHERE source_name = 'crashes'",
+              "text": {
+                "value": "UPDATE dbo.etl_watermark\nSET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME()\nWHERE source_name = 'crashes'\n\nUPDATE dbo.etl_watermark\nSET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME() \nWHERE source_name = 'persons'\n\nUPDATE dbo.etl_watermark\nSET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME()\nWHERE source_name = 'vehicles'",
+                "type": "Expression"
+              },
               "type": "NonQuery"
             }
           ]
@@ -454,7 +457,42 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Update_Crashes_Watermark",
+        "name": "Update_Watermark_crashes_vehicles_persons",
+        "dependsOn": [
+          {
+            "activity": "nb_delta_Crashes",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "nb_delta_Persons",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "nb_delta_Vehicles",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "nb_delta_Crashes",
         "dependsOn": [
           {
             "activity": "Copy_Crashes_CDC",
@@ -465,29 +503,10 @@
         ]
       },
       {
-        "type": "Script",
+        "type": "TridentNotebook",
         "typeProperties": {
-          "scripts": [
-            {
-              "text": "UPDATE dbo.etl_watermark SET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME() WHERE source_name = 'persons'",
-              "type": "NonQuery"
-            }
-          ]
-        },
-        "connectionSettings": {
-          "name": "NYC_VehicleCrashes_Warehouse",
-          "properties": {
-            "type": "DataWarehouse",
-            "typeProperties": {
-              "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-rxcfm3ures7exiudb36uho35de.datawarehouse.fabric.microsoft.com",
-              "workspaceId": "00000000-0000-0000-0000-000000000000"
-            },
-            "externalReferences": {
-              "connection": "1de56b14-e844-4550-bfe4-a679696728e6"
-            },
-            "annotations": []
-          }
+          "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
         },
         "policy": {
           "timeout": "0.12:00:00",
@@ -496,7 +515,7 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Update_Persons_Watermark",
+        "name": "nb_delta_Persons",
         "dependsOn": [
           {
             "activity": "Copy_Persons_CDC",
@@ -507,29 +526,10 @@
         ]
       },
       {
-        "type": "Script",
+        "type": "TridentNotebook",
         "typeProperties": {
-          "scripts": [
-            {
-              "text": "UPDATE dbo.etl_watermark SET last_loaded_value = SYSUTCDATETIME(), last_run_utc = SYSUTCDATETIME() WHERE source_name = 'vehicles'",
-              "type": "NonQuery"
-            }
-          ]
-        },
-        "connectionSettings": {
-          "name": "NYC_VehicleCrashes_Warehouse",
-          "properties": {
-            "type": "DataWarehouse",
-            "typeProperties": {
-              "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-rxcfm3ures7exiudb36uho35de.datawarehouse.fabric.microsoft.com",
-              "workspaceId": "00000000-0000-0000-0000-000000000000"
-            },
-            "externalReferences": {
-              "connection": "1de56b14-e844-4550-bfe4-a679696728e6"
-            },
-            "annotations": []
-          }
+          "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
         },
         "policy": {
           "timeout": "0.12:00:00",
@@ -538,7 +538,7 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Update_Vehicles_Watermark",
+        "name": "nb_delta_Vehicles",
         "dependsOn": [
           {
             "activity": "Copy_Vehicles_CDC",

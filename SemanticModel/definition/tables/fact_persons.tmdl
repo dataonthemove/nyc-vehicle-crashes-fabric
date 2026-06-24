@@ -37,7 +37,7 @@ table fact_persons
 		formatString: 0
 		lineageTag: 459bee3b-933a-4497-924c-076ec9a384e7
 		sourceLineageTag: person_age
-		summarizeBy: Average
+		summarizeBy: average
 		sourceColumn: person_age
 
 		annotation SummarizationSetBy = Automatic
@@ -68,4 +68,6 @@ table fact_persons
 			entityName: fact_persons
 			schemaName: dbo
 			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+
+	changedProperty = Description
 
