@@ -41,7 +41,15 @@
       "mcp__ms-fabric-mcp-server__livy_get_session_status",
       "mcp__ms-fabric-mcp-server__livy_get_statement_status",
       "mcp__ms-fabric-mcp-server__livy_list_sessions",
-      "mcp__powerbi-modeling-mcp__dax_query_operations"
+      "mcp__powerbi-modeling-mcp__dax_query_operations",
+      "Bash(ls \"C:/Users/DataO/.claude/skills/\" 2>/dev/null || echo \"not found\")",
+      "Read(//c/Users/DataO/.claude/**)",
+      "Bash(ls \"C:/Users/DataO/.claude/\")",
+      "Bash(find \"C:/Users/DataO/AppData/Roaming\" -name \"SKILL.md\" 2>/dev/null | head -10 && find \"C:/Users/DataO/AppData/Local/AnthropicClaude\" -name \"SKILL.md\" 2>/dev/null | head -10)",
+      "Read(//c/Users/DataO/AppData/Roaming/**)",
+      "Bash(find \"C:/Users/DataO/AppData/Roaming\" -maxdepth 4 -name \"*.json\" -path \"*claude*\" 2>/dev/null | head -10 && ls \"C:/Users/DataO/AppData/Roaming/Claude/\" 2>/dev/null || echo \"no Claude appdata\")",
+      "Bash(mkdir -p \"C:/Users/DataO/.claude/skills/warehouse-ddl\")",
+      "Bash(mkdir -p \"C:/Users/DataO/.claude/skills/semantic-model-fix\")"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
