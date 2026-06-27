@@ -6,9 +6,8 @@
   # To display the values of all the environment variables, type:
 Get-ChildItem Env:
 # single var
-Get-ChildItem Env:\COMPUTERNAME 
-get-help Get-ChildItem
 
+Get-ChildItem Env:\COMPUTERNAME 
 
 
 # Powershell Variables 
