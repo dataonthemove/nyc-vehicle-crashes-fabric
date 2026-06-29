@@ -1,0 +1,165 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 55.907426191146833
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1123.561647317081,
+            "y": 130.06845967119375
+          },
+          "nodeIndex": "bridge_crash_factor",
+          "nodeLineageTag": "a9cb0977-7f99-406e-b01e-0bca8aa249f2",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 685.28904329766658,
+            "y": 685.89652275098274
+          },
+          "nodeIndex": "dim_collision",
+          "nodeLineageTag": "e14ecf70-d4d6-4502-abbc-54c72bf985ba",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1343.8711898665902,
+            "y": -50
+          },
+          "nodeIndex": "dim_contributing_factor",
+          "nodeLineageTag": "44a6a997-f181-400d-88dd-b0f57c7c2de7",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 457.64878440333473
+          },
+          "nodeIndex": "dim_damage",
+          "nodeLineageTag": "fcd885df-27a4-4fd3-b113-4a2e506bb8e5",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 994.989065422737,
+            "y": 687.38729268929717
+          },
+          "nodeIndex": "dim_date",
+          "nodeLineageTag": "08b0a470-862b-4778-be1f-38521103ab09",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1258.2808503119045,
+            "y": 434.21842167776185
+          },
+          "nodeIndex": "dim_location",
+          "nodeLineageTag": "a3dcf913-862d-4f48-acfa-3cd64845f4e9",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 68.193173225657119,
+            "y": 988.21179240199763
+          },
+          "nodeIndex": "dim_person",
+          "nodeLineageTag": "4052a705-0544-4a1e-87c2-337b9c51c876",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 262.23079027146014,
+            "y": 104.57240015347679
+          },
+          "nodeIndex": "dim_vehicle",
+          "nodeLineageTag": "d68fa441-68ae-4872-92cb-f2e67fb1cf79",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 409.24972508508836,
+            "y": 457.6703160206971
+          },
+          "nodeIndex": "fact_crash_vehicle",
+          "nodeLineageTag": "fa452206-a6f7-493e-834c-315c6c6b22b0",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 836.49622682656377,
+            "y": 333.6508737014077
+          },
+          "nodeIndex": "fact_crashes",
+          "nodeLineageTag": "fe85b61c-824e-4b76-954d-795fdba99a03",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 258.8006374702843,
+            "y": 686.760559132046
+          },
+          "nodeIndex": "fact_persons",
+          "nodeLineageTag": "c8b74240-51f3-4119-b12d-be7fb1cd4518",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 10
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 70.955543900968834,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
