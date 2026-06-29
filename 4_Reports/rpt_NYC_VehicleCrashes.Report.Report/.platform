@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "rpt_NYC_VehicleCrashes.Report"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "02a6d7d6-caf2-41e6-91fa-a26e4503ba02"
+  }
+}
