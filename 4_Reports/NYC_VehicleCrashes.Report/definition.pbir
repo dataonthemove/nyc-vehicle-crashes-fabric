@@ -1,9 +1,0 @@
-{
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definitionProperties/2.0.0/schema.json",
-  "version": "4.0",
-  "datasetReference": {
-    "byPath": {
-      "connectionString": "Data Source=\"powerbi://api.powerbi.com/v1.0/myorg/NYC Motor Vehicle Collisions\";initial catalog=NYC_VehicleCrashes_Semantic;access mode=readonly;integrated security=ClaimsToken;semanticmodelid=8a225065-629f-488d-8483-18034a1a6b15"
-    }
-  }
-}
