@@ -3,7 +3,7 @@
   "version": "4.0",
   "datasetReference": {
     "byPath": {
-      "path": "../../3_Semantic Models/NYC_VehicleCrashes_Semantic.SemanticModel"
+      "path": "../../3_SemanticModels/NYC_VehicleCrashes_Semantic.SemanticModel"
     }
   }
 }
