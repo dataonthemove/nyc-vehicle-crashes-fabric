@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "6e89e74c5a7f0535a4a0",
+  "position": {
+    "x": 662.56374513562173,
+    "y": 449.63930998431783,
+    "z": 15001,
+    "height": 258.1262705465528,
+    "width": 275.96910030783528,
+    "tabOrder": 10001
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_location"
+                    }
+                  },
+                  "Property": "borough"
+                }
+              },
+              "queryRef": "dim_location.borough",
+              "nativeQueryRef": "borough",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Basic'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
