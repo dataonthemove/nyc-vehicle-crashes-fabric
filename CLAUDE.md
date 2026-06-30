@@ -22,6 +22,13 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   - Manually exported folders (e.g. `Semantic_model/`) are NOT watched by Git Integration — delete them.
 - Watermark: single authoritative store in Warehouse (`dbo.etl_watermark`).
   The Delta-layer watermark was intentionally removed from notebooks.
+- Report authoring: Fabric web UI only — Power BI Desktop is not used for report development.
+  Reason: `byConnection` + Warehouse-backed Direct Lake in PBID causes Direct Lake framing errors;
+  DirectQuery fallback is unavailable for Warehouse-backed models.
+  - Semantic model changes: local TMDL edits → commit/push to ADO → Fabric Source Control → Update All.
+  - Report changes: Fabric web UI → Fabric Source Control syncs to ADO automatically.
+  - Repo folder `3_SemanticModels/` is the authoritative source for semantic model development.
+  - Repo folder `4_Reports/` is read-only locally — never author or edit report files on disk.
 
 ## Fabric Warehouse — T-SQL Constraints (ALWAYS apply)
 - No PRIMARY KEY, UNIQUE, or FOREIGN KEY constraints. No inline constraints in `CREATE TABLE`.
