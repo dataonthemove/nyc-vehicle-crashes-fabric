@@ -49,7 +49,8 @@
       "Read(//c/Users/DataO/AppData/Roaming/**)",
       "Bash(find \"C:/Users/DataO/AppData/Roaming\" -maxdepth 4 -name \"*.json\" -path \"*claude*\" 2>/dev/null | head -10 && ls \"C:/Users/DataO/AppData/Roaming/Claude/\" 2>/dev/null || echo \"no Claude appdata\")",
       "Bash(mkdir -p \"C:/Users/DataO/.claude/skills/warehouse-ddl\")",
-      "Bash(mkdir -p \"C:/Users/DataO/.claude/skills/semantic-model-fix\")"
+      "Bash(mkdir -p \"C:/Users/DataO/.claude/skills/semantic-model-fix\")",
+      "mcp__ms-fabric-mcp-server__refresh_semantic_model"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
