@@ -11,31 +11,63 @@ A reference for developing end-to-end solutions in Microsoft Fabric using Claude
 | **BOTH** | CLI + VSC extension |
 | **SYS** | Fabric / DevOps / Git |
 
-## Phases
+Make the color coding driven by what tool is used-not what workflow stage it is. 
+Have a dedicated separate color for when both tools are relevant in a step. 
+Include a legend or key for the tool color coding. 
 
+
+## Phases
 `PLAN → SETUP → SCAFFOLD → DEV → INTEGRATE → REPORT → RELEASE → MONITOR`
 
 ## Process Steps
+In the process flow shape, put each element on separate lines. 
+Center each line. 
+Allow word wrap 
+e.g. :
+1 
+PLAN
+Scope and architect solution 
+CLI 
+Model schema, pipeline design, DAX strategy. Output: ADR / spec committed as markdown to repo
+
+
 
 | # | Phase | Step | Tool | Notes |
 |---|-------|------|------|-------|
 | 1 | PLAN | Scope and architect solution | CLI | Model schema, pipeline design, DAX strategy. Output: ADR / spec committed as markdown to repo |
+
 | 2 | SETUP | Create Azure DevOps repo; clone locally; initialise Git | SYS | One-time. Establish dev / test / prod branch strategy |
+
 | 3 | SETUP | Link Fabric workspace to DevOps repo (Git Integration) | SYS | One-time per workspace |
+
 | 4 | SETUP | Configure MCP servers in CC CLI | SYS | `ms-fabric-mcp-server` + `powerbi-modeling-mcp`; opt-in per session to control token cost |
+
 | 5 | SCAFFOLD | Scaffold empty Fabric artifact shells via MCP | CLI | `create_lakehouse`, `create_pipeline`, `create_notebook`, `create_dataflow`, `create_semantic_model`, `create_folder`. Containers only — no content yet |
+
 | 6 | DEV | Author TMDL, T-SQL, pipeline JSON locally in VSC | BOTH | EXT: co-author on open files (inline assist). CLI: generate boilerplate, stored procs, DAX measures, pipeline JSON blocks |
+
 | 7 | DEV | Execute MCP-only operations (no local file equivalent) | CLI | Pipeline runs, Livy/Spark statements, `refresh_semantic_model`, DAX validation queries, job status polling |
+
 | 8 | INTEGRATE | Git commit and push to Azure DevOps | SYS | TMDL, T-SQL, pipeline JSON, markdown only. Commit follows `[domain]_[artifact]_[action]` |
+
 | 9 | INTEGRATE | Fabric Source Control: Update workspace from repo | SYS | Pull latest from DevOps into Dev workspace |
+
 | 10 | INTEGRATE | Validate: row counts, DAX queries, pipeline run results | CLI | MCP DAX queries, job status checks, Livy row count statements |
+
 | 11 | REPORT | Author reports exclusively in Fabric web UI | SYS | Depends on a **stable** semantic model. Do NOT author locally — PBID friction with the semantic model and Direct Lake causes problems |
+
 | 12 | REPORT | Fabric Source Control syncs web reports to ADO automatically | SYS | Report definitions committed to repo without manual export |
+
 | 13 | REPORT | Pull locally for Git history only | SYS | `git pull` to retain version history. NEVER edit report files locally with Power BI Desktop |
+
 | 14 | REPORT | Report validation | CLI | Verify visuals, measures, filters, and Direct Lake behaviour in the web UI |
+
 | 15 | RELEASE | Pull request review and merge in Azure DevOps | SYS | Peer review of TMDL, T-SQL, pipeline JSON, report definitions. Merge on approval |
+
 | 16 | RELEASE | Promote to Test via Fabric deployment pipeline | SYS | Deployment pipeline stage (Dev → Test). Validate in Test workspace |
+
 | 17 | RELEASE | Promote to Prod via Fabric deployment pipeline | SYS | Deployment pipeline stage (Test → Prod). Change-controlled release |
+
 | 18 | MONITOR | Monitor, triage, and iterate | CLI | MCP job status, pipeline activity runs, Livy session logs. Failures loop back to step 6 |
 
 ## Decision Points
