@@ -12,6 +12,16 @@ table fact_crash_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: e3a7c9f1-2b6d-4e8a-91c5-7d4f0a8b3e2c
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
 	column collision_key
 		dataType: int64
 		formatString: 0

@@ -88,13 +88,14 @@ CREATE TABLE dbo.fact_crashes (
 
 -- ## Step 3 — Create fact_persons
 -- > Grain: one row per person per collision (UNIQUE_ID from source)
--- > CRASH_DATE removed — date resolved via dim_collision join to fact_crashes
+-- > date_key sourced directly from source CRASH_DATE (same pattern as fact_crashes)
 -- > PERSON_INJURY source column drives is_injured and is_killed flags
 
 -- CELL ********************
 
 CREATE TABLE dbo.fact_persons (
     fact_person_id  BIGINT  NOT NULL IDENTITY,
+    date_key        INT     NOT NULL,  -- FK dim_date (YYYYMMDD)
     collision_key   BIGINT  NOT NULL,  -- FK dim_collision
     person_key      BIGINT  NOT NULL,  -- FK dim_person
     person_age      INT     NULL,
@@ -117,11 +118,13 @@ CREATE TABLE dbo.fact_persons (
 -- > damage_key links to dim_damage junk dimension (PRE_CRASH, POINT_OF_IMPACT, VEHICLE_DAMAGE)
 -- > Replaces VEHICLE_TYPE_CODE_1-5 columns on fact_crashes
 -- > 2026-06-12: added vehicle_occupants (INT) — relocated from dim_vehicle, source is numeric by nature
+-- > date_key sourced directly from source CRASH_DATE (same pattern as fact_crashes)
 
 -- CELL ********************
 
 CREATE TABLE dbo.fact_crash_vehicle (
     fact_crash_vehicle_id   BIGINT  NOT NULL IDENTITY,
+    date_key                INT     NOT NULL,  -- FK dim_date (YYYYMMDD)
     collision_key           BIGINT  NOT NULL,  -- FK dim_collision
     vehicle_key             BIGINT  NOT NULL,  -- FK dim_vehicle
     damage_key              BIGINT  NOT NULL,  -- FK dim_damage

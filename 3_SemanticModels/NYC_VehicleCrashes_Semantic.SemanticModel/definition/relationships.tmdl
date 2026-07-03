@@ -42,3 +42,11 @@ relationship fact_persons_collision_key_dim_collision_collision_key
 	fromColumn: fact_persons.collision_key
 	toColumn: dim_collision.collision_key
 
+relationship fact_persons_date_key_dim_date_date_key
+	fromColumn: fact_persons.date_key
+	toColumn: dim_date.date_key
+
+relationship fact_crash_vehicle_date_key_dim_date_date_key
+	fromColumn: fact_crash_vehicle.date_key
+	toColumn: dim_date.date_key
+

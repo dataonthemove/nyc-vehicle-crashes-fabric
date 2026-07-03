@@ -33,6 +33,7 @@
 -- **Source profile:** 4,375,018 rows; all COLLISION_ID non-null; ~94% VEHICLE_TYPE coverage; ~79% PRE_CRASH coverage.
 -- 
 -- **Key logic:**
+-- - `date_key` derived as INT in YYYYMMDD format from source `CRASH_DATE` (same pattern as fact_crashes)
 -- - `collision_key` resolved via INNER JOIN to `dim_collision`
 -- - `vehicle_key` resolved via INNER JOIN to `dim_vehicle` on all 9 attribute columns (vehicle_occupants removed 2026-06-12)
 -- - `damage_key` resolved via INNER JOIN to `dim_damage` on pre_crash/point_of_impact/vehicle_damage
@@ -60,12 +61,14 @@ BEGIN
 
     INSERT INTO dbo.fact_crash_vehicle
     (
+        date_key,
         collision_key,
         vehicle_key,
         damage_key,
         vehicle_occupants
     )
     SELECT
+        CAST(FORMAT(TRY_CAST(src.CRASH_DATE AS DATE), 'yyyyMMdd') AS INT) AS date_key,
         dc.collision_key,
         dv.vehicle_key,
         dd.damage_key,
@@ -101,7 +104,8 @@ BEGIN
         FROM   dbo.fact_crash_vehicle tgt
         WHERE  tgt.collision_key = dc.collision_key
     )
-    AND TRY_CAST(src.COLLISION_ID AS INT) IS NOT NULL;
+    AND TRY_CAST(src.CRASH_DATE   AS DATE) IS NOT NULL
+    AND TRY_CAST(src.COLLISION_ID AS INT)  IS NOT NULL;
 
 END;
 GO
