@@ -30,6 +30,23 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   - Repo folder `3_SemanticModels/` is the authoritative source for semantic model development.
   - Repo folder `4_Reports/` is read-only locally — never author or edit report files on disk.
 
+## SDLC Process Flow
+Full phase sequence: `PLAN → SETUP → SCAFFOLD → DEV → INTEGRATE → REPORT → RELEASE → MONITOR`.
+Diagram source: `Misc_Stuff/Fabric_SDLC_Process_Flow.md`.
+- **Scaffold vs Author vs MCP-only** are distinct: scaffolding creates empty Fabric artifact
+  containers via MCP (`create_lakehouse`, `create_pipeline`, etc.); authoring fills them via
+  git-first local TMDL/T-SQL/pipeline-JSON edits; a separate MCP-only step covers operations with
+  no local file equivalent (Livy/Spark execution, `refresh_semantic_model`, DAX validation queries,
+  job status polling).
+- **Core dev loop**: author → MCP-only ops → (more dev needed? loop to author) → git push →
+  Fabric Source Control Update → validate (row counts / DAX / pipeline runs) → (validation passed?
+  loop to author : continue). Failures at any later stage loop back to the authoring step.
+- **Report sub-phase** is gated on a stable semantic model and stays in the Fabric web UI only
+  (see Report authoring rule above). Reports sync to ADO automatically via Fabric Source Control.
+- **Release path**: PR review/merge in ADO → deployment pipeline Dev→Test (validate) → Test→Prod
+  (change-controlled). A failed Test stage loops back to the authoring step, not a hotfix branch.
+- Commit message convention: `[domain]_[artifact]_[action]`.
+
 ## Fabric Warehouse — T-SQL Constraints (ALWAYS apply)
 - No PRIMARY KEY, UNIQUE, or FOREIGN KEY constraints. No inline constraints in `CREATE TABLE`.
 - No TINYINT — use SMALLINT.
