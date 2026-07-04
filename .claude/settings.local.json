@@ -9,6 +9,10 @@
       "Bash(git log:*)",
       "Bash(git show:*)",
       "Bash(git branch:*)",
+      "Bash(git remote -v)",
+      "Bash(ls:*)",
+      "Bash(pwd)",
+      "Bash(which:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git checkout:*)",
@@ -63,7 +67,8 @@
       "Bash(echo \"EXIT:$?\")",
       "Read(//tmp/**)",
       "Bash(timeout 30 npx -y @microsoft/powerbi-modeling-mcp@latest --start)",
-      "mcp__ms-fabric-mcp-server__run_on_demand_job"
+      "mcp__ms-fabric-mcp-server__run_on_demand_job",
+      "Skill(update-config)"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
