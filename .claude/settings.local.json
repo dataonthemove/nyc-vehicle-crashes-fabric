@@ -50,7 +50,20 @@
       "Bash(find \"C:/Users/DataO/AppData/Roaming\" -maxdepth 4 -name \"*.json\" -path \"*claude*\" 2>/dev/null | head -10 && ls \"C:/Users/DataO/AppData/Roaming/Claude/\" 2>/dev/null || echo \"no Claude appdata\")",
       "Bash(mkdir -p \"C:/Users/DataO/.claude/skills/warehouse-ddl\")",
       "Bash(mkdir -p \"C:/Users/DataO/.claude/skills/semantic-model-fix\")",
-      "mcp__ms-fabric-mcp-server__refresh_semantic_model"
+      "mcp__ms-fabric-mcp-server__refresh_semantic_model",
+      "Bash(claude mcp *)",
+      "Bash(uvx --version)",
+      "Bash(timeout 15 uvx powerbi-modeling-mcp)",
+      "Bash(timeout 15 uvx ms-fabric-mcp-server --help)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(npx --version)",
+      "Bash(timeout 30 claude -d mcp -p \"list your available tools whose name starts with mcp__ms-fabric\" --allowedTools \"\")",
+      "Bash(timeout 30 claude -d mcp -p \"just say ok\" --allowedTools \"\")",
+      "Bash(echo \"EXIT:$?\")",
+      "Read(//tmp/**)",
+      "Bash(timeout 30 npx -y @microsoft/powerbi-modeling-mcp@latest --start)",
+      "mcp__ms-fabric-mcp-server__run_on_demand_job"
     ],
     "deny": [
       "Bash(git reset --hard:*)",

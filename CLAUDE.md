@@ -81,3 +81,16 @@ Diagram source: `Misc_Stuff/Fabric_SDLC_Process_Flow.md`.
   Papermill parameter tag requires a manual UI toggle.
 - Fabric Source Control requires a manual trigger (Source Control pane → Update tab → Update All);
   commit pending local changes first.
+
+## Abbreviations (ALWAYS apply)
+* CC = Claude Code
+* CDT = Claude Desktop
+* MF = Microsoft Fabric
+* PBI = Microsoft Power BI
+* MW = Microsoft Windows 11
+* VSC = Visual Studio Code
+* SSMS = SQL Server Management Studio
+* CAI = Claude.AI
+* PBID = Power BI Desktop
+* ADO = Azure DevOps 
+
