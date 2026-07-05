@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "Notebook",
-    "displayName": "10_ETL_fact_crashes_old",
+    "displayName": "10_ETL_fact_crashes",
     "description": "ETL stored procedure — CREATE PROCEDURE for fact_crashes. Joins lakehouse crashes to dim_collision, dim_date, dim_location to resolve surrogate keys, then inserts fact rows."
   },
   "config": {
     "version": "2.0",
-    "logicalId": "8d2742ad-a021-aa79-46b5-6b85c255e1de"
+    "logicalId": "6fa035e3-2e55-8818-453b-e9ac58ae27a0"
   }
 }
