@@ -23,24 +23,18 @@
 
 -- # 12_ETL_fact_crash_vehicle
 -- **Purpose:** Create stored procedure `etl.usp_load_fact_crash_vehicle`.
---
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles`
---
--- **Target:** `dbo.fact_crash_vehicle` (factless fact)
---
--- **Grain:** One row per collision x vehicle combination.
---
--- **Source profile:** 4,375,018 rows; all COLLISION_ID non-null; ~94% VEHICLE_TYPE coverage; ~79% PRE_CRASH coverage.
---
--- **Key logic:**
+-- -- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles`
+-- -- **Target:** `dbo.fact_crash_vehicle` (factless fact)
+-- -- **Grain:** One row per collision x vehicle combination.
+-- -- **Source profile:** 4,375,018 rows; all COLLISION_ID non-null; ~94% VEHICLE_TYPE coverage; ~79% PRE_CRASH coverage.
+-- -- **Key logic:**
 -- - `date_key` derived as INT in YYYYMMDD format from source `CRASH_DATE` (same pattern as fact_crashes)
 -- - `collision_key` resolved via INNER JOIN to `dim_collision`
 -- - `vehicle_key` resolved via INNER JOIN to `dim_vehicle` on all 9 attribute columns (vehicle_occupants removed 2026-06-12)
 -- - `damage_key` resolved via INNER JOIN to `dim_damage` on pre_crash/point_of_impact/vehicle_damage
 -- - `vehicle_occupants` cast to INT directly from source (2026-06-12: relocated from dim_vehicle — numeric by nature)
 -- - Incremental: skips collision_keys already in target
---
--- **Instructions:**
+-- -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
 -- 2. Ensure dim_collision, dim_vehicle, dim_damage are populated first.
 -- 3. Run Cell 1 — DROP/CREATE procedure.

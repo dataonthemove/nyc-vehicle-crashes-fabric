@@ -23,22 +23,17 @@
 
 -- # 10_ETL_fact_crashes
 -- **Purpose:** Create stored procedure `etl.usp_load_fact_crashes`.
---
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes`
---
--- **Target:** `dbo.fact_crashes`
---
--- **Grain:** One row per collision event (COLLISION_ID).
---
--- **Key logic:**
+-- -- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes`
+-- -- **Target:** `dbo.fact_crashes`
+-- -- **Grain:** One row per collision event (COLLISION_ID).
+-- -- **Key logic:**
 -- - `collision_key` resolved via lookup to `dim_collision` on `collision_id`
 -- - `date_key` derived as INT in YYYYMMDD format from `CRASH_DATE`
 -- - `location_key` resolved via lookup to `dim_location` on borough/zip/lat/long
 -- - `factor_group_key` resolved via lookup to `dim_factor_group` on `collision_key` (2026-06-12, Kimball factor-group bridge pattern)
 -- - All measure columns cast to INT; NULL-safe via TRY_CAST
 -- - Incremental: skips collision_keys already present in fact_crashes
---
--- **Instructions:**
+-- -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
 -- 2. Ensure dim_collision, dim_date, dim_location, dim_factor_group are populated first (run 09b_ETL_dim_factor_group before this).
 -- 3. Run Cell 1 — DROP/CREATE procedure.

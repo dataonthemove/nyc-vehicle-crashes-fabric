@@ -23,14 +23,10 @@
 
 -- # 11_ETL_fact_persons
 -- **Purpose:** Create stored procedure `etl.usp_load_fact_persons`.
---
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_persons`
---
--- **Target:** `dbo.fact_persons`
---
--- **Grain:** One row per person per collision.
---
--- **Key logic:**
+-- -- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_persons`
+-- -- **Target:** `dbo.fact_persons`
+-- -- **Grain:** One row per person per collision.
+-- -- **Key logic:**
 -- - `collision_key` resolved via lookup to `dim_collision` on `collision_id`
 -- - `date_key` derived as INT in YYYYMMDD format from source `CRASH_DATE` (same pattern as fact_crashes)
 -- - `person_key` resolved via lookup to `dim_person` on all 10 attribute columns
@@ -38,10 +34,8 @@
 -- - `is_killed` = 1 where PERSON_INJURY = 'Killed'
 -- - `person_age` cast to INT via TRY_CAST (dirty source values possible)
 -- - Incremental: skips fact_person_id already loaded via collision_key match
---
--- **PERSON_INJURY distinct values (profiled):** Injured, Killed, Unspecified
---
--- **Instructions:**
+-- -- **PERSON_INJURY distinct values (profiled):** Injured, Killed, Unspecified
+-- -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
 -- 2. Ensure dim_collision, dim_date, dim_person are populated first.
 -- 3. Run Cell 1 — DROP/CREATE procedure.
