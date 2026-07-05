@@ -72,7 +72,13 @@
       "Bash(claude --version)",
       "Bash(npm ls *)",
       "Bash(where claude *)",
-      "Bash(sort -k6,7)"
+      "Bash(sort -k6,7)",
+      "mcp__ms-fabric-mcp-server__rename_item",
+      "mcp__ms-fabric-mcp-server__create_notebook",
+      "mcp__ms-fabric-mcp-server__update_notebook_definition",
+      "mcp__ms-fabric-mcp-server__livy_create_session",
+      "mcp__ms-fabric-mcp-server__livy_run_statement",
+      "mcp__ms-fabric-mcp-server__livy_close_session"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
