@@ -24,7 +24,7 @@
 -- # 08_ETL_dim_damage
 -- **Purpose:** Create stored procedure `etl.usp_load_dim_damage`.
 -- 
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionsvehicles`
+-- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles`
 -- 
 -- **Target:** `dbo.dim_damage` (junk dimension)
 -- 
@@ -59,7 +59,7 @@ BEGIN
         NULLIF(TRIM(src.PRE_CRASH),       '') AS pre_crash,
         NULLIF(TRIM(src.POINT_OF_IMPACT), '') AS point_of_impact,
         NULLIF(TRIM(src.VEHICLE_DAMAGE),  '') AS vehicle_damage
-    FROM  NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionsvehicles src
+    FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles src
     WHERE NOT EXISTS
     (
         SELECT 1

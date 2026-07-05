@@ -24,7 +24,7 @@
 -- # 05_ETL_dim_location
 -- **Purpose:** Create stored procedure `etl.usp_load_dim_location`.
 -- 
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes`
+-- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes`
 -- 
 -- **Target:** `dbo.dim_location`
 -- 
@@ -59,7 +59,7 @@ BEGIN
         NULLIF(TRIM(src.ZIP_CODE),   '')  AS zip_code,
         TRY_CAST(src.LATITUDE  AS FLOAT) AS latitude,
         TRY_CAST(src.LONGITUDE AS FLOAT) AS longitude
-    FROM  NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes src
+    FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes src
     WHERE NOT EXISTS
     (
         SELECT 1

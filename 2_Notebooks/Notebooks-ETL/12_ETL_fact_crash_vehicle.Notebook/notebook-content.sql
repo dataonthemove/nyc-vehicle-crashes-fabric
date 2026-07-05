@@ -24,7 +24,7 @@
 -- # 12_ETL_fact_crash_vehicle
 -- **Purpose:** Create stored procedure `etl.usp_load_fact_crash_vehicle`.
 -- 
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionsvehicles`
+-- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles`
 -- 
 -- **Target:** `dbo.fact_crash_vehicle` (factless fact)
 -- 
@@ -73,7 +73,7 @@ BEGIN
         dv.vehicle_key,
         dd.damage_key,
         TRY_CAST(src.VEHICLE_OCCUPANTS AS INT) AS vehicle_occupants
-    FROM  NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionsvehicles src
+    FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles src
 
     -- Resolve collision_key
     INNER JOIN dbo.dim_collision dc

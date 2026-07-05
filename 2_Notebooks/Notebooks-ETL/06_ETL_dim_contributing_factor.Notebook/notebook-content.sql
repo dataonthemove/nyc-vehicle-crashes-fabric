@@ -24,7 +24,7 @@
 -- # 06_ETL_dim_contributing_factor
 -- **Purpose:** Create stored procedure `etl.usp_load_dim_contributing_factor`.
 -- 
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes`
+-- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes`
 -- 
 -- **Source columns:** `CONTRIBUTING_FACTOR_VEHICLE_1` through `_5` (unpivoted)
 -- 
@@ -52,15 +52,15 @@ BEGIN
     -- Unpivot all 5 contributing factor columns into a single distinct list
     WITH all_factors AS
     (
-        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_1), '') AS factor_desc FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_1), '') AS factor_desc FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_2), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_2), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_3), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_3), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_4), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_4), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_5), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_5), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
     )
     INSERT INTO dbo.dim_contributing_factor (factor_desc)
     SELECT factor_desc

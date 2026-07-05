@@ -24,7 +24,7 @@
 -- # 04_ETL_dim_collision
 -- **Purpose:** Create stored procedure `etl.usp_load_dim_collision`.
 -- 
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes`
+-- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes`
 -- 
 -- **Target:** `dbo.dim_collision`
 -- 
@@ -51,7 +51,7 @@ BEGIN
     -- Incremental insert: only new collision_ids not yet in dim_collision
     INSERT INTO dbo.dim_collision (collision_id)
         SELECT DISTINCT CAST(src.COLLISION_ID AS INT)
-        FROM   NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes src
+        FROM   NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes src
         WHERE  src.COLLISION_ID IS NOT NULL
         AND  NOT EXISTS (
                 SELECT 1

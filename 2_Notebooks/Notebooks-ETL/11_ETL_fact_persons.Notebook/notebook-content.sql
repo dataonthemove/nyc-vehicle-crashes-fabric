@@ -24,7 +24,7 @@
 -- # 11_ETL_fact_persons
 -- **Purpose:** Create stored procedure `etl.usp_load_fact_persons`.
 -- 
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionspersons`
+-- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_persons`
 -- 
 -- **Target:** `dbo.fact_persons`
 -- 
@@ -76,7 +76,7 @@ BEGIN
         TRY_CAST(src.PERSON_AGE AS INT)                                    AS person_age,
         CASE WHEN src.PERSON_INJURY = 'Injured' THEN 1 ELSE 0 END          AS is_injured,
         CASE WHEN src.PERSON_INJURY = 'Killed'  THEN 1 ELSE 0 END          AS is_killed
-    FROM  NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionspersons src
+    FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_persons src
 
     -- Resolve collision_key
     INNER JOIN dbo.dim_collision dc

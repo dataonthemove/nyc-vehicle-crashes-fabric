@@ -24,7 +24,7 @@
 -- # 07_ETL_dim_vehicle
 -- **Purpose:** Create stored procedure `etl.usp_load_dim_vehicle`.
 -- 
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionsvehicles`
+-- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles`
 -- 
 -- **Target:** `dbo.dim_vehicle`
 -- 
@@ -71,7 +71,7 @@ BEGIN
         NULLIF(TRIM(src.DRIVER_SEX),                   '') AS driver_sex,
         NULLIF(TRIM(src.DRIVER_LICENSE_STATUS),        '') AS driver_license_status,
         NULLIF(TRIM(src.DRIVER_LICENSE_JURISDICTION),  '') AS driver_license_jurisdiction
-    FROM  NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionsvehicles src
+    FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles src
     WHERE NOT EXISTS
     (
         SELECT 1

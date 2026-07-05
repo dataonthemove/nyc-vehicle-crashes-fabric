@@ -24,7 +24,7 @@
 -- # 10_ETL_fact_crashes
 -- **Purpose:** Create stored procedure `etl.usp_load_fact_crashes`.
 -- 
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes`
+-- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes`
 -- 
 -- **Target:** `dbo.fact_crashes`
 -- 
@@ -85,7 +85,7 @@ BEGIN
         TRY_CAST(src.NUMBER_OF_CYCLIST_KILLED     AS INT)                  AS cyclists_killed,
         TRY_CAST(src.NUMBER_OF_MOTORIST_INJURED   AS INT)                  AS motorists_injured,
         TRY_CAST(src.NUMBER_OF_MOTORIST_KILLED    AS INT)                  AS motorists_killed
-    FROM  NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes src
+    FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes src
 
     -- Resolve collision_key
     INNER JOIN dbo.dim_collision dc
@@ -126,14 +126,11 @@ GO
 -- CELL ********************
 
 -- Cell 2: Execute and verify
---EXEC etl.usp_load_fact_crashes;
+EXEC etl.usp_load_fact_crashes;
 
---SELECT COUNT(*) AS fact_crashes_row_count FROM dbo.fact_crashes;
+SELECT COUNT(*) AS fact_crashes_row_count FROM dbo.fact_crashes;
 
---SELECT TOP 10 * FROM dbo.fact_crashes ORDER BY crash_id;
-
-
-SELECT TOP 1 * FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+SELECT TOP 10 * FROM dbo.fact_crashes ORDER BY crash_id;
 
 -- METADATA ********************
 

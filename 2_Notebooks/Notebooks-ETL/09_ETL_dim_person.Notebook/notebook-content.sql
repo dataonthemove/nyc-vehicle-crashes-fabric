@@ -24,7 +24,7 @@
 -- # 09_ETL_dim_person
 -- **Purpose:** Create stored procedure `etl.usp_load_dim_person`.
 -- 
--- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionspersons`
+-- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_persons`
 -- 
 -- **Target:** `dbo.dim_person`
 -- 
@@ -71,7 +71,7 @@ BEGIN
         NULLIF(TRIM(src.PED_LOCATION),         '') AS ped_location,
         NULLIF(TRIM(src.PED_ACTION),           '') AS ped_action,
         NULLIF(TRIM(src.PED_ROLE),             '') AS ped_role
-    FROM  NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionspersons src
+    FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_persons src
     WHERE NOT EXISTS
     (
         SELECT 1
