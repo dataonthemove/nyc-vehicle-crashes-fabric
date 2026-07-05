@@ -68,7 +68,11 @@
       "Read(//tmp/**)",
       "Bash(timeout 30 npx -y @microsoft/powerbi-modeling-mcp@latest --start)",
       "mcp__ms-fabric-mcp-server__run_on_demand_job",
-      "Skill(update-config)"
+      "Skill(update-config)",
+      "Bash(claude --version)",
+      "Bash(npm ls *)",
+      "Bash(where claude *)",
+      "Bash(sort -k6,7)"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
