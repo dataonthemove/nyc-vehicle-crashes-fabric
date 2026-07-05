@@ -23,19 +23,19 @@
 
 -- # 13_ETL_bridge_crash_factor
 -- **Purpose:** Create stored procedure `etl.usp_load_bridge_crash_factor`.
--- 
+--
 -- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes`
--- 
+--
 -- **Target:** `dbo.bridge_crash_factor`
--- 
+--
 -- **Grain:** One row per factor-group x contributing factor combination.
--- 
+--
 -- **Source profile (non-null counts):** CF1: 2,232,018 | CF2: 1,878,117 | CF3: 162,137 | CF4: 37,055 | CF5: 10,154
--- 
+--
 -- **2026-06-12 — Kimball factor-group bridge pattern (Fig. 14-4 analog):**
 -- `collision_key` replaced by `factor_group_key`. fact_crashes -> dim_factor_group -> bridge_crash_factor -> dim_contributing_factor,
 -- conventional many-to-one joins in all directions.
--- 
+--
 -- **Key logic:**
 -- - UNION all 5 factor columns to produce collision_id x factor_desc pairs
 -- - Filter out NULL and 'Unspecified' factors
@@ -43,7 +43,7 @@
 -- - Resolve `factor_group_key` via INNER JOIN to `dim_factor_group` on `collision_key`
 -- - Resolve `factor_key` via INNER JOIN to `dim_contributing_factor`
 -- - Incremental: skip factor_group_keys already in target
--- 
+--
 -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
 -- 2. Ensure dim_collision, dim_factor_group and dim_contributing_factor are populated first (run 09b_ETL_dim_factor_group before this).
@@ -66,15 +66,15 @@ BEGIN
     -- Unpivot 5 contributing factor columns into collision x factor pairs
     WITH unpivoted AS
     (
-        SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_1), '') AS factor_desc FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
+        SELECT collision_id, NULLIF(TRIM(contributing_factor_vehicle_1), '') AS factor_desc FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_2), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
+        SELECT collision_id, NULLIF(TRIM(contributing_factor_vehicle_2), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_3), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
+        SELECT collision_id, NULLIF(TRIM(contributing_factor_vehicle_3), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_4), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
+        SELECT collision_id, NULLIF(TRIM(contributing_factor_vehicle_4), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_5), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
+        SELECT collision_id, NULLIF(TRIM(contributing_factor_vehicle_5), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
     )
     INSERT INTO dbo.bridge_crash_factor (factor_group_key, factor_key)
     SELECT
@@ -83,7 +83,7 @@ BEGIN
     FROM  unpivoted u
 
     INNER JOIN dbo.dim_collision dc
-        ON dc.collision_id = TRY_CAST(u.COLLISION_ID AS INT)
+        ON dc.collision_id = TRY_CAST(u.collision_id AS INT)
 
     -- Resolve factor_group_key (1:1 with collision_key)
     INNER JOIN dbo.dim_factor_group dfg
@@ -94,7 +94,7 @@ BEGIN
 
     WHERE u.factor_desc IS NOT NULL
       AND u.factor_desc <> 'Unspecified'
-      AND TRY_CAST(u.COLLISION_ID AS INT) IS NOT NULL
+      AND TRY_CAST(u.collision_id AS INT) IS NOT NULL
       AND NOT EXISTS
       (
           SELECT 1

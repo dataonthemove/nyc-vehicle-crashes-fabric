@@ -54,13 +54,13 @@ BEGIN
     (
         SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_1), '') AS factor_desc FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_2), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
+        SELECT NULLIF(TRIM(contributing_factor_vehicle_2), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_3), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
+        SELECT NULLIF(TRIM(contributing_factor_vehicle_3), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_4), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
+        SELECT NULLIF(TRIM(contributing_factor_vehicle_4), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_5), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
+        SELECT NULLIF(TRIM(contributing_factor_vehicle_5), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
     )
     INSERT INTO dbo.dim_contributing_factor (factor_desc)
     SELECT factor_desc
