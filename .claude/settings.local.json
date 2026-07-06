@@ -78,7 +78,11 @@
       "mcp__ms-fabric-mcp-server__update_notebook_definition",
       "mcp__ms-fabric-mcp-server__livy_create_session",
       "mcp__ms-fabric-mcp-server__livy_run_statement",
-      "mcp__ms-fabric-mcp-server__livy_close_session"
+      "mcp__ms-fabric-mcp-server__livy_close_session",
+      "Bash(where sqlcmd *)",
+      "Bash(sqlcmd -?)",
+      "Bash(\"/c/Program Files/sqlcmd/sqlcmd.exe\" --help)",
+      "Bash(az account *)"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
