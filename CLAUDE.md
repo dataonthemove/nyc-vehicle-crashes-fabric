@@ -20,6 +20,10 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
     to the Git-managed layer. Workflow: edit GUID folder locally → commit/push → Fabric Source
     Control pane (Update tab → Update All).
   - Manually exported folders (e.g. `Semantic_model/`) are NOT watched by Git Integration — delete them.
+  - The official `fabric-authoring`/`powerbi-authoring` plugin's `semantic-model-authoring` skill
+    defaults to its Tier-1 priority (`powerbi-modeling-mcp` MCP edits) whenever the MCP server is
+    registered — which it always is here. Override this: force the local-TMDL-file workflow above
+    instead of letting the skill fall through to MCP.
 - Watermark: single authoritative store in Warehouse (`dbo.etl_watermark`).
   The Delta-layer watermark was intentionally removed from notebooks.
 - Report authoring: Fabric web UI only — Power BI Desktop is not used for report development.
