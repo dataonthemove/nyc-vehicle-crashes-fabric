@@ -82,7 +82,8 @@
       "Bash(where sqlcmd *)",
       "Bash(sqlcmd -?)",
       "Bash(\"/c/Program Files/sqlcmd/sqlcmd.exe\" --help)",
-      "Bash(az account *)"
+      "Bash(az account *)",
+      "Skill(fewer-permission-prompts)"
     ],
     "deny": [
       "Bash(git reset --hard:*)",

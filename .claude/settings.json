@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where *)",
+      "mcp__ms-fabric-mcp-server__get_job_status",
+      "mcp__ms-fabric-mcp-server__get_notebook_definition",
+      "mcp__ms-fabric-mcp-server__list_items",
+      "mcp__ms-fabric-mcp-server__list_workspaces",
+      "mcp__ms-fabric-mcp-server__livy_get_statement_status",
+      "mcp__ms-fabric-mcp-server__list_notebook_runs"
+    ]
+  }
+}
