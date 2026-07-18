@@ -1,23 +1,5 @@
 -- Fabric notebook source
 
--- METADATA *********************
-
--- META {
--- META   "kernel_info": {
--- META     "name": "sqldatawarehouse"
--- META   },
--- META   "dependencies": {
--- META     "warehouse": {
--- META       "default_warehouse": "da2b14e1-b933-a3f7-47de-f697ddedf601",
--- META       "known_warehouses": [
--- META         {
--- META           "id": "da2b14e1-b933-a3f7-47de-f697ddedf601",
--- META           "type": "Datawarehouse"
--- META         }
--- META       ]
--- META     }
--- META   }
--- META }
 
 -- MARKDOWN ********************
 
