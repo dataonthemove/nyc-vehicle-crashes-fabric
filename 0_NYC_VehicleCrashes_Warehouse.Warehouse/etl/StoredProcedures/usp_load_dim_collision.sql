@@ -15,3 +15,5 @@ BEGIN
             );
 
 END;
+
+GO

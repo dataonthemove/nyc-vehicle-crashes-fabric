@@ -1,6 +1,8 @@
 CREATE TABLE [dbo].[etl_watermark] (
-
-	[source_name] varchar(100) NULL, 
-	[last_loaded_value] datetime2(6) NULL, 
-	[last_run_utc] datetime2(6) NULL
+    [source_name]       VARCHAR (100) NULL,
+    [last_loaded_value] DATETIME2 (6) NULL,
+    [last_run_utc]      DATETIME2 (6) NULL
 );
+
+
+GO
