@@ -45,7 +45,12 @@ natural_key    = "collision_id"     # merge key — unique per source row
 from pyspark.sql import functions as F
 from pyspark.sql.types import *
 from delta.tables import DeltaTable
-import mssparkutils
+
+# notebookutils replaced mssparkutils in newer Fabric Spark runtimes
+try:
+    import notebookutils as nbutils
+except ImportError:
+    import mssparkutils as nbutils
 
 
 # METADATA ********************
@@ -169,7 +174,7 @@ row_count = df_new.count()
 print(f"[{source_name}] Staged rows: {row_count}")
 
 if row_count == 0:
-    mssparkutils.notebook.exit("NO_NEW_DATA")
+    nbutils.notebook.exit("NO_NEW_DATA")
 
 
 # METADATA ********************
@@ -229,7 +234,7 @@ else:
 
 # CELL 7 — Exit
 
-mssparkutils.notebook.exit(f"SUCCESS|{source_name}")
+nbutils.notebook.exit(f"SUCCESS|{source_name}")
 
 
 # METADATA ********************
