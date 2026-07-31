@@ -1,6 +1,7 @@
 # Environment Reference — NYC Motor Vehicle Collisions
 
-> Generated 2026-06-27 via MCP. Refresh by re-running the MCP fetch session.
+> Generated 2026-07-31 via MCP. Refresh by re-running the MCP fetch session.
+> Migrated from workspace `NYC_Motor_Vehicle_Collisions` on 2026-07-31.
 
 ---
 
@@ -8,9 +9,9 @@
 
 | Field | Value |
 |---|---|
-| Name | NYC_Motor_Vehicle_Collisions |
-| Workspace ID | `6e56c48d-2491-4bbe-a283-0efd43bb7d19` |
-| Capacity ID | `bb2389db-fb67-4b81-a33b-9ae1834e6439` |
+| Name | NYC_VehicleCrashes |
+| Workspace ID | `73d1612d-023e-40bb-914b-fcd796620223` |
+| Capacity ID | `f1b1feea-3619-4c62-928e-69eb8d45b7a9` |
 
 ---
 
@@ -18,14 +19,25 @@
 
 | Type | Display Name | Artifact ID |
 |---|---|---|
-| Lakehouse | NYC_VehicleCrashes_Lakehouse | `dc3d09e0-fd82-4e11-8991-4bdeb44bafd5` |
-| SQLEndpoint | NYC_VehicleCrashes_Lakehouse | `c26a19ca-4f5a-4557-ba3f-3fc399788257` |
-| Warehouse | NYC_VehicleCrashes_Warehouse | `b0befa58-9752-441f-861d-bb04c9fed2c1` |
-| SemanticModel | NYC_VehicleCrashes_Semantic | `168d9927-abbc-4933-a5f0-532cd10a4f55` |
-| DataPipeline | pl_cdc_NYC_Crashes | `3e07625b-f519-44a2-b764-f319cd83e544` |
+| Lakehouse | NYC_VehicleCrashes_Lakehouse | `69699b13-5771-422f-874c-461430f81d9b` |
+| SQLEndpoint | NYC_VehicleCrashes_Lakehouse | `63b7bc57-9351-4c56-a1cf-cda93ca7828c` |
+| Warehouse | NYC_VehicleCrashes_Warehouse | `324e2ac0-5ebd-4f8a-9856-a5d7b56a25fe` |
+| SemanticModel | NYC_VehicleCrashes_Semantic | `646ec529-eaaa-4d41-b3b0-a31c94355fdd` |
+| DataPipeline | pl_cdc_NYC_Crashes | `95ca0fbd-e13c-4743-8d28-d3fa4da33df1` |
 
 **Warehouse TDS endpoint:**
-`ugzelu45irnefp3jx4vjlmb6u4-rxcfm3ures7exiudb36uho35de.datawarehouse.fabric.microsoft.com`
+`TBD` — not exposed by the Fabric Items API. Copy from Warehouse → Settings → SQL connection string.
+
+---
+
+## Predecessor Workspace (retained for validation until decommissioned)
+
+| Field | Value |
+|---|---|
+| Name | NYC_Motor_Vehicle_Collisions |
+| Workspace ID | `6e56c48d-2491-4bbe-a283-0efd43bb7d19` |
+| Warehouse | `b0befa58-9752-441f-861d-bb04c9fed2c1` |
+| Lakehouse | `dc3d09e0-fd82-4e11-8991-4bdeb44bafd5` |
 
 ---
 

@@ -8,12 +8,12 @@
 # META   },
 # META   "dependencies": {
 # META     "lakehouse": {
-# META       "default_lakehouse": "dc3d09e0-fd82-4e11-8991-4bdeb44bafd5",
+# META       "default_lakehouse": "69699b13-5771-422f-874c-461430f81d9b",
 # META       "default_lakehouse_name": "NYC_VehicleCrashes_Lakehouse",
-# META       "default_lakehouse_workspace_id": "6e56c48d-2491-4bbe-a283-0efd43bb7d19",
+# META       "default_lakehouse_workspace_id": "73d1612d-023e-40bb-914b-fcd796620223",
 # META       "known_lakehouses": [
 # META         {
-# META           "id": "dc3d09e0-fd82-4e11-8991-4bdeb44bafd5"
+# META           "id": "69699b13-5771-422f-874c-461430f81d9b"
 # META         }
 # META       ]
 # META     }
