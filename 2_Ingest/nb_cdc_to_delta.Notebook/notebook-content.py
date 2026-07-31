@@ -212,7 +212,9 @@ df_new = (
 
 # CELL 6 — Merge into Delta target
 
-target_path = f"{LAKEHOUSE_ROOT}/Tables/{source_name}_raw"
+# Schema-enabled lakehouse: the first level under Tables/ is the SCHEMA namespace.
+# Writing to Tables/<name> creates a schema, not a table — the target must be Tables/dbo/<name>.
+target_path = f"{LAKEHOUSE_ROOT}/Tables/dbo/nyc_{source_name}"
 
 if DeltaTable.isDeltaTable(spark, target_path):
     delta_tbl = DeltaTable.forPath(spark, target_path)
