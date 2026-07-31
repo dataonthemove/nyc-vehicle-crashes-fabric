@@ -26,7 +26,9 @@
 | DataPipeline | pl_cdc_NYC_Crashes | `95ca0fbd-e13c-4743-8d28-d3fa4da33df1` |
 
 **Warehouse TDS endpoint:**
-`TBD` — not exposed by the Fabric Items API. Copy from Warehouse → Settings → SQL connection string.
+`ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com`
+
+> Not exposed by the Fabric Items API — re-copy from Warehouse → Settings → SQL connection string if it changes.
 
 ---
 
