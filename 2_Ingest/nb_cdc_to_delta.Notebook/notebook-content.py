@@ -25,10 +25,10 @@
 # CELL 1 — Parameters (pipeline overrides these at runtime)
 # Tag this cell as a "parameters" cell in Fabric UI (... > Toggle parameter cell)
 
-source_name    = "crashes"          # crashes | persons | vehicles
-file_subfolder = "crashes"          # Files subfolder where CDC drop lands
-file_pattern   = "*.csv"            # glob pattern for staged files
-natural_key    = "collision_id"     # merge key — unique per source row
+source_name    = "crashes"                  # crashes | persons | vehicles
+file_subfolder = "NYC_CrashData/crashes"    # Files subfolder where CDC drop lands
+file_pattern   = "*"                        # Copy sink emits extensionless files — do not use *.csv
+natural_key    = "collision_id"             # merge key — unique per source row
 
 
 # METADATA ********************
@@ -51,6 +51,12 @@ try:
     import notebookutils as nbutils
 except ImportError:
     import mssparkutils as nbutils
+
+# OneLake requires the item-type extension on the item name ({itemname}.{itemtype}).
+# The filesystem segment is the workspace, not the lakehouse.
+WORKSPACE_NAME = "NYC_VehicleCrashes"
+LAKEHOUSE_NAME = "NYC_VehicleCrashes_Lakehouse"
+LAKEHOUSE_ROOT = f"abfss://{WORKSPACE_NAME}@onelake.dfs.fabric.microsoft.com/{LAKEHOUSE_NAME}.Lakehouse"
 
 
 # METADATA ********************
@@ -167,7 +173,7 @@ df_new = (
     .option("inferSchema", False)
     .option("nullValue", "")
     .schema(schema)
-    .csv(f"abfss://NYC_VehicleCrashes_Lakehouse@onelake.dfs.fabric.microsoft.com/Files/{file_subfolder}/{file_pattern}")
+    .csv(f"{LAKEHOUSE_ROOT}/Files/{file_subfolder}/{file_pattern}")
 )
 
 row_count = df_new.count()
@@ -206,7 +212,7 @@ df_new = (
 
 # CELL 6 — Merge into Delta target
 
-target_path = f"abfss://NYC_VehicleCrashes_Lakehouse@onelake.dfs.fabric.microsoft.com/Tables/{source_name}_raw"
+target_path = f"{LAKEHOUSE_ROOT}/Tables/{source_name}_raw"
 
 if DeltaTable.isDeltaTable(spark, target_path):
     delta_tbl = DeltaTable.forPath(spark, target_path)
