@@ -483,7 +483,25 @@
         "type": "TridentNotebook",
         "typeProperties": {
           "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
-          "workspaceId": "00000000-0000-0000-0000-000000000000"
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+          "source_name": {
+            "value": "crashes",
+            "type": "string"
+          },
+          "file_subfolder": {
+            "value": "NYC_CrashData/crashes",
+            "type": "string"
+          },
+          "file_pattern": {
+            "value": "*",
+            "type": "string"
+          },
+          "natural_key": {
+            "value": "collision_id",
+            "type": "string"
+          }
+          }
         },
         "policy": {
           "timeout": "0.12:00:00",
@@ -506,7 +524,25 @@
         "type": "TridentNotebook",
         "typeProperties": {
           "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
-          "workspaceId": "00000000-0000-0000-0000-000000000000"
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+          "source_name": {
+            "value": "persons",
+            "type": "string"
+          },
+          "file_subfolder": {
+            "value": "NYC_CrashData/persons",
+            "type": "string"
+          },
+          "file_pattern": {
+            "value": "*",
+            "type": "string"
+          },
+          "natural_key": {
+            "value": "unique_id",
+            "type": "string"
+          }
+          }
         },
         "policy": {
           "timeout": "0.12:00:00",
@@ -529,7 +565,25 @@
         "type": "TridentNotebook",
         "typeProperties": {
           "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
-          "workspaceId": "00000000-0000-0000-0000-000000000000"
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+          "source_name": {
+            "value": "vehicles",
+            "type": "string"
+          },
+          "file_subfolder": {
+            "value": "NYC_CrashData/vehicles",
+            "type": "string"
+          },
+          "file_pattern": {
+            "value": "*",
+            "type": "string"
+          },
+          "natural_key": {
+            "value": "unique_id",
+            "type": "string"
+          }
+          }
         },
         "policy": {
           "timeout": "0.12:00:00",
