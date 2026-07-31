@@ -83,7 +83,9 @@
       "Bash(sqlcmd -?)",
       "Bash(\"/c/Program Files/sqlcmd/sqlcmd.exe\" --help)",
       "Bash(az account *)",
-      "Skill(fewer-permission-prompts)"
+      "Skill(fewer-permission-prompts)",
+      "Bash(python -c ' *)",
+      "Bash(git *)"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
