@@ -171,11 +171,17 @@ merge_key = natural_key
 # fields BY POSITION and ignores the header, so any difference between the API's column
 # order and SCHEMAS[source_name] shifts every value one place — which is what silently
 # NULLed every collision_id in nyc_crashes.
+#
+# multiLine is required: the crashes feed's `location` column holds a quoted value that
+# contains newlines, so one record spans three physical lines. Without it Spark treats each
+# line as a row and 210,428 of 2,000,000 crash records shred into 631,283 fragments.
+# It costs parallelism — the file can no longer be split — but correctness wins here.
 raw = (
     spark.read
     .option("header", True)
     .option("inferSchema", False)
     .option("nullValue", "")
+    .option("multiLine", True)
     .csv(f"{LAKEHOUSE_ROOT}/Files/{file_subfolder}/{file_pattern}")
 )
 
