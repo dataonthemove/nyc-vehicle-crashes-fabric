@@ -6,15 +6,15 @@ BEGIN
     -- Unpivot 5 contributing factor columns into collision x factor pairs
     WITH unpivoted AS
     (
-        SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_1), '') AS factor_desc FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+        SELECT collision_id, NULLIF(TRIM(contributing_factor_vehicle_1), '') AS factor_desc FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_2), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+        SELECT collision_id, NULLIF(TRIM(contributing_factor_vehicle_2), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_3), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+        SELECT collision_id, NULLIF(TRIM(contributing_factor_vehicle_3), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_4), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+        SELECT collision_id, NULLIF(TRIM(contributing_factor_vehicle_4), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
-        SELECT COLLISION_ID, NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_5), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionscrashes
+        SELECT collision_id, NULLIF(TRIM(contributing_factor_vehicle_5), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
     )
     INSERT INTO dbo.bridge_crash_factor (factor_group_key, factor_key)
     SELECT
@@ -23,7 +23,7 @@ BEGIN
     FROM  unpivoted u
 
     INNER JOIN dbo.dim_collision dc
-        ON dc.collision_id = TRY_CAST(u.COLLISION_ID AS INT)
+        ON dc.collision_id = TRY_CAST(u.collision_id AS INT)
 
     -- Resolve factor_group_key (1:1 with collision_key)
     INNER JOIN dbo.dim_factor_group dfg
@@ -34,7 +34,7 @@ BEGIN
 
     WHERE u.factor_desc IS NOT NULL
       AND u.factor_desc <> 'Unspecified'
-      AND TRY_CAST(u.COLLISION_ID AS INT) IS NOT NULL
+      AND TRY_CAST(u.collision_id AS INT) IS NOT NULL
       AND NOT EXISTS
       (
           SELECT 1

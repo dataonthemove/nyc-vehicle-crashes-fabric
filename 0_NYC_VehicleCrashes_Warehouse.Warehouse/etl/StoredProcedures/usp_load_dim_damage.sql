@@ -10,17 +10,17 @@ BEGIN
         vehicle_damage
     )
     SELECT DISTINCT
-        NULLIF(TRIM(src.PRE_CRASH),       '') AS pre_crash,
-        NULLIF(TRIM(src.POINT_OF_IMPACT), '') AS point_of_impact,
-        NULLIF(TRIM(src.VEHICLE_DAMAGE),  '') AS vehicle_damage
-    FROM  NYC_VehicleCrashes_Lakehouse.dbo.motor_vehicle_collisionsvehicles src
+        NULLIF(TRIM(src.pre_crash),       '') AS pre_crash,
+        NULLIF(TRIM(src.point_of_impact), '') AS point_of_impact,
+        NULLIF(TRIM(src.vehicle_damage),  '') AS vehicle_damage
+    FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles src
     WHERE NOT EXISTS
     (
         SELECT 1
         FROM   dbo.dim_damage tgt
-        WHERE  ISNULL(tgt.pre_crash,       '') = ISNULL(NULLIF(TRIM(src.PRE_CRASH),       ''), '')
-          AND  ISNULL(tgt.point_of_impact, '') = ISNULL(NULLIF(TRIM(src.POINT_OF_IMPACT), ''), '')
-          AND  ISNULL(tgt.vehicle_damage,  '') = ISNULL(NULLIF(TRIM(src.VEHICLE_DAMAGE),  ''), '')
+        WHERE  ISNULL(tgt.pre_crash,       '') = ISNULL(NULLIF(TRIM(src.pre_crash),       ''), '')
+          AND  ISNULL(tgt.point_of_impact, '') = ISNULL(NULLIF(TRIM(src.point_of_impact), ''), '')
+          AND  ISNULL(tgt.vehicle_damage,  '') = ISNULL(NULLIF(TRIM(src.vehicle_damage),  ''), '')
     );
 
 END;
