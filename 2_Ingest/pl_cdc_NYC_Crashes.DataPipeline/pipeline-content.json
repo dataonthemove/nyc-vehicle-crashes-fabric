@@ -164,7 +164,7 @@
               "fileExtension": ".csv"
             },
             "storeSettings": {
-              "type": "AzureBlobStorageWriteSettings"
+              "type": "LakehouseWriteSettings"
             },
             "datasetSettings": {
               "type": "DelimitedText",
@@ -267,7 +267,7 @@
               "fileExtension": ".csv"
             },
             "storeSettings": {
-              "type": "AzureBlobStorageWriteSettings"
+              "type": "LakehouseWriteSettings"
             },
             "datasetSettings": {
               "type": "DelimitedText",

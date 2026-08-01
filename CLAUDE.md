@@ -34,6 +34,14 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   - Repo folder `4_Model/` is the authoritative source for semantic model development.
   - Repo folder `5_Reports/` is read-only locally — never author or edit report files on disk.
 
+## Working Docs
+- `Context Docs/OPEN_ITEMS.md` — current backlog. Read it at the start of any session that
+  continues project work, and update it when items are closed or added.
+- `Context Docs/environment-reference.md` — live workspace/artifact IDs. All IDs there are
+  **physical** Fabric IDs; the repo's Fabric item files carry *logical* IDs, which are
+  different values. Never copy IDs from repo files into that doc.
+- `Context Docs/SDLC_REFERENCE.md` — full SDLC phase detail.
+
 ## SDLC Process Flow
 Full phase sequence: `PLAN → SETUP → SCAFFOLD → DEV → INTEGRATE → REPORT → RELEASE → MONITOR`.
 Reference doc: `Context Docs/SDLC_REFERENCE.md`.

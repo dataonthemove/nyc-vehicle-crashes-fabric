@@ -1,7 +1,12 @@
 # Environment Reference — NYC Motor Vehicle Collisions
 
-> Generated 2026-07-31 via MCP. Refresh by re-running the MCP fetch session.
+> Generated 2026-07-31 via MCP, IDs re-verified 2026-08-01. Refresh by re-running the MCP fetch session.
 > Migrated from workspace `NYC_Motor_Vehicle_Collisions` on 2026-07-31.
+>
+> **All IDs below are physical Fabric item IDs** (`list_items` / `list_folders`). Do not source them
+> from the repo's Fabric item files — those carry *logical* IDs, which are different values and are
+> rehydrated to physical IDs at deploy time. The 2026-07-31 pass recorded logical IDs for every
+> notebook and folder by mistake; all of them were wrong until the 2026-08-01 correction.
 
 ---
 
@@ -12,6 +17,7 @@
 | Name | NYC_VehicleCrashes |
 | Workspace ID | `73d1612d-023e-40bb-914b-fcd796620223` |
 | Capacity ID | `f1b1feea-3619-4c62-928e-69eb8d45b7a9` |
+| Spark runtime | 1.3 — Spark 3.5.5, Python 3.11.8 (verified via Livy 2026-08-01) |
 
 ---
 
@@ -55,39 +61,61 @@
 
 ---
 
+## Workspace Folders
+
+| Folder | ID |
+|---|---|
+| 1_DDL | `cd9c010d-de8c-4c73-98ef-92d340c73376` |
+| 2_Ingest | `409f3130-016f-4a92-bea3-79fda1520d5d` |
+| 3_Transform | `e88dbad8-087f-4676-82ad-e46646a164a8` |
+| 4_Model | `3601518e-ee50-4bc3-8d36-e72254912921` |
+| 5_Reports | `2d197305-e28f-457b-b3dc-abe35b0dc1a4` |
+| Misc_Stuff | `92930838-8f02-4ac4-b239-95bb947a9017` |
+
+---
+
 ## Notebooks
 
-### DDL Folder (`199ec999-a024-41b6-a5b4-ba1702c8f9a5`)
+17 notebooks as of 2026-08-01.
+
+### 1_DDL
 
 | Notebook | ID |
 |---|---|
-| 000_DDL_ETL_Watermark_Seed | `8aced3d4-ef07-4226-bbf4-4cb4825d8c0b` |
-| 01_DDL_Dimensions | `9a27bfcc-1bf0-47f5-b08d-6370829816bb` |
-| 02_DDL_Facts_Bridges | `93273509-6c49-463c-8f1e-dbb5cc62833d` |
+| 000_DDL_ETL_Watermark_Seed | `8a869970-6158-4b29-ad99-cf66279f0e91` |
+| 01_DDL_Dimensions | `88230b3b-b754-4dac-a6e1-7850d98b91c7` |
+| 02_DDL_Facts_Bridges | `8b3ed125-413c-47ce-bfa8-00c5e5683434` |
 
-### ETL Folder (`29d9d35c-eee8-4eb9-b7ba-17cd724712b1`)
+### 2_Ingest
 
 | Notebook | ID |
 |---|---|
-| 03_ETL_dim_date | `ab9cd4c3-2810-49e5-be3b-cc92831e1d75` |
-| 04_ETL_dim_collision | `08315903-321f-4603-8c25-9d7f2dfa46d6` |
-| 05_ETL_dim_location | `3f502d5a-5cae-4973-9823-2869b6925449` |
-| 06_ETL_dim_contributing_factor | `2d913203-4de0-4035-b9c8-3c52aa241a71` |
-| 07_ETL_dim_vehicle | `28cad77a-61cd-4a9d-a8c5-b534e4dca88b` |
-| 08_ETL_dim_damage | `536645a1-25dd-4ba0-9a3f-8c13fe6db0d2` |
-| 09_ETL_dim_person | `31c74980-c0f1-4f07-bf41-2baa921d3c95` |
-| 09b_ETL_dim_factor_group | `a932aea5-47a4-4cbc-b0d9-1daa00223a7f` |
-| 10_ETL_fact_crashes | `c079a56a-28d1-4fca-aeed-40a4dbbea057` |
-| 11_ETL_fact_persons | `8e80a005-55f0-4c76-9a16-09ace918e729` |
-| 12_ETL_fact_crash_vehicle | `14e6aec2-a1c0-4b4b-89ad-34462202842f` |
-| 13_ETL_bridge_crash_factor | `f06e0440-468f-44bb-9641-4759ef52921c` |
+| nb_cdc_to_delta | `11b1ce02-22b5-487a-a1ef-f71ef9872908` |
 
-### Root / Other
+### 3_Transform
 
-| Notebook | Folder | ID |
-|---|---|---|
-| nb_cdc_to_delta | root | `7eb04901-f0b8-4cf3-be76-e9ee4c5431b0` |
-| RefreshSemanticModel | `3ef14615-6f34-4f51-bbe2-e1cb7779ecf0` | `166e6595-9353-4ec7-ad5d-b3acdd7244d9` |
+| Notebook | ID |
+|---|---|
+| 03_ETL_dim_date | `48394d16-a615-433d-b5ad-6e1b43b7f6b5` |
+| 04_ETL_dim_collision | `668544bb-9590-4fcb-a385-cac2bc435aa6` |
+| 05_ETL_dim_location | `c04d0676-4e7e-4d36-a2d3-e64f06c2c753` |
+| 06_ETL_dim_contributing_factor | `0987cf73-a3b0-4634-80ce-93ab32d90d1a` |
+| 07_ETL_dim_vehicle | `ec2a4b2e-3b7a-4fe7-86b6-5e1eb21b4093` |
+| 08_ETL_dim_damage | `06cf8361-91af-4a90-89fc-8d8e36a51006` |
+| 09_ETL_dim_person | `cec6b9ba-8eab-4914-a7d1-2596a0e302a0` |
+| 09b_ETL_dim_factor_group | `f6aa92ab-a522-4f65-9c88-4de665fe6f8c` |
+| 10_ETL_fact_crashes | `b93e6bc5-0c6e-4d4d-b1e2-0d6409891440` |
+| 11_ETL_fact_persons | `2942a177-2871-4691-a37c-3726912b68a2` |
+| 12_ETL_fact_crash_vehicle | `514c0005-0fb9-499e-bbeb-acce477a5bd0` |
+| 13_ETL_bridge_crash_factor | `0a5ff01a-9501-4720-873a-768c29943f49` |
+
+`10_ETL_fact_crashes_old` was deleted 2026-08-01 (commit `f01f79d`) and is no longer in the workspace.
+
+### Misc_Stuff
+
+| Notebook | ID |
+|---|---|
+| RefreshSemanticModel | `890dfd06-78fa-4781-9340-21efdfc967ba` |
 
 ---
 
