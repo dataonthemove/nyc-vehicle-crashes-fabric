@@ -14,9 +14,15 @@ relationship fact_crashes_factor_group_key_dim_factor_group_factor_group_key
 	fromColumn: fact_crashes.factor_group_key
 	toColumn: dim_factor_group.factor_group_key
 
+/// Bidirectional by design: the factor-group bridge filter path runs
+/// dim_contributing_factor -> bridge_crash_factor -> dim_factor_group -> fact_crashes.
+/// dim_factor_group is the "one" side here, so with default single-direction
+/// cross-filtering the middle hop points the wrong way and no filter reaches the
+/// facts — every contributing factor returns the full unfiltered crash count.
 relationship bridge_crash_factor_factor_group_key_dim_factor_group_factor_group_key
 	fromColumn: bridge_crash_factor.factor_group_key
 	toColumn: dim_factor_group.factor_group_key
+	crossFilteringBehavior: bothDirections
 
 relationship bridge_crash_factor_factor_key_dim_contributing_factor_factor_key
 	fromColumn: bridge_crash_factor.factor_key
