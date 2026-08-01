@@ -167,20 +167,37 @@ merge_key = natural_key
 
 # CELL 4 — Read staged files from Files/
 
-df_new = (
+# Read as strings and let the header name the columns. Passing .schema() directly applies
+# fields BY POSITION and ignores the header, so any difference between the API's column
+# order and SCHEMAS[source_name] shifts every value one place — which is what silently
+# NULLed every collision_id in nyc_crashes.
+raw = (
     spark.read
     .option("header", True)
     .option("inferSchema", False)
     .option("nullValue", "")
-    .schema(schema)
     .csv(f"{LAKEHOUSE_ROOT}/Files/{file_subfolder}/{file_pattern}")
 )
 
+missing = [f.name for f in schema.fields if f.name not in raw.columns]
+if missing:
+    raise ValueError(f"[{source_name}] Columns missing from source header: {missing}")
+
+# Select by name, then cast — the file's column order no longer matters.
+df_new = raw.select([F.col(f.name).cast(f.dataType).alias(f.name) for f in schema.fields])
+
 row_count = df_new.count()
-print(f"[{source_name}] Staged rows: {row_count}")
 
 if row_count == 0:
     nbutils.notebook.exit("NO_NEW_DATA")
+
+# A merge key that casts to NULL means a type mismatch, not absent data. Fail loudly rather
+# than write a table that joins to nothing downstream.
+null_keys = df_new.filter(F.col(merge_key).isNull()).count()
+print(f"[{source_name}] Staged rows: {row_count} (null {merge_key}: {null_keys})")
+
+if null_keys:
+    raise ValueError(f"[{source_name}] {null_keys} of {row_count} rows have a NULL {merge_key} — aborting.")
 
 
 # METADATA ********************
