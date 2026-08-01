@@ -90,7 +90,16 @@
       "mcp__ms-fabric-mcp-server__delete_lakehouse_file",
       "Bash(grep -o '\\\\$limit[^\"&]*' C:/Users/DataO/SourceCode/NYC_VehicleCrashes/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json)",
       "Bash(grep -n 'paginationRules\\\\|\\\\$offset\\\\|\\\\$order' C:/Users/DataO/SourceCode/NYC_VehicleCrashes/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json)",
-      "WebFetch(domain:data.cityofnewyork.us)"
+      "WebFetch(domain:data.cityofnewyork.us)",
+      "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:/Users/DataO/.claude/jobs/28bd5e28/tmp/probe.ps1\")",
+      "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:/Users/DataO/.claude/jobs/28bd5e28/tmp/probe2.ps1\")",
+      "Bash(pwsh -NoProfile -Command '$PSVersionTable.PSVersion.ToString\\(\\)')",
+      "Bash(pwsh -NoProfile -ExecutionPolicy Bypass -File \"C:/Users/DataO/.claude/jobs/28bd5e28/tmp/install.ps1\" 2>&1)",
+      "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:/Users/DataO/.claude/jobs/28bd5e28/tmp/toasttest.ps1\" 2>&1)",
+      "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:/Users/DataO/.claude/jobs/28bd5e28/tmp/toasttest2.ps1\")",
+      "Read(//c/Users/DataO/Documents/WindowsPowerShell/Modules/BurntToast/**)",
+      "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:/Users/DataO/.claude/jobs/28bd5e28/tmp/toasttest3.ps1\" 2>&1)",
+      "Bash(node *)"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
