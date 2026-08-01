@@ -31,12 +31,12 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   DirectQuery fallback is unavailable for Warehouse-backed models.
   - Semantic model changes: local TMDL edits → commit/push to ADO → Fabric Source Control → Update All.
   - Report changes: Fabric web UI → Fabric Source Control syncs to ADO automatically.
-  - Repo folder `3_SemanticModels/` is the authoritative source for semantic model development.
-  - Repo folder `4_Reports/` is read-only locally — never author or edit report files on disk.
+  - Repo folder `4_Model/` is the authoritative source for semantic model development.
+  - Repo folder `5_Reports/` is read-only locally — never author or edit report files on disk.
 
 ## SDLC Process Flow
 Full phase sequence: `PLAN → SETUP → SCAFFOLD → DEV → INTEGRATE → REPORT → RELEASE → MONITOR`.
-Diagram source: `Misc_Stuff/Fabric_SDLC_Process_Flow.md`.
+Reference doc: `Context Docs/SDLC_REFERENCE.md`.
 - **Scaffold vs Author vs MCP-only** are distinct: scaffolding creates empty Fabric artifact
   containers via MCP (`create_lakehouse`, `create_pipeline`, etc.); authoring fills them via
   git-first local TMDL/T-SQL/pipeline-JSON edits; a separate MCP-only step covers operations with
@@ -56,9 +56,18 @@ Diagram source: `Misc_Stuff/Fabric_SDLC_Process_Flow.md`.
 - No TINYINT — use SMALLINT.
 - IDENTITY syntax: `BIGINT IDENTITY` only — no seed/increment params (`IDENTITY(1,1)` fails).
 - Drop-if-exists: use `OBJECT_ID` check pattern.
-- No `MAXRECURSION` hint; no cross-joins on `sys.all_objects`; use `WHILE` loops for date generation.
+- No `MAXRECURSION` hint; no cross-joins on `sys.all_objects`. For row generation, cross-join
+  `(VALUES (0),(1),...,(9))` table constructors as derived tables (not chained CTEs) and trim with
+  a `WHERE`/`DATEDIFF` predicate — set-based, avoids both restrictions. Do NOT use `WHILE` loops:
+  `dim_date` took 29 minutes for 5,479 rows that way.
 - `DATETIME2` columns require explicit precision, e.g. `DATETIME2(6)`.
 - Cross-database lakehouse references use the lakehouse name directly (SQL analytics endpoint = same object).
+- **Stored procedures exist twice in the repo** — the authoring notebook under `3_Transform/` and
+  the Fabric-exported Warehouse item definition under
+  `0_NYC_VehicleCrashes_Warehouse.Warehouse/etl/StoredProcedures/`. The notebook is the source of
+  truth; the item definition is what the Dev→Test deployment pipeline actually promotes. Change
+  **both in the same commit** or the two silently diverge — running the notebook masks a stale item
+  definition completely, so a green validation proves nothing about the deployed copy.
 
 ## Semantic Model — SummarizeBy Rules (ALWAYS apply)
 - All `_key` and `_id` columns → `None`.

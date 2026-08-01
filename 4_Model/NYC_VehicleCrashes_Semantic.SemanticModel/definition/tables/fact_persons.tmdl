@@ -79,5 +79,3 @@ table fact_persons
 			schemaName: dbo
 			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
 
-	changedProperty = Description
-
