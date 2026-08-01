@@ -118,6 +118,7 @@ SCHEMAS = {
         StructField("safety_equipment", StringType(), True),
         StructField("ped_location", StringType(), True),
         StructField("ped_action", StringType(), True),
+        StructField("ped_role", StringType(), True),
         StructField("complaint", StringType(), True),
         StructField("contributing_factor_1", StringType(), True),
         StructField("contributing_factor_2", StringType(), True),
