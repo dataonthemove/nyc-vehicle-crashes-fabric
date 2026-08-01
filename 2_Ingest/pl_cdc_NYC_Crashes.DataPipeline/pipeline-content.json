@@ -141,7 +141,7 @@
                 "location": {
                   "type": "HttpServerLocation",
                   "relativeUrl": {
-                    "value": "?$where=crash_date>'@{activity('Lookup_Crashes_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=2000000",
+                    "value": "?$where=crash_date>'@{activity('Lookup_Crashes_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=10000000",
                     "type": "Expression"
                   }
                 },
@@ -244,7 +244,7 @@
                 "location": {
                   "type": "HttpServerLocation",
                   "relativeUrl": {
-                    "value": "?$where=crash_date>'@{activity('Lookup_Persons_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=2000000",
+                    "value": "?$where=crash_date>'@{activity('Lookup_Persons_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=10000000",
                     "type": "Expression"
                   }
                 },
@@ -339,7 +339,7 @@
                 "location": {
                   "type": "HttpServerLocation",
                   "relativeUrl": {
-                    "value": "?$where=crash_date>'@{activity('Lookup_Vehicles_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=2000000",
+                    "value": "?$where=crash_date>'@{activity('Lookup_Vehicles_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=10000000",
                     "type": "Expression"
                   }
                 },
