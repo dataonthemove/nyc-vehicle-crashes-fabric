@@ -32,13 +32,15 @@
 -- - `collision_key` resolved via INNER JOIN to `dim_collision`
 -- - `vehicle_key` resolved via INNER JOIN to `dim_vehicle` on all 9 attribute columns (vehicle_occupants removed 2026-06-12)
 -- - `damage_key` resolved via INNER JOIN to `dim_damage` on pre_crash/point_of_impact/vehicle_damage
--- - `vehicle_occupants` cast to INT directly from source (2026-06-12: relocated from dim_vehicle — numeric by nature)
+-- - `vehicle_occupants` cast to INT from source, capped: values > 100 set to NULL (2026-06-12: relocated from dim_vehicle — numeric by nature)
 -- - Incremental: skips collision_keys already in target
+-- -- **vehicle_occupants cap (2026-08-01):** source `number_of_occupants` carries garbage — 152 rows exceeded 100, one being the sentinel 999999999 (max otherwise 981,990,849), inflating the column SUM from ~3.1M to 2.74B. Values above 100 are not credible for any road vehicle, so they are nulled. The cap is set at 100 rather than lower because the 21–100 band is legitimate: 809 Bus and 20 School Bus rows.
 -- -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
 -- 2. Ensure dim_collision, dim_vehicle, dim_damage are populated first.
 -- 3. Run Cell 1 — DROP/CREATE procedure.
 -- 4. Run Cell 2 — execute and verify.
+-- 5. Run Cell 3 ONCE — remediates rows loaded before the cap existed. The procedure is incremental, so a rerun alone will not correct them.
 
 
 -- CELL ********************
@@ -66,7 +68,10 @@ BEGIN
         dc.collision_key,
         dv.vehicle_key,
         dd.damage_key,
-        TRY_CAST(src.vehicle_occupants AS INT) AS vehicle_occupants
+        CASE
+            WHEN TRY_CAST(src.vehicle_occupants AS INT) > 100 THEN NULL
+            ELSE TRY_CAST(src.vehicle_occupants AS INT)
+        END AS vehicle_occupants
     FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles src
 
     -- Resolve collision_key
@@ -119,6 +124,37 @@ EXEC etl.usp_load_fact_crash_vehicle;
 SELECT COUNT(*) AS fact_crash_vehicle_row_count FROM dbo.fact_crash_vehicle;
 
 SELECT TOP 10 * FROM dbo.fact_crash_vehicle ORDER BY fact_crash_vehicle_id;
+
+-- METADATA ********************
+
+-- META {
+-- META   "language": "sql",
+-- META   "language_group": "sqldatawarehouse"
+-- META }
+
+-- CELL ********************
+
+-- Cell 3: ONE-TIME remediation of rows loaded before the vehicle_occupants cap existed.
+-- The procedure is incremental (WHERE NOT EXISTS on collision_key), so rerunning it will
+-- NOT revisit already-loaded rows. This UPDATE is what actually corrects them.
+-- Safe to re-run: idempotent, and a no-op once no rows exceed the cap.
+
+SELECT
+    COUNT(*)                        AS rows_over_cap_before,
+    SUM(CAST(vehicle_occupants AS BIGINT)) AS sum_before
+FROM dbo.fact_crash_vehicle
+WHERE vehicle_occupants > 100;
+
+UPDATE dbo.fact_crash_vehicle
+SET    vehicle_occupants = NULL
+WHERE  vehicle_occupants > 100;
+
+-- Verify: rows_over_cap_after must be 0; sum_after should be ~3,118,066
+SELECT
+    SUM(CASE WHEN vehicle_occupants > 100 THEN 1 ELSE 0 END) AS rows_over_cap_after,
+    SUM(CAST(vehicle_occupants AS BIGINT))                   AS sum_after,
+    MAX(vehicle_occupants)                                   AS max_after
+FROM dbo.fact_crash_vehicle;
 
 -- METADATA ********************
 
