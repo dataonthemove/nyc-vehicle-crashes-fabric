@@ -52,7 +52,7 @@ BEGIN
     -- Unpivot all 5 contributing factor columns into a single distinct list
     WITH all_factors AS
     (
-        SELECT NULLIF(TRIM(CONTRIBUTING_FACTOR_VEHICLE_1), '') AS factor_desc FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
+        SELECT NULLIF(TRIM(contributing_factor_vehicle_1), '') AS factor_desc FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION
         SELECT NULLIF(TRIM(contributing_factor_vehicle_2), '') FROM NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes
         UNION

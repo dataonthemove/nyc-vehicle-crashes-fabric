@@ -89,7 +89,8 @@
       "Bash(python *)",
       "mcp__ms-fabric-mcp-server__delete_lakehouse_file",
       "Bash(grep -o '\\\\$limit[^\"&]*' C:/Users/DataO/SourceCode/NYC_VehicleCrashes/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json)",
-      "Bash(grep -n 'paginationRules\\\\|\\\\$offset\\\\|\\\\$order' C:/Users/DataO/SourceCode/NYC_VehicleCrashes/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json)"
+      "Bash(grep -n 'paginationRules\\\\|\\\\$offset\\\\|\\\\$order' C:/Users/DataO/SourceCode/NYC_VehicleCrashes/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json)",
+      "WebFetch(domain:data.cityofnewyork.us)"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
