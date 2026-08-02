@@ -10,18 +10,25 @@ Statuses: **OPEN** · **BLOCKED** · **DONE** (kept briefly for context, then de
 
 ---
 
-## 1. Verify `pl_cdc_NYC_Crashes` runs under the new connection ownership — OPEN
+## 1. Lakehouse CDC and Warehouse star load are not connected — OPEN, decision needed
 
-Follow-on to the account migration (see Recently closed). Ownership of the 5 connections
-transferred and the old account was deleted, so no deadline remains — but only the
-Warehouse OAuth connection has actually been exercised since, via a Direct Lake DAX query.
+`pl_cdc_NYC_Crashes` lands data in the **Lakehouse Delta tables only**. The Warehouse
+dimensional load (`etl.usp_load_*`) is not part of the pipeline and currently runs only by
+executing the `3_Transform` notebooks by hand. So after every CDC run the star schema and
+the semantic model are stale until someone remembers to run 12 notebooks in the right order.
 
-Untested: the 3 anonymous HTTP source connections and the Lakehouse OAuth connection,
-all of which are only used by the pipeline.
+For a portfolio build this is the most visible architectural gap after the missing measure
+layer — the pipeline stops halfway through the medallion.
 
-**Verify:** run `pl_cdc_NYC_Crashes` end-to-end once. A clean run exercises all five.
-Note this advances `dbo.etl_watermark`, so it is not a no-op — run it when you want the
-data current anyway.
+**Options:**
+
+- Extend `pl_cdc_NYC_Crashes` with Script activities calling each `usp_load_*` in dependency
+  order, gated on the watermark update. Keeps one pipeline.
+- Build a second pipeline (`pl_load_warehouse`) and chain it via Invoke Pipeline. Cleaner
+  separation, and lets the star load be rerun without re-ingesting.
+
+Either way the order matters: dims → `dim_factor_group` → facts → bridge, with
+`RefreshSemanticModel` last.
 
 ---
 
@@ -88,6 +95,13 @@ authoring time; no code change implied.
 ## Recently closed
 
 Kept only as context for the items above. Delete once stale.
+
+- **All 5 connections verified under the new account** (2026-08-02) — `pl_cdc_NYC_Crashes`
+  run `80d7cab7-48d7-429a-a557-c4447b551d92` completed with all 10 activities succeeded
+  (~14 min end to end). The Lookups and the watermark Script exercised the Warehouse
+  connection, the three Copies exercised the three anonymous HTTP sources and the Lakehouse
+  sink. The `LakehouseWriteSettings` sink correction also ran clean in a real execution.
+  Note: each Lookup reported ~300,000 ms, which is capacity queue wait, not query time.
 
 - **Account migration for the 5 connections completed** (2026-08-01) — the new workspace
   was linked to the *existing* connections, the new account was made owner, and the old
