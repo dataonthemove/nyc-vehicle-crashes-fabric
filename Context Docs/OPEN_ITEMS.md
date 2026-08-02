@@ -10,25 +10,18 @@ Statuses: **OPEN** · **BLOCKED** · **DONE** (kept briefly for context, then de
 
 ---
 
-## 1. Recreate the 5 Fabric connections under the new account — OPEN, deadline-bound
+## 1. Verify `pl_cdc_NYC_Crashes` runs under the new connection ownership — OPEN
 
-**Owner: Pat only.** Requires interactive Fabric auth; cannot be done via MCP or from
-Claude Code.
+Follow-on to the account migration (see Recently closed). Ownership of the 5 connections
+transferred and the old account was deleted, so no deadline remains — but only the
+Warehouse OAuth connection has actually been exercised since, via a Direct Lake DAX query.
 
-The 5 connections in `environment-reference.md` (2 OAuth — Warehouse and Lakehouse;
-3 anonymous HTTP — Crashes, Persons, Vehicles) are owned by the account being
-deprovisioned. When that account goes away, `pl_cdc_NYC_Crashes` stops running and the
-Direct Lake model loses its Warehouse binding.
+Untested: the 3 anonymous HTTP source connections and the Lakehouse OAuth connection,
+all of which are only used by the pipeline.
 
-**Do before deprovisioning:**
-
-1. Sign in as the new account, recreate all 5 connections.
-2. Repoint the pipeline's three Copy sources, three sinks, and the Script activity.
-3. Repoint the semantic model's Warehouse connection.
-4. Run the pipeline end-to-end, then `/dax-smoke-test`.
-5. Update the connection IDs in `environment-reference.md`.
-
-This is the only item on this list with an external deadline. Everything else can wait.
+**Verify:** run `pl_cdc_NYC_Crashes` end-to-end once. A clean run exercises all five.
+Note this advances `dbo.etl_watermark`, so it is not a no-op — run it when you want the
+data current anyway.
 
 ---
 
@@ -95,6 +88,14 @@ authoring time; no code change implied.
 ## Recently closed
 
 Kept only as context for the items above. Delete once stale.
+
+- **Account migration for the 5 connections completed** (2026-08-01) — the new workspace
+  was linked to the *existing* connections, the new account was made owner, and the old
+  account was removed. The connections were reused rather than recreated, so all five IDs
+  in `environment-reference.md` remain correct. Verified: connection IDs in the live
+  pipeline unchanged, and a Direct Lake DAX query returns fact_crashes 2,269,187 /
+  fact_persons 5,984,110 / bridge_crash_factor 1,648,599 / dim_date 6,940, which confirms
+  the Warehouse OAuth binding survived. Residual verification is item 1 above.
 
 - **Warehouse stored procedure definitions resynced** (`afe95db`, `9c71fe1`) — 10 of 12
   git-managed item definitions were pre-rename and would have shipped broken SQL through
