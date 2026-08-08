@@ -15,10 +15,12 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
 - Semantic model: Direct Lake, Warehouse-sourced via OneLake. Always connect via
   `powerbi-modeling-mcp` using the **semantic model name**, not the warehouse name.
 - Version control: code-first TMDL/Git in VSC + Azure DevOps.
-  - Fabric Git Integration watches only the GUID-named `*.SemanticModel/definition/tables/` folder.
+  - Fabric Git Integration watches only the `*.SemanticModel/definition/` tree — here
+    `4_Model/NYC_VehicleCrashes_Semantic.SemanticModel/definition/`. The folder is **display-named**,
+    not GUID-named; the GUID is the `logicalId` inside `.platform`.
   - Do NOT use MCP/XMLA edits for routine semantic model changes — they don't reliably persist
-    to the Git-managed layer. Workflow: edit GUID folder locally → commit/push → Fabric Source
-    Control pane (Update tab → Update All).
+    to the Git-managed layer. Workflow: edit the `definition/` TMDL files locally → commit/push →
+    Fabric Source Control pane (Update tab → Update All).
   - Manually exported folders (e.g. `Semantic_model/`) are NOT watched by Git Integration — delete them.
   - The official `fabric-authoring`/`powerbi-authoring` plugin's `semantic-model-authoring` skill
     defaults to its Tier-1 priority (`powerbi-modeling-mcp` MCP edits) whenever the MCP server is

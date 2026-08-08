@@ -81,6 +81,13 @@ applied in `44ea207` — see the `vehicle-occupants-outliers` memory before writ
 Measures are TMDL edits under `4_Model/`, so they follow the standard
 local-edit → commit/push → Source Control Update All flow. Not MCP.
 
+**This item is also the first real test of the `/tmdl-model-edit` skill**
+(`.claude/skills/tmdl-model-edit/SKILL.md`, added 2026-08-08). The skill exists to stop the
+plugin `semantic-model-authoring` skills from routing semantic model authoring through
+`powerbi-modeling-mcp`. Writing the measure layer will show whether it is complete or still
+needs the workflow restated by hand — update the skill with anything it turns out to be
+missing.
+
 ---
 
 ## 5. `usp_load_dim_date` range extends past the fact data — OPEN, informational
