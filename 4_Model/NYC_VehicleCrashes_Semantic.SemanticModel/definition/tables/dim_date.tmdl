@@ -1,4 +1,5 @@
 table dim_date
+	dataCategory: Time
 	lineageTag: ccd3e92f-9da3-4a70-af10-9bb3c9b33dc7
 	sourceLineageTag: [dbo].[dim_date]
 
@@ -12,8 +13,10 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
+	/// Calendar date. Date-table key column, so time-intelligence measures (YoY, MoM) resolve.
 	column full_date
 		dataType: dateTime
+		isKey
 		formatString: General Date
 		lineageTag: 5e4c6c61-ffe4-4517-baba-9ade8138f74d
 		sourceLineageTag: full_date

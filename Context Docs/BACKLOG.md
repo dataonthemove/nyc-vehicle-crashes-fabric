@@ -66,27 +66,43 @@ a reviewer reads.
 
 ---
 
-## 4. Semantic model has no measures — OPEN, decision needed
+## 4. Semantic model measure layer — OPEN, authored locally, not yet validated in Fabric
 
-`NYC_VehicleCrashes_Semantic` currently exposes tables and relationships but no explicit
-DAX measures; visuals rely on implicit aggregation. For a portfolio-grade Kimball build
-this is the most visible gap — a reviewer expects a measure layer.
+Measures were written as local TMDL on 2026-08-12 (27 measures) and are committed, but the
+model has **not** been synced or validated yet. Remaining steps:
 
-Minimum credible set: total crashes, total persons involved, injuries, fatalities,
-injury rate, crashes YoY / MoM, and an occupancy measure over `vehicle_occupants`.
+1. Push to ADO.
+2. Fabric Source Control pane → Update tab → **Update All** (manual).
+3. `refresh_semantic_model` via MCP — required, or DAX returns
+   `Failed to resolve name` because the model is unframed.
+4. `/dax-smoke-test`, plus spot-check `Crashes YoY %` and `Crashes MoM %`.
 
-Note the dependency: any occupancy measure is only trustworthy because of the cap
-applied in `44ea207` — see the `vehicle-occupants-outliers` memory before writing one.
+What was added:
 
-Measures are TMDL edits under `4_Model/`, so they follow the standard
-local-edit → commit/push → Source Control Update All flow. Not MCP.
+| Table | Measures |
+|---|---|
+| `fact_crashes` | Total Crashes; Persons / Pedestrians / Cyclists / Motorists Injured & Killed; Crashes with Injury / Fatality; Injury Rate; Fatality Rate; Injuries per Crash; Crashes PY; Crashes YoY %; Crashes PM; Crashes MoM % |
+| `fact_persons` | Total Persons Involved; Injured Persons; Killed Persons; Person Injury Rate; Average Person Age |
+| `fact_crash_vehicle` | Total Vehicles Involved; Total Occupants; Average Occupants per Vehicle; Vehicles per Crash |
 
-**This item is also the first real test of the `/tmdl-model-edit` skill**
-(`.claude/skills/tmdl-model-edit/SKILL.md`, added 2026-08-08). The skill exists to stop the
-plugin `semantic-model-authoring` skills from routing semantic model authoring through
-`powerbi-modeling-mcp`. Writing the measure layer will show whether it is complete or still
-needs the workflow restated by hand — update the skill with anything it turns out to be
-missing.
+Two things to watch on validation:
+
+- **`dim_date` is now marked as a date table** (`dataCategory: Time` on the table, `isKey` on
+  `full_date`). This was required for `SAMEPERIODLASTYEAR` / `DATEADD`; the fact→dim
+  relationships still join on the integer `date_key` and were not changed. If the Git import
+  rejects the marking, the four time-intelligence measures are the ones to pull.
+- **Two injury measures exist at different grains by design** — `Persons Injured`
+  (crash-level roll-up on `fact_crashes`) and `Injured Persons` (person grain on
+  `fact_persons`). They will not tie exactly. `Injury Rate` is crash-level (share of crashes
+  with ≥1 injury), not injuries per crash — `Injuries per Crash` is the separate measure.
+
+`Total Occupants` and `Average Occupants per Vehicle` depend on the cap applied in `44ea207`;
+see the `vehicle-occupants-outliers` memory.
+
+This was the first real exercise of the `/tmdl-model-edit` skill
+(`.claude/skills/tmdl-model-edit/SKILL.md`). It held up — no workflow restatement was needed.
+One gap: the skill says nothing about date-table marking being a prerequisite for time
+intelligence. Add that once the Fabric import confirms the syntax survives.
 
 ---
 

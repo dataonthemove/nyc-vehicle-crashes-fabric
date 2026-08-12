@@ -2,6 +2,22 @@ table fact_crash_vehicle
 	lineageTag: b8540bca-cde8-408b-ac4f-0a67761442f5
 	sourceLineageTag: [dbo].[fact_crash_vehicle]
 
+	/// Vehicles involved in the filtered crashes — one row per vehicle per collision.
+	measure 'Total Vehicles Involved' = COUNTROWS ( fact_crash_vehicle )
+		formatString: #,0
+
+	/// Reported occupants across involved vehicles. Trustworthy only because of the outlier cap applied in 44ea207 — raw source values inflated this ~888x.
+	measure 'Total Occupants' = SUM ( fact_crash_vehicle[vehicle_occupants] )
+		formatString: #,0
+
+	/// Mean occupants per involved vehicle. Depends on the same occupant cap as Total Occupants.
+	measure 'Average Occupants per Vehicle' = DIVIDE ( [Total Occupants], [Total Vehicles Involved] )
+		formatString: #,0.00
+
+	/// Mean vehicles involved per collision in the current filter context.
+	measure 'Vehicles per Crash' = DIVIDE ( [Total Vehicles Involved], DISTINCTCOUNT ( fact_crash_vehicle[collision_key] ) )
+		formatString: #,0.00
+
 	column fact_crash_vehicle_id
 		dataType: int64
 		formatString: 0
