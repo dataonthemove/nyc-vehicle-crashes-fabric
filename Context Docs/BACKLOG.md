@@ -66,16 +66,16 @@ a reviewer reads.
 
 ---
 
-## 4. Semantic model measure layer — OPEN, authored locally, not yet validated in Fabric
+## 4. Semantic model measure layer — OPEN, first pass validated, occupancy fix pending sync
 
-Measures were written as local TMDL on 2026-08-12 (27 measures) and are committed, but the
-model has **not** been synced or validated yet. Remaining steps:
+Measures were written as local TMDL on 2026-08-12 (29 measures) and the first pass was
+validated live in the workspace the same day: all measures resolve, `Total Crashes` =
+2,269,187 matching the fact row count, and the `Crashes PY` chain ties exactly year over year
+(2023 PY = 103,887 = 2022 actual). The date-table marking survived the Fabric Git import.
 
-1. Push to ADO.
-2. Fabric Source Control pane → Update tab → **Update All** (manual).
-3. `refresh_semantic_model` via MCP — required, or DAX returns
-   `Failed to resolve name` because the model is unframed.
-4. `/dax-smoke-test`, plus spot-check `Crashes YoY %` and `Crashes MoM %`.
+Remaining step — the occupancy correction below is committed locally but **not yet synced**:
+push → Source Control **Update All** → `refresh_semantic_model` → re-spot-check
+`Average Occupants per Vehicle` (expect ~1.39) and `Occupant Data Coverage %` (expect ~49%).
 
 What was added:
 
@@ -83,14 +83,21 @@ What was added:
 |---|---|
 | `fact_crashes` | Total Crashes; Persons / Pedestrians / Cyclists / Motorists Injured & Killed; Crashes with Injury / Fatality; Injury Rate; Fatality Rate; Injuries per Crash; Crashes PY; Crashes YoY %; Crashes PM; Crashes MoM % |
 | `fact_persons` | Total Persons Involved; Injured Persons; Killed Persons; Person Injury Rate; Average Person Age |
-| `fact_crash_vehicle` | Total Vehicles Involved; Total Occupants; Average Occupants per Vehicle; Vehicles per Crash |
+| `fact_crash_vehicle` | Total Vehicles Involved; Total Occupants; Vehicles with Occupant Data; Occupant Data Coverage %; Average Occupants per Vehicle; Vehicles per Crash |
 
-Two things to watch on validation:
+Notes carried forward:
 
-- **`dim_date` is now marked as a date table** (`dataCategory: Time` on the table, `isKey` on
-  `full_date`). This was required for `SAMEPERIODLASTYEAR` / `DATEADD`; the fact→dim
-  relationships still join on the integer `date_key` and were not changed. If the Git import
-  rejects the marking, the four time-intelligence measures are the ones to pull.
+- **`dim_date` is marked as a date table** (`dataCategory: Time` on the table, `isKey` on
+  `full_date`) — required for `SAMEPERIODLASTYEAR` / `DATEADD`. The fact→dim relationships
+  still join on the integer `date_key` and were not changed. `isKey` here is the date-table
+  designation, not a relationship key. Confirmed to import and evaluate cleanly.
+- **Occupant coverage is ~49%, and this is a live data-quality gap** — 2,310,953 of 4,551,002
+  `fact_crash_vehicle` rows report `vehicle_occupants` as 0 or blank. `Average Occupants per
+  Vehicle` therefore divides by `Vehicles with Occupant Data`, not all vehicles; dividing by
+  all vehicles returned an impossible 0.69. This is **separate from** the `44ea207` outlier
+  cap, which is holding (max observed 100). Any occupancy claim in a report needs
+  `Occupant Data Coverage %` next to it. Worth deciding whether the ETL should distinguish
+  "zero occupants reported" from "not reported" — currently it cannot.
 - **Two injury measures exist at different grains by design** — `Persons Injured`
   (crash-level roll-up on `fact_crashes`) and `Injured Persons` (person grain on
   `fact_persons`). They will not tie exactly. `Injury Rate` is crash-level (share of crashes

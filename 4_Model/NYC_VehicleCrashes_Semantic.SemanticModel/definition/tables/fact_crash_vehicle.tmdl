@@ -10,8 +10,16 @@ table fact_crash_vehicle
 	measure 'Total Occupants' = SUM ( fact_crash_vehicle[vehicle_occupants] )
 		formatString: #,0
 
-	/// Mean occupants per involved vehicle. Depends on the same occupant cap as Total Occupants.
-	measure 'Average Occupants per Vehicle' = DIVIDE ( [Total Occupants], [Total Vehicles Involved] )
+	/// Vehicles with a reported occupant count above zero. Denominator for Average Occupants per Vehicle.
+	measure 'Vehicles with Occupant Data' = CALCULATE ( [Total Vehicles Involved], KEEPFILTERS ( fact_crash_vehicle[vehicle_occupants] > 0 ) )
+		formatString: #,0
+
+	/// Share of involved vehicles that report a usable occupant count. Roughly half the source rows report 0 or blank, so read every occupancy measure against this.
+	measure 'Occupant Data Coverage %' = DIVIDE ( [Vehicles with Occupant Data], [Total Vehicles Involved] )
+		formatString: 0.0%
+
+	/// Mean occupants per vehicle, counting only vehicles that report an occupant count above zero. Dividing by all vehicles instead returns ~0.7, because ~51% of source rows report 0 or blank occupants and averaging those in understates the true figure. Depends on the same occupant cap as Total Occupants.
+	measure 'Average Occupants per Vehicle' = DIVIDE ( [Total Occupants], [Vehicles with Occupant Data] )
 		formatString: #,0.00
 
 	/// Mean vehicles involved per collision in the current filter context.
