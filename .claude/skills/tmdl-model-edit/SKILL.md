@@ -85,6 +85,40 @@ across all files before committing — do not assume only the touched table drif
 - Give every measure a `formatString` and a `///` description. A measure layer without
   descriptions reads as unfinished.
 
+## Time intelligence needs dim_date marked as a date table
+
+`SAMEPERIODLASTYEAR`, `DATEADD`, `TOTALYTD` and friends do not work off the integer `date_key`
+the relationships join on. `dim_date` carries the marking (verified 2026-08-12, commit `721344c`,
+survives Fabric Git import):
+
+```
+table dim_date
+	dataCategory: Time
+	...
+	column full_date
+		dataType: dateTime
+		isKey
+```
+
+- `isKey` here is the **date-table designation**, not a relationship key. Do not confuse it with
+  `date_key`, which stays the surrogate join column — the relationships were not changed.
+- Only **one** table per model can hold `dataCategory: Time`. Marking another moves the
+  designation off `dim_date` and silently breaks every time-intelligence measure.
+- Preserve both lines on any edit to `dim_date.tmdl`.
+
+Partial-period comparisons look broken and are not: at the CDC watermark the current year and
+month show large negative YoY/MoM. Confirm the prior-period value chains correctly against the
+previous complete period before treating a swing as a defect.
+
+## Sanity-check aggregates against their denominator
+
+A measure that returns *a* number is not a validated measure. `Average Occupants per Vehicle`
+first shipped dividing by all vehicles and returned 0.69 occupants per vehicle — impossible on
+its face — because ~51% of `fact_crash_vehicle` rows report `vehicle_occupants` as 0 or blank.
+For any ratio, check what share of the denominator actually carries data, restrict the
+denominator when the blanks are missing rather than genuinely zero, and expose a coverage
+measure next to it so the gap is visible in the report instead of buried in the DAX.
+
 ## Workflow (the whole point of this skill)
 
 1. Edit the `.tmdl` files under `4_Model/` locally.

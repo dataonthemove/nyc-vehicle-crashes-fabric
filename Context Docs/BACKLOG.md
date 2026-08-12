@@ -66,50 +66,30 @@ a reviewer reads.
 
 ---
 
-## 4. Semantic model measure layer — OPEN, first pass validated, occupancy fix pending sync
+## 4. `vehicle_occupants` cannot distinguish "zero reported" from "not reported" — OPEN, decision needed
 
-Measures were written as local TMDL on 2026-08-12 (29 measures) and the first pass was
-validated live in the workspace the same day: all measures resolve, `Total Crashes` =
-2,269,187 matching the fact row count, and the `Crashes PY` chain ties exactly year over year
-(2023 PY = 103,887 = 2022 actual). The date-table marking survived the Fabric Git import.
+2,310,953 of 4,551,002 `fact_crash_vehicle` rows carry `vehicle_occupants` as 0 or blank —
+only **49.2%** coverage. The ETL collapses both cases into the same value, so no measure can
+tell a genuinely unoccupied vehicle from a missing report.
 
-Remaining step — the occupancy correction below is committed locally but **not yet synced**:
-push → Source Control **Update All** → `refresh_semantic_model` → re-spot-check
-`Average Occupants per Vehicle` (expect ~1.39) and `Occupant Data Coverage %` (expect ~49%).
+This surfaced while validating the measure layer: `Average Occupants per Vehicle` divided by
+all vehicles returned an impossible **0.69**. The measure now divides by
+`Vehicles with Occupant Data` (1.39), with `Occupant Data Coverage %` alongside it, so the
+model is honest — but the underlying ambiguity is in the Warehouse, not the model.
 
-What was added:
+Separate from the `44ea207` outlier cap, which is holding (max observed 100).
 
-| Table | Measures |
-|---|---|
-| `fact_crashes` | Total Crashes; Persons / Pedestrians / Cyclists / Motorists Injured & Killed; Crashes with Injury / Fatality; Injury Rate; Fatality Rate; Injuries per Crash; Crashes PY; Crashes YoY %; Crashes PM; Crashes MoM % |
-| `fact_persons` | Total Persons Involved; Injured Persons; Killed Persons; Person Injury Rate; Average Person Age |
-| `fact_crash_vehicle` | Total Vehicles Involved; Total Occupants; Vehicles with Occupant Data; Occupant Data Coverage %; Average Occupants per Vehicle; Vehicles per Crash |
+**Options:**
 
-Notes carried forward:
+- Leave as is and always pair occupancy visuals with `Occupant Data Coverage %`. Costs nothing;
+  puts the burden on report authoring.
+- Change `usp_load_fact_crash_vehicle` to write `NULL` for unreported and `0` only for a real
+  reported zero, if the source distinguishes them. Check the Socrata payload first — it may not.
+- Add an explicit `has_occupant_data` flag column to the fact, which makes the gap filterable
+  without relying on a measure convention.
 
-- **`dim_date` is marked as a date table** (`dataCategory: Time` on the table, `isKey` on
-  `full_date`) — required for `SAMEPERIODLASTYEAR` / `DATEADD`. The fact→dim relationships
-  still join on the integer `date_key` and were not changed. `isKey` here is the date-table
-  designation, not a relationship key. Confirmed to import and evaluate cleanly.
-- **Occupant coverage is ~49%, and this is a live data-quality gap** — 2,310,953 of 4,551,002
-  `fact_crash_vehicle` rows report `vehicle_occupants` as 0 or blank. `Average Occupants per
-  Vehicle` therefore divides by `Vehicles with Occupant Data`, not all vehicles; dividing by
-  all vehicles returned an impossible 0.69. This is **separate from** the `44ea207` outlier
-  cap, which is holding (max observed 100). Any occupancy claim in a report needs
-  `Occupant Data Coverage %` next to it. Worth deciding whether the ETL should distinguish
-  "zero occupants reported" from "not reported" — currently it cannot.
-- **Two injury measures exist at different grains by design** — `Persons Injured`
-  (crash-level roll-up on `fact_crashes`) and `Injured Persons` (person grain on
-  `fact_persons`). They will not tie exactly. `Injury Rate` is crash-level (share of crashes
-  with ≥1 injury), not injuries per crash — `Injuries per Crash` is the separate measure.
-
-`Total Occupants` and `Average Occupants per Vehicle` depend on the cap applied in `44ea207`;
-see the `vehicle-occupants-outliers` memory.
-
-This was the first real exercise of the `/tmdl-model-edit` skill
-(`.claude/skills/tmdl-model-edit/SKILL.md`). It held up — no workflow restatement was needed.
-One gap: the skill says nothing about date-table marking being a prerequisite for time
-intelligence. Add that once the Fabric import confirms the syntax survives.
+Any change here is a Warehouse proc edit, so the **same-commit rule applies** — the authoring
+notebook under `3_Transform/` *and* the Warehouse item definition, or they diverge silently.
 
 ---
 
@@ -125,6 +105,37 @@ authoring time; no code change implied.
 ## Recently closed
 
 Kept only as context for the items above. Delete once stale.
+
+- **Semantic model measure layer built and validated** (`721344c`, `6e79e08`, 2026-08-12) —
+  29 measures as local TMDL, synced via Source Control Update All and verified live.
+
+  | Table | Measures |
+  |---|---|
+  | `fact_crashes` | Total Crashes; Persons / Pedestrians / Cyclists / Motorists Injured & Killed; Crashes with Injury / Fatality; Injury Rate; Fatality Rate; Injuries per Crash; Crashes PY; Crashes YoY %; Crashes PM; Crashes MoM % |
+  | `fact_persons` | Total Persons Involved; Injured Persons; Killed Persons; Person Injury Rate; Average Person Age |
+  | `fact_crash_vehicle` | Total Vehicles Involved; Total Occupants; Vehicles with Occupant Data; Occupant Data Coverage %; Average Occupants per Vehicle; Vehicles per Crash |
+
+  Validated: `Total Crashes` = 2,269,187 (matches fact row count); `Crashes PY` chain ties
+  exactly year over year (2023 PY = 103,887 = 2022 actual); `Average Occupants per Vehicle`
+  = 1.39 with 49.2% coverage.
+
+  Three things a future reader needs:
+
+  - **`dim_date` is marked as a date table** — `dataCategory: Time` on the table, `isKey` on
+    `full_date`. Required for `SAMEPERIODLASTYEAR` / `DATEADD`, and confirmed to survive the
+    Fabric Git import. `isKey` is the date-table designation, **not** a relationship key; the
+    fact→dim relationships still join on the integer `date_key` and were not changed. Only one
+    table per model can hold this marking.
+  - **Two injury measures exist at different grains by design** — `Persons Injured` (crash-level
+    roll-up on `fact_crashes`) and `Injured Persons` (person grain on `fact_persons`). They will
+    not tie. `Injury Rate` is crash-level (share of crashes with ≥1 injury), *not* injuries per
+    crash — `Injuries per Crash` is the separate measure.
+  - Partial-period YoY/MoM looks alarming and is not a defect: 2026 shows −57% YoY and June
+    −69% MoM purely because the CDC watermark sits mid-year. Report date axes should filter to
+    complete periods — see item 5.
+
+  First real exercise of `/tmdl-model-edit`; the skill held up with no workflow restatement
+  needed, and was updated with the date-table prerequisite it had been missing.
 
 - **All 5 connections verified under the new account** (2026-08-02) — `pl_cdc_NYC_Crashes`
   run `80d7cab7-48d7-429a-a557-c4447b551d92` completed with all 10 activities succeeded
