@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "defaultMode": "dontAsk",
     "allow": [
       "Read",
       "Grep",
@@ -102,7 +103,16 @@
       "Bash(node *)",
       "Bash(sed -i 's/\\\\[:200\\\\]/[:4000]/' p.py)",
       "Bash(PYTHONIOENCODING=utf-8 python p.py)",
-      "Bash(PYTHONIOENCODING=utf-8 python -c ' *)"
+      "Bash(PYTHONIOENCODING=utf-8 python -c ' *)",
+      "Read(//c/Users/DataO/OneDrive/OneDriveDocuments/FabricTrainingProjects/Freq_Reference_Illistrations/Diagram-SDLC Process/**)",
+      "Read(//c/Users/DataO/OneDrive/**)",
+      "Read(//c/Users/DataO/.local/bin/**)",
+      "Read(//c/Users/DataO/.local/share/claude/**)",
+      "Bash(command -v strings)",
+      "Bash(command -v rg)",
+      "Skill(claude-api)",
+      "Read(//c/Users/DataO/**)",
+      "Bash(npm -g config get prefix)"
     ],
     "deny": [
       "Bash(git reset --hard:*)",
@@ -118,5 +128,6 @@
   "enabledMcpjsonServers": [
     "ms-fabric-mcp-server",
     "powerbi-modeling-mcp"
-  ]
+  ],
+  "spinnerTipsEnabled": true
 }
