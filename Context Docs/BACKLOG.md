@@ -93,15 +93,6 @@ notebook under `3_Transform/` *and* the Warehouse item definition, or they diver
 
 ---
 
-## 5. `usp_load_dim_date` range extends past the fact data — OPEN, informational
-
-`dim_date` now runs to 2030-12-31 while facts stop at the current CDC watermark. Future
-dates with no facts are correct Kimball practice, but any date-axis visual will show a
-long empty tail unless the report filters to dates that have data. Decide at report
-authoring time; no code change implied.
-
----
-
 ## Recently closed
 
 Kept only as context for the items above. Delete once stale.
@@ -132,7 +123,7 @@ Kept only as context for the items above. Delete once stale.
     crash — `Injuries per Crash` is the separate measure.
   - Partial-period YoY/MoM looks alarming and is not a defect: 2026 shows −57% YoY and June
     −69% MoM purely because the CDC watermark sits mid-year. Report date axes should filter to
-    complete periods — see item 5.
+    complete periods.
 
   First real exercise of `/tmdl-model-edit`; the skill held up with no workflow restatement
   needed, and was updated with the date-table prerequisite it had been missing.
