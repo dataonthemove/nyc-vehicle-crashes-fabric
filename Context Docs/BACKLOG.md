@@ -54,23 +54,20 @@ Rotating the token does not fix the committed history; only stopping its use doe
 
 ---
 
-## 3. `03_ETL_dim_date` Fabric item description is stale — OPEN
-
-The workspace item description still reads "Generates date dimension rows from
-2012-01-01 to 2026-12-31". As of `afe95db` the proc is set-based and runs to
-**2030-12-31** (6,940 rows).
-
-Item descriptions are not part of the git-managed definition, so this must be edited in
-the Fabric UI (or via `update_notebook_definition`). Cosmetic, but it is the first thing
-a reviewer reads.
-
----
-
 ---
 
 ## Recently closed
 
 Kept only as context for the items above. Delete once stale.
+
+- **`03_ETL_dim_date` item description corrected** (2026-08-15) — now reads
+  2012-01-01 to 2030-12-31 (6,940 rows), set-based, matching the proc as of `afe95db`.
+
+  The old item claimed item descriptions are not git-managed and had to be fixed in the
+  Fabric UI. That is wrong: the description lives in the `metadata` block of
+  `3_Transform/03_ETL_dim_date.Notebook/.platform`, which Git Integration does sync.
+  Edit it locally, push, then Source Control → Update All — same as any other item change.
+  Editing it in the UI instead would put the workspace ahead of the repo.
 
 - **`vehicle_occupants` zero-vs-blank ambiguity was a measure defect, not a data defect**
   (`aee8c37`, 2026-08-15) — the old item 4 asserted the ETL collapsed "reported zero" and

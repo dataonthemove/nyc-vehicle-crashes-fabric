@@ -3,7 +3,7 @@
   "metadata": {
     "type": "Notebook",
     "displayName": "03_ETL_dim_date",
-    "description": "ETL stored procedure — CREATE PROCEDURE for dim_date. Generates date dimension rows from 2012-01-01 to 2026-12-31. Run once to create the proc; execute via pipeline Script activity."
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_date. Generates date dimension rows from 2012-01-01 to 2030-12-31 (6,940 rows), set-based. Run once to create the proc; execute via pipeline Script activity."
   },
   "config": {
     "version": "2.0",
