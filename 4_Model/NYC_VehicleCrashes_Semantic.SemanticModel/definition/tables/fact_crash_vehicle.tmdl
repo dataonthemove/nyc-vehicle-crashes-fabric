@@ -10,15 +10,15 @@ table fact_crash_vehicle
 	measure 'Total Occupants' = SUM ( fact_crash_vehicle[vehicle_occupants] )
 		formatString: #,0
 
-	/// Vehicles with a reported occupant count above zero. Denominator for Average Occupants per Vehicle.
-	measure 'Vehicles with Occupant Data' = CALCULATE ( [Total Vehicles Involved], KEEPFILTERS ( fact_crash_vehicle[vehicle_occupants] > 0 ) )
+	/// Vehicles carrying any reported occupant count, including a genuine zero. Denominator for Average Occupants per Vehicle. Unreported vehicles are BLANK in the source, not 0, so blankness — not a > 0 test — is what separates missing from measured; 480,156 reported zeros are real unoccupied vehicles, 81.8% of them Parked.
+	measure 'Vehicles with Occupant Data' = CALCULATE ( [Total Vehicles Involved], KEEPFILTERS ( NOT ISBLANK ( fact_crash_vehicle[vehicle_occupants] ) ) )
 		formatString: #,0
 
-	/// Share of involved vehicles that report a usable occupant count. Roughly half the source rows report 0 or blank, so read every occupancy measure against this.
+	/// Share of involved vehicles that report an occupant count at all. Roughly 40% of source rows are blank, so read every occupancy measure against this.
 	measure 'Occupant Data Coverage %' = DIVIDE ( [Vehicles with Occupant Data], [Total Vehicles Involved] )
 		formatString: 0.0%
 
-	/// Mean occupants per vehicle, counting only vehicles that report an occupant count above zero. Dividing by all vehicles instead returns ~0.7, because ~51% of source rows report 0 or blank occupants and averaging those in understates the true figure. Depends on the same occupant cap as Total Occupants.
+	/// Mean occupants per vehicle across vehicles that report a count, counting genuine zeros as data. Dividing by all vehicles instead returns ~0.7, because ~40% of source rows report no occupant count at all and averaging those in understates the true figure. Depends on the same occupant cap as Total Occupants.
 	measure 'Average Occupants per Vehicle' = DIVIDE ( [Total Occupants], [Vehicles with Occupant Data] )
 		formatString: #,0.00
 
