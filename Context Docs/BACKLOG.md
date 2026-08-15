@@ -4,7 +4,7 @@
 > live IDs belong in `environment-reference.md`. This file is only for work that is
 > *not yet done*.
 >
-> Last reviewed: 2026-08-01.
+> Last reviewed: 2026-08-15.
 
 Statuses: **OPEN** · **BLOCKED** · **DONE** (kept briefly for context, then deleted).
 
@@ -66,36 +66,41 @@ a reviewer reads.
 
 ---
 
-## 4. `vehicle_occupants` cannot distinguish "zero reported" from "not reported" — OPEN, decision needed
-
-2,310,953 of 4,551,002 `fact_crash_vehicle` rows carry `vehicle_occupants` as 0 or blank —
-only **49.2%** coverage. The ETL collapses both cases into the same value, so no measure can
-tell a genuinely unoccupied vehicle from a missing report.
-
-This surfaced while validating the measure layer: `Average Occupants per Vehicle` divided by
-all vehicles returned an impossible **0.69**. The measure now divides by
-`Vehicles with Occupant Data` (1.39), with `Occupant Data Coverage %` alongside it, so the
-model is honest — but the underlying ambiguity is in the Warehouse, not the model.
-
-Separate from the `44ea207` outlier cap, which is holding (max observed 100).
-
-**Options:**
-
-- Leave as is and always pair occupancy visuals with `Occupant Data Coverage %`. Costs nothing;
-  puts the burden on report authoring.
-- Change `usp_load_fact_crash_vehicle` to write `NULL` for unreported and `0` only for a real
-  reported zero, if the source distinguishes them. Check the Socrata payload first — it may not.
-- Add an explicit `has_occupant_data` flag column to the fact, which makes the gap filterable
-  without relying on a measure convention.
-
-Any change here is a Warehouse proc edit, so the **same-commit rule applies** — the authoring
-notebook under `3_Transform/` *and* the Warehouse item definition, or they diverge silently.
-
 ---
 
 ## Recently closed
 
 Kept only as context for the items above. Delete once stale.
+
+- **`vehicle_occupants` zero-vs-blank ambiguity was a measure defect, not a data defect**
+  (`aee8c37`, 2026-08-15) — the old item 4 asserted the ETL collapsed "reported zero" and
+  "not reported" into one value. It does not. The Lakehouse column is already `int` and stores
+  NULL and 0 as distinct values, so the Warehouse `TRY_CAST` is a pass-through and the
+  distinction survives end to end. No ETL change was ever needed.
+
+  The 49.2% coverage figure was manufactured by the measure that reported it:
+  `Vehicles with Occupant Data` tested `vehicle_occupants > 0`, discarding 480,156 genuinely
+  reported zeros along with the true blanks. Switching the predicate to `NOT ISBLANK` fixed it.
+
+  | Bucket (Lakehouse `nyc_vehicles`, 4,551,002 rows) | Rows |
+  |---|---:|
+  | Populated 1–100 | 2,240,049 |
+  | NULL — genuinely unreported | 1,830,645 |
+  | 0 — genuinely unoccupied | 480,156 |
+  | Over 100 — capped to NULL by ETL | 152 |
+
+  The zeros are real, not a source placeholder. Parked vehicles carry a **75.1%** zero rate
+  against a 2–5% baseline across every moving maneuver; 81.8% of all zeros are Parked, and 72%
+  have no driver recorded. Two independent signals agreeing — a placeholder would scatter
+  uniformly.
+
+  Validated live: coverage 49.2% → **59.77%**, `Average Occupants per Vehicle` 1.39 → **1.1463**,
+  `Total Occupants` unchanged at 3,118,066. Only the denominator moved, which is the whole point.
+
+  Residual, not worth an item: ~87,200 non-parked zeros at a ~4% rate are probably under-reporting.
+  That is 1.9% of the table, against the 480k the old predicate was discarding.
+
+  Unrelated to the `44ea207` outlier cap, which is holding (max observed 100).
 
 - **Semantic model measure layer built and validated** (`721344c`, `6e79e08`, 2026-08-12) —
   29 measures as local TMDL, synced via Source Control Update All and verified live.
