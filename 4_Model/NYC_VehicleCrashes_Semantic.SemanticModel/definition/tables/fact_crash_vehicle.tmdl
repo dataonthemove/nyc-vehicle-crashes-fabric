@@ -5,26 +5,32 @@ table fact_crash_vehicle
 	/// Vehicles involved in the filtered crashes — one row per vehicle per collision.
 	measure 'Total Vehicles Involved' = COUNTROWS ( fact_crash_vehicle )
 		formatString: #,0
+		lineageTag: d4b4117c-03dc-4d16-b261-880ab22cb7ec
 
 	/// Reported occupants across involved vehicles. Trustworthy only because of the outlier cap applied in 44ea207 — raw source values inflated this ~888x.
 	measure 'Total Occupants' = SUM ( fact_crash_vehicle[vehicle_occupants] )
 		formatString: #,0
-
-	/// Vehicles carrying any reported occupant count, including a genuine zero. Denominator for Average Occupants per Vehicle. Unreported vehicles are BLANK in the source, not 0, so blankness — not a > 0 test — is what separates missing from measured; 480,156 reported zeros are real unoccupied vehicles, 81.8% of them Parked.
-	measure 'Vehicles with Occupant Data' = CALCULATE ( [Total Vehicles Involved], KEEPFILTERS ( NOT ISBLANK ( fact_crash_vehicle[vehicle_occupants] ) ) )
-		formatString: #,0
-
-	/// Share of involved vehicles that report an occupant count at all. Roughly 40% of source rows are blank, so read every occupancy measure against this.
-	measure 'Occupant Data Coverage %' = DIVIDE ( [Vehicles with Occupant Data], [Total Vehicles Involved] )
-		formatString: 0.0%
+		lineageTag: 202a60fa-9c4c-4fae-9d53-f0c75904ff01
 
 	/// Mean occupants per vehicle across vehicles that report a count, counting genuine zeros as data. Dividing by all vehicles instead returns ~0.7, because ~40% of source rows report no occupant count at all and averaging those in understates the true figure. Depends on the same occupant cap as Total Occupants.
 	measure 'Average Occupants per Vehicle' = DIVIDE ( [Total Occupants], [Vehicles with Occupant Data] )
 		formatString: #,0.00
+		lineageTag: f7ebe0da-6cc8-49e3-9e33-dab848b59a49
 
 	/// Mean vehicles involved per collision in the current filter context.
 	measure 'Vehicles per Crash' = DIVIDE ( [Total Vehicles Involved], DISTINCTCOUNT ( fact_crash_vehicle[collision_key] ) )
 		formatString: #,0.00
+		lineageTag: c0b90f7a-d648-4548-a6c8-02a00b0a39c9
+
+	/// Vehicles carrying any reported occupant count, including a genuine zero. Denominator for Average Occupants per Vehicle. Unreported vehicles are BLANK in the source, not 0, so blankness — not a > 0 test — is what separates missing from measured; 480,156 reported zeros are real unoccupied vehicles, 81.8% of them Parked.
+	measure 'Vehicles with Occupant Data' = CALCULATE ( [Total Vehicles Involved], KEEPFILTERS ( NOT ISBLANK ( fact_crash_vehicle[vehicle_occupants] ) ) )
+		formatString: #,0
+		lineageTag: abb6e793-6360-47c1-bc78-c6aaccee5f00
+
+	/// Share of involved vehicles that report an occupant count at all. Roughly 40% of source rows are blank, so read every occupancy measure against this.
+	measure 'Occupant Data Coverage %' = DIVIDE ( [Vehicles with Occupant Data], [Total Vehicles Involved] )
+		formatString: 0.0%
+		lineageTag: 2a3b142a-d307-4473-af03-0898bbadb784
 
 	column fact_crash_vehicle_id
 		dataType: int64

@@ -5,22 +5,27 @@ table fact_persons
 	/// People involved in the filtered crashes, at person grain — one row per person per collision.
 	measure 'Total Persons Involved' = COUNTROWS ( fact_persons )
 		formatString: #,0
+		lineageTag: 28aa295f-f356-407b-9986-8aa5a5803703
 
 	/// People flagged as injured at person grain. Compare with Persons Injured, which is the crash-level roll-up.
 	measure 'Injured Persons' = CALCULATE ( [Total Persons Involved], KEEPFILTERS ( fact_persons[is_injured] = TRUE ) )
 		formatString: #,0
+		lineageTag: 21818927-9f98-47e9-a18e-7f7c2451fc29
 
 	/// People flagged as killed at person grain.
 	measure 'Killed Persons' = CALCULATE ( [Total Persons Involved], KEEPFILTERS ( fact_persons[is_killed] = TRUE ) )
 		formatString: #,0
+		lineageTag: 0d0eb27a-4c31-43e4-b75f-aa81cfdb3f24
 
 	/// Share of involved people who were injured.
 	measure 'Person Injury Rate' = DIVIDE ( [Injured Persons], [Total Persons Involved] )
 		formatString: 0.0%
+		lineageTag: 3bdd1e8b-f0e4-4d0a-92b7-d36b57d371bb
 
 	/// Mean reported age of involved people. Blank ages are excluded, not treated as zero.
 	measure 'Average Person Age' = AVERAGE ( fact_persons[person_age] )
 		formatString: #,0.0
+		lineageTag: 396d6509-30f3-45f2-b0de-70cf03fbcf7f
 
 	column fact_person_id
 		dataType: int64
