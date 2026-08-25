@@ -15,9 +15,9 @@ relationship fact_crashes_factor_group_key_dim_factor_group_factor_group_key
 	toColumn: dim_factor_group.factor_group_key
 
 relationship bridge_crash_factor_factor_group_key_dim_factor_group_factor_group_key
+	crossFilteringBehavior: bothDirections
 	fromColumn: bridge_crash_factor.factor_group_key
 	toColumn: dim_factor_group.factor_group_key
-	crossFilteringBehavior: bothDirections
 
 relationship bridge_crash_factor_factor_key_dim_contributing_factor_factor_key
 	fromColumn: bridge_crash_factor.factor_key

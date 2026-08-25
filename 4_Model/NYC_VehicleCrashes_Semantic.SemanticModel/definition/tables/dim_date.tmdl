@@ -1,7 +1,7 @@
 table dim_date
-	dataCategory: Time
 	lineageTag: ccd3e92f-9da3-4a70-af10-9bb3c9b33dc7
 	sourceLineageTag: [dbo].[dim_date]
+	dataCategory: Time
 
 	column date_key
 		dataType: int64
