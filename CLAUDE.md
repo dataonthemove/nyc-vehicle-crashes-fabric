@@ -26,6 +26,18 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
     defaults to its Tier-1 priority (`powerbi-modeling-mcp` MCP edits) whenever the MCP server is
     registered — which it always is here. Override this: force the local-TMDL-file workflow above
     instead of letting the skill fall through to MCP.
+- **Cosmetic workspace drift — commit it, do not fight it.** Fabric re-serializes items on load,
+  so the Source Control pane shows `NYC_VehicleCrashes_Semantic` and `NYC_VehicleCrashes_Warehouse`
+  as Modified with nobody having touched them. Update All will NOT clear these: Update overwrites
+  the workspace from git, the service immediately re-emits its own canonical form, and the flag
+  returns. It is a fixed point unreachable from the git side.
+  - Classify **per item** before acting. Cosmetic = `lineageTag` injection, TMDL/JSON reordering,
+    whitespace — no measure, column, relationship, table or stored-procedure semantics changed.
+  - Cosmetic → **Commit all**, selecting only those items. Git absorbs Fabric’s serialization and
+    the flag clears permanently. This is the one sanctioned exception to local-code-first.
+  - Substantive → real UI drift: do not commit it. Fix the TMDL/SQL locally, push, then Update All.
+  - Never blanket-commit every flagged item without classifying each one — that is how genuine UI
+    drift gets laundered into the repo.
 - Watermark: single authoritative store in Warehouse (`dbo.etl_watermark`).
   The Delta-layer watermark was intentionally removed from notebooks.
 - Report authoring: Fabric web UI only — Power BI Desktop is not used for report development.
