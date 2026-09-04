@@ -102,6 +102,28 @@ SDLC process, branching, release and commit-convention rules live in the global 
 - Fabric Source Control requires a manual trigger (Source Control pane → Update tab → Update All);
   commit pending local changes first.
 
+## Permission Settings — Layer Roles (ALWAYS apply)
+Three settings layers merge; precedence is **deny > ask > allow > defaultMode**, and the
+layers union. Put each rule in exactly one layer, per its role:
+
+| Layer | Path | Tracked | Role |
+|---|---|---|---|
+| Global | `~/.claude/settings.json` | no | Machine-wide safety net + universal read-only conveniences. True for every repo. |
+| Project shared | `.claude/settings.json` | **yes** | This project's governance + Fabric MCP surface. Anything encoding a rule in this file. |
+| Project local | `.claude/settings.local.json` | no | Machine-specific and throwaway only. Short enough to read at a glance. |
+
+- **Standing rule:** allow entries must be recurring prefix patterns, never one-shot literal
+  commands. `/fewer-permission-prompts` generates the latter — review before accepting.
+- Never grant `Bash(python *)` / `Bash(node *)`: arbitrary local execution voids the
+  `rm:*` / `git reset --hard:*` / `git clean:*` denies and bypasses `ask(Edit|Write)`.
+- The deny list protects the **local machine and this repo**. It makes no claim about the
+  Fabric workspace, which Fabric RBAC governs — that is why `livy_run_statement` stays allowed.
+- The MCP governance rules above (TMDL-first authoring, MCP as run/read/validate only) are now
+  **enforced** by the `deny` block in `.claude/settings.json`. Relax one and you must relax the
+  other in the same commit, or the file and the enforcement silently disagree.
+- `model_operations` and `database_operations` are `ask`, not deny: each multiplexes sanctioned
+  and forbidden operations behind one `operation` parameter, and rules match on tool name only.
+
 ## Abbreviations (ALWAYS apply)
 * CC = Claude Code
 * CDT = Claude Desktop
