@@ -25,7 +25,7 @@ MCP is still correct for **run / read / validate**: `refresh_semantic_model`, va
 
 ## Where the files live
 
-Root: `4_Model/NYC_VehicleCrashes_Semantic.SemanticModel/`
+Root: `2_dev/4_Model/NYC_VehicleCrashes_Semantic.SemanticModel/`
 
 | Path | Holds |
 |---|---|
@@ -43,7 +43,7 @@ IDs only).
 Do not create manually-exported folders (e.g. `Semantic_model/`) — Git Integration does not watch
 them. Delete any that appear.
 
-`5_Reports/` is read-only locally. Report changes happen in the Fabric web UI.
+`2_dev/5_Reports/` is read-only locally. Report changes happen in the Fabric web UI.
 
 ## TMDL rules (apply to every edit)
 
@@ -121,7 +121,7 @@ measure next to it so the gap is visible in the report instead of buried in the 
 
 ## Workflow (the whole point of this skill)
 
-1. Edit the `.tmdl` files under `4_Model/` locally.
+1. Edit the `.tmdl` files under `2_dev/4_Model/` locally.
 2. Commit. Body format `[domain]_[artifact]_[action]`, surfaced `CC Commit:` or `VSC Commit:`.
 3. Push to ADO.
 4. In Fabric: **Source Control pane → Update tab → Update All**. This is manual — no auto-sync

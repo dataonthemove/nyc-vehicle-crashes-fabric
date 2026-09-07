@@ -16,7 +16,7 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   `powerbi-modeling-mcp` using the **semantic model name**, not the warehouse name.
 - Version control: code-first TMDL/Git in VSC + Azure DevOps.
   - Fabric Git Integration watches only the `*.SemanticModel/definition/` tree — here
-    `4_Model/NYC_VehicleCrashes_Semantic.SemanticModel/definition/`. The folder is **display-named**,
+    `2_dev/4_Model/NYC_VehicleCrashes_Semantic.SemanticModel/definition/`. The folder is **display-named**,
     not GUID-named; the GUID is the `logicalId` inside `.platform`.
   - Do NOT use MCP/XMLA edits for routine semantic model changes — they don't reliably persist
     to the Git-managed layer. Workflow: edit the `definition/` TMDL files locally → commit/push →
@@ -45,8 +45,8 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   DirectQuery fallback is unavailable for Warehouse-backed models.
   - Semantic model changes: local TMDL edits → commit/push to ADO → Fabric Source Control → Update All.
   - Report changes: Fabric web UI → Fabric Source Control syncs to ADO automatically.
-  - Repo folder `4_Model/` is the authoritative source for semantic model development.
-  - Repo folder `5_Reports/` is read-only locally — never author or edit report files on disk.
+  - Repo folder `2_dev/4_Model/` is the authoritative source for semantic model development.
+  - Repo folder `2_dev/5_Reports/` is read-only locally — never author or edit report files on disk.
 
 ## Working Docs
 - `Context Docs/BACKLOG.md` — current backlog. Read it at the start of any session that
@@ -69,9 +69,9 @@ SDLC process, branching, release and commit-convention rules live in the global 
   `dim_date` took 29 minutes for 5,479 rows that way.
 - `DATETIME2` columns require explicit precision, e.g. `DATETIME2(6)`.
 - Cross-database lakehouse references use the lakehouse name directly (SQL analytics endpoint = same object).
-- **Stored procedures exist twice in the repo** — the authoring notebook under `3_Transform/` and
+- **Stored procedures exist twice in the repo** — the authoring notebook under `2_dev/3_Transform/` and
   the Fabric-exported Warehouse item definition under
-  `0_NYC_VehicleCrashes_Warehouse.Warehouse/etl/StoredProcedures/`. The notebook is the source of
+  `2_dev/0_NYC_VehicleCrashes_Warehouse.Warehouse/etl/StoredProcedures/`. The notebook is the source of
   truth; the item definition is what the Dev→Test deployment pipeline actually promotes. Change
   **both in the same commit** or the two silently diverge — running the notebook masks a stale item
   definition completely, so a green validation proves nothing about the deployed copy.

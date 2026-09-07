@@ -34,7 +34,7 @@ Either way the order matters: dims → `dim_factor_group` → facts → bridge, 
 
 ## 2. NYC Open Data app token is committed in cleartext — OPEN
 
-`2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json` embeds
+`2_dev/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json` embeds
 `X-App-Token: W1wHO8uCRL6zDplGACRU0Vn5l` in all three Copy source `additionalHeaders`
 blocks. It is in the repo and in git history.
 
@@ -65,7 +65,7 @@ Kept only as context for the items above. Delete once stale.
 
   The old item claimed item descriptions are not git-managed and had to be fixed in the
   Fabric UI. That is wrong: the description lives in the `metadata` block of
-  `3_Transform/03_ETL_dim_date.Notebook/.platform`, which Git Integration does sync.
+  `2_dev/3_Transform/03_ETL_dim_date.Notebook/.platform`, which Git Integration does sync.
   Edit it locally, push, then Source Control → Update All — same as any other item change.
   Editing it in the UI instead would put the workspace ahead of the repo.
 
