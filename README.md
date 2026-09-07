@@ -1,22 +1,35 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# NYC Motor Vehicle Collisions — Microsoft Fabric
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+End-to-end analytics build on the NYC Open Data motor vehicle collision datasets:
+Lakehouse ingestion → Warehouse dimensional model → Direct Lake semantic model →
+Power BI reporting, with CDC pipeline orchestration and Git-based source control.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Architecture
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+| Layer | Implementation |
+|---|---|
+| Ingestion | CDC pipeline (`pl_cdc_NYC_Crashes`) loads Socrata endpoints into Lakehouse Delta tables, watermark-filtered |
+| Warehouse | Kimball star schema — conformed dimensions, three facts, and a factor-group bridge — loaded by `etl.usp_load_*` stored procedures |
+| Semantic model | Direct Lake, Warehouse-sourced via OneLake; authored as TMDL in this repo |
+| Reports | Authored in the Fabric web UI, synced back through Git integration |
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Repo layout
 
-# this is just a test line
+| Path | Contents |
+|---|---|
+| `1_Landing/` | Landing-zone workspace, bound separately — raw data, owned upstream of Dev/Test/Prod |
+| `2_dev/` | Dev workspace, Git-bound. All Fabric items live here |
+| `2_dev/1_DDL/` · `2_Ingest/` · `3_Transform/` | DDL, CDC pipeline, and ETL notebooks |
+| `2_dev/4_Model/` | Semantic model TMDL — the authoritative source for model changes |
+| `2_dev/5_Reports/` | Report definitions — read-only locally |
+| `Context Docs/` | Backlog, landing-zone runbook, environment reference |
+| `Other/` | Ad-hoc SQL and PowerShell scratch |
+
+## Working conventions
+
+Git is the source of truth. Semantic model and warehouse changes are authored locally,
+pushed to Azure DevOps, then pulled into the workspace via Fabric Source Control →
+Update All. Test and Prod receive content through deployment pipelines, not Git.
+
+Full conventions and constraints: `CLAUDE.md`.
+Current work: `Context Docs/BACKLOG.md` and `Context Docs/landing_zone_runbook.md`.
