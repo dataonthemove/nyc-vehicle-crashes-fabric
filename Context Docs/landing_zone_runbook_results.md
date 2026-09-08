@@ -39,3 +39,62 @@ Corrections the runbook needs are themselves *findings* — record them below an
 hand. That is what keeps the runbook read-only.
 
 ---
+
+## Phase 3 — What was done / What was deferred / Other findings
+
+**Commit:** `f171c66` — `VSC Commit: model_onelake_paths_denamed` (on `main`, **not pushed**).
+
+### What was done
+
+Audited all 16 notebooks under `2_dev/` plus TMDL file `expressions.tmdl` for hardcoded OneLake
+paths. Only two files carried `abfss://` / `onelake.dfs` references. Three files were rewritten:
+
+| File | Before | After | Verdict |
+|---|---|---|---|
+| TMDL file `expressions.tmdl` (line 3) | `https://onelake.dfs.fabric.microsoft.com/73d1612d-.../324e2ac0-...` | `.../2_NYC_VehicleCrashes_dev/NYC_VehicleCrashes_Warehouse.Warehouse` | **GUID-based** — the only true one found |
+| Fabric Notebook `nb_cdc_to_delta` `notebook-content.py` | `LAKEHOUSE_ROOT = f"abfss://{WORKSPACE_NAME}@onelake.dfs.../{LAKEHOUSE_NAME}.Lakehouse"`, used at the CSV read and the Delta target | relative `Files/{file_subfolder}/{file_pattern}` and `Tables/dbo/nyc_{source_name}` against the attached default lakehouse | name-based, but **stale and broken** |
+| Fabric Notebook `RefreshSemanticModel` `notebook-content.py` (line 34) | `workspace="NYC_Motor_Vehicle_Collisions"` | `workspace="2_NYC_VehicleCrashes_dev"` | name-based, but **stale and broken** |
+
+The two GUIDs in TMDL file `expressions.tmdl` were confirmed against
+`Context Docs/environment-reference.md` as the Dev workspace and Dev Warehouse **physical** IDs —
+not logical IDs.
+
+### What was deferred
+
+- **Push, Fabric sync and live validation.** Pat elected commit-only. Still outstanding, in order:
+  `git push` → Fabric Source Control → Update tab → Update All → `refresh_semantic_model` on
+  semantic model `NYC_VehicleCrashes_Semantic` (Direct Lake must reframe after the source
+  expression changes) → CC skill `/dax-smoke-test` → one run of Fabric Notebook `nb_cdc_to_delta`
+  to prove the relative paths resolve at runtime.
+- The phase's **Done when** is therefore only partly satisfied: no GUID-based path remains and the
+  rewrite is committed, but "the affected notebooks run clean" is unverified.
+
+### Other findings (recorded, not fixed)
+
+1. **Both stale names are a consequence of the workspace rename.** The Dev workspace is
+   `2_NYC_VehicleCrashes_dev` (MCP `list_workspaces`, 2026-09-08); the old names
+   `NYC_VehicleCrashes` and `NYC_Motor_Vehicle_Collisions` no longer resolve. Fabric Notebook
+   `nb_cdc_to_delta` and Fabric Notebook `RefreshSemanticModel` were both broken at HEAD before
+   this commit — a name-based path is not automatically a portable path.
+2. **Every notebook META block pins Dev by GUID.** `default_warehouse`
+   `da2b14e1-b933-a3f7-47de-f697ddedf601` appears in all 15 T-SQL/Jupyter notebooks and
+   `default_lakehouse` `69699b13-...` in Fabric Notebook `nb_cdc_to_delta`. These are Fabric item
+   bindings, not code paths; the deployment pipeline remaps them per stage. Left alone
+   deliberately — editing them would fight Fabric's own serialization.
+3. **Fabric may re-serialize the TMDL expression back to GUID form** after Update All. If the
+   Source Control pane flags semantic model `NYC_VehicleCrashes_Semantic` as Modified with the URL
+   reverted to GUIDs, that is service-side canonicalization, not drift to fight — classify per
+   `CLAUDE.md` and expect the name-based form to be unstable.
+4. **Fabric Pipeline `pipeline-content.json` is already portable** — its warehouse and lakehouse
+   references carry `"workspaceId": "00000000-0000-0000-0000-000000000000"` (resolve-in-current-
+   workspace) with logical artifact IDs. Out of Phase 3 scope; no action needed, and Phase 6
+   rebuilds it anyway.
+5. **Runbook correction (apply by hand).** Phase 3's *Scope* line names Fabric Notebook
+   `nb_cdc_to_delta` and TMDL file `expressions.tmdl` as the known carriers. It should also name
+   Fabric Notebook `RefreshSemanticModel` under repo folder `2_dev/Misc_Fabric_Items/`, and the
+   phase's framing should read "hardcoded workspace/item references", not "OneLake paths" alone —
+   the stale `workspace=` argument is neither `abfss://` nor GUID-based, yet it is exactly the
+   deployment-portability defect this phase exists to catch.
+6. **`sed -i` rewrites CRLF to LF on Windows.** All three files were restored to CRLF before
+   staging; `core.autocrlf` kept the index clean either way. Relevant to any future scripted edit
+   of Fabric-exported files.
