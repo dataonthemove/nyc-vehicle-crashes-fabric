@@ -83,18 +83,24 @@ then move on.
 
 1. ✅ **Repo restructure** — Dev bound to `/2_dev`. Done.
 2. ✅ **Landing workspace** created and bound to `/1_Landing`. Done.
-3. ⬜ **← NEXT · Housekeeping** — audit notebooks for name-based OneLake paths.
+3. ⬜ **← NEXT · Housekeeping** — audit notebooks for hardcoded workspace/item references.
    - **Scope:** every notebook under `2_dev/`, plus
      `2_dev/4_Model/NYC_VehicleCrashes_Semantic.SemanticModel/definition/expressions.tmdl`.
      Known carriers of `abfss://` / `onelake.dfs` paths today: Fabric Notebook `nb_cdc_to_delta`
-     and that `expressions.tmdl`.
+     and that `expressions.tmdl`. Also a stale workspace name in Fabric Notebook
+     `RefreshSemanticModel` under `2_dev/Misc_Fabric_Items/` — name-based is not automatically
+     portable.
    - **Steps:** locate every hardcoded path; classify each as name-based (survives deployment,
      resolves per-workspace) or GUID-based (pins Dev forever and breaks in Test/Prod); record the
      verdict per file.
    - **A finding triggers:** rewrite GUID-based paths to name-based, or to a relative
      `Files/...` reference where the notebook runs against its own attached lakehouse.
-   - **Done when:** no GUID-based OneLake path remains under `2_dev/`, the rewrite is committed,
-     and the affected notebooks run clean.
+   - **Exception — the Direct Lake expression:** the source URL in `expressions.tmdl` must keep its
+     `/{workspaceGuid}/{itemGuid}` form. A name-based URL is not a valid Direct Lake data source
+     (`Dataset_Import_FailedToImportDataset`, verified 2026-09-08); the deployment pipeline rebinds
+     that binding per stage instead.
+   - **Done when:** no GUID-based OneLake path remains under `2_dev/` outside the Direct
+     Lake expression, the rewrite is committed, and the affected notebooks run clean.
    - **Rollback:** revert the commit; nothing live is changed by this phase.
 
 4. ⬜ **Landing lakehouse** — create `NYC_VehicleCrashes_Landing_Lakehouse`; lock workspace
