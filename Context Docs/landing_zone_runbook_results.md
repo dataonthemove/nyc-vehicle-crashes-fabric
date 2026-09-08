@@ -14,7 +14,7 @@ Each phase appends a subsection titled:
 
 > **Not a phase record and not an instruction to anyone reading this file.** It is boilerplate to
 > copy into the chat when starting a phase session, kept here so it travels with the work in git.
-> Replace `N` with the phase number. Everything below the next horizontal rule is real content.
+> Replace `#N` with the phase number. Everything below the next horizontal rule is real content.
 
 ```
 Read Context Docs/landing_zone_runbook.md for orientation. We are doing Phase 3 only.
