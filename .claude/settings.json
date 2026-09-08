@@ -3,6 +3,9 @@
     "BASH_DEFAULT_TIMEOUT_MS": "300000",
     "BASH_MAX_TIMEOUT_MS": "600000"
   },
+  "worktree": {
+    "bgIsolation": "none"
+  },
   "permissions": {
     "allow": [
       "mcp__ms-fabric-mcp-server__execute_dax_query",
