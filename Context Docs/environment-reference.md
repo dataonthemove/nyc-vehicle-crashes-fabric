@@ -1,6 +1,6 @@
 # Environment Reference — NYC Motor Vehicle Collisions
 
-> Generated 2026-07-31 via MCP, IDs re-verified 2026-08-01. Refresh by re-running the MCP fetch session.
+> Generated 2026-07-31 via MCP, IDs re-verified 2026-08-01, full re-verification 2026-09-08. Refresh by re-running the MCP fetch session.
 > Migrated from workspace `NYC_Motor_Vehicle_Collisions` on 2026-07-31.
 >
 > **All IDs below are physical Fabric item IDs** (`list_items` / `list_folders`). Do not source them
@@ -23,7 +23,15 @@ Verified via `list_workspaces` 2026-09-08. All four sit on capacity `f1b1feea-36
 
 Dev Spark runtime: 1.3 — Spark 3.5.5, Python 3.11.8 (verified via Livy 2026-08-01).
 
-Every artifact ID below is **Dev-stage**. Test and Prod are empty as of 2026-09-08.
+Every artifact ID in *Core Artifacts* is **Dev-stage**. Test and Prod are empty as of 2026-09-08
+(`list_items` returns 0 items for both).
+
+### Landing-stage artifacts
+
+| Type | Display Name | Artifact ID |
+|---|---|---|
+| Lakehouse | NYC_VehicleCrashes_Lakehouse | `b7f1c383-0af0-4b21-bf6b-4ac398b84391` |
+| SQLEndpoint | NYC_VehicleCrashes_Lakehouse | `ef5d1260-aa46-4bea-9fd5-2427f38adf0a` |
 
 ---
 
@@ -44,14 +52,12 @@ Every artifact ID below is **Dev-stage**. Test and Prod are empty as of 2026-09-
 
 ---
 
-## Predecessor Workspace (retained for validation until decommissioned)
+## Predecessor Workspace — DECOMMISSIONED
 
-| Field | Value |
-|---|---|
-| Name | NYC_Motor_Vehicle_Collisions |
-| Workspace ID | `6e56c48d-2491-4bbe-a283-0efd43bb7d19` |
-| Warehouse | `b0befa58-9752-441f-861d-bb04c9fed2c1` |
-| Lakehouse | `dc3d09e0-fd82-4e11-8991-4bdeb44bafd5` |
+`NYC_Motor_Vehicle_Collisions` (`6e56c48d-2491-4bbe-a283-0efd43bb7d19`) no longer appears in
+`list_workspaces` as of 2026-09-08. Its Warehouse (`b0befa58-9752-441f-861d-bb04c9fed2c1`) and
+Lakehouse (`dc3d09e0-fd82-4e11-8991-4bdeb44bafd5`) IDs are retained here for historical reference
+only — they are not reachable.
 
 ---
 
@@ -76,13 +82,13 @@ Every artifact ID below is **Dev-stage**. Test and Prod are empty as of 2026-09-
 | 3_Transform | `e88dbad8-087f-4676-82ad-e46646a164a8` |
 | 4_Model | `3601518e-ee50-4bc3-8d36-e72254912921` |
 | 5_Reports | `2d197305-e28f-457b-b3dc-abe35b0dc1a4` |
-| Misc_Stuff | `92930838-8f02-4ac4-b239-95bb947a9017` |
+| Misc_Fabric_Items | `05968e69-1632-4bdc-a169-2c5898cd8097` |
 
 ---
 
 ## Notebooks
 
-17 notebooks as of 2026-08-01.
+17 notebooks — count re-confirmed 2026-09-08.
 
 ### 1_DDL
 
@@ -117,11 +123,19 @@ Every artifact ID below is **Dev-stage**. Test and Prod are empty as of 2026-09-
 
 `10_ETL_fact_crashes_old` was deleted 2026-08-01 (commit `f01f79d`) and is no longer in the workspace.
 
-### Misc_Stuff
+### Misc_Fabric_Items
 
 | Notebook | ID |
 |---|---|
 | RefreshSemanticModel | `890dfd06-78fa-4781-9340-21efdfc967ba` |
+
+---
+
+## Reports
+
+| Report | ID | Folder |
+|---|---|---|
+| `Test_ReportCreatedWeb. ` (trailing space in name) | `453c8292-b50c-404c-a4c2-a52b23c34ed5` | 5_Reports |
 
 ---
 
@@ -155,3 +169,4 @@ Lookup_Vehicles_Watermark ─► Copy_Vehicles_CDC ─► nb_delta_Vehicles ─�
 | Crashes | NYC_CrashData/crashes | collision_id | crashes |
 | Persons | NYC_CrashData/persons | unique_id | persons |
 | Vehicles | NYC_CrashData/vehicles | unique_id | vehicles |
+            
