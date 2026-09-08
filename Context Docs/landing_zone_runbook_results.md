@@ -17,18 +17,18 @@ Each phase appends a subsection titled:
 > Replace `N` with the phase number. Everything below the next horizontal rule is real content.
 
 ```
-Read Context Docs/landing_zone_runbook.md for orientation. We are doing Phase N only.
+Read Context Docs/landing_zone_runbook.md for orientation. We are doing Phase 3 only.
 
-Scope: do not touch files, artifacts or Fabric objects outside Phase N's stated scope.
+Scope: do not touch files, artifacts or Fabric objects outside Phase #N's stated scope.
 If you find something out of scope, record it as a finding — do not fix it.
-Stop at the phase boundary; do not begin Phase N+1.
+Stop at the phase boundary; do not begin Phase #N+1.
 
 Context Docs/landing_zone_runbook.md is READ-ONLY. Never edit it — not the phase
 blocks, not the Context sections, not the header.
 
 Record results only in Context Docs/landing_zone_runbook_results.md, by appending a
 new subsection at the end of the file:
-  ## Phase N — What was done / What was deferred / Other findings
+  ## Phase #N — What was done / What was deferred / Other findings
 Append only. Do not alter subsections from earlier phases.
 
 Plan first and get my approval before any edit, commit, push, or MCP call that writes.
