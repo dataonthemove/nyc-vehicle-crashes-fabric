@@ -131,3 +131,23 @@ should read "no GUID-based OneLake path remains outside the Direct Lake expressi
 
 **Net Phase 3 outcome:** two notebooks de-named and fixed; the semantic model deliberately
 unchanged; one runbook rule proven wrong by execution.
+
+### Phase 3 — addendum 2: validation complete
+
+After the revert was pushed and Update All succeeded:
+
+| Check | Result |
+|---|---|
+| `refresh_semantic_model` (full) on semantic model `NYC_VehicleCrashes_Semantic` | Completed, refresh id 445777540, no exception |
+| Fact row counts | fact_crashes 2,269,187 · fact_persons 5,984,110 · fact_crash_vehicle 4,551,002 · bridge_crash_factor 1,648,599 · dim_collision 2,269,187 · dim_date 6,940 |
+| Bridge cross-filter | Live — per-factor crash counts differ (Driver Inattention/Distraction 489,682; Failure to Yield 147,190), not the full fact count |
+| Fabric Notebook `nb_cdc_to_delta`, `source_name=crashes` | Job `dc0e1fee-a04d-409c-b497-baebbfa94c1d` Completed in 70s, no failure reason — the relative `Files/` read resolved against the attached default lakehouse |
+
+Phase 3 **Done when** is now satisfied as amended (see addendum 1): no GUID-based OneLake path
+remains under `2_dev/` outside the Direct Lake expression, the rewrite is committed, and the
+affected notebook runs clean.
+
+Minor finding: the bridge has no `crash_key` column — its columns are `bridge_id`,
+`factor_group_key`, `factor_key`. A smoke-test query written against `crash_key` fails with
+"cannot be found or may not be used in this expression". Worth correcting in CC skill
+`/dax-smoke-test` if that name appears there.
