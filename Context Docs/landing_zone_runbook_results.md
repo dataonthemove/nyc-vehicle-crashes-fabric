@@ -17,7 +17,7 @@ Each phase appends a subsection titled:
 > Replace `#N` with the phase number. Everything below the next horizontal rule is real content.
 
 ```
-Read Context Docs/landing_zone_runbook.md for orientation. We are doing Phase 3 only.
+Read Context Docs/landing_zone_runbook.md for orientation. We are doing Phase #N only.
 
 Scope: do not touch files, artifacts or Fabric objects outside Phase #N's stated scope.
 If you find something out of scope, record it as a finding — do not fix it.
