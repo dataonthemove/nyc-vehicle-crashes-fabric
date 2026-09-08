@@ -52,11 +52,8 @@ try:
 except ImportError:
     import mssparkutils as nbutils
 
-# OneLake requires the item-type extension on the item name ({itemname}.{itemtype}).
-# The filesystem segment is the workspace, not the lakehouse.
-WORKSPACE_NAME = "NYC_VehicleCrashes"
-LAKEHOUSE_NAME = "NYC_VehicleCrashes_Lakehouse"
-LAKEHOUSE_ROOT = f"abfss://{WORKSPACE_NAME}@onelake.dfs.fabric.microsoft.com/{LAKEHOUSE_NAME}.Lakehouse"
+# Paths below are relative to this notebook's attached default lakehouse. No workspace or
+# lakehouse name is embedded, so the notebook survives deployment to Test/Prod unchanged.
 
 
 # METADATA ********************
@@ -183,7 +180,7 @@ raw = (
     .option("inferSchema", False)
     .option("nullValue", "")
     .option("multiLine", True)
-    .csv(f"{LAKEHOUSE_ROOT}/Files/{file_subfolder}/{file_pattern}")
+    .csv(f"Files/{file_subfolder}/{file_pattern}")
 )
 
 missing = [f.name for f in schema.fields if f.name not in raw.columns]
@@ -238,7 +235,7 @@ df_new = (
 
 # Schema-enabled lakehouse: the first level under Tables/ is the SCHEMA namespace.
 # Writing to Tables/<name> creates a schema, not a table — the target must be Tables/dbo/<name>.
-target_path = f"{LAKEHOUSE_ROOT}/Tables/dbo/nyc_{source_name}"
+target_path = f"Tables/dbo/nyc_{source_name}"
 
 if DeltaTable.isDeltaTable(spark, target_path):
     delta_tbl = DeltaTable.forPath(spark, target_path)

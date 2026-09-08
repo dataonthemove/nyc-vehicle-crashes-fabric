@@ -31,7 +31,7 @@ import sempy_labs as labs
 
 labs.refresh_semantic_model(
     dataset="NYC_VehicleCrashes_Semantic",
-    workspace="NYC_Motor_Vehicle_Collisions",
+    workspace="2_NYC_VehicleCrashes_dev",
     refresh_type="calculate" # Recalculates dependencies/measures without pulling source data
 )
 
