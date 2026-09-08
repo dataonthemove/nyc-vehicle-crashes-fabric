@@ -98,3 +98,36 @@ not logical IDs.
 6. **`sed -i` rewrites CRLF to LF on Windows.** All three files were restored to CRLF before
    staging; `core.autocrlf` kept the index clean either way. Relevant to any future scripted edit
    of Fabric-exported files.
+
+### Phase 3 — addendum: the TMDL rewrite was reverted
+
+Pushing `f171c66` and running Update All failed on semantic model `NYC_VehicleCrashes_Semantic`:
+
+```
+Dataset_Import_FailedToImportDataset
+Direct Lake mode requires a Direct Lake data source. Tables in Direct Lake mode must be the
+SQL or OneLake datasource kind. Please verify and fix the data source definitions of the
+following Direct Lake tables: dim_damage, dim_person, dim_location, ...
+(dataset id 646ec529-eaaa-4d41-b3b0-a31c94355fdd)
+```
+
+**Finding — a name-based OneLake URL is not a valid Direct Lake data source.** The Analysis
+Services engine classifies the datasource kind by URL shape: only the
+`.../{workspaceGuid}/{itemGuid}` form registers as OneLake. Rewriting it to
+`.../2_NYC_VehicleCrashes_dev/NYC_VehicleCrashes_Warehouse.Warehouse` demoted every Direct Lake
+table to an unsupported kind and the import was rejected wholesale. The URL is valid for OneLake
+filesystem access — it is not valid *here*.
+
+**Action taken:** TMDL file `expressions.tmdl` reverted to the original GUID URL, byte-identical
+to `79f9d73`. The two notebook fixes in `f171c66` stand — those were genuine defects.
+
+**Runbook correction (apply by hand).** Phase 3's *A finding triggers* line — "rewrite GUID-based
+paths to name-based" — must carve out the semantic model's Direct Lake expression. That GUID pair
+is not portability debt and must not be de-GUID'd. Test and Prod reach their own warehouse because
+the deployment pipeline rewrites the Direct Lake binding at deploy time; that is the supported
+mechanism, and Phase 10/11 depend on it rather than on the URL being stage-neutral. Phase 3's
+**Done when** ("no GUID-based OneLake path remains under `2_dev/`") is unsatisfiable as written and
+should read "no GUID-based OneLake path remains outside the Direct Lake expression".
+
+**Net Phase 3 outcome:** two notebooks de-named and fixed; the semantic model deliberately
+unchanged; one runbook rule proven wrong by execution.
