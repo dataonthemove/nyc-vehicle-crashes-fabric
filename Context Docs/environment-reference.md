@@ -10,14 +10,20 @@
 
 ---
 
-## Workspace
+## Workspaces
 
-| Field | Value |
-|---|---|
-| Name | NYC_VehicleCrashes |
-| Workspace ID | `73d1612d-023e-40bb-914b-fcd796620223` |
-| Capacity ID | `f1b1feea-3619-4c62-928e-69eb8d45b7a9` |
-| Spark runtime | 1.3 — Spark 3.5.5, Python 3.11.8 (verified via Livy 2026-08-01) |
+Verified via `list_workspaces` 2026-09-08. All four sit on capacity `f1b1feea-3619-4c62-928e-69eb8d45b7a9`.
+
+| Stage | Name | Workspace ID | Git |
+|---|---|---|---|
+| Landing | `1_NYC_VehicleCrashes_Landing` | `bae79a94-0103-45dc-9993-d9041fbd4e80` | bound to `/1_Landing` |
+| Dev | `2_NYC_VehicleCrashes_dev` | `73d1612d-023e-40bb-914b-fcd796620223` | bound to `/2_dev` |
+| Test | `3_NYC_VehicleCrashes_test` | `b67c8251-f019-4594-b779-bc2ee14d8307` | never — deployment pipeline only |
+| Prod | `4_NYC_VehicleCrashes_prod` | `fd35c11f-9f8d-4bea-9959-8a7a53a2c390` | never — deployment pipeline only |
+
+Dev Spark runtime: 1.3 — Spark 3.5.5, Python 3.11.8 (verified via Livy 2026-08-01).
+
+Every artifact ID below is **Dev-stage**. Test and Prod are empty as of 2026-09-08.
 
 ---
 
