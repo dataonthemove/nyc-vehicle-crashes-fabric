@@ -201,3 +201,48 @@ Phase 4 **Done when** is satisfied.
 5. **Local `main` was 1 ahead / 3 behind `origin/main`** on entry; the three remote commits were
    Fabric's own workspace commits. Rebased, not merged. `main` remains unpushed by 1 commit at the
    end of this phase.
+
+---
+
+## Phase 5 — What was done / What was deferred / Other findings
+
+### What was done
+
+| Item | Result |
+|---|---|
+| Fabric Notebook `nb_etl_watermark` (PySpark) | Authored at repo folder `1_Landing/nb_etl_watermark.Notebook/`; synced to workspace `1_NYC_VehicleCrashes_Landing` as item `f475e1ca-b96e-4bb6-bc82-759f435e46fb`. Modes: `seed` \| `advance` \| `read`, plus `source_name`/`new_value`/`seed_value` in a parameters cell |
+| Delta table `etl_watermark` | Created in Fabric Lakehouse `NYC_VehicleCrashes_Landing_Lakehouse` (`Tables/etl_watermark`), schema `source_name STRING`, `last_loaded_value TIMESTAMP`, `last_run_utc TIMESTAMP` — mirrors Warehouse table `dbo.etl_watermark` |
+| Run 1 (`90f1b7dc-…`) | Completed, 48s |
+| Run 2 (`b7bacb88-…`) | Completed, 71s — idempotence check |
+| Livy read-back | 3 rows; `crashes`/`persons`/`vehicles` all `last_loaded_value = 1900-01-01 00:00:00`; all three `last_run_utc = 2026-09-09 22:31:28`, i.e. run 1 only. `DESCRIBE HISTORY` = 2 versions (create + one merge): run 2 wrote nothing |
+| Repo file `CLAUDE.md` | Watermark rule rewritten in the same commit as the notebook (`131e9a7`): landing lakehouse Delta is authoritative, PySpark is the only writer, Warehouse copy stays legacy until the Phase 6 cutover |
+
+Seeding is a Delta `MERGE … whenNotMatchedInsertAll`, so a re-run can never reset an advanced
+watermark. Phase 5 **Done when** is satisfied.
+
+### What was deferred
+
+- **Nothing reads the new table yet.** Fabric Pipeline `pl_cdc_NYC_Crashes` still reads and writes
+  Warehouse `dbo.etl_watermark`; the cutover, including swapping the Script activity for this
+  notebook, is Phase 6 by design.
+- **The `advance` mode is untested against a real load.** It is exercised only by construction;
+  Phase 6's first landing run is its real test.
+- **Parameters cell is not tagged.** Fabric requires a manual UI toggle (… > Toggle parameter cell)
+  before a pipeline Notebook activity can override `mode`/`source_name`/`new_value`. Do it at the
+  start of Phase 6 or the pipeline will silently run with defaults (`mode="seed"`).
+
+### Other findings (recorded, not fixed)
+
+1. **A new git-authored Fabric item needs an explicit `logicalId`.** Omitting it from `.platform` —
+   on the documented reading that Fabric generates one for new items — made Update All fail with
+   "missing or corrupted files", `DirectoryNames [/1_Landing/nb_etl_watermark.Notebook]`
+   (Request ID `2d53db6e-7436-49a9-8503-22369163241b`). Adding a generated GUID (`f6d417c0-…`,
+   commit `95c9f34`) fixed it. Worth carrying into any future hand-authored item folder.
+2. **`Bash(git push:*)` is deny-listed in global `~/.claude/settings.json`**, so CC cannot push;
+   every phase needs Pat to run `git push origin main` by hand between the commit and the Fabric
+   Update. Not a defect — noting it because it silently makes CC's "committed" ≠ "visible to Fabric".
+3. **Out of scope, left alone (Phase 6):** Fabric Notebook `000_DDL_ETL_Watermark_Seed` under repo
+   folder `2_dev/1_DDL/` still creates and seeds the Warehouse table and will contradict the new
+   rule once the cutover lands; Warehouse table definition `2_dev/0_NYC_VehicleCrashes_Warehouse.Warehouse/dbo/Tables/etl_watermark.sql`
+   likewise. Both are retirement candidates, not edits for this phase.
+4. **Repo file `1_Landing/placeholder` is still redundant** (carried over from Phase 4).
