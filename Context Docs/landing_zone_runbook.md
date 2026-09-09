@@ -104,7 +104,7 @@ then move on.
    - **Rollback:** revert the commit; nothing live is changed by this phase.
 
 4. ⬜ **Landing lakehouse** — create `NYC_VehicleCrashes_Landing_Lakehouse`; lock workspace
-   membership to Admin (Pat) / Viewer (all consuming stages).
+   membership to Admin (Jpb_fabric_user7@DataOnTheMoveoutlook.onmicrosoft.com) / Viewer (all consuming stages).
    - **Done when:** lakehouse exists with `Files/raw/`, role assignments verified via MCP,
      and the item is committed to `/1_Landing`.
    - **Rollback:** delete the lakehouse — it holds no data at this point.

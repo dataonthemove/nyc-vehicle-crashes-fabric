@@ -30,9 +30,12 @@ Record results only in Context Docs/landing_zone_runbook_results.md, by appendin
 new subsection at the end of the file:
   ## Phase #N — What was done / What was deferred / Other findings
 Append only. Do not alter subsections from earlier phases.
+Be as concise as you can. Control verbose output. 
 
 Plan first and get my approval before any edit, commit, push, or MCP call that writes.
 Approving the plan is not approval to start — wait for me to say go.
+
+
 ```
 
 Corrections the runbook needs are themselves *findings* — record them below and apply them by
