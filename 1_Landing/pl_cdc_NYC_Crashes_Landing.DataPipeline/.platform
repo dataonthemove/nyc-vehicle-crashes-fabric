@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "pl_cdc_NYC_Crashes_Landing",
+    "description": "Landing-zone CDC ingestion \u2014 Socrata HTTP to Files/raw/{crashes,persons,vehicles}; watermark read from the lakehouse SQL endpoint, advanced by nb_etl_watermark."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6ccb790e-6e2c-4f50-a729-1cdf536fd5de"
+  }
+}

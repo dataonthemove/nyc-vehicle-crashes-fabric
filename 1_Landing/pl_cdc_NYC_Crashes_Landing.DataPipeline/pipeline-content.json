@@ -1,0 +1,543 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT CONVERT(VARCHAR(30), last_loaded_value, 126) AS last_loaded_value\nFROM dbo.etl_watermark\nWHERE source_name = 'crashes'",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "connectionSettings": {
+              "name": "NYC_VehicleCrashes_Landing_Lakehouse",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "ef5d1260-aa46-4bea-9fd5-2427f38adf0a",
+                  "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-ssnopoqdahoelgmt3ecb7pkoqa.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000"
+                },
+                "externalReferences": {
+                  "connection": "1de56b14-e844-4550-bfe4-a679696728e6"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Lookup_Crashes_Watermark",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "formatSettings": {
+              "type": "DelimitedTextReadSettings"
+            },
+            "storeSettings": {
+              "type": "HttpReadSettings",
+              "requestMethod": "GET",
+              "requestTimeout": ""
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "HttpServerLocation",
+                  "relativeUrl": {
+                    "value": "?$where=crash_date>'@{activity('Lookup_Crashes_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=10000000",
+                    "type": "Expression"
+                  }
+                },
+                "columnDelimiter": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "1a0d925e-7e80-4160-a28d-f1aa73b60cc2"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "DelimitedTextSink",
+            "formatSettings": {
+              "type": "DelimitedTextWriteSettings",
+              "fileExtension": ".csv"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "raw/crashes"
+                },
+                "columnDelimiter": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "NYC_VehicleCrashes_Landing_Lakehouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "98b84391-4ac3-bf6b-4b21-0af0b7f1c383",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "externalReferences": {
+                    "connection": "92d1dbb4-eab2-4f3b-ae0d-59145fd8c07f"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 120,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Crashes_CDC",
+        "dependsOn": [
+          {
+            "activity": "Lookup_Crashes_Watermark",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "f6d417c0-af46-4673-844e-d3a2b8572185",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "mode": {
+              "value": "advance",
+              "type": "string"
+            },
+            "source_name": {
+              "value": "crashes",
+              "type": "string"
+            },
+            "new_value": {
+              "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+              "type": "Expression"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Advance_Watermark_Crashes",
+        "dependsOn": [
+          {
+            "activity": "Copy_Crashes_CDC",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT CONVERT(VARCHAR(30), last_loaded_value, 126) AS last_loaded_value\nFROM dbo.etl_watermark\nWHERE source_name = 'persons'",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "connectionSettings": {
+              "name": "NYC_VehicleCrashes_Landing_Lakehouse",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "ef5d1260-aa46-4bea-9fd5-2427f38adf0a",
+                  "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-ssnopoqdahoelgmt3ecb7pkoqa.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000"
+                },
+                "externalReferences": {
+                  "connection": "1de56b14-e844-4550-bfe4-a679696728e6"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Lookup_Persons_Watermark",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "formatSettings": {
+              "type": "DelimitedTextReadSettings"
+            },
+            "storeSettings": {
+              "type": "HttpReadSettings",
+              "requestMethod": "GET",
+              "requestTimeout": ""
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "HttpServerLocation",
+                  "relativeUrl": {
+                    "value": "?$where=crash_date>'@{activity('Lookup_Persons_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=10000000",
+                    "type": "Expression"
+                  }
+                },
+                "columnDelimiter": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "d6be2434-1299-49f8-ae45-27fe4a15ad7c"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "DelimitedTextSink",
+            "formatSettings": {
+              "type": "DelimitedTextWriteSettings",
+              "fileExtension": ".csv"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "raw/persons"
+                },
+                "columnDelimiter": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "NYC_VehicleCrashes_Landing_Lakehouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "98b84391-4ac3-bf6b-4b21-0af0b7f1c383",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "externalReferences": {
+                    "connection": "92d1dbb4-eab2-4f3b-ae0d-59145fd8c07f"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 120,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Persons_CDC",
+        "dependsOn": [
+          {
+            "activity": "Lookup_Persons_Watermark",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "f6d417c0-af46-4673-844e-d3a2b8572185",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "mode": {
+              "value": "advance",
+              "type": "string"
+            },
+            "source_name": {
+              "value": "persons",
+              "type": "string"
+            },
+            "new_value": {
+              "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+              "type": "Expression"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Advance_Watermark_Persons",
+        "dependsOn": [
+          {
+            "activity": "Copy_Persons_CDC",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT CONVERT(VARCHAR(30), last_loaded_value, 126) AS last_loaded_value\nFROM dbo.etl_watermark\nWHERE source_name = 'vehicles'",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "connectionSettings": {
+              "name": "NYC_VehicleCrashes_Landing_Lakehouse",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "ef5d1260-aa46-4bea-9fd5-2427f38adf0a",
+                  "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-ssnopoqdahoelgmt3ecb7pkoqa.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000"
+                },
+                "externalReferences": {
+                  "connection": "1de56b14-e844-4550-bfe4-a679696728e6"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Lookup_Vehicles_Watermark",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "formatSettings": {
+              "type": "DelimitedTextReadSettings"
+            },
+            "storeSettings": {
+              "type": "HttpReadSettings",
+              "requestMethod": "GET",
+              "requestTimeout": ""
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "HttpServerLocation",
+                  "relativeUrl": {
+                    "value": "?$where=crash_date>'@{activity('Lookup_Vehicles_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=10000000",
+                    "type": "Expression"
+                  }
+                },
+                "columnDelimiter": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "cfec87c6-d50d-48a0-b9e3-4e6aee57b7bb"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "DelimitedTextSink",
+            "formatSettings": {
+              "type": "DelimitedTextWriteSettings",
+              "fileExtension": ".csv"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "raw/vehicles"
+                },
+                "columnDelimiter": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "NYC_VehicleCrashes_Landing_Lakehouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "98b84391-4ac3-bf6b-4b21-0af0b7f1c383",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "externalReferences": {
+                    "connection": "92d1dbb4-eab2-4f3b-ae0d-59145fd8c07f"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 120,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy_Vehicles_CDC",
+        "dependsOn": [
+          {
+            "activity": "Lookup_Vehicles_Watermark",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "f6d417c0-af46-4673-844e-d3a2b8572185",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "mode": {
+              "value": "advance",
+              "type": "string"
+            },
+            "source_name": {
+              "value": "vehicles",
+              "type": "string"
+            },
+            "new_value": {
+              "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+              "type": "Expression"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Advance_Watermark_Vehicles",
+        "dependsOn": [
+          {
+            "activity": "Copy_Vehicles_CDC",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
