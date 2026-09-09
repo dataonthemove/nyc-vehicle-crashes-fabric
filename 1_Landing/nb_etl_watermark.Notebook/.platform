@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_etl_watermark",
+    "description": "Landing-zone ETL watermark writer — seeds, advances and reads Delta table etl_watermark in the landing lakehouse. Spark is the only writer; the SQL endpoint is read-only."
+  },
+  "config": {
+    "version": "2.0"
+  }
+}

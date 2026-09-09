@@ -38,8 +38,12 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   - Substantive → real UI drift: do not commit it. Fix the TMDL/SQL locally, push, then Update All.
   - Never blanket-commit every flagged item without classifying each one — that is how genuine UI
     drift gets laundered into the repo.
-- Watermark: single authoritative store in Warehouse (`dbo.etl_watermark`).
-  The Delta-layer watermark was intentionally removed from notebooks.
+- Watermark: single authoritative store is Delta table `etl_watermark` in Fabric Lakehouse
+  `NYC_VehicleCrashes_Landing_Lakehouse` (landing workspace), written **only** by Fabric Notebook
+  `nb_etl_watermark` (PySpark) — the lakehouse SQL analytics endpoint is read-only, so no Script
+  activity may write it. Consumers read it through that SQL endpoint.
+  Warehouse `dbo.etl_watermark` is the legacy store; it stays in place and authoritative until the
+  ingestion move (landing-zone Phase 6) cuts over, then is retired. Do not write both.
 - Report authoring: Fabric web UI only — Power BI Desktop is not used for report development.
   Reason: `byConnection` + Warehouse-backed Direct Lake in PBID causes Direct Lake framing errors;
   DirectQuery fallback is unavailable for Warehouse-backed models.
