@@ -1,0 +1,378 @@
+<mxfile host="Electron" agent="Claude">
+  <diagram id="nyc-crashes-arch-v2" name="NYC VehicleCrashes Architecture v2">
+    <mxGraphModel dx="2039" dy="1144" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2600" pageHeight="1780" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="superset" value="" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#4D4D4D;strokeWidth=3;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="2520" height="1670" as="geometry" />
+        </mxCell>
+        <mxCell id="supersetT" value="Internet / Outside Azure" style="text;html=1;fontSize=20;fontStyle=1;align=left;fontColor=#4D4D4D;" vertex="1" parent="1">
+          <mxGeometry x="60" y="50" width="420" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="supersetN" value="Public data sources, the local developer workstation and locally hosted MCP servers — none of these run inside Azure." style="text;html=1;fontSize=11;fontStyle=2;align=left;fontColor=#808080;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="300" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="azureBox" value="" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#E5F0FB;strokeColor=#0078D4;strokeWidth=3;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="380" y="90" width="2160" height="1560" as="geometry" />
+        </mxCell>
+        <mxCell id="azureT" value="Azure cloud computing" style="text;html=1;fontSize=24;fontStyle=1;align=right;fontColor=#0078D4;" vertex="1" parent="1">
+          <mxGeometry x="1900" y="105" width="620" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="azureN" value="Azure tenant services — Azure DevOps (Git) and the Fabric capacity" style="text;html=1;fontSize=11;fontStyle=2;align=right;fontColor=#3C78A8;" vertex="1" parent="1">
+          <mxGeometry x="1900" y="140" width="620" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fabricBox" value="" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#E8F6F4;strokeColor=#0F8B8D;strokeWidth=3;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="420" y="170" width="1760" height="1440" as="geometry" />
+        </mxCell>
+        <mxCell id="fabricT" value="Microsoft Fabric" style="text;html=1;fontSize=22;fontStyle=1;align=left;fontColor=#0F8B8D;" vertex="1" parent="1">
+          <mxGeometry x="440" y="180" width="420" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fabricN" value="&lt;b&gt;Capacity:&lt;/b&gt; f1b1feea-3619-4c62-928e-69eb8d45b7a9 &amp;nbsp;·&amp;nbsp; &lt;b&gt;OneLake&lt;/b&gt; single logical data lake &amp;nbsp;·&amp;nbsp; Spark runtime 1.3 (Spark 3.5.5 / Python 3.11.8)" style="text;html=1;fontSize=12;align=left;fontColor=#0B6C6E;" vertex="1" parent="1">
+          <mxGeometry x="440" y="212" width="900" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="srcIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Globe.svg;" vertex="1" parent="1">
+          <mxGeometry x="175" y="150" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="srcLabel" value="&lt;b&gt;NYC Open Data (Socrata)&lt;/b&gt;&lt;br&gt;data.cityofnewyork.us&lt;br&gt;Motor Vehicle Collisions — 3 REST&lt;br&gt;endpoints, anonymous HTTP:&lt;br&gt;Crashes · Persons · Vehicles" style="text;html=1;fontSize=12;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="238" width="310" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="devIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Code.svg;" vertex="1" parent="1">
+          <mxGeometry x="175" y="480" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="devLabel" value="&lt;b&gt;Developer workstation&lt;/b&gt; (Win 11)&lt;br&gt;VSC + Claude Code&lt;br&gt;Local repo: SourceCode\NYC_VehicleCrashes&lt;br&gt;Authors TMDL · T-SQL · pipeline JSON&lt;br&gt;&lt;i&gt;Git is the source of truth&lt;/i&gt;" style="text;html=1;fontSize=12;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="568" width="310" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mcpIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Server.svg;" vertex="1" parent="1">
+          <mxGeometry x="175" y="860" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mcpLabel" value="&lt;b&gt;MCP servers&lt;/b&gt; (local, stdio)&lt;br&gt;ms-fabric-mcp-server — Fabric REST&lt;br&gt;powerbi-modeling-mcp — XMLA / tabular&lt;br&gt;&lt;br&gt;&lt;i&gt;Run / read / validate only.&lt;br&gt;Never authors item definitions.&lt;/i&gt;" style="text;html=1;fontSize=12;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="948" width="310" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="consIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Two_User_Icon.svg;" vertex="1" parent="1">
+          <mxGeometry x="175" y="1250" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="consLabel" value="&lt;b&gt;Report consumers&lt;/b&gt;&lt;br&gt;Power BI users&lt;br&gt;Consume Prod reports and the&lt;br&gt;endorsed Prod semantic model" style="text;html=1;fontSize=12;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1338" width="310" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend" value="&lt;b&gt;Domain nesting&lt;/b&gt;&lt;br&gt;Superset — Internet / outside Azure&lt;br&gt;Midset — Azure cloud computing&lt;br&gt;Subset — Microsoft Fabric" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#B3B3B3;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1500" width="300" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="landingWs" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0F8B8D;strokeWidth=2;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="460" y="270" width="560" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="landingWsT" value="&lt;b&gt;Workspace: 1_NYC_VehicleCrashes_Landing&lt;/b&gt;&lt;br&gt;bae79a94-0103-45dc-9993-d9041fbd4e80 &amp;nbsp;·&amp;nbsp; Git-bound to /1_Landing" style="text;html=1;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="465" y="280" width="550" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="landingLh" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Data_Lake_Store.svg;" vertex="1" parent="1">
+          <mxGeometry x="490" y="345" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="landingLhL" value="&lt;b&gt;Lakehouse: NYC_VehicleCrashes_Lakehouse&lt;/b&gt;&lt;br&gt;b7f1c383-0af0-4b21-bf6b-4ac398b84391&lt;br&gt;&lt;b&gt;Files/&lt;/b&gt; NYC_CrashData/{crashes | persons | vehicles}&lt;br&gt;Raw CDC extracts (CSV) — bronze arrival zone&lt;br&gt;SQL analytics endpoint: ef5d1260-aa46-4bea-9fd5-2427f38adf0a" style="text;html=1;fontSize=11;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="585" y="340" width="425" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="landingNote" value="Landing stage — raw arrival only, no transformation" style="text;html=1;fontSize=11;fontStyle=2;align=center;fontColor=#808080;" vertex="1" parent="1">
+          <mxGeometry x="470" y="470" width="540" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="devWs" value="" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0F8B8D;strokeWidth=3;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="460" y="580" width="1400" height="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="devWsT" value="&lt;b&gt;Workspace: 2_NYC_VehicleCrashes_dev&lt;/b&gt; &amp;nbsp;·&amp;nbsp; 73d1612d-023e-40bb-914b-fcd796620223 &amp;nbsp;·&amp;nbsp; Git-bound to /2_dev &amp;nbsp;·&amp;nbsp; branch main + short-lived feature branches" style="text;html=1;fontSize=13;align=center;" vertex="1" parent="1">
+          <mxGeometry x="465" y="590" width="1390" height="26" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pipeBox" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FFF6DA;strokeColor=#D6B656;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="490" y="650" width="310" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="pipeIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Data_Factory.svg;" vertex="1" parent="1">
+          <mxGeometry x="610" y="662" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="pipeLbl" value="&lt;b&gt;Data Pipeline: pl_cdc_NYC_Crashes&lt;/b&gt;&lt;br&gt;95ca0fbd-e13c-4743-8d28-d3fa4da33df1&lt;br&gt;&lt;br&gt;3 parallel CDC streams:&lt;br&gt;Lookup_*_Watermark → Copy_*_CDC →&lt;br&gt;nb_delta_* (nb_cdc_to_delta)&lt;br&gt;all 3 → Update_Watermark_crashes_&lt;br&gt;vehicles_persons (Script)&lt;br&gt;&lt;br&gt;nb_cdc_to_delta params: file_subfolder ·&lt;br&gt;natural_key · source_name" style="text;html=1;fontSize=11;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="495" y="738" width="300" height="205" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lhBox" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#EAF3FB;strokeColor=#6C8EBF;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="860" y="650" width="340" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="devLh" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Data_Lake_Storage.svg;" vertex="1" parent="1">
+          <mxGeometry x="995" y="662" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="devLhL" value="&lt;b&gt;Lakehouse: NYC_VehicleCrashes_Lakehouse&lt;/b&gt; (Dev)&lt;br&gt;69699b13-5771-422f-874c-461430f81d9b&lt;br&gt;&lt;br&gt;&lt;b&gt;Tables/&lt;/b&gt; Delta — crashes · persons · vehicles&lt;br&gt;MERGE upsert on natural key&lt;br&gt;(collision_id | unique_id)&lt;br&gt;&lt;br&gt;SQL analytics endpoint:&lt;br&gt;63b7bc57-9351-4c56-a1cf-cda93ca7828c" style="text;html=1;fontSize=11;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="865" y="738" width="330" height="205" as="geometry" />
+        </mxCell>
+
+        <mxCell id="nbBox" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F3ECF9;strokeColor=#9673A6;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="650" width="350" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="nbIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Book.svg;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="662" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="nbLbl" value="&lt;b&gt;Notebooks (17)&lt;/b&gt; — T-SQL on the&lt;br&gt;sqldatawarehouse kernel&lt;br&gt;&lt;b&gt;1_DDL&lt;/b&gt; 000_DDL_ETL_Watermark_Seed ·&lt;br&gt;01_DDL_Dimensions · 02_DDL_Facts_Bridges&lt;br&gt;&lt;b&gt;2_Ingest&lt;/b&gt; nb_cdc_to_delta (PySpark)&lt;br&gt;&lt;b&gt;3_Transform&lt;/b&gt; 03–13 ETL: dim_date · dim_collision ·&lt;br&gt;dim_location · dim_contributing_factor · dim_vehicle ·&lt;br&gt;dim_damage · dim_person · dim_factor_group ·&lt;br&gt;fact_crashes · fact_persons · fact_crash_vehicle ·&lt;br&gt;bridge_crash_factor&lt;br&gt;&lt;b&gt;Misc_Fabric_Items&lt;/b&gt; RefreshSemanticModel" style="text;html=1;fontSize=11;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1263" y="738" width="344" height="205" as="geometry" />
+        </mxCell>
+
+        <mxCell id="smBox" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FFF6DA;strokeColor=#D6B656;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1660" y="650" width="180" height="470" as="geometry" />
+        </mxCell>
+        <mxCell id="smIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Analysis_Services.svg;" vertex="1" parent="1">
+          <mxGeometry x="1715" y="662" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="smLbl" value="&lt;b&gt;Semantic Model&lt;br&gt;NYC_VehicleCrashes_&lt;br&gt;Semantic&lt;/b&gt;&lt;br&gt;646ec529-eaaa-4d41-&lt;br&gt;b3b0-a31c94355fdd&lt;br&gt;&lt;br&gt;&lt;b&gt;Direct Lake&lt;/b&gt;, Warehouse-&lt;br&gt;sourced via OneLake&lt;br&gt;(expression URL stays&lt;br&gt;GUID-based)&lt;br&gt;&lt;br&gt;12 TMDL tables&lt;br&gt;Bridge relationship:&lt;br&gt;bothDirections&lt;br&gt;SummarizeBy _key/_id&lt;br&gt;→ None&lt;br&gt;&lt;br&gt;Authored as local TMDL:&lt;br&gt;2_dev/4_Model/…&lt;br&gt;SemanticModel/definition/" style="text;html=1;fontSize=10;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1663" y="738" width="174" height="375" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rptBox" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D6B656;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1660" y="1180" width="180" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="rptIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Chart.svg;" vertex="1" parent="1">
+          <mxGeometry x="1715" y="1192" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rptLbl" value="&lt;b&gt;Reports (5_Reports)&lt;/b&gt;&lt;br&gt;Test_ReportCreatedWeb&lt;br&gt;453c8292-b50c-404c-&lt;br&gt;a4c2-a52b23c34ed5&lt;br&gt;&lt;br&gt;&lt;i&gt;Authored in the Fabric&lt;br&gt;web UI only — Power BI&lt;br&gt;Desktop is not used&lt;br&gt;(Direct Lake framing&lt;br&gt;errors on Warehouse-&lt;br&gt;backed byConnection)&lt;/i&gt;&lt;br&gt;&lt;br&gt;Repo folder 2_dev/5_Reports&lt;br&gt;is read-only locally" style="text;html=1;fontSize=10;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1663" y="1268" width="174" height="265" as="geometry" />
+        </mxCell>
+
+        <mxCell id="whBox" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#F5F9F5;strokeColor=#82B366;strokeWidth=2;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="490" y="985" width="1090" height="565" as="geometry" />
+        </mxCell>
+        <mxCell id="whIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/SQL_DataWarehouse.svg;" vertex="1" parent="1">
+          <mxGeometry x="510" y="1005" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="whLbl" value="&lt;b&gt;Warehouse: NYC_VehicleCrashes_Warehouse&lt;/b&gt;&lt;br&gt;324e2ac0-5ebd-4f8a-9856-a5d7b56a25fe&lt;br&gt;TDS endpoint: ugzelu45irnefp3jx4vjlmb6u4-…&lt;br&gt;.datawarehouse.fabric.microsoft.com&lt;br&gt;&lt;br&gt;&lt;b&gt;dbo&lt;/b&gt; — 13 tables (9 dims · 3 facts · 1 bridge&lt;br&gt;+ dbo.etl_watermark)&lt;br&gt;&lt;b&gt;etl&lt;/b&gt; — 12 usp_load_* stored procedures&lt;br&gt;&lt;br&gt;&lt;b&gt;dbo.etl_watermark&lt;/b&gt; is the single authoritative&lt;br&gt;watermark store (Delta-layer watermark removed)&lt;br&gt;&lt;br&gt;&lt;i&gt;Kimball star schema + factor-group bridge.&lt;br&gt;No PK / FK / UNIQUE — Fabric Warehouse T-SQL&lt;br&gt;does not support table constraints; the joins&lt;br&gt;shown are the semantic-model relationships.&lt;/i&gt;" style="text;html=1;fontSize=11;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="500" y="1090" width="345" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="starTitle" value="&lt;b&gt;Dimensional model — Kimball star schema (dim 1 → * fact)&lt;/b&gt;" style="text;html=1;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="900" y="995" width="640" height="22" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fCV" value="&lt;b&gt;fact_crash_vehicle&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#2E75B6;strokeColor=#1F4E79;fontColor=#FFFFFF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="1030" width="150" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="fCR" value="&lt;b&gt;fact_crashes&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#2E75B6;strokeColor=#1F4E79;fontColor=#FFFFFF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="1225" width="150" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="fPE" value="&lt;b&gt;fact_persons&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#2E75B6;strokeColor=#1F4E79;fontColor=#FFFFFF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="1420" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dDATE" value="dim_date" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9DC3E6;strokeColor=#2E75B6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="940" y="1230" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dLOC" value="dim_location" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9DC3E6;strokeColor=#2E75B6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="940" y="1120" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dFG" value="dim_factor_group" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9DC3E6;strokeColor=#2E75B6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="940" y="1345" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="brCF" value="&lt;b&gt;bridge_crash_factor&lt;/b&gt;&lt;br&gt;bothDirections" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFE599;strokeColor=#D6B656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="930" y="1460" width="150" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="dCF" value="dim_contributing&lt;br&gt;_factor" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9DC3E6;strokeColor=#2E75B6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="1465" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dCOL" value="dim_collision" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9DC3E6;strokeColor=#2E75B6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1390" y="1230" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dDAM" value="dim_damage" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9DC3E6;strokeColor=#2E75B6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1390" y="1020" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dVEH" value="dim_vehicle" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9DC3E6;strokeColor=#2E75B6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1390" y="1110" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dPER" value="dim_person" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9DC3E6;strokeColor=#2E75B6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1390" y="1420" width="130" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r1" value="collision_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dCOL" target="fCV">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" value="damage_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dDAM" target="fCV">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" value="vehicle_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dVEH" target="fCV">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r4" value="date_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dDATE" target="fCV">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r5" value="collision_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dCOL" target="fCR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r6" value="date_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dDATE" target="fCR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r7" value="location_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dLOC" target="fCR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r8" value="factor_group_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dFG" target="fCR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r9" value="collision_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dCOL" target="fPE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r10" value="date_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dDATE" target="fPE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r11" value="person_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#2E75B6;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="dPER" target="fPE">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r12" value="factor_group_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#D6B656;strokeWidth=2;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="brCF" target="dFG">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r13" value="factor_key" style="edgeStyle=none;html=1;endArrow=none;strokeColor=#D6B656;strokeWidth=2;fontSize=9;labelBackgroundColor=#F5F9F5;" edge="1" parent="1" source="brCF" target="dCF">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bridgeNote" value="&lt;i&gt;Bridge resolves the many-to-many between crashes and&lt;br&gt;contributing factors — cross-filter must be bothDirections&lt;/i&gt;" style="text;html=1;fontSize=10;align=left;fontColor=#7F6000;" vertex="1" parent="1">
+          <mxGeometry x="880" y="1533" width="420" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="testWs" value="" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0F8B8D;dashed=1;strokeWidth=2;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1910" y="620" width="250" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="testLbl" value="&lt;b&gt;Workspace:&lt;br&gt;3_NYC_VehicleCrashes_test&lt;/b&gt;&lt;br&gt;b67c8251-f019-4594-&lt;br&gt;b779-bc2ee14d8307&lt;br&gt;&lt;br&gt;&lt;i&gt;Never Git-bound —&lt;br&gt;populated only by the&lt;br&gt;deployment pipeline&lt;/i&gt;&lt;br&gt;&lt;br&gt;Currently empty (0 items)" style="text;html=1;fontSize=11;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1915" y="640" width="240" height="290" as="geometry" />
+        </mxCell>
+
+        <mxCell id="prodWs" value="" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0F8B8D;dashed=1;strokeWidth=2;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1910" y="1150" width="250" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="prodLbl" value="&lt;b&gt;Workspace:&lt;br&gt;4_NYC_VehicleCrashes_prod&lt;/b&gt;&lt;br&gt;fd35c11f-9f8d-4bea-&lt;br&gt;9959-8a7a53a2c390&lt;br&gt;&lt;br&gt;&lt;i&gt;Never Git-bound —&lt;br&gt;populated only by the&lt;br&gt;deployment pipeline&lt;/i&gt;&lt;br&gt;&lt;br&gt;Currently empty (0 items)&lt;br&gt;&lt;br&gt;&lt;b&gt;Prod semantic model must&lt;br&gt;be manually re-endorsed&lt;br&gt;after every deployment&lt;/b&gt;" style="text;html=1;fontSize=11;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1915" y="1170" width="240" height="350" as="geometry" />
+        </mxCell>
+
+        <mxCell id="connBox" value="&lt;b&gt;Connections&lt;/b&gt; (not in Git, not deployed — recreate or rebind per stage)&lt;br&gt;Warehouse (OAuth) 1de56b14-e844-4550-bfe4-a679696728e6&lt;br&gt;Lakehouse (OAuth) 92d1dbb4-eab2-4f3b-ae0d-59145fd8c07f&lt;br&gt;HTTP Crashes (anon) 1a0d925e-7e80-4160-a28d-f1aa73b60cc2&lt;br&gt;HTTP Persons (anon) d6be2434-1299-49f8-ae45-27fe4a15ad7c&lt;br&gt;HTTP Vehicles (anon) cfec87c6-d50d-48a0-b9e3-4e6aee57b7bb" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#999999;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="300" width="470" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="adoBox" value="" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0078D4;strokeWidth=3;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="2230" y="250" width="280" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="adoIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Azure_DevOps.svg;" vertex="1" parent="1">
+          <mxGeometry x="2295" y="265" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="adoRepoIcon" value="" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Azure_Repos.svg;" vertex="1" parent="1">
+          <mxGeometry x="2385" y="265" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="adoLbl" value="&lt;b&gt;Azure DevOps — Repos&lt;/b&gt;&lt;br&gt;Project / repo: NYC_VehicleCrashes&lt;br&gt;&lt;br&gt;Branches: &lt;b&gt;main&lt;/b&gt; + short-lived feature&lt;br&gt;branches (no test/prod branches)&lt;br&gt;&lt;br&gt;Tracked trees:&lt;br&gt;/1_Landing&lt;br&gt;/2_dev — 0_*.Lakehouse · 0_*.Warehouse ·&lt;br&gt;1_DDL · 2_Ingest · 3_Transform ·&lt;br&gt;4_Model · 5_Reports&lt;br&gt;&lt;br&gt;Commit prefixes: VSC · CC · ADO · Fab&lt;br&gt;Body: [domain]_[artifact]_[action]&lt;br&gt;&lt;br&gt;&lt;b&gt;Source of truth for every&lt;br&gt;Fabric item definition&lt;/b&gt;" style="text;html=1;fontSize=11;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="2235" y="345" width="270" height="450" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="srcIcon" target="landingLh">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1l" value="Copy CDC over anonymous HTTP&lt;br&gt;incremental by dbo.etl_watermark" style="text;html=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="265" y="300" width="230" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="landingLh" target="pipeBox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2l" value="Files/ read by the pipeline" style="text;html=1;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="555" y="555" width="220" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pipeBox" target="lhBox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3l" value="MERGE upsert&lt;br&gt;→ Delta Tables/" style="text;html=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="795" y="755" width="70" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="lhBox" target="nbBox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4l" value="cross-database read&lt;br&gt;(SQL analytics endpoint)" style="text;html=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1145" y="755" width="170" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.85;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="nbBox" target="whBox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5l" value="etl.usp_load_* — dims → facts → bridge,&lt;br&gt;then the dbo.etl_watermark update" style="text;html=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="953" width="290" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e6" value="&lt;b&gt;Direct Lake&lt;/b&gt; over OneLake&lt;br&gt;no import; no DirectQuery fallback" style="labelBackgroundColor=#FFFFFF;fontSize=11;edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;exitX=1;exitY=0.2;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="whBox" target="smBox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="live connection" style="labelBackgroundColor=#FFFFFF;fontSize=11;edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;exitX=0.15;exitY=1;exitDx=0;exitDy=0;entryX=0.15;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="smBox" target="rptBox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="devLabel" target="adoBox">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="1670" />
+              <mxPoint x="2370" y="1670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8l" value="commit / push — local TMDL, T-SQL and pipeline JSON authored in VSC + Claude Code" style="text;html=1;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="900" y="1642" width="600" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=3;exitX=0;exitY=0.35;exitDx=0;exitDy=0;entryX=1;entryY=0.02;entryDx=0;entryDy=0;" edge="1" parent="1" source="adoBox" target="devWs">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2200" y="446" />
+              <mxPoint x="2200" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9l" value="&lt;b&gt;Fabric Git Integration&lt;/b&gt;&lt;br&gt;Source Control → Update All&lt;br&gt;&lt;i&gt;(manual trigger)&lt;/i&gt;" style="text;html=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1900" y="455" width="290" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;dashed=1;exitX=0;exitY=0.1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="adoBox" target="landingWs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10l" value="/1_Landing" style="text;html=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1600" y="280" width="120" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=3;exitX=1;exitY=0.05;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="devWs" target="testWs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11l" value="&lt;b&gt;Deployment Pipeline: Dev → Test&lt;/b&gt;&lt;br&gt;structure / metadata only — no data;&lt;br&gt;rebind data sources via Deployment Rules" style="text;html=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1550" y="450" width="330" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="testWs" target="prodWs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12l" value="&lt;b&gt;Deployment Pipeline: Test → Prod&lt;/b&gt;&lt;br&gt;validate in Test, tag the deployed&lt;br&gt;commit on main, then promote;&lt;br&gt;connections / gateways / shortcuts&lt;br&gt;are not deployed" style="text;html=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="2170" y="960" width="270" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;exitX=0;exitY=0.9;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="prodWs" target="consLabel">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1885" y="1501" />
+              <mxPoint x="1885" y="1628" />
+              <mxPoint x="215" y="1628" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13l" value="consume endorsed Prod semantic model + reports" style="text;html=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="1602" width="330" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;dashed=1;strokeColor=#B85450;exitX=1;exitY=0.4;exitDx=0;exitDy=0;entryX=0;entryY=0.4;entryDx=0;entryDy=0;" edge="1" parent="1" source="mcpLabel" target="devWs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14l" value="MCP: run / read / validate&lt;br&gt;pipeline runs · Livy/Spark · refresh_semantic_model&lt;br&gt;&lt;i&gt;never authors item definitions&lt;/i&gt;" style="text;html=1;fontSize=11;align=center;fontColor=#B85450;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1075" width="330" height="50" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
