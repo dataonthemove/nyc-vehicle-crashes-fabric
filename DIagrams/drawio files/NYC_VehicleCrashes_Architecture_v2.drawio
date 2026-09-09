@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Claude">
   <diagram id="nyc-crashes-arch-v2" name="NYC VehicleCrashes Architecture v2">
-    <mxGraphModel dx="4730" dy="2670" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="3300" pageHeight="2339" background="#FFFFFF" math="0" shadow="0">
+    <mxGraphModel dx="4737" dy="2289" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="3300" pageHeight="2339" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -381,42 +381,45 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bZd8X4PGlVNk33EtAkMU-6" connectable="0" parent="ZhjlWwC8mbzHmTswmFpL-141" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;Copy_*_CDC over anonymous&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;HTTP&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;incremental by&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;dbo.etl_watermark&lt;/span&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry relative="1" x="0.562" y="2" as="geometry">
-            <mxPoint as="offset" />
+          <mxGeometry relative="1" x="0.379" y="-18" as="geometry">
+            <mxPoint x="-7" y="-12" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ZhjlWwC8mbzHmTswmFpL-142" edge="1" parent="1" source="mcpIcon" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;dashed=1;strokeColor=#B85450;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.81;entryDx=0;entryDy=0;entryPerimeter=0;jumpStyle=arc;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="landingWs" value="">
+        <mxCell id="ZhjlWwC8mbzHmTswmFpL-142" edge="1" parent="1" source="mcpIcon" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;dashed=1;strokeColor=#B85450;strokeWidth=2;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.002;entryY=0.763;entryDx=0;entryDy=0;entryPerimeter=0;jumpStyle=arc;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="landingWs" value="">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="620" y="707" />
+              <mxPoint x="620" y="689.09" />
               <mxPoint x="620" y="270" />
+              <mxPoint x="1569" y="270" />
+              <mxPoint x="1569" y="272.09" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="bZd8X4PGlVNk33EtAkMU-2" connectable="0" parent="ZhjlWwC8mbzHmTswmFpL-142" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;color: rgb(184, 84, 80);&quot;&gt;MCP: read Landing&lt;/b&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;Files/ listing · Livy SHOW TABLES&lt;/span&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;i style=&quot;color: rgb(184, 84, 80);&quot;&gt;read-only&lt;/i&gt;" vertex="1">
-          <mxGeometry relative="1" x="0.686" y="2" as="geometry">
-            <mxPoint y="-26" as="offset" />
+        <mxCell id="bZd8X4PGlVNk33EtAkMU-2" connectable="0" parent="ZhjlWwC8mbzHmTswmFpL-142" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;color: rgb(184, 84, 80);&quot;&gt;MCP: read Landing&lt;/b&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;Files/ listing · Livy SHOW&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;TABLES&amp;nbsp;&lt;/span&gt;&lt;i style=&quot;color: rgb(184, 84, 80);&quot;&gt;read-only&lt;/i&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.816" y="2" as="geometry">
+            <mxPoint x="-44" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ZhjlWwC8mbzHmTswmFpL-148" edge="1" parent="1" source="mcpIcon" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeColor=#B85450;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.213;entryDx=0;entryDy=0;entryPerimeter=0;jumpStyle=arc;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;exitPerimeter=0;" target="devWs" value="">
+        <mxCell id="ZhjlWwC8mbzHmTswmFpL-148" edge="1" parent="1" source="mcpIcon" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeColor=#B85450;strokeWidth=2;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.227;entryDx=0;entryDy=0;entryPerimeter=0;jumpStyle=arc;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;exitPerimeter=0;" target="devWs" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bZd8X4PGlVNk33EtAkMU-4" connectable="0" parent="ZhjlWwC8mbzHmTswmFpL-148" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;b style=&quot;color: rgb(184, 84, 80);&quot;&gt;MCP: run / read / validate&lt;/b&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;pipeline runs · Livy/Spark ·&lt;/span&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;refresh_semantic_model&lt;/span&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;i style=&quot;color: rgb(184, 84, 80);&quot;&gt;never authors item definitions&lt;/i&gt;" vertex="1">
           <mxGeometry relative="1" x="0.622" y="2" as="geometry">
-            <mxPoint as="offset" />
+            <mxPoint x="50" y="-3" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="e10" edge="1" parent="1" source="adoBox" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;dashed=1;exitX=1;exitY=0.1;exitDx=0;exitDy=0;entryX=0;entryY=0.2;entryDx=0;entryDy=0;jumpStyle=arc;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="landingWs" value="">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1500" y="834" />
-              <mxPoint x="1500" y="150" />
+              <mxPoint x="1500" y="833.6" />
+              <mxPoint x="1500" y="160" />
+              <mxPoint x="1570" y="160" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="bZd8X4PGlVNk33EtAkMU-5" connectable="0" parent="e10" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;text-align: right; background-color: rgb(232, 246, 244);&quot;&gt;Git-bound:&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;text-align: right; background-color: rgb(232, 246, 244);&quot;&gt;/1_Landing&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="0.2605" y="5" as="geometry">
-            <mxPoint x="-35" y="3" as="offset" />
+            <mxPoint x="-5" y="-103" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="legendBox" parent="1" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#666666;strokeWidth=2;dashed=1;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
