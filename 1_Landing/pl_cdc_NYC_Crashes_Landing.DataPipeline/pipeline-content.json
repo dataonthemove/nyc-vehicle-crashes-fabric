@@ -2,33 +2,15 @@
   "properties": {
     "activities": [
       {
-        "type": "Lookup",
+        "type": "TridentNotebook",
         "typeProperties": {
-          "source": {
-            "type": "DataWarehouseSource",
-            "sqlReaderQuery": "SELECT CONVERT(VARCHAR(30), last_loaded_value, 126) AS last_loaded_value\nFROM dbo.etl_watermark\nWHERE source_name = 'crashes'",
-            "partitionOption": "None",
-            "queryTimeout": "02:00:00"
-          },
-          "datasetSettings": {
-            "type": "DataWarehouseTable",
-            "schema": [],
-            "connectionSettings": {
-              "name": "NYC_VehicleCrashes_Landing_Lakehouse",
-              "properties": {
-                "type": "DataWarehouse",
-                "typeProperties": {
-                  "artifactId": "ef5d1260-aa46-4bea-9fd5-2427f38adf0a",
-                  "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-ssnopoqdahoelgmt3ecb7pkoqa.datawarehouse.fabric.microsoft.com",
-                  "workspaceId": "00000000-0000-0000-0000-000000000000"
-                },
-                "externalReferences": {
-                  "connection": "1de56b14-e844-4550-bfe4-a679696728e6"
-                },
-                "annotations": []
-              }
-            },
-            "annotations": []
+          "notebookId": "f6d417c0-af46-4673-844e-d3a2b8572185",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "mode": {
+              "value": "read",
+              "type": "string"
+            }
           }
         },
         "policy": {
@@ -38,7 +20,7 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Lookup_Crashes_Watermark",
+        "name": "Read_Watermarks",
         "dependsOn": []
       },
       {
@@ -60,7 +42,7 @@
                 "location": {
                   "type": "HttpServerLocation",
                   "relativeUrl": {
-                    "value": "?$where=crash_date>'@{activity('Lookup_Crashes_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=10000000",
+                    "value": "?$where=crash_date>'@{json(activity('Read_Watermarks').output.result.exitValue).crashes}'&$order=crash_date&$limit=10000000",
                     "type": "Expression"
                   }
                 },
@@ -136,7 +118,7 @@
         "name": "Copy_Crashes_CDC",
         "dependsOn": [
           {
-            "activity": "Lookup_Crashes_Watermark",
+            "activity": "Read_Watermarks",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -181,46 +163,6 @@
         ]
       },
       {
-        "type": "Lookup",
-        "typeProperties": {
-          "source": {
-            "type": "DataWarehouseSource",
-            "sqlReaderQuery": "SELECT CONVERT(VARCHAR(30), last_loaded_value, 126) AS last_loaded_value\nFROM dbo.etl_watermark\nWHERE source_name = 'persons'",
-            "partitionOption": "None",
-            "queryTimeout": "02:00:00"
-          },
-          "datasetSettings": {
-            "type": "DataWarehouseTable",
-            "schema": [],
-            "connectionSettings": {
-              "name": "NYC_VehicleCrashes_Landing_Lakehouse",
-              "properties": {
-                "type": "DataWarehouse",
-                "typeProperties": {
-                  "artifactId": "ef5d1260-aa46-4bea-9fd5-2427f38adf0a",
-                  "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-ssnopoqdahoelgmt3ecb7pkoqa.datawarehouse.fabric.microsoft.com",
-                  "workspaceId": "00000000-0000-0000-0000-000000000000"
-                },
-                "externalReferences": {
-                  "connection": "1de56b14-e844-4550-bfe4-a679696728e6"
-                },
-                "annotations": []
-              }
-            },
-            "annotations": []
-          }
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "Lookup_Persons_Watermark",
-        "dependsOn": []
-      },
-      {
         "type": "Copy",
         "typeProperties": {
           "source": {
@@ -239,7 +181,7 @@
                 "location": {
                   "type": "HttpServerLocation",
                   "relativeUrl": {
-                    "value": "?$where=crash_date>'@{activity('Lookup_Persons_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=10000000",
+                    "value": "?$where=crash_date>'@{json(activity('Read_Watermarks').output.result.exitValue).persons}'&$order=crash_date&$limit=10000000",
                     "type": "Expression"
                   }
                 },
@@ -315,7 +257,7 @@
         "name": "Copy_Persons_CDC",
         "dependsOn": [
           {
-            "activity": "Lookup_Persons_Watermark",
+            "activity": "Read_Watermarks",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -360,46 +302,6 @@
         ]
       },
       {
-        "type": "Lookup",
-        "typeProperties": {
-          "source": {
-            "type": "DataWarehouseSource",
-            "sqlReaderQuery": "SELECT CONVERT(VARCHAR(30), last_loaded_value, 126) AS last_loaded_value\nFROM dbo.etl_watermark\nWHERE source_name = 'vehicles'",
-            "partitionOption": "None",
-            "queryTimeout": "02:00:00"
-          },
-          "datasetSettings": {
-            "type": "DataWarehouseTable",
-            "schema": [],
-            "connectionSettings": {
-              "name": "NYC_VehicleCrashes_Landing_Lakehouse",
-              "properties": {
-                "type": "DataWarehouse",
-                "typeProperties": {
-                  "artifactId": "ef5d1260-aa46-4bea-9fd5-2427f38adf0a",
-                  "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-ssnopoqdahoelgmt3ecb7pkoqa.datawarehouse.fabric.microsoft.com",
-                  "workspaceId": "00000000-0000-0000-0000-000000000000"
-                },
-                "externalReferences": {
-                  "connection": "1de56b14-e844-4550-bfe4-a679696728e6"
-                },
-                "annotations": []
-              }
-            },
-            "annotations": []
-          }
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "Lookup_Vehicles_Watermark",
-        "dependsOn": []
-      },
-      {
         "type": "Copy",
         "typeProperties": {
           "source": {
@@ -418,7 +320,7 @@
                 "location": {
                   "type": "HttpServerLocation",
                   "relativeUrl": {
-                    "value": "?$where=crash_date>'@{activity('Lookup_Vehicles_Watermark').output.firstRow.last_loaded_value}'&$order=crash_date&$limit=10000000",
+                    "value": "?$where=crash_date>'@{json(activity('Read_Watermarks').output.result.exitValue).vehicles}'&$order=crash_date&$limit=10000000",
                     "type": "Expression"
                   }
                 },
@@ -494,7 +396,7 @@
         "name": "Copy_Vehicles_CDC",
         "dependsOn": [
           {
-            "activity": "Lookup_Vehicles_Watermark",
+            "activity": "Read_Watermarks",
             "dependencyConditions": [
               "Succeeded"
             ]

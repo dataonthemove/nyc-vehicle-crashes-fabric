@@ -162,6 +162,19 @@ if mode == "seed":
     assert not missing, f"missing watermark rows: {missing}"
     print(f"watermark rows: {wm.count()}")
 
+# mode="read" returns the watermarks to the caller as JSON. Fabric Pipeline
+# pl_cdc_NYC_Crashes_Landing consumes this instead of a SQL-endpoint Lookup: the SQL analytics
+# endpoint is not a Git item, so a Lookup referencing it fails Git import with MissingDependencies.
+if mode == "read":
+    import json
+    try:
+        import notebookutils as nbutils
+    except ImportError:
+        import mssparkutils as nbutils
+    payload = {r["source_name"]: r["last_loaded_value"].strftime("%Y-%m-%dT%H:%M:%S")
+               for r in wm.collect()}
+    nbutils.notebook.exit(json.dumps(payload))
+
 
 # METADATA ********************
 
