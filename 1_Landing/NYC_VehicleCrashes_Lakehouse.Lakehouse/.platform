@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Lakehouse",
+    "displayName": "NYC_VehicleCrashes_Lakehouse",
+    "description": ""
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "98b84391-4ac3-bf6b-4b21-0af0b7f1c383"
+  }
+}
