@@ -92,7 +92,7 @@
           <mxGeometry height="40" width="190" x="50" y="16" as="geometry" />
         </mxCell>
         <mxCell id="devWs" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0F8B8D;strokeWidth=3;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
-          <mxGeometry height="1290" width="1530" x="1529.14" y="372" as="geometry" />
+          <mxGeometry height="1290" width="1530" x="1529.14" y="432" as="geometry" />
         </mxCell>
         <mxCell id="srcIcon" parent="1" style="sketch=0;html=1;aspect=fixed;image;image=img/lib/mscae/Globe.svg;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
           <mxGeometry height="80" width="80" x="395" y="180" as="geometry" />
@@ -101,12 +101,12 @@
           <mxGeometry height="100" width="310" x="280" y="268" as="geometry" />
         </mxCell>
         <mxCell id="devWsT" parent="1" style="text;html=1;fontSize=13;align=center;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Workspace: 2_NYC_VehicleCrashes_dev &amp;nbsp;·&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;div&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;73d1612d-023e-40bb-914b-fcd796620223 &amp;nbsp;·&amp;nbsp;&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Git-bound to /2_dev &amp;nbsp;·&amp;nbsp;&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;branch main + short-lived feature branches&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="100" width="423.87" x="2040" y="380" as="geometry" />
+          <mxGeometry height="100" width="423.87" x="2040" y="440" as="geometry" />
         </mxCell>
         <mxCell id="e3" edge="1" parent="1" source="pipeBox" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=arc;rounded=0;html=1;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="lhBox">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ZhjlWwC8mbzHmTswmFpL-67" connectable="0" parent="e3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;span style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;MERGE upsert&lt;/span&gt;&lt;br style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;&lt;span style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;→ Delta Tables/&lt;/span&gt;" vertex="1">
+        <mxCell id="ZhjlWwC8mbzHmTswmFpL-67" connectable="0" parent="e3" style="edgeLabel;labelBackgroundColor=#FFFFFF;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;span style=&quot;&quot;&gt;MERGE upsert&lt;/span&gt;&lt;br style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;→ Delta Tables/&lt;/span&gt;" vertex="1">
           <mxGeometry relative="1" x="0.1238" y="-1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -114,7 +114,7 @@
         <mxCell id="e4" edge="1" parent="1" source="lhBox" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=arc;rounded=0;html=1;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.523;entryDx=0;entryDy=0;entryPerimeter=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="nbBox">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ZhjlWwC8mbzHmTswmFpL-66" connectable="0" parent="e4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;span style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;cross-database read&lt;/span&gt;&lt;br style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;&lt;span style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;(SQL analytics endpoint)&lt;/span&gt;" vertex="1">
+        <mxCell id="ZhjlWwC8mbzHmTswmFpL-66" connectable="0" parent="e4" style="edgeLabel;labelBackgroundColor=#FFFFFF;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;span style=&quot;&quot;&gt;cross-database read&lt;/span&gt;&lt;br style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;(SQL analytics endpoint)&lt;/span&gt;" vertex="1">
           <mxGeometry relative="1" x="-0.0173" y="2" as="geometry">
             <mxPoint x="18" y="2" as="offset" />
           </mxGeometry>
@@ -122,7 +122,7 @@
         <mxCell id="e5" edge="1" parent="1" source="nbBox" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=arc;rounded=0;html=1;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.85;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;entryPerimeter=0;" target="whBox">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ZhjlWwC8mbzHmTswmFpL-65" connectable="0" parent="e5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;span style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;etl.usp_load_* — dims → facts → bridge,&lt;/span&gt;&lt;br style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;&lt;span style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;then the dbo.etl_watermark update&lt;/span&gt;" vertex="1">
+        <mxCell id="ZhjlWwC8mbzHmTswmFpL-65" connectable="0" parent="e5" style="edgeLabel;labelBackgroundColor=#FFFFFF;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;span style=&quot;&quot;&gt;etl.usp_load_* — dims → facts → bridge,&lt;/span&gt;&lt;br style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;then the dbo.etl_watermark update&lt;/span&gt;" vertex="1">
           <mxGeometry relative="1" x="0.0017" y="1" as="geometry">
             <mxPoint x="1" as="offset" />
           </mxGeometry>
@@ -130,23 +130,23 @@
         <mxCell id="e6" edge="1" parent="1" source="whBox" style="jumpStyle=arc;labelBackgroundColor=#FFFFFF;fontSize=11;edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;exitX=1;exitY=0.43;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="smBox" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="bZd8X4PGlVNk33EtAkMU-7" connectable="0" parent="e6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;b style=&quot;font-size: 10px;&quot;&gt;Direct Lake&lt;/b&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;over OneLake&lt;/span&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;no import; no&lt;/span&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;DirectQuery fallback&lt;/span&gt;" vertex="1">
+        <mxCell id="bZd8X4PGlVNk33EtAkMU-7" connectable="0" parent="e6" style="edgeLabel;labelBackgroundColor=#FFFFFF;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;b style=&quot;font-size: 10px;&quot;&gt;Direct Lake&lt;/b&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;over OneLake&lt;/span&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;no import; no&lt;/span&gt;&lt;br style=&quot;font-size: 10px;&quot;&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;DirectQuery fallback&lt;/span&gt;" vertex="1">
           <mxGeometry relative="1" x="-0.4143" y="-2" as="geometry">
             <mxPoint x="41" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="e9" edge="1" parent="1" source="adoBox" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;dashed=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;jumpStyle=arc;endArrow=classic;entryX=0;entryY=0.484;entryDx=0;entryDy=0;entryPerimeter=0;" target="devWs">
+        <mxCell id="e9" edge="1" parent="1" source="adoBox" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;dashed=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;jumpStyle=arc;endArrow=classic;entryX=0;entryY=0.437;entryDx=0;entryDy=0;entryPerimeter=0;" target="devWs">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ZhjlWwC8mbzHmTswmFpL-20" connectable="0" parent="e9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;Git-bound: /2_dev&lt;/b&gt;&lt;br style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;&lt;span style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;Fabric Git Integration — Source Control → Update All&lt;/span&gt;&lt;br style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;&lt;i style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;(manual trigger; item definitions only, no table data)&lt;/i&gt;" vertex="1">
-          <mxGeometry relative="1" as="geometry">
+        <mxCell id="ZhjlWwC8mbzHmTswmFpL-20" connectable="0" parent="e9" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;&quot;&gt;Git-bound: /2_dev&lt;/b&gt;&lt;br style=&quot;&quot;&gt;&lt;span style=&quot;&quot;&gt;Fabric Git Integration — Source Control → Update All&lt;/span&gt;&lt;br style=&quot;&quot;&gt;&lt;i style=&quot;&quot;&gt;(manual trigger; item definitions only, no table data)&lt;/i&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.078" as="geometry">
             <mxPoint y="-30" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="e11" edge="1" parent="1" source="devWs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=3;exitX=0.187;exitY=1;exitDx=0;exitDy=0;entryX=0.679;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=classic;" target="testWs">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ZhjlWwC8mbzHmTswmFpL-3" connectable="0" parent="e11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;Deployment Pipeline:&amp;nbsp;&lt;/b&gt;&lt;div style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;&lt;b&gt;Dev → Test&lt;/b&gt;&lt;br&gt;structure / metadata only — no data;&lt;br&gt;rebind data sources via Deployment Rules&lt;/div&gt;" vertex="1">
+        <mxCell id="ZhjlWwC8mbzHmTswmFpL-3" connectable="0" parent="e11" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;&quot;&gt;Deployment Pipeline:&amp;nbsp;&lt;/b&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;Dev → Test&lt;/b&gt;&lt;br&gt;structure / metadata only — no data;&lt;br&gt;rebind data sources via Deployment Rules&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="-0.0089" y="1" as="geometry">
             <mxPoint x="-4" y="11" as="offset" />
           </mxGeometry>
@@ -154,7 +154,7 @@
         <mxCell id="e12" edge="1" parent="1" source="testWs" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=arc;rounded=0;html=1;strokeWidth=3;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.562;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;exitPerimeter=0;entryPerimeter=0;" target="prodWs">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ZhjlWwC8mbzHmTswmFpL-4" connectable="0" parent="e12" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;Deployment Pipeline:&amp;nbsp;&lt;/b&gt;&lt;div style=&quot;background-color: rgb(236, 236, 236);&quot;&gt;&lt;b&gt;Test → Prod&lt;/b&gt;&lt;br&gt;validate in Test, tag the deployed&lt;br&gt;commit on main, then promote;&lt;br&gt;connections / gateways / shortcuts&lt;br&gt;are not deployed&lt;/div&gt;" vertex="1">
+        <mxCell id="ZhjlWwC8mbzHmTswmFpL-4" connectable="0" parent="e12" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;&quot;&gt;Deployment Pipeline:&amp;nbsp;&lt;/b&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;Test → Prod&lt;/b&gt;&lt;br&gt;validate in Test, tag the deployed&lt;br&gt;commit on main, then promote;&lt;br&gt;connections / gateways / shortcuts&lt;br&gt;are not deployed&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="0.0127" y="2" as="geometry">
             <mxPoint x="2" y="-1" as="offset" />
           </mxGeometry>
@@ -162,7 +162,7 @@
         <mxCell id="e8" edge="1" parent="1" source="devIcon" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=arc;rounded=0;html=1;strokeWidth=3;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.35;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;entryPerimeter=0;" target="adoBox">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ZhjlWwC8mbzHmTswmFpL-18" connectable="0" parent="e8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;span style=&quot;font-size: 12px; background-color: rgb(236, 236, 236);&quot;&gt;commit / push —&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(236, 236, 236);&quot;&gt;local TMDL, T-SQL and&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(236, 236, 236);&quot;&gt;pipeline JSON authored in&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(236, 236, 236);&quot;&gt;VSC + Claude Code&lt;/span&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="ZhjlWwC8mbzHmTswmFpL-18" connectable="0" parent="e8" style="edgeLabel;labelBackgroundColor=#F5F5F5;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;span style=&quot;font-size: 12px; &quot;&gt;commit / push —&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-size: 12px; &quot;&gt;local TMDL, T-SQL and&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 12px; &quot;&gt;pipeline JSON authored in&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 12px; &quot;&gt;VSC + Claude Code&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="-0.5" as="geometry">
             <mxPoint x="43" y="-40" as="offset" />
           </mxGeometry>
@@ -204,7 +204,7 @@
           <mxGeometry height="24.351219512195122" width="393.5135135135135" x="60.54054054054052" y="161.34146341463418" as="geometry" />
         </mxCell>
         <mxCell id="ZhjlWwC8mbzHmTswmFpL-85" connectable="0" parent="1" style="group;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
-          <mxGeometry height="380" width="180" x="2838.14" y="1095" as="geometry" />
+          <mxGeometry height="380" width="180" x="2838.14" y="1155" as="geometry" />
         </mxCell>
         <mxCell id="smBox" parent="ZhjlWwC8mbzHmTswmFpL-85" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FFF6DA;strokeColor=#D6B656;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
           <mxGeometry height="380" width="180" as="geometry" />
@@ -216,7 +216,7 @@
           <mxGeometry height="282" width="174" x="3" y="88" as="geometry" />
         </mxCell>
         <mxCell id="ZhjlWwC8mbzHmTswmFpL-89" connectable="0" parent="1" style="group;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
-          <mxGeometry height="300" width="340" x="2099.14" y="522" as="geometry" />
+          <mxGeometry height="300" width="340" x="2099.14" y="582" as="geometry" />
         </mxCell>
         <mxCell id="lhBox" parent="ZhjlWwC8mbzHmTswmFpL-89" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#EAF3FB;strokeColor=#6C8EBF;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
           <mxGeometry height="300" width="340" as="geometry" />
@@ -228,7 +228,7 @@
           <mxGeometry height="205" width="330" x="5" y="88" as="geometry" />
         </mxCell>
         <mxCell id="ZhjlWwC8mbzHmTswmFpL-90" connectable="0" parent="1" style="group;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
-          <mxGeometry height="300" width="350" x="2689.14" y="515" as="geometry" />
+          <mxGeometry height="300" width="350" x="2689.14" y="575" as="geometry" />
         </mxCell>
         <mxCell id="nbBox" parent="ZhjlWwC8mbzHmTswmFpL-90" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F3ECF9;strokeColor=#9673A6;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
           <mxGeometry height="300" width="350" as="geometry" />
@@ -240,7 +240,7 @@
           <mxGeometry height="182" width="310" x="20" y="98" as="geometry" />
         </mxCell>
         <mxCell id="ZhjlWwC8mbzHmTswmFpL-91" connectable="0" parent="1" style="group;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
-          <mxGeometry height="300" width="310" x="1579.14" y="522" as="geometry" />
+          <mxGeometry height="300" width="310" x="1579.14" y="582" as="geometry" />
         </mxCell>
         <mxCell id="pipeBox" parent="ZhjlWwC8mbzHmTswmFpL-91" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FFF6DA;strokeColor=#D6B656;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
           <mxGeometry height="300" width="310" as="geometry" />
@@ -273,7 +273,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="ZhjlWwC8mbzHmTswmFpL-114" connectable="0" parent="1" style="group;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
-          <mxGeometry height="565" width="1090.0000000000002" x="1579.14" y="1042" as="geometry" />
+          <mxGeometry height="565" width="1090.0000000000002" x="1579.14" y="1102" as="geometry" />
         </mxCell>
         <mxCell id="whBox" parent="ZhjlWwC8mbzHmTswmFpL-114" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#F5F9F5;strokeColor=#82B366;strokeWidth=2;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
           <mxGeometry height="565" width="1090" as="geometry" />
@@ -380,8 +380,8 @@
         <mxCell id="ZhjlWwC8mbzHmTswmFpL-141" edge="1" parent="1" source="srcIcon" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=3;exitX=1;exitY=0.5;exitDx=0;exitDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;entryX=0;entryY=0.556;entryDx=0;entryDy=0;entryPerimeter=0;jumpStyle=arc;" target="landingWs" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="bZd8X4PGlVNk33EtAkMU-6" connectable="0" parent="ZhjlWwC8mbzHmTswmFpL-141" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;Copy_*_CDC over anonymous&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;HTTP&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;incremental by&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;dbo.etl_watermark&lt;/span&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry relative="1" x="-0.2227" y="2" as="geometry">
+        <mxCell id="bZd8X4PGlVNk33EtAkMU-6" connectable="0" parent="ZhjlWwC8mbzHmTswmFpL-141" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;Copy_*_CDC over anonymous&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;HTTP&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;incremental by&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: rgb(232, 246, 244);&quot;&gt;dbo.etl_watermark&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.562" y="2" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
@@ -393,16 +393,16 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="bZd8X4PGlVNk33EtAkMU-2" connectable="0" parent="ZhjlWwC8mbzHmTswmFpL-142" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;color: rgb(184, 84, 80);&quot;&gt;MCP: read Landing&lt;/b&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;Files/ listing · Livy SHOW TABLES&lt;/span&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;i style=&quot;color: rgb(184, 84, 80);&quot;&gt;read-only&lt;/i&gt;" vertex="1">
-          <mxGeometry relative="1" x="0.2517" y="2" as="geometry">
-            <mxPoint as="offset" />
+        <mxCell id="bZd8X4PGlVNk33EtAkMU-2" connectable="0" parent="ZhjlWwC8mbzHmTswmFpL-142" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=1;points=[];movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b style=&quot;color: rgb(184, 84, 80);&quot;&gt;MCP: read Landing&lt;/b&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;Files/ listing · Livy SHOW TABLES&lt;/span&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;i style=&quot;color: rgb(184, 84, 80);&quot;&gt;read-only&lt;/i&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.686" y="2" as="geometry">
+            <mxPoint y="-26" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ZhjlWwC8mbzHmTswmFpL-148" edge="1" parent="1" source="mcpIcon" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeColor=#B85450;strokeWidth=2;exitX=1.007;exitY=0.71;exitDx=0;exitDy=0;entryX=0;entryY=0.26;entryDx=0;entryDy=0;entryPerimeter=0;jumpStyle=arc;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;exitPerimeter=0;" target="devWs" value="">
+        <mxCell id="ZhjlWwC8mbzHmTswmFpL-148" edge="1" parent="1" source="mcpIcon" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeColor=#B85450;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.213;entryDx=0;entryDy=0;entryPerimeter=0;jumpStyle=arc;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;exitPerimeter=0;" target="devWs" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="bZd8X4PGlVNk33EtAkMU-4" connectable="0" parent="ZhjlWwC8mbzHmTswmFpL-148" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;b style=&quot;color: rgb(184, 84, 80);&quot;&gt;MCP: run / read / validate&lt;/b&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;pipeline runs · Livy/Spark ·&lt;/span&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;refresh_semantic_model&lt;/span&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;i style=&quot;color: rgb(184, 84, 80);&quot;&gt;never authors item definitions&lt;/i&gt;" vertex="1">
-          <mxGeometry relative="1" x="-0.0984" y="2" as="geometry">
+        <mxCell id="bZd8X4PGlVNk33EtAkMU-4" connectable="0" parent="ZhjlWwC8mbzHmTswmFpL-148" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;b style=&quot;color: rgb(184, 84, 80);&quot;&gt;MCP: run / read / validate&lt;/b&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;pipeline runs · Livy/Spark ·&lt;/span&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;span style=&quot;color: rgb(184, 84, 80); background-color: rgb(232, 246, 244);&quot;&gt;refresh_semantic_model&lt;/span&gt;&lt;br style=&quot;color: rgb(184, 84, 80);&quot;&gt;&lt;i style=&quot;color: rgb(184, 84, 80);&quot;&gt;never authors item definitions&lt;/i&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.622" y="2" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
@@ -414,7 +414,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="bZd8X4PGlVNk33EtAkMU-5" connectable="0" parent="e10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;text-align: right; background-color: rgb(232, 246, 244);&quot;&gt;Git-bound:&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;text-align: right; background-color: rgb(232, 246, 244);&quot;&gt;/1_Landing&lt;/span&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="bZd8X4PGlVNk33EtAkMU-5" connectable="0" parent="e10" style="edgeLabel;labelBackgroundColor=#E8F6F4;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;text-align: right; background-color: rgb(232, 246, 244);&quot;&gt;Git-bound:&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;text-align: right; background-color: rgb(232, 246, 244);&quot;&gt;/1_Landing&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry relative="1" x="0.2605" y="5" as="geometry">
             <mxPoint x="-35" y="3" as="offset" />
           </mxGeometry>
