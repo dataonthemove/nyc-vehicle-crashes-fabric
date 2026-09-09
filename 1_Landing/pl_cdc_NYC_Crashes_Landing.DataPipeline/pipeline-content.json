@@ -65,7 +65,7 @@
               "fileExtension": ".csv"
             },
             "storeSettings": {
-              "type": "LakehouseWriteSettings"
+              "type": "AzureBlobStorageWriteSettings"
             },
             "datasetSettings": {
               "type": "DelimitedText",
@@ -140,7 +140,10 @@
               "type": "string"
             },
             "new_value": {
-              "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+              "value": {
+                "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+                "type": "Expression"
+              },
               "type": "Expression"
             }
           }
@@ -204,7 +207,7 @@
               "fileExtension": ".csv"
             },
             "storeSettings": {
-              "type": "LakehouseWriteSettings"
+              "type": "AzureBlobStorageWriteSettings"
             },
             "datasetSettings": {
               "type": "DelimitedText",
@@ -279,7 +282,10 @@
               "type": "string"
             },
             "new_value": {
-              "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+              "value": {
+                "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+                "type": "Expression"
+              },
               "type": "Expression"
             }
           }
@@ -343,7 +349,7 @@
               "fileExtension": ".csv"
             },
             "storeSettings": {
-              "type": "LakehouseWriteSettings"
+              "type": "AzureBlobStorageWriteSettings"
             },
             "datasetSettings": {
               "type": "DelimitedText",
@@ -418,7 +424,10 @@
               "type": "string"
             },
             "new_value": {
-              "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+              "value": {
+                "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+                "type": "Expression"
+              },
               "type": "Expression"
             }
           }

@@ -3,7 +3,7 @@
   "metadata": {
     "type": "DataPipeline",
     "displayName": "pl_cdc_NYC_Crashes_Landing",
-    "description": "Landing-zone CDC ingestion \u2014 Socrata HTTP to Files/raw/{crashes,persons,vehicles}; watermark read from the lakehouse SQL endpoint, advanced by nb_etl_watermark."
+    "description": "Landing-zone CDC ingestion — Socrata HTTP to Files/raw/{crashes,persons,vehicles}; watermark read from the lakehouse SQL endpoint, advanced by nb_etl_watermark."
   },
   "config": {
     "version": "2.0",
