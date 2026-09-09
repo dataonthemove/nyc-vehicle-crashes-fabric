@@ -154,3 +154,50 @@ Minor finding: the bridge has no `crash_key` column — its columns are `bridge_
 `factor_group_key`, `factor_key`. A smoke-test query written against `crash_key` fails with
 "cannot be found or may not be used in this expression". Worth correcting in CC skill
 `/dax-smoke-test` if that name appears there.
+
+---
+
+## Phase 4 — What was done / What was deferred / Other findings
+
+### What was done
+
+| Check | Result |
+|---|---|
+| Fabric Lakehouse item | `NYC_VehicleCrashes_Landing_Lakehouse` (`b7f1c383-0af0-4b21-bf6b-4ac398b84391`) in workspace `1_NYC_VehicleCrashes_Landing`; SQLEndpoint `ef5d1260-…` carries the same name |
+| `Files/raw/` | Created — holds a zero-byte `.keep` sentinel (MCP `upload_lakehouse_file`) |
+| Role assignments (Fabric REST GET) | `Jpb_fabric_user7` · User · **Admin** — sole principal |
+| Git | Item present at repo folder `1_Landing/NYC_VehicleCrashes_Landing_Lakehouse.Lakehouse/` (`.platform`, `alm.settings.json`, `lakehouse.metadata.json`, `shortcuts.metadata.json`) on `origin/main` at `bd3894d`; pulled locally by rebase |
+
+The lakehouse **pre-existed** in the landing workspace as `NYC_VehicleCrashes_Lakehouse` (empty,
+uncommitted). Pat renamed it in the Fabric UI rather than creating a second item — MCP `rename_item`
+is deny-listed in repo file `.claude/settings.json`, and a `create_lakehouse` call would have left a
+stray. No item was created or deleted in this phase.
+
+Phase 4 **Done when** is satisfied.
+
+### What was deferred
+
+- **Viewer (all consuming stages) — not assigned, and not assignable as written.** Fabric workspace
+  role assignments take principals (user / group / service principal), never another workspace, and
+  this trial tenant has exactly one principal. Dev/Test/Prod reach landing under the same `user7`
+  identity, which is already Admin, so shortcut reads in Phases 7/10/11 are unblocked. Revisit only
+  if a second principal or an Entra security group is introduced.
+
+### Other findings (recorded, not fixed)
+
+1. **Runbook correction (apply by hand).** Phase 4's membership line ("Viewer (all consuming
+   stages)") should name a principal or group, or be struck. As written it describes an object Fabric
+   RBAC cannot express.
+2. **Nothing pending in the Source Control pane is the correct state.** Fabric had already committed
+   the renamed item (`bd3894d`, 2026-09-09 21:14:56 UTC); Fabric REST `GET git/status` returned
+   `changes: []` with `workspaceHead == remoteCommitHash`. Also note OneLake `Files/` content is
+   **never** Git-tracked, so creating `Files/raw/` can never surface as a pending change — only item
+   metadata does.
+3. **`Files/raw/` cannot exist empty in OneLake.** The `.keep` sentinel holds the path until Phase 6
+   lands data; it is harmless to the shortcut contract (Context 2 targets `Files/raw/`) but should be
+   ignored by any future file-pattern read.
+4. **Repo file `1_Landing/placeholder` is now redundant** — it seeded the folder before the item
+   existed. Left in place: deleting it is out of Phase 4 scope.
+5. **Local `main` was 1 ahead / 3 behind `origin/main`** on entry; the three remote commits were
+   Fabric's own workspace commits. Rebased, not merged. `main` remains unpushed by 1 commit at the
+   end of this phase.
