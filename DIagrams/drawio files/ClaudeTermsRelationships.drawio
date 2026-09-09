@@ -1,0 +1,212 @@
+<mxfile host="Electron" agent="Claude">
+  <diagram name="Agent Glossary - CC Mapping" id="ccGlossaryV4">
+    <mxGraphModel dx="2365" dy="1335" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="960" background="#F0F0F0" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="agent" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=center;spacingLeft=14;spacingBottom=8;fontSize=14;fontStyle=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;opacity=60;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="AGENT (generic)  =  Model + Harness&lt;br&gt;CC: a running CC session in the terminal" vertex="1">
+          <mxGeometry height="820" width="1230" x="130" y="21" as="geometry" />
+        </mxCell>
+        <mxCell id="scaffold" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=12;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="SCAFFOLDING (generic)&#xa;CC: CLAUDE.md (global + project), tool descriptions, output parsing" vertex="1">
+          <mxGeometry height="80" width="320" x="240" y="109" as="geometry" />
+        </mxCell>
+        <mxCell id="model" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=12;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="MODEL (generic)&#xa;CC: Claude (Opus / Sonnet)&#xa;stateless, no loop" vertex="1">
+          <mxGeometry height="80" width="320" x="240" y="281.5" as="geometry" />
+        </mxCell>
+        <mxCell id="harness" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=12;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="HARNESS (generic)&#xa;CC: the CC CLI runtime&#xa;drives the loop, decides when to stop" vertex="1">
+          <mxGeometry height="80" width="250" x="780" y="279" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=12;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="CONTEXT ENGINEERING (generic)&#xa;CC: settings.json tiers, /compact, /resume" vertex="1">
+          <mxGeometry height="79.5" width="320" x="240" y="481.5" as="geometry" />
+        </mxCell>
+        <mxCell id="4n2jT2BfFXch1rPA6AUW-2" edge="1" parent="1" source="stm" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="policy" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="310" y="781" />
+              <mxPoint x="767" y="781" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="stm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=11;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Short-term Memory (generic)&#xa;CC: session JSONL&#xa;(this run)" vertex="1">
+          <mxGeometry height="80" width="160" x="230" y="661.5" as="geometry" />
+        </mxCell>
+        <mxCell id="ltm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=11;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Long-term Memory (generic)&#xa;CC: CLAUDE.md&#xa;(across sessions)" vertex="1">
+          <mxGeometry height="80" width="160" x="406" y="661.5" as="geometry" />
+        </mxCell>
+        <mxCell id="cap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=12;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="CAPABILITIES (superclass)&#xa;invoked by the harness, results returned to context" vertex="1">
+          <mxGeometry height="79.5" width="560" x="730" y="481.5" as="geometry" />
+        </mxCell>
+        <mxCell id="tool" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=11;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Tool Use (generic)&#xa;CC: built-in tools (Bash, Read, Edit, Grep)&#xa;+ MCP tools (ms-fabric, powerbi-modeling)" vertex="1">
+          <mxGeometry height="80" width="170" x="725" y="661.5" as="geometry" />
+        </mxCell>
+        <mxCell id="skill" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=11;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Skill (generic)&#xa;CC: skill / plugin&#xa;(e.g. fabric-powerbi)" vertex="1">
+          <mxGeometry height="80" width="170" x="925" y="661.5" as="geometry" />
+        </mxCell>
+        <mxCell id="sub" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=11;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Sub-agent (generic)&#xa;CC: claude agents&#xa;own model + scaffold" vertex="1">
+          <mxGeometry height="80" width="170" x="1123" y="661.5" as="geometry" />
+        </mxCell>
+        <mxCell id="orch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;dashed=1;dashPattern=1 4;fontSize=12;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="ORCHESTRATOR (generic)&#xa;CC: the session coordinating&#xa;multiple sub-agents" vertex="1">
+          <mxGeometry height="90" width="209" x="1394" y="491" as="geometry" />
+        </mxCell>
+        <mxCell id="policy" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontSize=12;fontStyle=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="POLICY (generic — emergent behaviour)&#xa;CC: what the session actually does = model weights + CLAUDE.md + harness loop + enabled MCP servers" vertex="1">
+          <mxGeometry height="71" width="1160" x="187" y="868.5" as="geometry" />
+        </mxCell>
+        <mxCell id="note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontSize=11;fontStyle=2;align=left;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="MCP = the protocol standardising the Tool Use ↔ Harness handshake" vertex="1">
+          <mxGeometry height="30" width="400" x="810" y="801" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="scaffold" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="model" value="shapes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="harness" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;exitX=0.719;exitY=0;entryX=1;entryY=0.5;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="scaffold" value="loads / assembles">
+          <mxGeometry relative="1" x="0.35" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="959.75" y="149" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="harness" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;exitX=0;exitY=0.1875;entryX=1;entryY=0.1875;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="model" value="&lt;div&gt;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;hands over&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;assembled&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;context /&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;prompt&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;to&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="model" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;exitX=1;exitY=0.875;entryX=0;entryY=0.875;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="harness" value="emits tool-call&amp;nbsp;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;intent&amp;nbsp;&lt;/span&gt;&lt;div&gt;(&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;asks to run a tool)&lt;/span&gt;&lt;/div&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="harness" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;exitX=0.25;exitY=1;entryX=0.1875;entryY=0;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="ctx" value="manages">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="850" y="421.5" />
+              <mxPoint x="300" y="421.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="harness" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;exitX=0.75;exitY=1;entryX=0.517;entryY=0;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="cap" value="executes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="ctx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;labelBackgroundColor=#F0F0F0;exitX=1;exitY=0.245;entryX=0;entryY=0.25;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="cap" value="&lt;div&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31));&quot;&gt;gates (&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31));&quot;&gt;decides&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31));&quot;&gt;)&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;what&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31));&quot;&gt;gets&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;loaded&lt;/span&gt;&lt;/div&gt;">
+          <mxGeometry relative="1" x="0.0609" y="20" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="cap" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;exitX=0;exitY=0.825;entryX=1;entryY=0.825;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="ctx" value="&lt;div&gt;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;takes up&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;context space&amp;nbsp;&lt;/div&gt;&lt;div&gt;(&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;consumes&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31));&quot;&gt;budget&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31));&quot;&gt; &lt;/span&gt;&lt;span style=&quot;background-color: light-dark(rgb(240, 240, 240), rgb(31, 31, 31)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;)&lt;/span&gt;&lt;/div&gt;">
+          <mxGeometry relative="1" y="26" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="stm" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=0;endSize=14;exitX=0.5;exitY=0;entryX=0.219;entryY=1;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="ctx" value="is a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="ltm" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=0;endSize=14;exitX=0.5;exitY=0;entryX=0.769;entryY=1;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="ctx" value="is a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="tool" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=0;endSize=14;exitX=0.5;exitY=0;entryX=0.146;entryY=1;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="cap" value="is a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="skill" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=0;endSize=14;exitX=0.5;exitY=0;entryX=0.5;entryY=1;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="cap" value="is a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="sub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=0;endSize=14;exitX=0.5;exitY=0;entryX=0.853;entryY=1;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="cap" value="is a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="model" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;dashed=1;exitX=0;exitY=0.75;labelBackgroundColor=#F0F0F0;entryX=0.015;entryY=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="policy" value="yields">
+          <mxGeometry relative="1" x="-0.1208" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="204" y="341.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="harness" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;dashed=1;exitX=1;exitY=0.75;entryX=0.977;entryY=0;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="policy" value="yields">
+          <mxGeometry relative="1" x="0.3333" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1090" y="341.5" />
+              <mxPoint x="1320" y="341.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="harness" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;dashed=1;dashPattern=1 4;exitX=1;exitY=0.5;entryX=0.5;entryY=0;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="orch" value="acts&amp;nbsp;&lt;div&gt;as&lt;/div&gt;">
+          <mxGeometry relative="1" x="0.1554" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1498.52" y="319.04" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="sub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;fontStyle=1;endArrow=block;endFill=1;dashed=1;dashPattern=1 4;exitX=1;exitY=0.25;entryX=0.5;entryY=1;labelBackgroundColor=#F0F0F0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="orch" value="coordinated&amp;nbsp;&lt;div&gt;by&lt;/div&gt;">
+          <mxGeometry relative="1" x="-0.1699" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1498.52" y="681.48" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="k--73Vt5KaPpou1F7OTJ-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
+          <mxGeometry height="960" width="1543" x="90" as="geometry" />
+        </mxCell>
+        <mxCell id="exref" edge="1" parent="1" source="scaffold" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontStyle=2;startArrow=none;endArrow=none;dashed=0;strokeColor=#6C8EBF;strokeWidth=2;exitX=0;exitY=0.5;entryX=0.25;entryY=0;labelBackgroundColor=#F0F0F0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="ltm" value="same&amp;nbsp;&lt;div&gt;CC artefact:&lt;br&gt;CLAUDE.md&lt;/div&gt;">
+          <mxGeometry relative="1" x="-0.55" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="170.03" y="149.03" />
+              <mxPoint x="170.03" y="631.03" />
+              <mxPoint x="446.03" y="631.03" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lgGroup" connectable="0" parent="1" style="group;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
+          <mxGeometry height="260" width="242" x="1105" y="31" as="geometry" />
+        </mxCell>
+        <mxCell id="lg" parent="lgGroup" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=8;fontSize=12;fontStyle=1;fillColor=#FFFFFF;strokeColor=#666666;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="LEGEND — line styles" vertex="1">
+          <mxGeometry height="268" width="240" as="geometry" />
+        </mxCell>
+        <mxCell id="lgL1" edge="1" parent="lgGroup" style="html=1;endArrow=block;endFill=1;strokeColor=#000000;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="14" y="50.44776119402985" as="sourcePoint" />
+            <mxPoint x="58" y="50.44776119402985" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lgT1" parent="lgGroup" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=10;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Runtime — acts on, during execution" vertex="1">
+          <mxGeometry height="34" width="166" x="66" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="lgL2" edge="1" parent="lgGroup" style="html=1;endArrow=block;endFill=0;endSize=14;strokeColor=#000000;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="14" y="92.16417910447761" as="sourcePoint" />
+            <mxPoint x="58" y="92.16417910447761" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lgT2" parent="lgGroup" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=10;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Classification — &quot;is a&quot; subtype of" vertex="1">
+          <mxGeometry height="34" width="166" x="66" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="lgL3" edge="1" parent="lgGroup" style="html=1;endArrow=block;endFill=1;dashed=1;strokeColor=#000000;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="14" y="133.8805970149254" as="sourcePoint" />
+            <mxPoint x="58" y="133.8805970149254" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lgT3" parent="lgGroup" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=10;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Emergent — a result, not a call" vertex="1">
+          <mxGeometry height="34" width="166" x="66" y="121" as="geometry" />
+        </mxCell>
+        <mxCell id="lgL4" edge="1" parent="lgGroup" style="html=1;endArrow=block;endFill=1;dashed=1;dashPattern=1 4;strokeColor=#000000;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="14" y="175.59701492537314" as="sourcePoint" />
+            <mxPoint x="58" y="175.59701492537314" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lgT4" parent="lgGroup" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=10;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Conditional — multi-agent mode only" vertex="1">
+          <mxGeometry height="34" width="166" x="66" y="164" as="geometry" />
+        </mxCell>
+        <mxCell id="lgL5" edge="1" parent="lgGroup" style="html=1;endArrow=none;startArrow=none;strokeColor=#6C8EBF;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="14" y="217.31343283582092" as="sourcePoint" />
+            <mxPoint x="58" y="217.31343283582092" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lgT5" parent="lgGroup" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=10;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Cross-reference — same CC artefact" vertex="1">
+          <mxGeometry height="34" width="166" x="66" y="207" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
