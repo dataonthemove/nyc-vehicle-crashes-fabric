@@ -6,6 +6,7 @@
     "description": "Landing-zone ETL watermark writer — seeds, advances and reads Delta table etl_watermark in the landing lakehouse. Spark is the only writer; the SQL endpoint is read-only."
   },
   "config": {
-    "version": "2.0"
+    "version": "2.0",
+    "logicalId": "f6d417c0-af46-4673-844e-d3a2b8572185"
   }
 }
