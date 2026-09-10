@@ -35,27 +35,36 @@ Either way the order matters: dims → `dim_factor_group` → facts → bridge, 
 
 ---
 
-## 2. NYC Open Data app token is committed in cleartext — OPEN
+## 2. NYC Open Data app token is in git history — OPEN, history-only
 
-The working-tree copy is gone: repo folder `2_dev/2_Ingest/` was deleted with the retired
-pipeline on 2026-09-10. But `2_dev/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json`
+**Live exposure is closed** (verified 2026-09-10). The working-tree copy is gone: repo folder
+`2_dev/2_Ingest/` was deleted with the retired pipeline, and its successor Fabric Pipeline
+`pl_cdc_NYC_Crashes_Landing` under repo folder `1_Landing/` carries **no** `additionalHeaders`
+block and no token — its three Copy sources call Socrata unauthenticated. Nothing in the working
+tree or in either live workspace uses the token any more.
+
+What remains is git history alone: `2_dev/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json`
 embedded `X-App-Token: W1wHO8uCRL6zDplGACRU0Vn5l` in all three Copy source `additionalHeaders`
-blocks, so it remains in git history. Check whether Fabric Pipeline `pl_cdc_NYC_Crashes_Landing`
-under repo folder `1_Landing/` carries the same header before closing this.
+blocks, and those commits are still reachable — including on `origin/main`.
 
 Low severity — a NYC Open Data app token only raises an anonymous rate limit; it grants
 no write access and no access to anything non-public. But it is a credential in version
 control, which is the wrong shape for a portfolio repo that is meant to demonstrate good
 practice.
 
-**Options, cheapest first:**
+**Remaining options, cheapest first:**
 
-- Drop the header entirely. The unauthenticated Socrata limit is generally adequate for
-  this CDC volume. Costs nothing, removes the problem.
-- Move it to a pipeline parameter with a default supplied at runtime.
-- Move it to Azure Key Vault and reference it via a Web activity.
+- **Accept it and close the item.** The credential is now unused and low-value; a reader who
+  finds it in history finds a dead rate-limit key. Cheapest, and defensible.
+- **Rotate the token at NYC Open Data.** Makes the historical string dead rather than merely
+  unused. Does not remove it from history, but removes the only thing history discloses.
+- **Rewrite history** with `git filter-repo --replace-text`. Removes the string outright, but
+  rewrites every commit SHA on `main` — which breaks the Fabric Git Integration binding on the
+  Dev workspace and every commit SHA recorded in `landing_zone_runbook_results.md` and in the
+  release tags. Only worth it if the repo goes public with the token still live.
 
-Rotating the token does not fix the committed history; only stopping its use does.
+The old "drop the header / parameterize it / move it to Key Vault" options are moot: the
+pipeline that carried the header no longer exists.
 
 ---
 
