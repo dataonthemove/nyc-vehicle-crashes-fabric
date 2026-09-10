@@ -62,7 +62,7 @@
             "type": "DelimitedTextSink",
             "formatSettings": {
               "type": "DelimitedTextWriteSettings",
-              "fileExtension": ".txt"
+              "fileExtension": ".csv"
             },
             "storeSettings": {
               "type": "LakehouseWriteSettings"
@@ -207,7 +207,7 @@
               "fileExtension": ".csv"
             },
             "storeSettings": {
-              "type": "AzureBlobStorageWriteSettings"
+              "type": "LakehouseWriteSettings"
             },
             "datasetSettings": {
               "type": "DelimitedText",
@@ -349,7 +349,7 @@
               "fileExtension": ".csv"
             },
             "storeSettings": {
-              "type": "AzureBlobStorageWriteSettings"
+              "type": "LakehouseWriteSettings"
             },
             "datasetSettings": {
               "type": "DelimitedText",
