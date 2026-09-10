@@ -246,3 +246,86 @@ watermark. Phase 5 **Done when** is satisfied.
    rule once the cutover lands; Warehouse table definition `2_dev/0_NYC_VehicleCrashes_Warehouse.Warehouse/dbo/Tables/etl_watermark.sql`
    likewise. Both are retirement candidates, not edits for this phase.
 4. **Repo file `1_Landing/placeholder` is still redundant** (carried over from Phase 4).
+
+---
+
+## Phase 6 — What was done / What was deferred / Other findings
+
+**Commits (all on `main`, pushed):** `ec8a1d9` · `3651428` · `9333045` · `a13bb5f` · `1c39af6` ·
+`291d280`. Fabric Pipeline `pl_cdc_NYC_Crashes` in Dev was **not** touched.
+
+### What was done
+
+Fabric Pipeline `pl_cdc_NYC_Crashes_Landing` authored at repo folder
+`1_Landing/pl_cdc_NYC_Crashes_Landing.DataPipeline/` and synced to workspace
+`1_NYC_VehicleCrashes_Landing` (item `483fda7f-6fc2-4034-9cda-9f28f506515c`). Seven activities:
+`Read_Watermarks` → three parallel `Copy_*_CDC` (Socrata HTTP → `Files/raw/{crashes,persons,vehicles}`)
+→ three chained `Advance_Watermark_*`. Delta building was deliberately **not** copied into landing —
+Context 2 makes it a per-stage concern (Phase 7).
+
+| Check | Result |
+|---|---|
+| Full run `06db7dc7-3c8a-46ee-830f-6e2f830db867` | **All 7 activities Succeeded**, no retries, 13:02–13:07 UTC |
+| Landing row counts (Livy, `Files/raw/*`) | crashes 2,269,187 · persons 5,984,110 · vehicles 4,551,002 |
+| Dev Delta counts (Phase 3 addendum 2) | 2,269,187 · 5,984,110 · 4,551,002 — **exact match** |
+| Landed volume | 2.9 GB, one data file per source |
+| Watermark | Seed `1900-01-01` consumed by the first loading run `51aa9a9e`; advanced to run time thereafter |
+
+Phase 6 **Done when** is satisfied: a full run succeeded end to end and landing row counts match the
+Dev Lakehouse Delta counts.
+
+### What was deferred
+
+- **Deleting Fabric Pipeline `pl_cdc_NYC_Crashes` from Dev — Pat's call, not done.** It remains the
+  rollback per the runbook, MCP `delete_item` is deny-listed, and the repo folder
+  `2_dev/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/` is likewise untouched. Delete the workspace item
+  and the repo folder together when satisfied.
+- **Warehouse `dbo.etl_watermark` retirement.** The landing Delta table is now the live store for
+  landing ingestion, but the Dev pipeline still reads and writes the Warehouse copy. Retire both it
+  and Fabric Notebook `000_DDL_ETL_Watermark_Seed` when the Dev pipeline goes (carried from Phase 5).
+- **Service-principal connection auth.** The sink authenticates as `Jpb_fabric_user7` through a
+  user-owned OAuth connection. Production-correct is an SP, which needs a tenant setting, an Entra
+  app and role assignments on four workspaces — out of scope with the trial expiring ~28 Sep.
+
+### Other findings (recorded, not fixed)
+
+1. **A Lookup on the lakehouse SQL analytics endpoint cannot be authored from Git.** The endpoint is
+   not a Git item, so Update All rejected the pipeline: `MissingDependencies [ArtifactType:
+   'Warehouse' DependencyId: 'ef5d1260-…']`. **Runbook correction (apply by hand):** Phase 6's
+   "repoint the watermark read at the lakehouse SQL endpoint" is unsatisfiable under code-first
+   authoring. The watermark is instead read by running Fabric Notebook `nb_etl_watermark` in
+   `mode="read"`, which now exits a JSON map; the Copies consume it via
+   `@{json(activity('Read_Watermarks').output.result.exitValue).<source>}`. The SQL endpoint remains
+   valid for interactive/downstream reads — just not as a pipeline dependency in Git.
+2. **The Lakehouse connection's stored OAuth consent, not workspace RBAC, gates Copy writes.**
+   Connection `Lakehouseconnection` (`92d1dbb4-…`, created 2026-06-13) is owned by `Jpb_fabric_user7`,
+   who is workspace Admin on landing — yet every Copy failed `LakehouseForbiddenError` on
+   `b7f1c383-…/Files/raw/…` across three runs. Re-consenting the connection's credentials in Manage
+   connections and gateways fixed it outright, with no JSON change. A Fabric connection carries its
+   own consent, scoped at creation time; RBAC cannot rescue it. Expect this on every new workspace.
+3. **Notebook-activity parameter shape is unforgiving, and Fabric's own UI emits an invalid one.**
+   The working form is `"new_value": {"value": {"value": "@…", "type": "Expression"}, "type": "string"}`.
+   Fabric's UI commit produced outer `"type": "Expression"`, which the runtime rejects at submission —
+   the whole pipeline fails in ~2s with `RequestExecutionFailed / BadRequest` and no activity runs.
+   Flattening to a bare expression fails differently: the value resolves to `9/10/2026 11:57:04 AM`
+   and the activity fails converting it to `RunNotebookParameter`.
+4. **Parallel watermark advances race on Delta.** Three concurrent MERGEs against the single-file
+   `etl_watermark` table produced `ConcurrentAppendException` on two of three. Fixed by chaining the
+   three `Advance_Watermark_*` activities on a `Completed` dependency plus retry 2 @ 60s. Any future
+   fan-out writing this table needs the same treatment.
+5. **Zero-row Copy runs still write header-only files.** `Files/raw/crashes` now holds two 649-byte
+   header-only files alongside the 600 MB data file (persons and vehicles one each), from runs where
+   the watermark was already current. Harmless to the Spark reader (headers match, 0 rows) but the
+   folder accumulates one such file per no-op run. Worth a cleanup rule before Phase 7's shortcut
+   goes live. `Files/raw/.keep` from Phase 4 is likewise still present.
+6. **The watermark advances to run time, not to the maximum `crash_date` loaded.** Inherited verbatim
+   from the Dev pipeline's Script activity (`SYSUTCDATETIME()`). Any row whose `crash_date` falls
+   between the last loaded row and the run timestamp is skipped permanently. Not introduced by this
+   phase; it is now reproduced in the landing zone and should be fixed before the cadence work in
+   Phase 12.
+7. **`.txt` vs `.csv` sink extension.** The Fabric destination dialog defaults to `.txt` (and showed
+   File format `Avro` on reopen — do not re-save that dialog blind). All three sinks were set back to
+   `.csv` in Git to match the Dev pipeline and keep `Files/raw/` honest for Phase 7 readers.
+8. **Pipeline naming.** The landing pipeline is `pl_cdc_NYC_Crashes_Landing`, not a same-named twin of
+   the Dev item — the landing workspace is never a deployment-pipeline stage, so the suffix costs
+   nothing and removes ambiguity in logs and prose.
