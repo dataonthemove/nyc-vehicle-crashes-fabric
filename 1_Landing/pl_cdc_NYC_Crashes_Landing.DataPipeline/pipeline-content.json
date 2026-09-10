@@ -140,8 +140,11 @@
               "type": "string"
             },
             "new_value": {
-              "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
-              "type": "Expression"
+              "value": {
+                "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+                "type": "Expression"
+              },
+              "type": "string"
             }
           }
         },
@@ -279,8 +282,11 @@
               "type": "string"
             },
             "new_value": {
-              "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
-              "type": "Expression"
+              "value": {
+                "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+                "type": "Expression"
+              },
+              "type": "string"
             }
           }
         },
@@ -418,8 +424,11 @@
               "type": "string"
             },
             "new_value": {
-              "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
-              "type": "Expression"
+              "value": {
+                "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+                "type": "Expression"
+              },
+              "type": "string"
             }
           }
         },
