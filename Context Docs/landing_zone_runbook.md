@@ -82,7 +82,9 @@ One session each. A phase is finished only when its **Done when** line is satisf
 then move on.
 
 1. ✅ **Repo restructure** — Dev bound to `/2_dev`. Done.
+
 2. ✅ **Landing workspace** created and bound to `/1_Landing`. Done.
+
 3. ⬜ **← NEXT · Housekeeping** — audit notebooks for hardcoded workspace/item references.
    - **Scope:** every notebook under `2_dev/`, plus
      `2_dev/4_Model/NYC_VehicleCrashes_Semantic.SemanticModel/definition/expressions.tmdl`.
@@ -103,11 +105,13 @@ then move on.
      Lake expression, the rewrite is committed, and the affected notebooks run clean.
    - **Rollback:** revert the commit; nothing live is changed by this phase.
 
+
 4. ⬜ **Landing lakehouse** — create `NYC_VehicleCrashes_Landing_Lakehouse`; lock workspace
    membership to Admin (Jpb_fabric_user7@DataOnTheMoveoutlook.onmicrosoft.com) / Viewer (all consuming stages).
    - **Done when:** lakehouse exists with `Files/raw/`, role assignments verified via MCP,
      and the item is committed to `/1_Landing`.
    - **Rollback:** delete the lakehouse — it holds no data at this point.
+
 
 5. ⬜ **Watermark redesign** — PySpark notebook writing `etl_watermark` to the landing lakehouse;
    seed `1900-01-01` per Context 3.
@@ -115,6 +119,7 @@ then move on.
      **and** the `CLAUDE.md` watermark rule is updated in the same commit.
    - **Rollback:** Warehouse `dbo.etl_watermark` remains untouched and authoritative until
      Phase 6 cuts over; revert the commit and delete the notebook.
+
 
 6. ⬜ **Ingestion move** — rebuild `pl_cdc_NYC_Crashes` in the landing zone, repoint the watermark
    read at the lakehouse SQL endpoint, swap the Script activity for the notebook, run, verify row
@@ -124,6 +129,7 @@ then move on.
    - **Rollback:** the Dev copy of the pipeline is the rollback — do not delete it until the
      landing run is verified. If the landing run fails, disable it and keep running Dev's.
 
+
 7. ⬜ **Dev shortcut** — clear Dev's raw `Files/`, create shortcut `raw_nyc_crashes` per the
    Context 2 contract, rerun transformations.
    - **Done when:** Dev transformations produce unchanged Warehouse row counts reading through
@@ -132,10 +138,12 @@ then move on.
      raw `Files/` before clearing, or confirm landing holds the same files. Recovery otherwise
      means a full re-ingest from Socrata.
 
+
 8. ⬜ **Variable Library (or deployment rules)** — decide per the criteria in Open items, then
    build. Do this before any deployment, not after.
    - **Done when:** the decision and its rationale are written into this runbook, and the chosen
      mechanism holds every stage-varying value.
+
 
 9. ⬜ **Deployment pipeline** — three stages: Dev → Test → Prod. The landing workspace is **not**
    a stage in the pipeline; Fabric pairs whole workspaces, so exclusion means simply never
@@ -143,17 +151,20 @@ then move on.
    through its own manually recreated shortcut.
    - **Done when:** the pipeline exists with exactly the three workspaces above assigned.
 
+
 10. ⬜ **Deploy to Test** — deploy, recreate shortcut `raw_nyc_crashes`, rebind sources, run,
     validate.
     - **Done when:** Test Warehouse row counts match Dev and a Direct Lake DAX query returns
       the expected fact counts.
     - **Rollback:** redeploy the previous commit from Dev; Test holds no authored content.
 
+
 11. ⬜ **Deploy to Prod** — same as Phase 10, plus RBAC, RLS and semantic model endorsement
     (endorsement is manual and is never deployed).
     - **Done when:** validation matches Test, RLS roles tested against a non-admin principal,
       and the Prod semantic model is re-endorsed.
     - **Rollback:** redeploy the last tagged commit on `main`.
+    
     
 12. ⬜ **Ongoing** — ingestion cadence, capacity monitoring, continuous commits.
     Not a phase with an end state; move these to `Context Docs/BACKLOG.md` once Phase 11 lands.
