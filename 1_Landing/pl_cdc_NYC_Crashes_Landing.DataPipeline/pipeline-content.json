@@ -150,8 +150,8 @@
         },
         "policy": {
           "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
+          "retry": 2,
+          "retryIntervalInSeconds": 60,
           "secureInput": false,
           "secureOutput": false
         },
@@ -292,8 +292,8 @@
         },
         "policy": {
           "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
+          "retry": 2,
+          "retryIntervalInSeconds": 60,
           "secureInput": false,
           "secureOutput": false
         },
@@ -303,6 +303,12 @@
             "activity": "Copy_Persons_CDC",
             "dependencyConditions": [
               "Succeeded"
+            ]
+          },
+          {
+            "activity": "Advance_Watermark_Crashes",
+            "dependencyConditions": [
+              "Completed"
             ]
           }
         ]
@@ -434,8 +440,8 @@
         },
         "policy": {
           "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
+          "retry": 2,
+          "retryIntervalInSeconds": 60,
           "secureInput": false,
           "secureOutput": false
         },
@@ -445,6 +451,12 @@
             "activity": "Copy_Vehicles_CDC",
             "dependencyConditions": [
               "Succeeded"
+            ]
+          },
+          {
+            "activity": "Advance_Watermark_Persons",
+            "dependencyConditions": [
+              "Completed"
             ]
           }
         ]
