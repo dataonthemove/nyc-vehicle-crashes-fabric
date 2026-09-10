@@ -66,6 +66,14 @@ practice.
 The old "drop the header / parameterize it / move it to Key Vault" options are moot: the
 pipeline that carried the header no longer exists.
 
+**Next action — Pat, manual (2026-09-10 decision).** Rotate the token in the NYC Open Data
+developer portal (data.cityofnewyork.us → account → App Tokens). CC cannot do this: the portal
+is a browser UI behind Pat's login, with no API or CLI path. Rotation is optional tidiness, not
+remediation — nothing in either workspace uses the token any more — but it is the cheapest way
+to make the string in git history dead rather than merely unused. Once rotated, move this item
+to **Recently closed**, recording both facts: the live pipeline never carried a token, and the
+historical one no longer works.
+
 ---
 
 ## Recently closed
