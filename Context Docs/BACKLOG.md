@@ -4,7 +4,7 @@
 > live IDs belong in `environment-reference.md`. This file is only for work that is
 > *not yet done*.
 >
-> Last reviewed: 2026-08-15.
+> Last reviewed: 2026-09-10.
 
 Statuses: **OPEN** · **BLOCKED** · **DONE** (kept briefly for context, then deleted).
 
@@ -12,7 +12,8 @@ Statuses: **OPEN** · **BLOCKED** · **DONE** (kept briefly for context, then de
 
 ## 1. Lakehouse CDC and Warehouse star load are not connected — OPEN, decision needed
 
-`pl_cdc_NYC_Crashes` lands data in the **Lakehouse Delta tables only**. The Warehouse
+Fabric Pipeline `pl_cdc_NYC_Crashes_Landing` lands data in `Files/raw/` only (and its retired Dev
+predecessor `pl_cdc_NYC_Crashes` landed only Lakehouse Delta tables). The Warehouse
 dimensional load (`etl.usp_load_*`) is not part of the pipeline and currently runs only by
 executing the `3_Transform` notebooks by hand. So after every CDC run the star schema and
 the semantic model are stale until someone remembers to run 12 notebooks in the right order.
@@ -22,8 +23,10 @@ layer — the pipeline stops halfway through the medallion.
 
 **Options:**
 
-- Extend `pl_cdc_NYC_Crashes` with Script activities calling each `usp_load_*` in dependency
-  order, gated on the watermark update. Keeps one pipeline.
+- Extend the ingestion pipeline — now Fabric Pipeline `pl_cdc_NYC_Crashes_Landing`, since
+  `pl_cdc_NYC_Crashes` was deleted 2026-09-10 — with Script activities calling each `usp_load_*`
+  in dependency order, gated on the watermark update. Keeps one pipeline, but now couples the
+  landing workspace to Dev-stage Warehouse loads.
 - Build a second pipeline (`pl_load_warehouse`) and chain it via Invoke Pipeline. Cleaner
   separation, and lets the star load be rerun without re-ingesting.
 
@@ -34,9 +37,11 @@ Either way the order matters: dims → `dim_factor_group` → facts → bridge, 
 
 ## 2. NYC Open Data app token is committed in cleartext — OPEN
 
-`2_dev/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json` embeds
-`X-App-Token: W1wHO8uCRL6zDplGACRU0Vn5l` in all three Copy source `additionalHeaders`
-blocks. It is in the repo and in git history.
+The working-tree copy is gone: repo folder `2_dev/2_Ingest/` was deleted with the retired
+pipeline on 2026-09-10. But `2_dev/2_Ingest/pl_cdc_NYC_Crashes.DataPipeline/pipeline-content.json`
+embedded `X-App-Token: W1wHO8uCRL6zDplGACRU0Vn5l` in all three Copy source `additionalHeaders`
+blocks, so it remains in git history. Check whether Fabric Pipeline `pl_cdc_NYC_Crashes_Landing`
+under repo folder `1_Landing/` carries the same header before closing this.
 
 Low severity — a NYC Open Data app token only raises an anonymous rate limit; it grants
 no write access and no access to anything non-public. But it is a credential in version
@@ -51,8 +56,6 @@ practice.
 - Move it to Azure Key Vault and reference it via a Web activity.
 
 Rotating the token does not fix the committed history; only stopping its use does.
-
----
 
 ---
 

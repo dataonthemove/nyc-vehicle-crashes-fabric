@@ -43,7 +43,6 @@ Every artifact ID in *Core Artifacts* is **Dev-stage**. Test and Prod are empty 
 | SQLEndpoint | NYC_VehicleCrashes_Lakehouse | `63b7bc57-9351-4c56-a1cf-cda93ca7828c` |
 | Warehouse | NYC_VehicleCrashes_Warehouse | `324e2ac0-5ebd-4f8a-9856-a5d7b56a25fe` |
 | SemanticModel | NYC_VehicleCrashes_Semantic | `646ec529-eaaa-4d41-b3b0-a31c94355fdd` |
-| DataPipeline | pl_cdc_NYC_Crashes | `95ca0fbd-e13c-4743-8d28-d3fa4da33df1` |
 
 **Warehouse TDS endpoint:**
 `ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com`
@@ -78,7 +77,6 @@ only — they are not reachable.
 | Folder | ID |
 |---|---|
 | 1_DDL | `cd9c010d-de8c-4c73-98ef-92d340c73376` |
-| 2_Ingest | `409f3130-016f-4a92-bea3-79fda1520d5d` |
 | 3_Transform | `e88dbad8-087f-4676-82ad-e46646a164a8` |
 | 4_Model | `3601518e-ee50-4bc3-8d36-e72254912921` |
 | 5_Reports | `2d197305-e28f-457b-b3dc-abe35b0dc1a4` |
@@ -88,7 +86,7 @@ only — they are not reachable.
 
 ## Notebooks
 
-17 notebooks — count re-confirmed 2026-09-08.
+16 notebooks — nb_cdc_to_delta deleted 2026-09-10; count last re-confirmed 2026-09-08.
 
 ### 1_DDL
 
@@ -98,11 +96,6 @@ only — they are not reachable.
 | 01_DDL_Dimensions | `88230b3b-b754-4dac-a6e1-7850d98b91c7` |
 | 02_DDL_Facts_Bridges | `8b3ed125-413c-47ce-bfa8-00c5e5683434` |
 
-### 2_Ingest
-
-| Notebook | ID |
-|---|---|
-| nb_cdc_to_delta | `11b1ce02-22b5-487a-a1ef-f71ef9872908` |
 
 ### 3_Transform
 
@@ -139,34 +132,12 @@ only — they are not reachable.
 
 ---
 
-## Pipeline Topology — pl_cdc_NYC_Crashes
+## Pipeline Topology — pl_cdc_NYC_Crashes (RETIRED 2026-09-10)
 
-Three parallel streams, each: Lookup Watermark → Copy CDC → Delta merge. All three delta merges must succeed before watermark update.
-
-```
-Lookup_Crashes_Watermark ──► Copy_Crashes_CDC ──► nb_delta_Crashes ──┐
-Lookup_Persons_Watermark ──► Copy_Persons_CDC ──► nb_delta_Persons ──┼──► Update_Watermark_crashes_vehicles_persons
-Lookup_Vehicles_Watermark ─► Copy_Vehicles_CDC ─► nb_delta_Vehicles ─┘
-```
-
-| Activity | Type | Depends On |
-|---|---|---|
-| Lookup_Crashes_Watermark | Lookup | — |
-| Lookup_Persons_Watermark | Lookup | — |
-| Lookup_Vehicles_Watermark | Lookup | — |
-| Copy_Crashes_CDC | Copy | Lookup_Crashes_Watermark |
-| Copy_Persons_CDC | Copy | Lookup_Persons_Watermark |
-| Copy_Vehicles_CDC | Copy | Lookup_Vehicles_Watermark |
-| nb_delta_Crashes | TridentNotebook (nb_cdc_to_delta) | Copy_Crashes_CDC |
-| nb_delta_Persons | TridentNotebook (nb_cdc_to_delta) | Copy_Persons_CDC |
-| nb_delta_Vehicles | TridentNotebook (nb_cdc_to_delta) | Copy_Vehicles_CDC |
-| Update_Watermark_crashes_vehicles_persons | Script | nb_delta_Crashes + nb_delta_Persons + nb_delta_Vehicles |
-
-**nb_cdc_to_delta parameters by stream:**
-
-| Stream | file_subfolder | natural_key | source_name |
-|---|---|---|---|
-| Crashes | NYC_CrashData/crashes | collision_id | crashes |
-| Persons | NYC_CrashData/persons | unique_id | persons |
-| Vehicles | NYC_CrashData/vehicles | unique_id | vehicles |
-            
+Fabric Pipeline `pl_cdc_NYC_Crashes` and Fabric Notebook `nb_cdc_to_delta` were deleted from
+workspace `2_NYC_VehicleCrashes_dev` along with workspace folder `2_Ingest`, superseded by
+Fabric Pipeline `pl_cdc_NYC_Crashes_Landing` (item `483fda7f-6fc2-4034-9cda-9f28f506515c`) in
+workspace `1_NYC_VehicleCrashes_Landing`. Its topology and per-stream parameters are recorded in
+`landing_zone_runbook_results.md` (Phase 6). The `2_Ingest` numbering gap in repo folder `2_dev/`
+is deliberate — renaming the sibling folders would read to Fabric Git Integration as delete+create
+and re-issue every item's physical ID.
