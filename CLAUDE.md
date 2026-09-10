@@ -128,15 +128,3 @@ layers union. Put each rule in exactly one layer, per its role:
 - `model_operations` and `database_operations` are `ask`, not deny: each multiplexes sanctioned
   and forbidden operations behind one `operation` parameter, and rules match on tool name only.
 
-## Abbreviations (ALWAYS apply)
-* CC = Claude Code
-* CDT = Claude Desktop
-* MF = Microsoft Fabric
-* PBI = Microsoft Power BI
-* MW = Microsoft Windows 11
-* VSC = Visual Studio Code
-* SSMS = SQL Server Management Studio
-* CAI = Claude.AI
-* PBID = Power BI Desktop
-* ADO = Azure DevOps 
-
