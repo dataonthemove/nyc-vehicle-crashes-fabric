@@ -62,10 +62,10 @@
             "type": "DelimitedTextSink",
             "formatSettings": {
               "type": "DelimitedTextWriteSettings",
-              "fileExtension": ".csv"
+              "fileExtension": ".txt"
             },
             "storeSettings": {
-              "type": "AzureBlobStorageWriteSettings"
+              "type": "LakehouseWriteSettings"
             },
             "datasetSettings": {
               "type": "DelimitedText",
