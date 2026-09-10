@@ -283,6 +283,12 @@ Dev Lakehouse Delta counts.
 - **Warehouse `dbo.etl_watermark` retirement.** The landing Delta table is now the live store for
   landing ingestion, but the Dev pipeline still reads and writes the Warehouse copy. Retire both it
   and Fabric Notebook `000_DDL_ETL_Watermark_Seed` when the Dev pipeline goes (carried from Phase 5).
+- **Positive incremental (CDC delta) test.** Verified only in the negative: with the watermark at
+  2026-09-10T12:45:14 the reruns fetched zero rows (header-only sink files, ~25s per Copy), proving
+  the `$where crash_date > watermark` filter narrows. No source rows exist newer than that watermark,
+  so a load of *some but not all* rows was never observed. Prove it by rolling one source's watermark
+  back a few days (Fabric Notebook `nb_etl_watermark`, `mode=advance`) and rerunning, or by waiting
+  for the next Socrata publish.
 - **Service-principal connection auth.** The sink authenticates as `Jpb_fabric_user7` through a
   user-owned OAuth connection. Production-correct is an SP, which needs a tenant setting, an Entra
   app and role assignments on four workspaces — out of scope with the trial expiring ~28 Sep.
