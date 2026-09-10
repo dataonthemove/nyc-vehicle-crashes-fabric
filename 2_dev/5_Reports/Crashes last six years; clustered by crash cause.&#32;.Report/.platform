@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Crashes last six years; clustered by crash cause. "
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4ece0c9c-e8a3-a75a-42da-4c3ab4922e2d"
+  }
+}
