@@ -29,10 +29,14 @@
 
 import sempy_labs as labs
 
+# Stage-varying values come from Variable Library vl_NYC_Crashes (active value set chosen per stage).
+vl = notebookutils.variableLibrary.getLibrary("vl_NYC_Crashes")
+print(f"workspace={vl.stage_workspace_name} dataset={vl.semantic_model_name} refresh_type={vl.refresh_type}")
+
 labs.refresh_semantic_model(
-    dataset="NYC_VehicleCrashes_Semantic",
-    workspace="2_NYC_VehicleCrashes_dev",
-    refresh_type="calculate" # Recalculates dependencies/measures without pulling source data
+    dataset=vl.semantic_model_name,
+    workspace=vl.stage_workspace_name,
+    refresh_type=vl.refresh_type
 )
 
 

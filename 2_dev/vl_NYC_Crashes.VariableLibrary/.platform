@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "VariableLibrary",
+    "displayName": "vl_NYC_Crashes",
+    "description": "Stage-varying configuration for NYC_VehicleCrashes. Default value set = Dev; Test and Prod override. Active value set is chosen per stage by hand and is never deployed."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "96957683-d66d-4695-b2dc-0597284f83b3"
+  }
+}

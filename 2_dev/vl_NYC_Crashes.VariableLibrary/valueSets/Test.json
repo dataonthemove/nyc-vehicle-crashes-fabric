@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/variableLibrary/definition/valueSet/1.0.0/schema.json",
+  "name": "Test",
+  "variableOverrides": [
+    {
+      "name": "stage_workspace_name",
+      "value": "3_NYC_VehicleCrashes_test"
+    },
+    {
+      "name": "refresh_type",
+      "value": "full"
+    }
+  ]
+}

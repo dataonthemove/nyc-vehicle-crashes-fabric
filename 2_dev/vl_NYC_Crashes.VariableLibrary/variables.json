@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/variableLibrary/definition/variables/1.0.0/schema.json",
+  "variables": [
+    {
+      "name": "stage_workspace_name",
+      "note": "Display name of the workspace for the active stage.",
+      "type": "String",
+      "value": "2_NYC_VehicleCrashes_dev"
+    },
+    {
+      "name": "semantic_model_name",
+      "note": "Direct Lake semantic model refreshed by RefreshSemanticModel. Same in every stage.",
+      "type": "String",
+      "value": "NYC_VehicleCrashes_Semantic"
+    },
+    {
+      "name": "refresh_type",
+      "note": "semantic-link-labs refresh type. Test/Prod use full to reframe Direct Lake after a deployment.",
+      "type": "String",
+      "value": "calculate"
+    },
+    {
+      "name": "landing_lakehouse",
+      "note": "Landing lakehouse NYC_VehicleCrashes_Landing_Lakehouse, target of shortcut raw_nyc_crashes. Same in every stage.",
+      "type": "ItemReference",
+      "value": {
+        "workspaceId": "bae79a94-0103-45dc-9993-d9041fbd4e80",
+        "itemId": "b7f1c383-0af0-4b21-bf6b-4ac398b84391"
+      }
+    }
+  ]
+}
