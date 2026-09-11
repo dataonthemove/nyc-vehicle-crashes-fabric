@@ -470,6 +470,11 @@ Phase 9 **Done when** is satisfied.
 - **Shortcut wiring decision (Phase 8 deferral) is carried to Phase 10.** It covers committing repo file
   `shortcuts.metadata.json` and pointing shortcut `raw_nyc_crashes` at `vl_NYC_Crashes`. Pat ruled it out of
   Phase 9 scope. Decide before the first deploy, since the deploy may or may not carry the shortcut.
+- **To do in Phases 10–11: set `vl_NYC_Crashes`'s active value set right after each deploy.** Nothing needs
+  configuring on the deployment pipeline, because the library deploys as an ordinary item. Deployment doesn't
+  carry the active value set, though, and each stage's copy only exists once the deploy runs. So the order
+  is: deploy, set the value set to `Test` or `Prod`, then run. If it's skipped, Fabric Notebook `RefreshSemanticModel`
+  reads Dev's default values and silently refreshes the Dev model.
 
 ### Other findings (recorded, not fixed)
 
@@ -483,9 +488,4 @@ Phase 9 **Done when** is satisfied.
 4. **Runbook Phases 10–11 omit the Variable Library step.** Probable cause: the phases were written while the
    Variable Library / Deployment Rules choice was still open. The 2026-09-11 decision added only a summary
    to Phase 8, so the post-deploy step never made it into Phases 10–11. That step is: open `vl_NYC_Crashes` in
-   each stage and set its active value set to `Test` or `Prod` (Phase 8 deferral). Add it to both phases by hand.
-5. **The Variable Library needs no configuration on the deployment pipeline.** `vl_NYC_Crashes` deploys as an
-   ordinary item alongside the other content. What deployment does *not* carry is the active value set. After
-   each deploy to Test or Prod, set it in that stage. If it isn't set, Fabric Notebook `RefreshSemanticModel` reads
-   Dev's default values and silently refreshes the Dev model instead of that stage's model. Phases 10–11
-   can proceed unchanged once finding 4's step is added.
+   each stage and set its active value set to `Test` or `Prod` (see Deferred). Add it to both phases by hand.
