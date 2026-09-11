@@ -489,3 +489,9 @@ Phase 9 **Done when** is satisfied.
    Variable Library / Deployment Rules choice was still open. The 2026-09-11 decision added only a summary
    to Phase 8, so the post-deploy step never made it into Phases 10–11. That step is: open `vl_NYC_Crashes` in
    each stage and set its active value set to `Test` or `Prod` (see Deferred). Add it to both phases by hand.
+5. **Recommendation on the shortcut decision (see Deferred):** commit repo file `shortcuts.metadata.json` as it is,
+   and don't link shortcut `raw_nyc_crashes` to `vl_NYC_Crashes`. The target is the same landing lakehouse for
+   every stage, so a library variable adds nothing. Library-linked shortcuts are also still a preview feature.
+   Committing clears the Lakehouse's Modified flag in Source Control and may let the deploy carry the shortcut.
+   That's unverified; if the deploy doesn't carry it, recreate it by hand per Context 2. Either way, Context 2's
+   "not in Git" statement is wrong (Phase 7 finding 2), so correct the runbook. Pat's decision is still pending.
