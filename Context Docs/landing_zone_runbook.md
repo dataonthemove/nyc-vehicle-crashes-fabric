@@ -1,6 +1,6 @@
 # Landing-Zone Runbook — NYC_VehicleCrashes
 
-> **Last reviewed:** 2026-09-08 · **Current phase:** 3 · **Owner:** Pat
+> **Last reviewed:** 2026-09-11 · **Current phase:** 10 · **Owner:** Pat
 >
 > Live IDs live in `Context Docs/environment-reference.md`. The landing workspace is not
 > recorded there yet; its ID is pinned under *Workspaces* below until it is.
@@ -39,7 +39,9 @@ creating them.
      lands as files; each stage builds its own Delta from them.
    - Target: Fabric Lakehouse `NYC_VehicleCrashes_Landing_Lakehouse`, path `Files/raw/`
    - Mount point in each consuming stage: `Files/raw_nyc_crashes`
-   - Shortcuts are **not** in Git and are **not** deployed. Recreate by hand per stage.
+   - Shortcuts **are** Git-serialized, in the lakehouse item's `shortcuts.metadata.json` (corrected
+     2026-09-11; Phase 7 finding 2, Phase 9 finding 6). Whether a deployment carries one is still
+     unverified — if it doesn't, recreate the shortcut by hand per stage.
 3. **Watermark seed: `1900-01-01`.** Fabric Pipeline `pl_cdc_NYC_Crashes` filters on the
    watermark, and no full-load pipeline exists, so the landing lakehouse watermark must be seeded
    at a date earlier than any source row or the first load is partial. Source data starts 2012;
@@ -85,7 +87,7 @@ then move on.
 
 2. ✅ **Landing workspace** created and bound to `/1_Landing`. Done.
 
-3. ⬜ **← NEXT · Housekeeping** — audit notebooks for hardcoded workspace/item references.
+3. ✅ **Housekeeping** — audit notebooks for hardcoded workspace/item references.
    - **Scope:** every notebook under `2_dev/`, plus
      `2_dev/4_Model/NYC_VehicleCrashes_Semantic.SemanticModel/definition/expressions.tmdl`.
      Known carriers of `abfss://` / `onelake.dfs` paths today: Fabric Notebook `nb_cdc_to_delta`
@@ -106,14 +108,14 @@ then move on.
    - **Rollback:** revert the commit; nothing live is changed by this phase.
 
 
-4. ⬜ **Landing lakehouse** — create `NYC_VehicleCrashes_Landing_Lakehouse`; lock workspace
+4. ✅ **Landing lakehouse** — create `NYC_VehicleCrashes_Landing_Lakehouse`; lock workspace
    membership to Admin (Jpb_fabric_user7@DataOnTheMoveoutlook.onmicrosoft.com) / Viewer (all consuming stages).
    - **Done when:** lakehouse exists with `Files/raw/`, role assignments verified via MCP,
      and the item is committed to `/1_Landing`.
    - **Rollback:** delete the lakehouse — it holds no data at this point.
 
 
-5. ⬜ **Watermark redesign** — PySpark notebook writing `etl_watermark` to the landing lakehouse;
+5. ✅ **Watermark redesign** — PySpark notebook writing `etl_watermark` to the landing lakehouse;
    seed `1900-01-01` per Context 3.
    - **Done when:** the notebook writes and re-reads the watermark, the seed row is present,
      **and** the `CLAUDE.md` watermark rule is updated in the same commit.
@@ -121,7 +123,7 @@ then move on.
      Phase 6 cuts over; revert the commit and delete the notebook.
 
 
-6. ⬜ **Ingestion move** — rebuild `pl_cdc_NYC_Crashes` in the landing zone, repoint the watermark
+6. ✅ **Ingestion move** — rebuild `pl_cdc_NYC_Crashes` in the landing zone, repoint the watermark
    read at the lakehouse SQL endpoint, swap the Script activity for the notebook, run, verify row
    counts, commit. Only then delete it from Dev.
    - **Done when:** a full run succeeds end to end and landing row counts match the Dev Lakehouse
@@ -130,7 +132,7 @@ then move on.
      landing run is verified. If the landing run fails, disable it and keep running Dev's.
 
 
-7. ⬜ **Dev shortcut** — clear Dev's raw `Files/`, create shortcut `raw_nyc_crashes` per the
+7. ✅ **Dev shortcut** — clear Dev's raw `Files/`, create shortcut `raw_nyc_crashes` per the
    Context 2 contract, rerun transformations.
    - **Done when:** Dev transformations produce unchanged Warehouse row counts reading through
      the shortcut instead of local files.
@@ -139,7 +141,7 @@ then move on.
      means a full re-ingest from Socrata.
 
 
-8. ⬜ **Variable Library (or deployment rules)** — decide per the criteria in Open items, then
+8. ✅ **Variable Library (or deployment rules)** — decide per the criteria in Open items, then
    build. Do this before any deployment, not after.
    - **Done when:** the decision and its rationale are written into this runbook, and the chosen
      mechanism holds every stage-varying value.
@@ -150,15 +152,19 @@ then move on.
      Detail: `landing_zone_runbook_results.md`, Phase 8.
 
 
-9. ⬜ **Deployment pipeline** — three stages: Dev → Test → Prod. The landing workspace is **not**
+9. ✅ **Deployment pipeline** — three stages: Dev → Test → Prod. The landing workspace is **not**
    a stage in the pipeline; Fabric pairs whole workspaces, so exclusion means simply never
    assigning it. Landing items are therefore never promoted, and each stage reaches raw data
    through its own manually recreated shortcut.
    - **Done when:** the pipeline exists with exactly the three workspaces above assigned.
+   - Built 2026-09-11 as `dp_NYC_VehicleCrashes`; IDs in `Context Docs/environment-reference.md`.
 
 
-10. ⬜ **Deploy to Test** — deploy, recreate shortcut `raw_nyc_crashes`, rebind sources, run,
-    validate.
+10. ⬜ **← NEXT · Deploy to Test** — deploy, set the Variable Library's active value set, recreate
+    shortcut `raw_nyc_crashes` if the deploy didn't carry it, rebind sources, run, validate.
+    - **Active value set (deployment never carries it):** right after the deploy, open `vl_NYC_Crashes`
+      in Test and set its active value set to `Test`, before running anything. Otherwise Fabric Notebook
+      `RefreshSemanticModel` reads Dev's defaults and refreshes the Dev model.
     - **Done when:** Test Warehouse row counts match Dev and a Direct Lake DAX query returns
       the expected fact counts.
     - **Rollback:** redeploy the previous commit from Dev; Test holds no authored content.
@@ -166,6 +172,8 @@ then move on.
 
 11. ⬜ **Deploy to Prod** — same as Phase 10, plus RBAC, RLS and semantic model endorsement
     (endorsement is manual and is never deployed).
+    - **Active value set:** set `vl_NYC_Crashes` to `Prod` in the Prod workspace after the deploy,
+      before running anything.
     - **Done when:** validation matches Test, RLS roles tested against a non-admin principal,
       and the Prod semantic model is re-endorsed.
     - **Rollback:** redeploy the last tagged commit on `main`.

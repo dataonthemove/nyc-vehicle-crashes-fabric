@@ -26,6 +26,18 @@ Dev Spark runtime: 1.3 — Spark 3.5.5, Python 3.11.8 (verified via Livy 2026-08
 Every artifact ID in *Core Artifacts* is **Dev-stage**. Test and Prod are empty as of 2026-09-08
 (`list_items` returns 0 items for both).
 
+### Deployment pipeline
+
+Created 2026-09-11 (Phase 9) via Fabric REST; no MCP tool covers deployment pipelines. The landing
+workspace is deliberately unassigned, so landing items are never promoted.
+
+| Object | Name | ID | Assigned workspace |
+|---|---|---|---|
+| Deployment pipeline | `dp_NYC_VehicleCrashes` | `df1e3e42-ea3a-4c74-9567-a63a7bc1898f` | — |
+| Stage 0 | Development | `e7887720-b6d2-4955-8184-b2916ba9710a` | `2_NYC_VehicleCrashes_dev` |
+| Stage 1 | Test | `a0ab3671-2d5f-44d1-8e05-dc7c13a2f99a` | `3_NYC_VehicleCrashes_test` |
+| Stage 2 | Production | `314d8788-f3de-4348-8b03-52b34bd9b62e` | `4_NYC_VehicleCrashes_prod` |
+
 ### Landing-stage artifacts
 
 | Type | Display Name | Artifact ID |
