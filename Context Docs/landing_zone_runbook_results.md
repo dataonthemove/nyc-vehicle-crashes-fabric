@@ -447,3 +447,36 @@ binding. The "written into this runbook" half is not done, because the runbook i
    because landing is never a deployment stage. Order: Fabric Notebook `nb_cdc_to_delta` ×3
    (crashes/persons/vehicles) → Fabric Notebooks `04`–`13` in dependency waves → Fabric Notebook `RefreshSemanticModel`.
    Prerequisite: tag the parameters cell in `nb_cdc_to_delta` (Phase 7 deferral).
+
+---
+
+## Phase 9 — What was done / What was deferred / Other findings
+
+**Commits:** results file only. A deployment pipeline is not a Git item. Runbook not edited.
+
+### What was done
+
+| Step | Result |
+|---|---|
+| Pre-flight | Signed in as `Jpb_fabric_user7`. No deployment pipeline existed. All four workspaces are type `Workspace`, not Template App (Context 4). Test and Prod hold 0 items |
+| Fabric deployment pipeline `dp_NYC_VehicleCrashes` | Created via Fabric REST (`az rest`, no MCP tool exists): `df1e3e42-ea3a-4c74-9567-a63a7bc1898f` |
+| Stage assignment | Development → `2_NYC_VehicleCrashes_dev` · Test → `3_NYC_VehicleCrashes_test` · Production → `4_NYC_VehicleCrashes_prod`. Landing workspace not assigned |
+| Verification | GET `/stages` returns exactly those three workspaces. Nothing was deployed |
+
+Phase 9 **Done when** is satisfied.
+
+### What was deferred
+
+- **Shortcut wiring decision (Phase 8 deferral) is carried to Phase 10.** It covers committing repo file
+  `shortcuts.metadata.json` and pointing shortcut `raw_nyc_crashes` at `vl_NYC_Crashes`. Pat ruled it out of
+  Phase 9 scope. Decide before the first deploy, since the deploy may or may not carry the shortcut.
+
+### Other findings (recorded, not fixed)
+
+1. **`Context Docs/environment-reference.md` doesn't record the deployment pipeline.** Add Fabric deployment
+   pipeline `dp_NYC_VehicleCrashes` `df1e3e42-…` and its stage IDs (Development `e7887720-…`, Test `a0ab3671-…`,
+   Production `314d8788-…`).
+2. **All stages were created `isPublic: false`.** No deployment depends on this. Revisit if Prod content needs
+   to be shared as a published app stage.
+3. **Runbook header is stale.** It still says "Current phase: 3"; the Phase 3–9 checkboxes are unticked.
+   Update by hand.
