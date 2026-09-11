@@ -335,3 +335,51 @@ Dev Lakehouse Delta counts.
 8. **Pipeline naming.** The landing pipeline is `pl_cdc_NYC_Crashes_Landing`, not a same-named twin of
    the Dev item — the landing workspace is never a deployment-pipeline stage, so the suffix costs
    nothing and removes ambiguity in logs and prose.
+
+---
+
+## Phase 7 — What was done / What was deferred / Other findings
+
+**Commits:** `29c653d` (on `main`, pushed by Pat). Runbook not edited.
+
+### What was done
+
+| Step | Result |
+|---|---|
+| Shortcut `raw_nyc_crashes` | Created by Pat in the Fabric UI at Dev Lakehouse `NYC_VehicleCrashes_Lakehouse` `Files/`, targeting landing `NYC_VehicleCrashes_Landing_Lakehouse` `Files/raw/` (Context 2 contract) |
+| Shortcut read check (Livy) | CSV rows 2,269,187 / 5,984,110 / 4,551,002 — equal to Dev Lakehouse Delta and Phase 6 landing counts |
+| Fabric Notebook `nb_cdc_to_delta` | Restored from `293f3e1^` to repo folder `2_dev/2_Ingest/`; default `file_subfolder` → `raw_nyc_crashes/crashes`; synced to Dev (item `0b138bcd-…`) |
+| Delta rebuild | crashes: notebook job `7ce3885c-…` Completed. persons/vehicles: same logic via Livy (see Deferred). 100% of rows in all three `dbo.nyc_*` tables now carry a `_source_file` under `Files/raw_nyc_crashes/`; totals unchanged |
+| Dev raw files cleared | `Files/NYC_CrashData/` deleted (9 files, 2.9 GB). Landing held byte-identical data files, so no OneLake copy was taken. Dev `Files/` now holds only the shortcut |
+| Transformations | Fabric Notebooks `04`–`13` (incl. `09b`) run in three dependency waves; all 11 jobs Completed |
+| Warehouse counts (Livy, OneLake path) | All 13 `dbo` tables equal the pre-phase baseline, e.g. `fact_crashes` 2,269,187 · `fact_persons` 5,984,110 · `fact_crash_vehicle` 4,551,002 · `bridge_crash_factor` 1,648,599 |
+
+Phase 7 **Done when** is satisfied.
+
+### What was deferred
+
+- **Parameters cell in Fabric Notebook `nb_cdc_to_delta` is still untagged.** Job parameter overrides are ignored,
+  so only the default (`crashes`) could run as a job; persons/vehicles ran through Livy. Toggle the
+  parameters cell in the UI (then commit that change) before any pipeline or Phase 10 run depends on it.
+- **Nothing orchestrates Dev any more.** Fabric Pipeline `pl_cdc_NYC_Crashes` is gone (below), so Delta build and
+  transforms are manual runs. A Dev orchestration pipeline is out of Phase 7 scope.
+
+### Other findings (recorded, not fixed)
+
+1. **Workspace commit `293f3e1` (2026-09-10) deleted the Dev copies** of Fabric Pipeline `pl_cdc_NYC_Crashes`,
+   Fabric Notebook `nb_cdc_to_delta` and Fabric Notebook `000_DDL_ETL_Watermark_Seed`. That closes the Phase 6 deferral for
+   the pipeline, but it also removed the only Delta builder. Phase 7 restored the notebook only.
+2. **Shortcuts *are* Git-serialized.** Repo file `2_dev/0_NYC_VehicleCrashes_Lakehouse.Lakehouse/shortcuts.metadata.json`
+   captures the shortcut, contradicting Context 2 ("not in Git"). Left uncommitted per Pat's call, so the
+   Lakehouse stays flagged Modified in Source Control. Unverified risk: a future Git change to that file
+   might remove the live shortcut on Update All. Since every stage targets the same landing lakehouse,
+   committing it could let the deployment pipeline carry the shortcut — decide in Phase 8/9.
+3. **Fabric names a new shortcut after its target folder (`raw`)** by default; it had to be renamed to
+   `raw_nyc_crashes`. Expect the same in Phases 10–11.
+4. **Transform reruns leave no Delta evidence.** Every `usp_load_*` inserts with `NOT EXISTS`; unchanged
+   input means zero-row inserts and no new Delta commit (last commits are dated 2026-08-01). Unchanged counts
+   are the expected result, but they cannot on their own prove a proc executed.
+5. **`DESCRIBE HISTORY` on Warehouse `dim_date` hangs** — presumably from its thousands of `WHILE`-loop commits.
+   Use plain counts on that table.
+6. **Header-only files now flow into Dev Delta reads** (three in landing `Files/raw/`). Harmless (0 rows);
+   the Phase 6 cleanup-rule finding still stands.
