@@ -442,3 +442,8 @@ binding. The "written into this runbook" half is not done, because the runbook i
 6. **Fabric Notebook `RefreshSemanticModel` sits in repo folder `2_dev/Misc_Fabric_Items/`.** It refreshes
    semantic model `NYC_VehicleCrashes_Semantic`, so it belongs beside the model in repo folder `2_dev/4_Model/`.
    Move it as a git folder move, not in the Fabric UI. Its `default_warehouse` binding is unused by its code.
+7. **Warehouse population is still manual (carried from the Phase 7 deferral).** Recommend a new Dev
+   pipeline, promoted Dev → Test → Prod. Keep it separate from Fabric Pipeline `pl_cdc_NYC_Crashes_Landing`,
+   because landing is never a deployment stage. Order: Fabric Notebook `nb_cdc_to_delta` ×3
+   (crashes/persons/vehicles) → Fabric Notebooks `04`–`13` in dependency waves → Fabric Notebook `RefreshSemanticModel`.
+   Prerequisite: tag the parameters cell in `nb_cdc_to_delta` (Phase 7 deferral).
