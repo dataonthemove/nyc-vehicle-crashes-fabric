@@ -484,3 +484,8 @@ Phase 9 **Done when** is satisfied.
    Variable Library / Deployment Rules choice was still open. The 2026-09-11 decision added only a summary
    to Phase 8, so the post-deploy step never made it into Phases 10–11. That step is: open `vl_NYC_Crashes` in
    each stage and set its active value set to `Test` or `Prod` (Phase 8 deferral). Add it to both phases by hand.
+5. **The Variable Library needs no configuration on the deployment pipeline.** `vl_NYC_Crashes` deploys as an
+   ordinary item alongside the other content. What deployment does *not* carry is the active value set. After
+   each deploy to Test or Prod, set it in that stage. If it isn't set, Fabric Notebook `RefreshSemanticModel` reads
+   Dev's default values and silently refreshes the Dev model instead of that stage's model. Phases 10–11
+   can proceed unchanged once finding 4's step is added.
