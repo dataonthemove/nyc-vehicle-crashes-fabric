@@ -480,3 +480,7 @@ Phase 9 **Done when** is satisfied.
    to be shared as a published app stage.
 3. **Runbook header is stale.** It still says "Current phase: 3"; the Phase 3–9 checkboxes are unticked.
    Update by hand.
+4. **Runbook Phases 10–11 omit the Variable Library step.** Probable cause: the phases were written while the
+   Variable Library / Deployment Rules choice was still open. The 2026-09-11 decision added only a summary
+   to Phase 8, so the post-deploy step never made it into Phases 10–11. That step is: open `vl_NYC_Crashes` in
+   each stage and set its active value set to `Test` or `Prod` (Phase 8 deferral). Add it to both phases by hand.
