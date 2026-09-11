@@ -500,3 +500,8 @@ Phase 9 **Done when** is satisfied.
    `shortcuts.metadata.json` now holds `raw_nyc_crashes` under `/Files`, targeting landing item `b7f1c383-…`,
    `Files/raw`, in workspace `bae79a94-…`. That matches Context 2, and there's no Variable Library link. This
    closes the shortcut deferral above. Whether the Phase 10 deploy carries the shortcut remains unverified.
+7. **Fabric Notebook `nb_cdc_to_delta`'s parameters cell is already tagged. The Phase 7 deferral misdiagnosed
+   the problem.** The git file has carried the `# PARAMETERS CELL` marker since `29c653d`, and the live Dev
+   definition (MCP `get_notebook_definition`) shows `"tags": ["parameters"]`. No UI toggle is needed. The
+   Phase 7 job likely ignored its overrides because of how the MCP `run_on_demand_job` call passed its
+   parameters (unverified). Proving that overrides work still needs one job run with persons parameters.
