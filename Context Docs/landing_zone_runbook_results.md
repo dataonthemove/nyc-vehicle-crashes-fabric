@@ -439,3 +439,6 @@ binding. The "written into this runbook" half is not done, because the runbook i
    (MCP `list_items`) it is `NYC_VehicleCrashes_Landing_Lakehouse`. The IDs match.
 5. **Fabric Pipeline `pl_cdc_NYC_Crashes_Landing` description is stale.** It still says the watermark is read
    from the SQL endpoint; Phase 6 finding 1 replaced that with Fabric Notebook `nb_etl_watermark`.
+6. **Fabric Notebook `RefreshSemanticModel` sits in repo folder `2_dev/Misc_Fabric_Items/`.** It refreshes
+   semantic model `NYC_VehicleCrashes_Semantic`, so it belongs beside the model in repo folder `2_dev/4_Model/`.
+   Move it as a git folder move, not in the Fabric UI. Its `default_warehouse` binding is unused by its code.
