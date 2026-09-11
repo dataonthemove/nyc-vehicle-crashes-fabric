@@ -143,6 +143,11 @@ then move on.
    build. Do this before any deployment, not after.
    - **Done when:** the decision and its rationale are written into this runbook, and the chosen
      mechanism holds every stage-varying value.
+   - **Decision (2026-09-11): Variable Library `vl_NYC_Crashes`**, chosen on Git visibility
+     (criterion 2). It holds the stage workspace name, semantic model name, refresh type and landing
+     lakehouse reference. Item bindings (notebook default warehouse/lakehouse, Direct Lake
+     expression, report → model) stay with deployment autobind, with Deployment Rules as fallback.
+     Detail: `landing_zone_runbook_results.md`, Phase 8.
 
 
 9. ⬜ **Deployment pipeline** — three stages: Dev → Test → Prod. The landing workspace is **not**
