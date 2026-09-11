@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "name": "raw_nyc_crashes",
+    "path": "/Files",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Files/raw",
+        "itemId": "b7f1c383-0af0-4b21-bf6b-4ac398b84391",
+        "workspaceId": "bae79a94-0103-45dc-9993-d9041fbd4e80"
+      }
+    }
+  }
+]
