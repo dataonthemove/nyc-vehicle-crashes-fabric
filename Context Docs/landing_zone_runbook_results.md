@@ -495,3 +495,8 @@ Phase 9 **Done when** is satisfied.
    Committing clears the Lakehouse's Modified flag in Source Control and may let the deploy carry the shortcut.
    That's unverified; if the deploy doesn't carry it, recreate it by hand per Context 2. Either way, Context 2's
    "not in Git" statement is wrong (Phase 7 finding 2), so correct the runbook. Pat's decision is still pending.
+6. **Shortcut decision made: Pat committed it as recommended in finding 5.** Pat committed Fabric Lakehouse
+   `NYC_VehicleCrashes_Lakehouse` from the Dev Source Control pane (workspace commit `7aec446`). Repo file
+   `shortcuts.metadata.json` now holds `raw_nyc_crashes` under `/Files`, targeting landing item `b7f1c383-…`,
+   `Files/raw`, in workspace `bae79a94-…`. That matches Context 2, and there's no Variable Library link. This
+   closes the shortcut deferral above. Whether the Phase 10 deploy carries the shortcut remains unverified.
