@@ -383,3 +383,59 @@ Phase 7 **Done when** is satisfied.
    Use plain counts on that table.
 6. **Header-only files now flow into Dev Delta reads** (three in landing `Files/raw/`). Harmless (0 rows);
    the Phase 6 cleanup-rule finding still stands.
+
+---
+
+## Phase 8 — What was done / What was deferred / Other findings
+
+**Commits:** `f9461bb` · `caed793` (on `main`, pushed by Pat). Runbook not edited.
+
+**Decision: Variable Library.** Criterion 1 alone would have justified Deployment Rules. The only
+non-binding stage-varying value was one literal, and every other difference is an item binding the
+deployment pipeline remaps. Pat chose a Variable Library on Git visibility (criterion 2), matching the
+runbook default and the emerging Fabric standard. Split of responsibility:
+
+| Value | Handling |
+|---|---|
+| Stage workspace name, semantic model name, refresh type, landing lakehouse reference | Variable Library `vl_NYC_Crashes` |
+| Default warehouse of the 15 notebooks, `nb_cdc_to_delta` default lakehouse, Direct Lake expression, report → model | Deployment autobind; Deployment Rules as fallback |
+| Stored-procedure lakehouse names, shortcut target, capacity | Stage-invariant; nothing needed |
+
+### What was done
+
+| Step | Result |
+|---|---|
+| Variable Library `vl_NYC_Crashes` | Authored at repo folder `2_dev/vl_NYC_Crashes.VariableLibrary/`; synced to Dev (item `41f320eb-…`). Default value set = Dev; `Test` and `Prod` override `stage_workspace_name` and `refresh_type` (`full`, to reframe Direct Lake after a deploy). `landing_lakehouse` is an ItemReference to landing `b7f1c383-…` |
+| Consumer | Fabric Notebook `RefreshSemanticModel` reads all three values via `notebookutils.variableLibrary.getLibrary`; no literals remain |
+| Validation | Job `04ecba97` Failed (see finding 1). After the fix, job `60698402` **Completed**. The notebook raises unless the refresh returns `Completed`, so success proves both the library read and the refresh |
+
+Phase 8 **Done when** is met for the mechanism: it holds every stage-varying value that isn't a
+binding. The "written into this runbook" half is not done, because the runbook is read-only for CC.
+
+### What was deferred
+
+- **Copy the decision above into the runbook** (Pat, by hand).
+- **Wiring shortcut `raw_nyc_crashes` to `landing_lakehouse`.** The variable exists but nothing consumes it.
+  Variable-library-backed shortcuts are a preview feature, and wiring one means committing repo file
+  `shortcuts.metadata.json` (Phase 7 finding 2). Decide in Phase 9.
+- **Active value set per stage.** Deployment never carries it; after the first deploy, set `Test` and
+  `Prod` by hand in Phases 10 and 11, or those stages silently run with Dev's workspace name.
+- **Autobinding is unproven.** The notebook bindings and the Direct Lake expression can only be tested
+  by the Phase 10 deploy; add Deployment Rules only for whichever fails.
+
+### Other findings (recorded, not fixed)
+
+1. **`sempy_labs` is not preinstalled.** Fabric Notebook `RefreshSemanticModel` had never run (0 prior runs);
+   job `04ecba97` failed after 19s with `System_Cancelled_Session_Statements_Failed`. Livy confirmed
+   `sempy_labs` is absent from the Spark runtime and `sempy` is present. Fixed in `caed793` by switching to
+   the built-in `sempy.fabric.refresh_dataset` plus a status poll (in scope: the notebook is the
+   library's only consumer).
+2. **Python-notebook job failures leave no driver log reachable through MCP.** `get_notebook_driver_logs`
+   returns 404 (`unknown app`). Diagnose through Livy instead.
+3. **`notebookutils.variableLibrary` fails from a Livy session** (`discoverVariables` request fails;
+   the session is keyed to a lakehouse, not a notebook). Test library reads through a notebook job, not
+   Livy.
+4. **`Context Docs/environment-reference.md` names the landing lakehouse `NYC_VehicleCrashes_Lakehouse`**; live
+   (MCP `list_items`) it is `NYC_VehicleCrashes_Landing_Lakehouse`. The IDs match.
+5. **Fabric Pipeline `pl_cdc_NYC_Crashes_Landing` description is stale.** It still says the watermark is read
+   from the SQL endpoint; Phase 6 finding 1 replaced that with Fabric Notebook `nb_etl_watermark`.
