@@ -1,0 +1,446 @@
+<mxfile host="Electron" agent="Claude">
+  <diagram id="fabric-sdlc-flow-v21" name="Fabric SDLC Process Flow v21">
+    <mxGraphModel dx="2039" dy="1144" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2120" pageHeight="4245" background="#E6E6E6" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="frame" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="4185" width="2040" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=36;fontStyle=1;align=center;verticalAlign=middle;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Microsoft Fabric SDLC Process Flow (v21) — Source-to-Semantic-Model Workflow" vertex="1">
+          <mxGeometry height="46" width="800" x="660" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="phb1" parent="1" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4d4d4d;strokeWidth=4;dashed=0;verticalAlign=top;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="535" width="500" x="150" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="phb2" parent="1" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4d4d4d;strokeWidth=4;dashed=0;verticalAlign=top;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="535" width="500" x="150" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="phb3" parent="1" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4d4d4d;strokeWidth=4;dashed=0;verticalAlign=top;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="1750" width="870" x="860" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="phb4" parent="1" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4d4d4d;strokeWidth=4;dashed=0;verticalAlign=top;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="590" width="870" x="860" y="2055" as="geometry" />
+        </mxCell>
+        <mxCell id="phb5" parent="1" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4d4d4d;strokeWidth=4;dashed=0;verticalAlign=top;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="1310" width="870" x="860" y="2725" as="geometry" />
+        </mxCell>
+        <mxCell id="pht1" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;fontColor=#333333;whiteSpace=wrap;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="PHASE I — Plan &amp;amp; Setup" vertex="1">
+          <mxGeometry height="34" width="500" x="150" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="pht2" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;fontColor=#333333;whiteSpace=wrap;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="PHASE II — Scaffold &amp;amp; Synchronize" vertex="1">
+          <mxGeometry height="34" width="500" x="150" y="915" as="geometry" />
+        </mxCell>
+        <mxCell id="pht3" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;fontColor=#333333;whiteSpace=wrap;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="PHASE III — Development (DEV)" vertex="1">
+          <mxGeometry height="34" width="870" x="860" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="pht4" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;fontColor=#333333;whiteSpace=wrap;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="PHASE IV — Integration &amp;amp; QA" vertex="1">
+          <mxGeometry height="34" width="870" x="860" y="2010" as="geometry" />
+        </mxCell>
+        <mxCell id="pht5" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;fontColor=#333333;whiteSpace=wrap;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="PHASE V — Release &amp;amp; Monitor" vertex="1">
+          <mxGeometry height="34" width="870" x="860" y="2680" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontSize=14;fontStyle=1;fillColor=#000000;strokeColor=#000000;fontColor=#ffffff;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="START" vertex="1">
+          <mxGeometry height="60" width="200" x="300" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#d5e8d4;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;1. Scope &amp;amp; Architect Solution ᵃ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Baseline architecture and initial specs — ADRs, source-to-target mappings, measure definitions — drafted from CC CLI templates.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC → local Markdown specs · no branch yet&lt;/i&gt;" vertex="1">
+          <mxGeometry height="95" width="460" x="170" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#fff2cc;strokeColor=#d6b656;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;2. Create ADO Repo &amp;amp; Clone Locally ᵇ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Create the repo in ADO, then clone it to the local workstation.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: ADO + local Git · main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="460" x="170" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;3. Provision WSs, Assign Capacity &amp;amp; Create Deployment Pipeline ᶜ ⁱ ᵛ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Assign every WS to a Fabric capacity; bind the Shared Integration/Dev WS ↔ main; create the Test &amp;amp; Prod WSs and assign all three to deployment-pipeline stages.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Dev, Test, Prod · Branch: main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="125" width="460" x="170" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#d5e8d4;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;4. Configure MCP Servers in CC CLI ᵖ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;ms-fabric-mcp-server, powerbi-modeling-mcp registered in local config; opt-in per session.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC CLI config · no WS context&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="460" x="170" y="765" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;5. Scaffold Empty Fabric Artifact Shells &amp;amp; Variable Library ᵖ ᵗ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;MCP: create_lakehouse / create_pipeline / create_notebook / create_dataflow / create_semantic_model, plus the Variable Library item.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC/MCP · WS: Shared Integration · Branch: main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="115" width="460" x="170" y="985" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;6. Establish Source Connectivity ˢ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Create source connections / gateways, land raw source data, and create OneLake shortcuts into the scaffolded lakehouse — the source end of source-to-semantic-model.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Shared Integration · Branch: main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="460" x="170" y="1125" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;7. Manual Fabric Source Control Commit ᵉ ᵍ ᵖ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Scaffolded items appear as uncommitted changes — commit them from the Fabric Source Control panel.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Shared Integration · Branch: main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="460" x="170" y="1250" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#b0e3e6;strokeColor=#0e8088;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;8. Git Pull Locally ᶠ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Pull folder structures / TMDL / metadata into VSC.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: local Git · Branch: main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="85" width="460" x="170" y="1375" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#d5e8d4;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;9. Refine Requirements &amp;amp; Specs ᵃ ʳ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Re-entry point for every iteration — update the ADRs, mappings and measure definitions before any authoring begins.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC → local Markdown specs · Branch: main → feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="95" width="460" x="1250" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;10. Branch Out to Personal Dev WS ᵈ ᵛ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Fabric SC → Branches → “Branch out to new workspace”: creates feature/x and the Personal Dev WS bound to it.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Personal Dev · Branch: feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="460" x="1250" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#b0e3e6;strokeColor=#0e8088;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;11. Fetch &amp;amp; Checkout Feature Branch Locally ᵈ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;git fetch origin · git checkout feature/x.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: local Git · Branch: feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="85" width="460" x="1250" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#d5e8d4;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;12. CC Plan Mode — Propose Implementation Plan ʳ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;CC CLI plan mode drafts the change plan against the Step 9 specs.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC → local plan Markdown · Branch: feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="85" width="460" x="1250" y="605" as="geometry" />
+        </mxCell>
+        <mxCell id="dP" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Plan Approved?" vertex="1">
+          <mxGeometry height="115" width="280" x="1340" y="715" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#d5e8d4;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;13. Author TMDL, T-SQL &amp;amp; Pipeline JSON (incl. RLS / OLS Roles) ᵖ ᵘ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;VSC co-authoring + CC CLI local generators: stored procs, DAX measures, row- and object-level security roles, pipeline JSON. Commit the approved plan alongside the code.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC → local TMDL / T-SQL / JSON · Branch: feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="460" x="1250" y="855" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#b0e3e6;strokeColor=#0e8088;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;14. Git Commit &amp;amp; Push to ADO ᶠ ᵍ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Push local edits to the feature branch in ADO.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: local Git · Branch: feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="75" width="460" x="1250" y="980" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;15. Fabric SC “Update” (Pull) into Personal WS ᶠ ʰ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Sync the Personal Dev WS to the pushed commit.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Personal Dev · Branch: feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="75" width="460" x="1250" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;16. Execute MCP-Only Operations ᵖ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Run pipelines, Livy/Spark statements, refresh_semantic_model and validation DAX queries; poll job status.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC/MCP · WS: Personal Dev · Branch: feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="460" x="1250" y="1180" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;17. Private Validation Loop (Personal WS) ᵖ ᵘ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Functional checks, smoke tests and “View as role” RLS/OLS checks in the isolated Personal Dev WS.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC/MCP · WS: Personal Dev · Branch: feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="460" x="1250" y="1295" as="geometry" />
+        </mxCell>
+        <mxCell id="d1b" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Private Validation Passed?" vertex="1">
+          <mxGeometry height="115" width="280" x="1340" y="1410" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="More Dev Needed?" vertex="1">
+          <mxGeometry height="115" width="280" x="1340" y="1550" as="geometry" />
+        </mxCell>
+        <mxCell id="n18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#b0e3e6;strokeColor=#0e8088;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;18. Fetch &amp;amp; Compare With main ʸ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;git fetch origin, then count the commits main holds that the branch lacks. Read-only — no working-tree change.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: local Git · Branch: feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="460" x="1250" y="1690" as="geometry" />
+        </mxCell>
+        <mxCell id="dS" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Feature Branch Includes All of main? ʸ" vertex="1">
+          <mxGeometry height="125" width="280" x="1340" y="1815" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="n18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;strokeWidth=2;endArrow=block;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="dS">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#b0e3e6;strokeColor=#0e8088;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;19. Sync main → Feature Branch ᵐ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Merge (or rebase onto) main; resolve conflicts locally in VSC; re-push.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: local Git · Branch: feature/*&lt;/i&gt;" vertex="1">
+          <mxGeometry height="115" width="240" x="880" y="1820" as="geometry" />
+        </mxCell>
+        <mxCell id="n20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#f8cecc;strokeColor=#b85450;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;20. PR: Feature Branch → main ᵍ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Merge validated work, including the spec and plan Markdown.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: ADO · feature/* → main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="80" width="460" x="1250" y="2080" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;21. Update Shared Integration/Dev WS ᶜ ʰ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Fabric Web UI → Source Control → “Update” the merged commit.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Shared Integration · Branch: main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="80" width="460" x="1250" y="2185" as="geometry" />
+        </mxCell>
+        <mxCell id="n22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;22. Validate Merged Changes ᵖ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Integration queries, end-to-end pipeline runs, Livy row counts.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC/MCP · WS: Shared Integration · Branch: main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="75" width="460" x="1250" y="2290" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Model / Data Validation Passed?" vertex="1">
+          <mxGeometry height="115" width="280" x="1340" y="2390" as="geometry" />
+        </mxCell>
+        <mxCell id="n23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#f8cecc;strokeColor=#b85450;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;23. Revert Merge on main ˡ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;ADO → Revert the merged PR, restoring main to the last known-good commit.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: ADO · Branch: main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="240" x="880" y="2398" as="geometry" />
+        </mxCell>
+        <mxCell id="n24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#fff2cc;strokeColor=#d6b656;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;24. Clean Up Feature Branch &amp;amp; Personal Dev WS ⁿ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Delete the merged feature branch in ADO; delete or unbind the Personal Dev WS.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: ADO + Fabric UI&lt;/i&gt;" vertex="1">
+          <mxGeometry height="80" width="460" x="1250" y="2530" as="geometry" />
+        </mxCell>
+        <mxCell id="n25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;25. Promote Dev → Test (Deployment Pipelines) ᵇ ⁱ ᵗ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Fabric UI Deploy to the Test stage.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Dev → Test&lt;/i&gt;" vertex="1">
+          <mxGeometry height="80" width="460" x="1250" y="2750" as="geometry" />
+        </mxCell>
+        <mxCell id="n26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;26. Bind Data Sources &amp;amp; Set Credentials (Test) ⁱ ˣ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;On the target item&#39;s settings page, repoint the deployed items at the Test WS sources and supply credentials. First release, or when a source changes.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Test&lt;/i&gt;" vertex="1">
+          <mxGeometry height="95" width="460" x="1250" y="2855" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Test Passed?" vertex="1">
+          <mxGeometry height="115" width="280" x="1340" y="2975" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Code Defect or Deployment Config?" vertex="1">
+          <mxGeometry height="125" width="240" x="880" y="2970" as="geometry" />
+        </mxCell>
+        <mxCell id="n27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#f8cecc;strokeColor=#b85450;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;27. Apply Release Tag to main ᵏ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Azure Repos → Tags → New tag on the exact commit deployed to Test (e.g. release/v1.2).&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: ADO · Branch: main (tag)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="85" width="460" x="1250" y="3115" as="geometry" />
+        </mxCell>
+        <mxCell id="n28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;28. Promote Test → Prod (Deployment Pipelines) ᵇ ⁱ ᵗ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Fabric UI Deploy stage promote, within a change-managed release window.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Test → Prod&lt;/i&gt;" vertex="1">
+          <mxGeometry height="80" width="460" x="1250" y="3225" as="geometry" />
+        </mxCell>
+        <mxCell id="n29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;29. Bind Data Sources &amp;amp; Set Credentials (Prod) ⁱ ˣ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Repoint the promoted items at the Prod WS sources and supply credentials. First release, or when a source changes — not carried over, but not reset either.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Prod&lt;/i&gt;" vertex="1">
+          <mxGeometry height="95" width="460" x="1250" y="3330" as="geometry" />
+        </mxCell>
+        <mxCell id="n30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;30. Assign Prod WS RBAC &amp;amp; RLS Role Membership ᵘ ᵛ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Grant workspace roles and semantic model RLS role membership in the Prod WS, now that the model exists there.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Prod&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="460" x="1250" y="3450" as="geometry" />
+        </mxCell>
+        <mxCell id="n31" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;31. Post-Deployment Verification (Prod) ᵖ ʷ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Smoke-test the promoted release: model refresh, validation DAX vs expected results, connection and role checks.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC/MCP · WS: Prod&lt;/i&gt;" vertex="1">
+          <mxGeometry height="90" width="460" x="1250" y="3565" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Prod Verification Passed?" vertex="1">
+          <mxGeometry height="115" width="280" x="1340" y="3680" as="geometry" />
+        </mxCell>
+        <mxCell id="n32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#f8cecc;strokeColor=#b85450;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;32. Roll Back Prod Release ᵏ ʷ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;ADO → Revert the PR(s) merged since the previous release tag, restoring main by new commits.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: ADO · Branch: main&lt;/i&gt;" vertex="1">
+          <mxGeometry height="105" width="240" x="880" y="3685" as="geometry" />
+        </mxCell>
+        <mxCell id="n33" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;33. Endorse Semantic Model in Prod (Manual) ʲ ᵒ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Apply Promoted / Certified on the Prod semantic model.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: Fabric UI · WS: Prod&lt;/i&gt;" vertex="1">
+          <mxGeometry height="80" width="460" x="1250" y="3820" as="geometry" />
+        </mxCell>
+        <mxCell id="n34" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;34. Monitor, Triage &amp;amp; Iterate ᵖ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;CC CLI diagnostics, pipeline activity polling, Spark/Livy logs.&lt;/font&gt;&lt;br&gt;&lt;i style=&#39;font-size:9px&#39;&gt;Ctx: CC/MCP · WS: Prod&lt;/i&gt;" vertex="1">
+          <mxGeometry height="80" width="460" x="1250" y="3925" as="geometry" />
+        </mxCell>
+        <mxCell id="end" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontSize=14;fontStyle=1;fillColor=#000000;strokeColor=#000000;fontColor=#ffffff;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="END OF RELEASE CYCLE" vertex="1">
+          <mxGeometry height="60" width="200" x="1380" y="4065" as="geometry" />
+        </mxCell>
+        <mxCell id="offpage" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fontSize=12;align=center;verticalAlign=middle;spacingLeft=8;spacingRight=8;fillColor=#f5f5f5;strokeColor=#999999;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Report Development Workflow ʲ&lt;/b&gt;&lt;br&gt;&lt;font style=&#39;font-size:10px&#39;&gt;Separate downstream process — out of scope for this flow.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="90" width="280" x="1760" y="3900" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="n1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="n2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="n4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="n5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="n6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="n7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.12;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n9" value="continue">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="845" y="1417" />
+              <mxPoint x="845" y="261" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="n9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="n10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n11" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="n11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="n12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="dP" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" edge="1" parent="1" source="dP" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n13" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1" edge="1" parent="1" source="dP" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n12" value="No:&lt;br&gt;revise plan">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1765" y="772" />
+              <mxPoint x="1765" y="647" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="n13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="n14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="n15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="n16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n17" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="n17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="d1b" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" edge="1" parent="1" source="d1b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="d1" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" edge="1" parent="1" source="d1b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n13" value="No: fix&lt;br&gt;&amp;amp; re-validate">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1800" y="1467" />
+              <mxPoint x="1800" y="880" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l3" edge="1" parent="1" source="d1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n13" value="Yes: more dev&lt;br&gt;(same branch)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1835" y="1607" />
+              <mxPoint x="1835" y="930" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g3" edge="1" parent="1" source="d1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n18" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g11" edge="1" parent="1" source="dS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n19" value="No: sync first">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l11" edge="1" parent="1" source="n19" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n15" value="re-Update the Personal WS&lt;br&gt;and re-validate the merged result">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="1117" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g12" edge="1" parent="1" source="dS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n20" value="Yes: raise PR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="n20" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n21" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n22" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="n22" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="d2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g4" edge="1" parent="1" source="d2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n24" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g5" edge="1" parent="1" source="d2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n23" value="No:&lt;br&gt;roll back">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" edge="1" parent="1" source="n23" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n21" value="re-Update Shared WS&lt;br&gt;to the restored state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="2225" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l5" edge="1" parent="1" source="n23" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n9" value="re-work the defect on&lt;br&gt;a fresh feature branch;&lt;br&gt;delete the abandoned&lt;br&gt;branch and Personal&lt;br&gt;Dev WS (Step 24)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="2448" />
+              <mxPoint x="820" y="278" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="n24" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n25" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="n25" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23b" edge="1" parent="1" source="n26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="d3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g6" edge="1" parent="1" source="d3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n27" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g7" edge="1" parent="1" source="d3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="d4" value="No:&lt;br&gt;triage">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l6" edge="1" parent="1" source="d4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n25" value="Deployment config:&lt;br&gt;fix value set / rules&lt;br&gt;&amp;amp; redeploy">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="2790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7" edge="1" parent="1" source="d4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n9" value="Code defect:&lt;br&gt;new feature branch">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="795" y="3032" />
+              <mxPoint x="795" y="297" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="1" source="n27" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n28" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" edge="1" parent="1" source="n28" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n29" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25b" edge="1" parent="1" source="n29" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n30" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" edge="1" parent="1" source="n30" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n31" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" edge="1" parent="1" source="n31" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="d5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g8" edge="1" parent="1" source="d5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n33" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g9" edge="1" parent="1" source="d5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n32" value="No:&lt;br&gt;roll back">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l8" edge="1" parent="1" source="n32" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=1;exitY=0.4;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n21" value="re-Update Shared WS&lt;br&gt;to the restored state,&lt;br&gt;then re-promote">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1180" y="3727" />
+              <mxPoint x="1180" y="2205" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l9" edge="1" parent="1" source="n32" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n9" value="re-work the defect on&lt;br&gt;a fresh feature branch">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="770" y="3738" />
+              <mxPoint x="770" y="316" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e28" edge="1" parent="1" source="n33" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n34" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g10" edge="1" parent="1" source="n33" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="offpage" value="hand-off">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" edge="1" parent="1" source="n34" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="end" value="Release cycle complete">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l10" edge="1" parent="1" source="n34" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeWidth=2;fontSize=12;labelBackgroundColor=#E6E6E6;dashed=1;strokeColor=#8c8c8c;fontColor=#4d4d4d;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.9;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="n9" value="Feedback → backlog&lt;br&gt;(next iteration)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="745" y="3965" />
+              <mxPoint x="745" y="335" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legendBox" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;fillColor=#f5f5f5;strokeColor=#999999;fontSize=13;fontStyle=1;verticalAlign=top;spacingTop=6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Legend — Operational Domain" vertex="1">
+          <mxGeometry height="175" width="560" x="80" y="1560" as="geometry" />
+        </mxCell>
+        <mxCell id="leg0" parent="legendBox" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#d5e8d4;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="CC on Local Files (CLI or in VSC)" vertex="1">
+          <mxGeometry height="28" width="250" x="15" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" parent="legendBox" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="CC/MCP against Fabric" vertex="1">
+          <mxGeometry height="28" width="250" x="290" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" parent="legendBox" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Fabric Web UI — sole activity surface" vertex="1">
+          <mxGeometry height="28" width="250" x="15" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" parent="legendBox" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f8cecc;strokeColor=#b85450;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Azure DevOps (ADO) — sole activity surface" vertex="1">
+          <mxGeometry height="28" width="250" x="290" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" parent="legendBox" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#b0e3e6;strokeColor=#0e8088;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Local Git only — ADO as remote" vertex="1">
+          <mxGeometry height="28" width="250" x="15" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" parent="legendBox" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fff2cc;strokeColor=#d6b656;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Mixed / Multi-Surface (Git · ADO · Fabric · CC)" vertex="1">
+          <mxGeometry height="28" width="250" x="290" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="legPhase" parent="legendBox" style="text;html=1;fontSize=9;align=left;verticalAlign=middle;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="◇ = decision gateway · solid dark-grey border = phase boundary · dashed grey arrow = feedback / rollback path" vertex="1">
+          <mxGeometry height="20" width="530" x="15" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="abbrevBox" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;fillColor=#f5f5f5;strokeColor=#999999;fontSize=13;fontStyle=1;verticalAlign=top;spacingTop=6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Key — Abbreviations" vertex="1">
+          <mxGeometry height="240" width="560" x="80" y="1780" as="geometry" />
+        </mxCell>
+        <mxCell id="abbrevL" parent="abbrevBox" style="text;html=1;fontSize=10;align=left;verticalAlign=top;whiteSpace=wrap;spacingLeft=4;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="ADO — Azure DevOps&lt;br&gt;ADR — Architecture Decision Record&lt;br&gt;API — Application Programming Interface&lt;br&gt;CC — Claude Code (CLI)&lt;br&gt;CLI — Command-Line Interface&lt;br&gt;Ctx — Context: active Fabric WS / Git branch&lt;br&gt;DAX — Data Analysis Expressions&lt;br&gt;Fab — Fabric (commit-message prefix)&lt;br&gt;JSON — JavaScript Object Notation&lt;br&gt;MCP — Model Context Protocol&lt;br&gt;OLS — Object-Level Security&lt;br&gt;PR — Pull Request" vertex="1">
+          <mxGeometry height="196" width="268" x="12" y="34" as="geometry" />
+        </mxCell>
+        <mxCell id="abbrevR" parent="abbrevBox" style="text;html=1;fontSize=10;align=left;verticalAlign=top;whiteSpace=wrap;spacingLeft=4;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="QA — Quality Assurance&lt;br&gt;RBAC — Role-Based Access Control&lt;br&gt;REST — Representational State Transfer&lt;br&gt;RLS — Row-Level Security&lt;br&gt;SC — Source Control (Fabric panel)&lt;br&gt;SDLC — Software Development Life Cycle&lt;br&gt;SHA — Secure Hash Algorithm (commit hash)&lt;br&gt;SQL — Structured Query Language&lt;br&gt;T-SQL — Transact-SQL&lt;br&gt;TMDL — Tabular Model Definition Language&lt;br&gt;VSC — Visual Studio Code&lt;br&gt;WS — Workspace" vertex="1">
+          <mxGeometry height="196" width="258" x="290" y="34" as="geometry" />
+        </mxCell>
+        <mxCell id="notesBox" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;fillColor=#f5f5f5;strokeColor=#999999;fontSize=13;fontStyle=1;verticalAlign=top;spacingTop=6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;Notes (cited in steps as ᵃ ᵇ ᶜ …; letter q omitted — no superscript form)" vertex="1">
+          <mxGeometry height="1560" width="560" x="80" y="2050" as="geometry" />
+        </mxCell>
+        <mxCell id="notesText" parent="notesBox" style="text;html=1;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;whiteSpace=wrap;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;b&gt;a&lt;/b&gt;&amp;nbsp; — Specs as versioned artifacts: ADRs, source-to-target mappings, measure definitions and pipeline specs are Markdown in the repo and merged in the same PR as the code they describe. Step 1 is one-off inception; Step 9 is the recurring re-entry point, and all feedback and defect loops return there.&lt;br&gt;&lt;br&gt;&lt;b&gt;b&lt;/b&gt;&amp;nbsp; — Branch strategy: main + short-lived feature branches only. No test/prod branches — Test/Prod content is delivered by Deployment Pipelines, not Git; Git binding applies only to Dev-stage workspaces.&lt;br&gt;&lt;br&gt;&lt;b&gt;c&lt;/b&gt;&amp;nbsp; — Shared Integration/Dev WS: bound to main, doubling as the Deployment Pipeline Dev stage. Personal Dev WSs are branched workspaces outside the pipeline.&lt;br&gt;&lt;br&gt;&lt;b&gt;d&lt;/b&gt;&amp;nbsp; — Branch out: Fabric’s “Branch out to new workspace” creates the branch and the bound workspace together — no pre-created local branch. Item definitions are copied; data and bindings are not. Lakehouses and warehouses arrive empty, so repoint sources at the Personal WS (note ˣ), re-create shortcuts (note ˢ) and run the ingestion pipelines (Step 16) before validating.&lt;br&gt;&lt;br&gt;&lt;b&gt;e&lt;/b&gt;&amp;nbsp; — No auto-commit: Fabric Git Integration never commits automatically; a manual Source Control → Commit is always required.&lt;br&gt;&lt;br&gt;&lt;b&gt;f&lt;/b&gt;&amp;nbsp; — Sync rule: local edits are invisible to Fabric until pushed to ADO and pulled via workspace “Update” (Steps 14, 15); and the reverse — items committed from the Fabric UI are invisible locally until pulled (Step 8). MCP always operates on workspace state, never local files.&lt;br&gt;&lt;br&gt;&lt;b&gt;g&lt;/b&gt;&amp;nbsp; — Commit messages: prefix by surface — local VSC: “VSC Commit: ” · local CC: “CC Commit: ” · ADO web: “ADO Commit: ” · Fabric UI: “Fab Commit: ” — then body [domain]_[artifact]_[action]. PRs merge feature → main with peer review.&lt;br&gt;&lt;br&gt;&lt;b&gt;h&lt;/b&gt;&amp;nbsp; — Automation candidate: the manual workspace “Update” at Steps 15 and 21 is a single-owner action today; automatable via the Fabric Git REST API.&lt;br&gt;&lt;br&gt;&lt;b&gt;i&lt;/b&gt;&amp;nbsp; — Deployment Pipelines — one-off setup (outside the release loop): create the pipeline, assign the Dev/Test/Prod workspaces to stages. Per release, pipelines copy item structure and metadata only; data does not deploy. Standing rule: what the pipeline does not copy it also does not clear. So endorsement, bindings and credentials, and RBAC / RLS membership persist once set — first-release and on-change actions, never repeated per promotion. Environment-specific values come from the Variable Library (note ᵗ); Deployment Rules are the fallback.&lt;br&gt;&lt;br&gt;&lt;b&gt;j&lt;/b&gt;&amp;nbsp; — Report hand-off: reports are authored in the Fabric Web UI against the endorsed Prod semantic model and stored in the Prod WS.&lt;br&gt;&lt;br&gt;&lt;b&gt;k&lt;/b&gt;&amp;nbsp; — Release tag: tag the exact commit deployed to Test, not the newest on main. The Prod WS is not Git-bound, so the last successfully verified tag — not necessarily the newest — is the authoritative record of what is in Prod (note ʷ). Scripted git tag / push --tags is for release automation only.&lt;br&gt;&lt;br&gt;&lt;b&gt;l&lt;/b&gt;&amp;nbsp; — Rollback on main: if merged changes fail integration validation, restore main rather than fixing forward on it. In ADO, Revert the merged PR (git revert -m 1 &amp;lt;merge-SHA&amp;gt;) and complete the revert PR — revert, never reset (note ʷ).&lt;br&gt;&lt;br&gt;&lt;b&gt;m&lt;/b&gt;&amp;nbsp; — Pre-PR sync: merge (or rebase onto) main, resolving conflicts locally in VSC — TMDL and pipeline JSON must be resolved as text, since Fabric cannot. The merged result has never run anywhere, so it is re-validated in the Personal WS before the PR, after which the gateway is re-tested in case main moved again.&lt;br&gt;&lt;br&gt;&lt;b&gt;n&lt;/b&gt;&amp;nbsp; — Cleanup: delete the feature branch in ADO and delete or unbind the Personal Dev WS, preventing orphaned workspaces and stale bindings. Step 24 does this after a validated merge; a branch abandoned after a failed integration bypasses Step 24, so clean it up on the way back to Step 9.&lt;br&gt;&lt;br&gt;&lt;b&gt;o&lt;/b&gt;&amp;nbsp; — Endorsement: promotion / certification persists across promotions (note ⁱ). Step 33 applies it on first release, repeated only when the level is deliberately changed or withdrawn. Certification requires a tenant-designated certifier.&lt;br&gt;&lt;br&gt;&lt;b&gt;p&lt;/b&gt;&amp;nbsp; — MCP write rule: MCP acts on workspace state, so anything it creates bypasses Git and PR review until manually committed in Fabric (Step 7), leaving repo/workspace drift invisible. Standing rule: MCP is run / read / validate only (Steps 16, 17, 22, 31, 34), from the servers registered at Step 4. Item definitions are authored locally as TMDL, T-SQL and pipeline JSON (Step 13) and reach Fabric via Git; Step 5 is the sole exception, seeding an empty repo with empty shells.&lt;br&gt;&lt;br&gt;&lt;b&gt;r&lt;/b&gt;&amp;nbsp; — Plan Mode: CC plan mode drafts the implementation plan as a Markdown artifact before any code is authored, so intent is agreed first. No TMDL, T-SQL or pipeline JSON is written until approval; the approved plan is committed into the spec set (note ᵃ).&lt;br&gt;&lt;br&gt;&lt;b&gt;s&lt;/b&gt;&amp;nbsp; — Connections &amp;amp; shortcuts: source connections, gateways and OneLake shortcuts are workspace/tenant-level objects, created at Step 6 once the shells they attach to exist — a shortcut cannot precede its lakehouse. Not versioned in Git, and carried neither by Deployment Pipelines nor by branch-out: every pipeline stage and every branched Personal Dev WS needs its own. Binding an item to them is separate (note ˣ).&lt;br&gt;&lt;br&gt;&lt;b&gt;t&lt;/b&gt;&amp;nbsp; — Variable Library: a first-class, Git-versioned Fabric item holding environment-specific values (lakehouse IDs, connection references, parameters) as named value sets. Scaffold it with the other shells at Step 5, one set per stage; each stage activates its own, so no hard-coded IDs travel between Dev, Test and Prod. The active set is stage configuration, not part of the item definition, so a promotion does not touch it — spot-check that each stage is still on its own set.&lt;br&gt;&lt;br&gt;&lt;b&gt;u&lt;/b&gt;&amp;nbsp; — RLS / OLS: row- and object-level security roles are part of the semantic model definition and live in TMDL, so they are authored, committed and PR-reviewed like any other code (Step 13) and tested with “View as role” before the PR. Role membership is separate, assigned per workspace (note ᵛ).&lt;br&gt;&lt;br&gt;&lt;b&gt;v&lt;/b&gt;&amp;nbsp; — Capacity &amp;amp; access. Capacity is infrastructure: the three deployment-pipeline workspaces (Shared Integration/Dev, Test, Prod) are bound to a Fabric capacity (F-SKU or trial) at Step 3, and the branched Personal Dev WSs created at Step 10 need one at creation — without capacity, Spark and Direct Lake do not work and the pipeline cannot deploy. Access is identity: RLS membership cannot be granted against a model that does not yet exist in Prod, so Step 30 follows the promotion (note ⁱ).&lt;br&gt;&lt;br&gt;&lt;b&gt;w&lt;/b&gt;&amp;nbsp; — Prod verification &amp;amp; rollback: Fabric has no one-click Prod rollback. If verification fails, restore main by reverting, never resetting — a reset rewrites shared, PR-protected history and needs a force push. In ADO, revert the PR(s) merged since the previous release tag (note ᵏ), newest first, so main is restored by new commits. The failed tag stays on main as history and the previous verified tag becomes the Prod record; the fix ships under a new tag.&lt;br&gt;&lt;br&gt;&lt;b&gt;x&lt;/b&gt;&amp;nbsp; — Bindings &amp;amp; credentials: pipelines copy item definitions, not connections — and neither does branch-out. A newly deployed or newly branched item is unbound and holds no credentials, so the model cannot refresh until both are set on its settings page. Steps 26 and 29 do this on first release and on change (note ⁱ). Direct Lake models never autobind and always need an explicit rule or manual rebind.&lt;br&gt;&lt;br&gt;&lt;b&gt;y&lt;/b&gt;&amp;nbsp; — Sync check: “in sync” is one-directional. The commits your branch holds ahead of main are the PR payload and do not count; the gateway asks only whether main holds commits the branch lacks. Step 18 answers it read-only — git fetch, then git rev-list --count feature/x..origin/main. Zero means the branch already includes all of main, so raise the PR; anything else sends it to Step 19 first." vertex="1">
+          <mxGeometry height="1520.044543429844" width="540" x="10" y="39.9554565701559" as="geometry" />
+        </mxCell>
+        <mxCell id="copyright" parent="1" style="text;html=1;fontSize=14;fontColor=#666666;align=left;verticalAlign=middle;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="© 2026 John P Brown. All rights reserved." vertex="1">
+          <mxGeometry height="26" width="560" x="80" y="4140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
