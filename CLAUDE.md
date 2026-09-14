@@ -59,8 +59,41 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   **physical** Fabric IDs; the repo's Fabric item files carry *logical* IDs, which are
   different values. Never copy IDs from repo files into that doc.
 
-SDLC process, branching, release and commit-convention rules live in the global instructions
-(`~/.claude/CLAUDE.md`) — not in this file.
+
+## Fabric SDLC Process Flow (ALWAYS apply to Fabric project work)
+
+Canonical diagram: `Fabric_SDLC_Process_Flow_v8.drawio` under
+`OneDrive\OneDriveDocuments\FabricTrainingProjects\Freq_Reference_Illistrations\Diagram-SDLC Process\`.
+
+* Phases: `I Plan & Setup → II Scaffold & Synchronize → III Development → IV Integration & QA →
+  V Release & Monitor`. Report development is a separate off-page workflow handed off after the Prod
+  semantic model is endorsed.
+* **Git is the source of truth.** MCP is for **run / read / validate** only — pipeline runs,
+  Livy/Spark, `refresh_semantic_model`, validation DAX, job polling. Never author or alter item
+  definitions via MCP: MCP writes hit *workspace* state, bypass the PR, and drift invisibly.
+  The single exception is one-off inception scaffolding of empty artifact shells, committed
+  straight to main to seed the repo.
+* **Authoring path:** local TMDL / T-SQL / pipeline JSON in VSC → commit/push to ADO → Fabric
+  Source Control **Update** (manual; no auto-commit exists) → MCP validation. Local edits are
+  invisible to Fabric until pushed *and* pulled.
+* **Branching:** `main` + short-lived feature branches only — no test/prod branches. Test and Prod
+  content arrives via deployment pipelines, and Git binding applies only to Dev-stage workspaces.
+  Create feature work with Fabric SC → "Branch out to new workspace" (creates branch *and* Personal
+  Dev WS together), then fetch/checkout locally. Repoint copied data source bindings at the Personal
+  WS. Delete the branch and the Personal WS after a validated merge.
+* **Dev loop:** author → push → WS Update → MCP ops → private validation → (fail? back to author) →
+  (more dev? back to author) → sync main into feature branch and resolve TMDL/JSON conflicts locally
+  → PR to main.
+* **Integration failure = roll back, not fix forward:** revert the merged PR in ADO, re-Update the
+  Shared Integration WS, and re-work on a fresh feature branch.
+* **Release:** Dev → Test deploy → validate → triage a failure as *deployment config* (fix Deployment
+  Rules, redeploy) vs *code defect* (new feature branch) → tag the exact deployed commit on main →
+  Test → Prod deploy → **manually re-endorse** the Prod semantic model → monitor.
+* Deployment pipelines carry structure/metadata only — no data, no data source rebinding (use
+  Deployment Rules), no endorsement. Connections, gateways and OneLake shortcuts are not in Git and
+  are not deployed — recreate or rebind per stage.
+* Commit message body: `[domain]_[artifact]_[action]`. Surface prefixes: `VSC Commit:` · `CC Commit:` ·
+  `ADO Commit:` · `Fab Commit:`.
 
 ## Fabric Warehouse — T-SQL Constraints (ALWAYS apply)
 - No PRIMARY KEY, UNIQUE, or FOREIGN KEY constraints. No inline constraints in `CREATE TABLE`.
