@@ -60,7 +60,7 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   different values. Never copy IDs from repo files into that doc.
 
 SDLC process, branching, release and commit-convention rules live in the global instructions
-(`~/.claude/CLAUDE.md` → `~/.claude/FABRIC_SDLC_REFERENCE.md`) — not in this file.
+(`~/.claude/CLAUDE.md`) — not in this file.
 
 ## Fabric Warehouse — T-SQL Constraints (ALWAYS apply)
 - No PRIMARY KEY, UNIQUE, or FOREIGN KEY constraints. No inline constraints in `CREATE TABLE`.
