@@ -62,78 +62,44 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
 
 ## Fabric SDLC Process Flow (ALWAYS apply to Fabric project work)
 
-Canonical diagram: Draw.io file `Process_Flow_SDLC_v24.drawio` in repo folder
-`DIagrams/Process_Flow_SDLC/` (PNG export alongside it). Step numbers below are that diagram's.
+Step-by-step detail — all 34 steps, gateways and per-step surface — is in CC skill `/fabric-sdlc`.
+Invoke it when starting, planning or executing any lifecycle step. Canonical diagram: Draw.io file
+`Process_Flow_SDLC_v24.drawio` in repo folder `DIagrams/Process_Flow_SDLC/`. The rules below always
+apply, skill or no skill.
 
-Phases: `I Plan & Setup → II Scaffold & Synchronize → III Development (Dev) → IV Integration & QA →
-V Release & Monitor`. Report development is a separate downstream workflow, handed off only after
-the Prod semantic model is endorsed (Step 33).
+1. **Git is the source of truth. MCP is run/read/validate only** — pipeline runs, Livy/Spark,
+   `refresh_semantic_model`, validation DAX, job polling. Never author or alter item definitions via
+   MCP: it writes *workspace* state, bypasses the PR and drifts invisibly. Sole exception: one-off
+   scaffolding of empty shells into an empty repo.
+2. **Authoring path:** local TMDL / T-SQL / pipeline JSON → commit/push to ADO → Fabric Source Control
+   **Update** (manual; no auto-commit exists) → MCP validation. Local edits are invisible to Fabric
+   until pushed *and* pulled; Fabric-UI commits are invisible locally until pulled.
+3. **Plan, and specs, before code.** CC plan mode drafts the plan first; no TMDL, T-SQL or pipeline
+   JSON until it is approved. ADRs, mappings and measure definitions are Markdown in the repo, merged
+   in the same PR as the code they describe.
+4. **Branching:** `main` + short-lived feature branches only — no test/prod branches. Create feature
+   work with Fabric SC → "Branch out to new workspace" (branch + Personal Dev WS together), then
+   fetch/checkout locally. Branch-out copies definitions only, not data, connections or bindings.
+5. **The pre-PR sync check is one-directional.** Commits ahead of main are the PR payload and do not
+   count; the question is only whether main holds commits the branch lacks. Resolve TMDL and pipeline
+   JSON conflicts as text locally — Fabric cannot.
+6. **Failure = roll back, not fix forward. Revert, never reset.** Integration failure: revert the
+   merged PR in ADO, re-Update the Shared Integration WS, re-work on a fresh branch. Prod failure:
+   revert the PRs merged since the previous release tag; that earlier tag becomes the Prod record.
+7. **Tag the exact commit deployed to Test**, not the newest on main. The Prod WS is not Git-bound, so
+   the last verified tag is the only authoritative record of what is in Prod.
+8. **Deployment pipelines carry structure and metadata only** — no data. What they do not copy they
+   also do not clear, so endorsement, bindings/credentials and RBAC/RLS membership are first-release
+   and on-change actions, never per promotion. Prod endorsement is always manual.
+9. **Environment-specific values come from the Variable Library**, one value set per stage; Deployment
+   Rules are the fallback. Connections, gateways and OneLake shortcuts are not in Git and are carried
+   by neither deployment nor branch-out — every stage and every Personal Dev WS needs its own.
+10. **Clean up after a validated release** — delete the merged feature branch in ADO and delete or
+    unbind the Personal Dev WS. A branch abandoned earlier never reaches that step, so clean it up on
+    the way back to the spec stage.
 
-- **Git is the source of truth; MCP is run/read/validate only.** MCP acts on *workspace* state, so
-  anything it creates bypasses Git and PR review and leaves invisible repo/workspace drift. Sanctioned
-  MCP use is Steps 16, 17, 22, 30, 34 — pipeline runs, Livy/Spark, `refresh_semantic_model`,
-  validation DAX, job polling. The sole exception is Step 5: seeding an empty repo with empty
-  artifact shells, committed from the Fabric UI at Step 7.
-- **Authoring path:** local TMDL / T-SQL / pipeline JSON in VSC or CC (Step 13) → commit/push to ADO
-  (Step 14) → Fabric Source Control **Update** (Step 15; manual — no auto-commit exists) → MCP
-  validation (Steps 16–17). Local edits are invisible to Fabric until pushed *and* pulled; items
-  committed from the Fabric UI are invisible locally until pulled.
-- **Specs are versioned artifacts.** ADRs, source-to-target mappings, measure definitions and pipeline
-  specs are Markdown in the repo, merged in the same PR as the code they describe. Step 1 is one-off
-  inception; **Step 9 is the recurring re-entry point** that every feedback, defect and rollback loop
-  returns to.
-- **Plan before authoring.** CC plan mode drafts the change plan against the Step 9 specs (Step 12);
-  no TMDL, T-SQL or pipeline JSON is written until the plan is approved, and the approved plan is
-  committed into the spec set.
-- **Branching:** `main` + short-lived feature branches only — no test/prod branches. Test and Prod
-  content arrives via deployment pipelines; Git binding applies only to Dev-stage workspaces. Create
-  feature work with Fabric SC → "Branch out to new workspace" (Step 10: creates the branch in ADO and
-  the Personal Dev WS together), then fetch/checkout locally (Step 11). Branch-out copies item
-  definitions only — **not data, connections or bindings** — so lakehouses and warehouses arrive
-  empty: repoint sources, re-create shortcuts and run the ingestion pipelines before validating.
-  A Personal Dev WS needs capacity assigned at creation.
-- **Pre-PR sync check is one-directional (Steps 18–19).** Commits the branch holds ahead of main are
-  the PR payload and do not count; the gateway asks only whether main holds commits the branch lacks.
-  Answer it read-only: `git fetch origin` then `git rev-list --count feature/x..origin/main`. Zero →
-  raise the PR (Step 20). Anything else → merge or rebase main into the branch, resolve TMDL and
-  pipeline JSON conflicts **as text in VSC** (Fabric cannot), re-push, re-validate in the Personal WS,
-  and re-test the gateway in case main moved again.
-- **Integration failure = roll back, not fix forward (Step 23).** Revert the merged PR in ADO
-  (`git revert -m 1`), re-Update the Shared Integration WS to the restored state, and re-work the
-  defect on a fresh feature branch. Revert, never reset.
-- **Release:** Dev → Test deploy (Step 24) → bind data sources and set credentials for Test (Step 25)
-  → validate → triage a failure as *deployment config* (fix value set / Deployment Rules, redeploy)
-  vs *code defect* (new feature branch) → tag the **exact commit deployed to Test**, not the newest on
-  main (Step 26) → Test → Prod deploy (Step 27) → bind sources and credentials for Prod (Step 28) →
-  assign Prod WS RBAC and semantic model RLS role membership (Step 29 — membership cannot be granted
-  against a model that does not yet exist in Prod) → post-deployment verification (Step 30) →
-  endorse (Step 33) → monitor (Step 34).
-- **Prod rollback has no one-click path (Step 31).** Revert the PRs merged since the previous release
-  tag, newest first; the failed tag stays on main as history, the previous verified tag becomes the
-  Prod record, and the fix ships under a new tag. The Prod WS is not Git-bound, so the last verified
-  tag — not the newest — is the authoritative record of what is in Prod.
-- **Deployment pipelines carry item structure and metadata only** — no data. Standing rule: what the
-  pipeline does not copy it also does not clear, so endorsement, bindings/credentials and RBAC/RLS
-  membership persist once set — first-release and on-change actions, never per promotion. Pipeline
-  creation and stage assignment are one-off setup outside the release loop (Step 3).
-- **Environment-specific values come from the Variable Library** (Git-versioned Fabric item, scaffolded
-  at Step 5, one value set per stage), so no hard-coded IDs travel between Dev, Test and Prod.
-  Deployment Rules are the fallback. The active set is stage configuration, not part of the item
-  definition, so a promotion does not touch it — spot-check it after each deploy.
-- **Connections, gateways and OneLake shortcuts are not in Git** and are carried neither by deployment
-  pipelines nor by branch-out — every stage and every Personal Dev WS needs its own (Step 6). Binding
-  an item to them is a separate act (Steps 25, 28); Direct Lake models never autobind.
-- **RLS/OLS roles live in TMDL**, so they are authored, committed and PR-reviewed like any other code
-  (Step 13) and tested with "View as role" before the PR. Role *membership* is separate and assigned
-  per workspace (Step 29).
-- **Endorsement is manual and persists.** Apply Promoted/Certified on the Prod semantic model at first
-  release only, repeated when the level is deliberately changed or withdrawn. Certification requires a
-  tenant-designated certifier.
-- **Clean up at Step 32** — delete the merged feature branch in ADO and delete or unbind the Personal
-  Dev WS, once the release is verified in Prod. A branch abandoned earlier (at integration, Test triage
-  or Prod verification) never reaches Step 32, so clean it up on the way back to Step 9.
-- Commit message body: `[domain]_[artifact]_[action]`. Surface prefixes: `VSC Commit:` · `CC Commit:` ·
-  `ADO Commit:` · `Fab Commit:`.
+Commit message body: `[domain]_[artifact]_[action]`. Surface prefixes: `VSC Commit:` · `CC Commit:` ·
+`ADO Commit:` · `Fab Commit:`.
 
 ## Fabric Warehouse — T-SQL Constraints (ALWAYS apply)
 - No PRIMARY KEY, UNIQUE, or FOREIGN KEY constraints. No inline constraints in `CREATE TABLE`.
