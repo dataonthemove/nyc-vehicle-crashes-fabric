@@ -32,4 +32,4 @@ pushed to Azure DevOps, then pulled into the workspace via Fabric Source Control
 Update All. Test and Prod receive content through deployment pipelines, not Git.
 
 Full conventions and constraints: `CLAUDE.md`.
-Current work: `Context Docs/BACKLOG.md` and `Context Docs/landing_zone_runbook.md`.
+Current work: issues under `.scratch/` (see `docs/agents/issue-tracker.md`) and `Context Docs/landing_zone_runbook.md`.

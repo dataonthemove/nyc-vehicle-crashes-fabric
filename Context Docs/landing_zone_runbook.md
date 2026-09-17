@@ -180,4 +180,4 @@ then move on.
     
 
 12. ⬜ **Ongoing** — ingestion cadence, capacity monitoring, continuous commits.
-    Not a phase with an end state; move these to `Context Docs/BACKLOG.md` once Phase 11 lands.
+    Not a phase with an end state; move these to `.scratch/` issues once Phase 11 lands.
