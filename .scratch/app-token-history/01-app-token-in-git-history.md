@@ -59,3 +59,15 @@ explicitly and this issue is closed. The string being merely *unused* is not an 
 - Adding authentication back to Fabric Pipeline `pl_cdc_NYC_Crashes_Landing` (it is
   deliberately unauthenticated).
 - Key Vault or Variable Library secret handling in general.
+
+## Decision (2026-09-20)
+
+**Rotate**, leaving git history intact. Recorded as ADR `docs/adr/0001-rotate-nyc-open-data-app-token.md`.
+
+## Rotation confirmed (2026-09-20)
+
+Pat issued a replacement app token in the NYC Open Data developer portal and deleted the old
+entry; its absence was confirmed on a portal page refresh. The historical string in commits
+`f97b8fb`, `4abe70f`, `7734b17`, `62b1040` is now dead. The replacement token is held outside
+this repo and is not wired into any Fabric artifact — Fabric Pipeline `pl_cdc_NYC_Crashes_Landing`
+remains unauthenticated by design.

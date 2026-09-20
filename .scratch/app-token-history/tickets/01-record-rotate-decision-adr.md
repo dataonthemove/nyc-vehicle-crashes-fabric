@@ -11,10 +11,10 @@ accepting was rejected: a live credential in a portfolio repo is not an outcome.
 
 **Blocked by:** None (can start immediately).
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] An ADR exists under repo folder `docs/adr/` recording the choice as "rotate".
-- [ ] It names the two rejected options and the specific cost that ruled each one out.
-- [ ] It refers to the exposed commits by SHA pointer only (`f97b8fb`, `4abe70f`, `7734b17`,
+- [x] An ADR exists under repo folder `docs/adr/` recording the choice as "rotate".
+- [x] It names the two rejected options and the specific cost that ruled each one out.
+- [x] It refers to the exposed commits by SHA pointer only (`f97b8fb`, `4abe70f`, `7734b17`,
       `62b1040`) and never quotes the token string.
-- [ ] Parent issue `../01-app-token-in-git-history.md` links to the ADR.
+- [x] Parent issue `../01-app-token-in-git-history.md` links to the ADR.

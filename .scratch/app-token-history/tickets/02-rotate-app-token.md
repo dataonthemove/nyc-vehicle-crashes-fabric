@@ -11,10 +11,10 @@ held outside the repo until something actually needs it.
 
 **Blocked by:** 01 (Record the rotate decision as an ADR).
 
-**Status:** ready-for-human — the portal is a browser UI behind Pat's login; no API or CLI path exists.
+**Status:** done (2026-09-20)
 
-- [ ] A replacement app token is issued in the portal.
-- [ ] The old token is revoked and its absence confirmed in the portal.
-- [ ] The revocation is noted in parent issue `../01-app-token-in-git-history.md`, by date and
+- [x] A replacement app token is issued in the portal.
+- [x] The old token is revoked and its absence confirmed in the portal.
+- [x] The revocation is noted in parent issue `../01-app-token-in-git-history.md`, by date and
       portal action — never by quoting either token string.
-- [ ] The new token is not committed to this repo in any form.
+- [x] The new token is not committed to this repo in any form.
