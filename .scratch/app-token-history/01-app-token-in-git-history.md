@@ -14,7 +14,7 @@ Searched the repo with `git log --all -S<token>` and `git grep`:
 - Working tree: **clean**. No `X-App-Token` header and no token string in any tracked file.
 - History: the literal token string is present in **4 commits** (`f97b8fb`, `4abe70f`,
   `7734b17`, `62b1040`), all reachable from `origin/main`. The last of these is today's
-  commit removing `Context Docs/BACKLOG.md`, whose text quoted the token verbatim — so
+  commit removing `Context/BACKLOG.md`, whose text quoted the token verbatim — so
   documenting the incident re-introduced the string into history.
 - The retired Fabric Pipeline that carried the header (`pl_cdc_NYC_Crashes`, formerly under
   repo folder `2_dev/2_Ingest/`) no longer exists. Its successor Fabric Pipeline
@@ -39,7 +39,7 @@ explicitly and this issue is closed. The string being merely *unused* is not an 
 |---|---|---|
 | Accept and close | Records the decision; string stays live but unused | None |
 | Rotate at NYC Open Data | Makes the historical string dead; does not remove it | Browser-only, ~5 min |
-| Rewrite history (`git filter-repo --replace-text`) | Removes the string outright | Rewrites every SHA on `main`; breaks the Fabric Git Integration binding on the Dev workspace and invalidates the SHAs recorded in `Context Docs/landing_zone_runbook_results.md` and in release tags |
+| Rewrite history (`git filter-repo --replace-text`) | Removes the string outright | Rewrites every SHA on `main`; breaks the Fabric Git Integration binding on the Dev workspace and invalidates the SHAs recorded in `Context/landing_zone_runbook_results.md` and in release tags |
 
 ## Why this is ready-for-human, not ready-for-agent
 

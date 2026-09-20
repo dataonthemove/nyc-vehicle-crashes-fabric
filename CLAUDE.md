@@ -55,7 +55,7 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
 ## Working Docs
 - Backlog: issues live under `.scratch/` per `docs/agents/issue-tracker.md`. Read open issues
   at the start of any session that continues project work, and update them when closed or added.
-- `Context Docs/environment-reference.md` — live workspace/artifact IDs. All IDs there are
+- `Context/environment-reference.md` — live workspace/artifact IDs. All IDs there are
   **physical** Fabric IDs; the repo's Fabric item files carry *logical* IDs, which are
   different values. Never copy IDs from repo files into that doc.
 

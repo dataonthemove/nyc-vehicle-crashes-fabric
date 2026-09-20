@@ -22,7 +22,7 @@ Power BI reporting, with CDC pipeline orchestration and Git-based source control
 | `2_dev/1_DDL/` · `3_Transform/` | DDL and ETL notebooks. `2_Ingest/` was deleted 2026-09-10 with the retired CDC pipeline; the numbering gap is deliberate — renaming folders would re-create every item in Fabric |
 | `2_dev/4_Model/` | Semantic model TMDL — the authoritative source for model changes |
 | `2_dev/5_Reports/` | Report definitions — read-only locally |
-| `Context Docs/` | Backlog, landing-zone runbook, environment reference |
+| `Context/` | Backlog, landing-zone runbook, environment reference |
 | `Other/` | Ad-hoc SQL and PowerShell scratch |
 
 ## Working conventions
@@ -32,4 +32,4 @@ pushed to Azure DevOps, then pulled into the workspace via Fabric Source Control
 Update All. Test and Prod receive content through deployment pipelines, not Git.
 
 Full conventions and constraints: `CLAUDE.md`.
-Current work: issues under `.scratch/` (see `docs/agents/issue-tracker.md`) and `Context Docs/landing_zone_runbook.md`.
+Current work: issues under `.scratch/` (see `docs/agents/issue-tracker.md`) and `Context/landing_zone_runbook.md`.

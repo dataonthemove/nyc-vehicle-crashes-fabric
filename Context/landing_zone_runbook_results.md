@@ -1,6 +1,6 @@
 # Phase Results — Landing-Zone Runbook
 
-Append-only companion to `Context Docs/landing_zone_runbook.md`. The runbook governs the work and
+Append-only companion to `Context/landing_zone_runbook.md`. The runbook governs the work and
 is read-only during a phase; every result, deferral and incidental finding is recorded here
 instead, one subsection per phase, in phase order.
 
@@ -17,16 +17,16 @@ Each phase appends a subsection titled:
 > Replace `#N` with the phase number. Everything below the next horizontal rule is real content.
 
 ```
-Read Context Docs/landing_zone_runbook.md for orientation. We are doing Phase #N only.
+Read Context/landing_zone_runbook.md for orientation. We are doing Phase #N only.
 
 Scope: do not touch files, artifacts or Fabric objects outside Phase #N's stated scope.
 If you find something out of scope, record it as a finding — do not fix it.
 Stop at the phase boundary; do not begin Phase #N+1.
 
-Context Docs/landing_zone_runbook.md is READ-ONLY. Never edit it — not the phase
+Context/landing_zone_runbook.md is READ-ONLY. Never edit it — not the phase
 blocks, not the Context sections, not the header.
 
-Record results only in Context Docs/landing_zone_runbook_results.md, by appending a
+Record results only in Context/landing_zone_runbook_results.md, by appending a
 new subsection at the end of the file:
   ## Phase #N — What was done / What was deferred / Other findings
 Append only. Do not alter subsections from earlier phases.
@@ -59,7 +59,7 @@ paths. Only two files carried `abfss://` / `onelake.dfs` references. Three files
 | Fabric Notebook `RefreshSemanticModel` `notebook-content.py` (line 34) | `workspace="NYC_Motor_Vehicle_Collisions"` | `workspace="2_NYC_VehicleCrashes_dev"` | name-based, but **stale and broken** |
 
 The two GUIDs in TMDL file `expressions.tmdl` were confirmed against
-`Context Docs/environment-reference.md` as the Dev workspace and Dev Warehouse **physical** IDs —
+`Context/environment-reference.md` as the Dev workspace and Dev Warehouse **physical** IDs —
 not logical IDs.
 
 ### What was deferred
@@ -435,7 +435,7 @@ binding. The "written into this runbook" half is not done, because the runbook i
 3. **`notebookutils.variableLibrary` fails from a Livy session** (`discoverVariables` request fails;
    the session is keyed to a lakehouse, not a notebook). Test library reads through a notebook job, not
    Livy.
-4. **`Context Docs/environment-reference.md` names the landing lakehouse `NYC_VehicleCrashes_Lakehouse`**; live
+4. **`Context/environment-reference.md` names the landing lakehouse `NYC_VehicleCrashes_Lakehouse`**; live
    (MCP `list_items`) it is `NYC_VehicleCrashes_Landing_Lakehouse`. The IDs match.
 5. **Fabric Pipeline `pl_cdc_NYC_Crashes_Landing` description is stale.** It still says the watermark is read
    from the SQL endpoint; Phase 6 finding 1 replaced that with Fabric Notebook `nb_etl_watermark`.
@@ -478,7 +478,7 @@ Phase 9 **Done when** is satisfied.
 
 ### Other findings (recorded, not fixed)
 
-1. **`Context Docs/environment-reference.md` doesn't record the deployment pipeline.** Add Fabric deployment
+1. **`Context/environment-reference.md` doesn't record the deployment pipeline.** Add Fabric deployment
    pipeline `dp_NYC_VehicleCrashes` `df1e3e42-…` and its stage IDs (Development `e7887720-…`, Test `a0ab3671-…`,
    Production `314d8788-…`).
 2. **All stages were created `isPublic: false`.** No deployment depends on this. Revisit if Prod content needs

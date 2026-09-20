@@ -2,7 +2,7 @@
 
 > **Last reviewed:** 2026-09-11 · **Current phase:** 10 · **Owner:** Pat
 >
-> Live IDs live in `Context Docs/environment-reference.md`. The landing workspace is not
+> Live IDs live in `Context/environment-reference.md`. The landing workspace is not
 > recorded there yet; its ID is pinned under *Workspaces* below until it is.
 
 **Work needed:** restructure NYC_VehicleCrashes into a landing-zone architecture. Inspect the repo
@@ -157,7 +157,7 @@ then move on.
    assigning it. Landing items are therefore never promoted, and each stage reaches raw data
    through its own manually recreated shortcut.
    - **Done when:** the pipeline exists with exactly the three workspaces above assigned.
-   - Built 2026-09-11 as `dp_NYC_VehicleCrashes`; IDs in `Context Docs/environment-reference.md`.
+   - Built 2026-09-11 as `dp_NYC_VehicleCrashes`; IDs in `Context/environment-reference.md`.
 
 
 10. ⬜ **← NEXT · Deploy to Test** — deploy, set the Variable Library's active value set, recreate

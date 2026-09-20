@@ -6,7 +6,7 @@
 down where future readers will find it: rotate the token, leave git history intact. The ADR states
 why rewriting history was rejected — `git filter-repo` rewrites every SHA on `main`, which breaks
 the Fabric Git Integration binding on the Dev workspace and invalidates the SHAs recorded in
-repo doc `Context Docs/landing_zone_runbook_results.md` and in the release tags — and why simply
+repo doc `Context/landing_zone_runbook_results.md` and in the release tags — and why simply
 accepting was rejected: a live credential in a portfolio repo is not an outcome.
 
 **Blocked by:** None (can start immediately).
