@@ -10,9 +10,9 @@ that it was decided rather than forgotten.
 
 **Blocked by:** 02 (Rotate the app token in the NYC Open Data portal).
 
-**Status:** ready-for-agent
+**Status:** done (2026-09-20)
 
-- [ ] All acceptance criteria in parent issue `../01-app-token-in-git-history.md` are ticked.
-- [ ] Its status line reads `closed`, with the close date.
-- [ ] The closing note links the ADR from ticket 01 and records the rotation date.
-- [ ] The closing note contains no token string.
+- [x] All acceptance criteria in parent issue `../01-app-token-in-git-history.md` are ticked.
+- [x] Its status line reads `closed`, with the close date.
+- [x] The closing note links the ADR from ticket 01 and records the rotation date.
+- [x] The closing note contains no token string.

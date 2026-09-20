@@ -1,6 +1,7 @@
 # NYC Open Data app token remains in git history
 
-Status: ready-for-human
+Status: closed
+Closed: 2026-09-20
 Category: bug
 Raised: 2026-09-17
 
@@ -49,9 +50,9 @@ explicitly and this issue is closed. The string being merely *unused* is not an 
 
 ## Acceptance criteria
 
-- [ ] A decision is recorded here: accept, rotate, or rewrite.
-- [ ] If rotated: the old token is confirmed revoked in the portal, and that fact is noted here.
-- [ ] If future docs describe this incident, they refer to the token by commit pointer only —
+- [x] A decision is recorded here: accept, rotate, or rewrite.
+- [x] If rotated: the old token is confirmed revoked in the portal, and that fact is noted here.
+- [x] If future docs describe this incident, they refer to the token by commit pointer only —
       never by quoting the string, which is how it re-entered history.
 
 ## Out of scope
@@ -71,3 +72,9 @@ entry; its absence was confirmed on a portal page refresh. The historical string
 `f97b8fb`, `4abe70f`, `7734b17`, `62b1040` is now dead. The replacement token is held outside
 this repo and is not wired into any Fabric artifact — Fabric Pipeline `pl_cdc_NYC_Crashes_Landing`
 remains unauthenticated by design.
+
+## Closed (2026-09-20)
+
+Rotated in the NYC Open Data portal on 2026-09-20; git history deliberately left intact per ADR
+`docs/adr/0001-rotate-nyc-open-data-app-token.md`. Secret scanners will keep flagging the four
+historical commits — that ADR is the standing answer.
