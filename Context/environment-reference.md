@@ -11,7 +11,7 @@
 > notebook and folder by mistake; all of them were wrong until the 2026-08-01 correction.
 >
 > The landing-zone build (2026-09-08 → 2026-09-21) is closed. Its architecture decisions are in
-> `docs/adr/0002` and `docs/adr/0004`; this file holds only live identifiers and environment behaviour.
+> `docs/adr/0002`–`0004`; this file holds only live identifiers and environment behaviour.
 
 ---
 
