@@ -577,3 +577,67 @@ Phase 10 **Done when** is satisfied.
    repo file `model.tmdl`; ours does not.** Deliberately left alone — adding it would make DAX string
    comparison case-sensitive and could change measure results. The model imported and queried correctly
    without it. Revisit only if a string-comparison discrepancy appears.
+
+---
+
+## Phase 11 — What was done / What was deferred / Other findings
+
+**Commits:** `2b8273e` (`CC Commit: model_rls_borough-reader`), which adds RLS role `Borough_Reader`; also this
+results file and issue `.scratch/header-line-conformed-keys/01-child-facts-carry-header-keys.md`. Runbook not edited.
+
+**Phase 11 Done when is NOT satisfied.** Validation matches Test. The RLS test shows a leak, and endorsement was
+skipped by Pat's decision (see Deferred).
+
+### What was done
+
+| Step | Result |
+|---|---|
+| Pre-flight | `Jpb_fabric_user7`; `main` in sync; Prod WS held 0 items |
+| RLS role authored | No RLS spec existed. Pat chose a minimal static role: new repo file `definition/roles/Borough_Reader.tmdl`, `tablePermission dim_location = [borough] = "BROOKLYN"`, plus `ref role` in repo file `model.tmdl`. Imported cleanly into Dev via Update All; Dev DAX counts unchanged |
+| Dev → Test → Prod deploy | Pat deployed both hops. Prod holds 23 items (22 deployed + auto-created SQL endpoint). Pat set Variable Library `vl_NYC_Crashes` to `Prod` before any run |
+| Direct Lake binding | **Autobind did not fire on Prod's first-ever create** (finding 1). The Prod model came up bound to **Test's** warehouse. Pat added a Production **data source rule**: Server `ugzelu45irnefp3jx4vjlmb6u4-d7atl7mnt7vexgkzrj5fhiwdsa.datawarehouse.fabric.microsoft.com`, Database `a72a40c8-…`. After redeploying, verified at the effective-connection layer via the Power BI `/datasources` API. Test's rule survived the redeploy (still `c2ce6eed-…`) |
+| Prod Delta build | Fabric Notebook `nb_cdc_to_delta` ran as three parameterised jobs (crashes/`collision_id`, persons and vehicles/`unique_id`), all Completed. Parameter overrides via job `execution_data` work, which closes Phase 9 finding 7 |
+| Prod Warehouse ETL | Notebooks `01`–`02`, `03`–`09`, `09b`, `10`–`13` run sequentially by a REST runner script, all Completed, each in under 1 minute |
+| Prod row counts | Read through the Warehouse's OneLake Delta path via Livy: all 12 `dbo` tables equal the Dev/Test baseline; `etl_watermark` 0 |
+| Refresh + DAX | Fabric Notebook `RefreshSemanticModel` Completed. `/dax-smoke-test`: row counts equal baseline; 0 orphans across bridge and fact relationships; Total Crashes 2,269,187 · Persons Injured 756,353 · Persons Killed 3,617; bridge cross-filter 489,682 / 147,190 / 136,645 as in Test; SummarizeBy matches the repo in all 12 tables, 0 violations |
+| RLS test | Fabric *Test as role* is not supported (finding 2). Tested instead via XMLA with `powerbi-modeling-mcp` `dax_query_operations` `impersonation.roles`. `fact_crashes` filters correctly to 506,806 (BROOKLYN only). **`fact_persons`, `fact_crash_vehicle` and `bridge_crash_factor` stay unfiltered** (finding 3) |
+
+### What was deferred
+
+- **Steps 17 (RBAC), 18 (endorsement) and 19 (release tag): skipped by Pat's decision.** The finding 3 model defect
+  needs corrective work that will be redeployed, so Prod is left unendorsed and untagged until then.
+  - Prod is live but **not a release of record**: no tag exists on `main`.
+  - The runbook's Phase 11 rollback ("redeploy the last tagged commit") has no tag to fall back to.
+  - The deployed commit is `2b8273e`.
+- **RLS leak fix: deferred to issue `.scratch/header-line-conformed-keys/01-child-facts-carry-header-keys.md`.**
+  - A DAX workaround was prototyped: extra `IN CALCULATETABLE(...)` filters on `dim_collision` and `dim_factor_group`.
+    Pat rejected it as masking a dimensional-model defect with per-role DAX.
+  - Target counts for the fixed role were pre-computed and recorded in the issue: persons 1,250,869 ·
+    vehicles 1,017,287 · bridge 322,949.
+- **Prod and Test both carry the leaky role.** It has 0 members, so today it restricts nobody (finding 4).
+
+### Other findings (recorded, not fixed)
+
+1. **Direct Lake on SQL needs a data source rule on every stage; autobind never fires.** This answers Phase 10
+   finding 3. Prod was a genuine first create into an empty workspace, and the model still arrived bound to
+   the *previous stage's effective* connection (Test's, as produced by Test's rule), not Dev's TMDL value.
+   Without the rule, Prod reports silently read Test data. Add to runbook Phase 11 by hand.
+2. **Fabric's *Test as role* fails on Direct Lake on SQL models:** "Test as role does not work with Single
+   Sign-On (SSO)". It's a side effect of the Phase 10 conversion. The working substitute is XMLA role
+   impersonation (`Roles=` connection property), which is read-only and needs no role members.
+3. **The model breaks Kimball's header/line rule.** `fact_persons` and `fact_crash_vehicle` lack the crash
+   header's `location_key` and `factor_group_key`, so no filter on `dim_location` or `dim_contributing_factor`
+   reaches them. That is both an RLS leak and an analytics gap. Kimball basis and change list are in the issue.
+4. **RLS applies only to workspace Viewers.** Admin, Member and Contributor bypass it, and `Borough_Reader` has
+   0 members. The runbook's "tested against a non-admin principal" needs either a Viewer-role test account or
+   XMLA impersonation. Decide which when RBAC (step 17) is picked up.
+5. **Static single-borough role is a demo, not a security design.** No user→borough mapping table exists. If a
+   real requirement emerges, use one dynamic role (`USERPRINCIPALNAME()`), not a role per attribute value.
+6. **30% of crashes have a blank borough** (691,375 of 2,269,187). Any location-based role silently hides them.
+7. **`Context/environment-reference.md` lacks the Prod-stage identifiers:** Prod Semantic Model `3415a5b0-…`,
+   Warehouse `a72a40c8-…` and its TDS endpoint (above), Lakehouse `ebf4cc6f-…`, SQL endpoint `c64195a8-…`,
+   Variable Library `b37ae4dd-…`. Also still missing the Test-stage IDs (Phase 10 finding 6).
+8. **Runbook corrections still outstanding** (Phase 10 findings 1, 2, 7 and 8, unchanged): stale header and
+   checkboxes, Context 2 shortcut statement, the Phase 3 Direct Lake exception, the value-set step.
+9. **Untracked file `DIagrams/SemanticModel_2.png`** was present in the working tree before this phase's writes.
+   It wasn't created by this phase and was left uncommitted.
