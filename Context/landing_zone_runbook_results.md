@@ -505,3 +505,75 @@ Phase 9 **Done when** is satisfied.
    definition (MCP `get_notebook_definition`) shows `"tags": ["parameters"]`. No UI toggle is needed. The
    Phase 7 job likely ignored its overrides because of how the MCP `run_on_demand_job` call passed its
    parameters (unverified). Proving that overrides work still needs one job run with persons parameters.
+
+---
+
+## Phase 10 — What was done / What was deferred / Other findings
+
+**Commits:** `ca210d6` (`CC Commit: model_directlake_sql-convert`) — semantic model converted to Direct Lake
+on SQL; this results file. Runbook not edited.
+
+### What was done
+
+| Step | Result |
+|---|---|
+| Dev → Test deploy | Pat deployed via Fabric deployment pipeline `dp_NYC_VehicleCrashes`. All 22 Dev items carried. Dev holds 22, not the 23 the plan assumed |
+| OneLake shortcut `raw_nyc_crashes` | **Carried by the deploy.** Present on Test Fabric Lakehouse `NYC_VehicleCrashes_Lakehouse` at `Files/raw_nyc_crashes`, no manual recreation needed. Resolves the Phase 7/9 open question (finding 1) |
+| Variable Library `vl_NYC_Crashes` | Pat set the active value set to `Test` before any run, per the Phase 9 deferral |
+| Test Delta build | Fabric Notebook `nb_cdc_to_delta` run three times as jobs (crashes / persons / vehicles). All Completed. Notebook autobind resolved both lakehouse and warehouse bindings with no manual rebind |
+| Test Warehouse ETL | DDL notebooks `01`–`02` then ETL notebooks `03`–`13` (with `09b` before `10` and `13`). All Completed |
+| Test Warehouse row counts | All 12 `dbo` tables equal the Dev baseline: `fact_crashes` 2,269,187 · `fact_persons` 5,984,110 · `fact_crash_vehicle` 4,551,002 · `bridge_crash_factor` 1,648,599 · `dim_collision` 2,269,187 · `dim_date` 6,940 · `dim_location` 381,068 · `dim_vehicle` 596,157 · `dim_damage` 4,602 · `dim_person` 25,990 · `dim_contributing_factor` 66 · `dim_factor_group` 2,269,187. `etl_watermark` 0, as expected |
+| Direct Lake binding — problem | The deployed Test semantic model `NYC_VehicleCrashes_Semantic` still pointed at **Dev's** warehouse. Its `AzureStorage.DataLake` expression hardcodes workspace `73d1612d-…` and warehouse `324e2ac0-…` in a storage URL. Autobind does not rewrite it and Deployment Rules cannot target it (finding 2) |
+| Direct Lake binding — fix | Converted Dev semantic model `NYC_VehicleCrashes_Semantic` from Direct Lake **on OneLake** to Direct Lake **on SQL** in the repo, on `main` at Pat's direction (no feature branch). 16 changed lines across 14 TMDL files: repo file `expressions.tmdl` rewritten to `expression DatabaseQuery = Sql.Database(<Dev TDS endpoint>, "324e2ac0-…")`; `expressionSource:` repointed to `DatabaseQuery` in each of the 12 files under repo folder `definition/tables/`; `PBI_QueryOrder` updated in repo file `model.tmdl`. `mode: directLake`, `entityName`, `schemaName`, measures, relationships, columns and SummarizeBy untouched |
+| Dev validation of the conversion | Pushed, then Source Control → Update All in Dev. Imported with no error and no credential prompt. Live Dev definition confirmed as `Sql.Database`; DAX returned `fact_crashes` 2,269,187 and `dim_date` 6,940 without needing a refresh; 0 SummarizeBy violations |
+| Test rebind | Autobind still did not fire on redeploy (finding 3), so Pat set a Test **data source rule** on the semantic model: Database → `c2ce6eed-…`, Server → Test's warehouse TDS endpoint. Verified at the effective-connection layer via the Power BI `/datasources` API, not just in the TMDL |
+| Semantic model refresh in Test | Fabric Notebook `RefreshSemanticModel` run as a job — Completed in 40s. Confirms the `Test` value set of Variable Library `vl_NYC_Crashes` drives a stage-correct refresh. SummarizeBy survived: 0 violations, so no re-fix was needed |
+| DAX validation | `fact_crashes` 2,269,187 · `fact_persons` 5,984,110 · `fact_crash_vehicle` 4,551,002 · `bridge_crash_factor` 1,648,599 · `dim_date` 6,940. Bridge cross-filter correct: Driver Inattention/Distraction 489,682 · Failure to Yield Right-of-Way 147,190 · Following Too Closely 136,645 |
+
+Phase 10 **Done when** is satisfied.
+
+### What was deferred
+
+- **Prod is untouched** — Phase 11. The same data source rule will be needed on the Prod stage, pointing at
+  Prod's warehouse GUID and TDS endpoint, unless autobind behaves differently there on a first-ever deploy.
+- **Dev semantic model `zz_throwaway_sqltest,`** was created during diagnosis to compare the two storage modes,
+  and deleted by Pat afterwards. Its trailing comma in the display name is real and made MCP name lookups fail;
+  pull by `semantic_model_id` when a name lookup misses.
+- **Local scratch artifacts** under repo folder `.scratch/` (`semmodel_backup_onelake/`, `tw_sql.json`,
+  `dev_after_convert`, `test_after_deploy`, `test_after_refresh`) are untracked working copies from this phase.
+  `.scratch/` is **not** in `.gitignore` — it is tracked deliberately for the issue tracker — so a blanket
+  `git add -A` would commit them. Delete when no longer needed.
+
+### Other findings (recorded, not fixed)
+
+1. **The deployment pipeline does carry the OneLake shortcut.** Repo file `alm.settings.json` on Fabric Lakehouse
+   `NYC_VehicleCrashes_Lakehouse` has `Shortcuts` and `Shortcuts.OneLake` both `Enabled`, and shortcut
+   `raw_nyc_crashes` appeared in Test without manual work. Runbook Context 2's "not in Git / not carried"
+   statement is wrong on both counts (see also Phase 7 finding 2). Correct the runbook by hand.
+2. **Direct Lake on OneLake cannot be rebound per stage by any mechanism. Phase 3's exception was an untested
+   assumption.** The runbook's Phase 3 block says the GUID-form expression is safe because "the deployment
+   pipeline rebinds that binding per stage instead." It does not. `AzureStorage.DataLake` is a storage URL, not
+   a bound connection, so autobind has nothing to rewrite and the Deployment rules pane offers nothing to target.
+   The consequence is silent: Test reports read Dev's warehouse and look correct. Correct the runbook by hand.
+3. **Autobind did not fire for the converted model on an update-in-place.** After the conversion, the redeployed
+   Test model still carried Dev's server and database until the data source rule was applied. Whether autobind
+   fires on a *first* deploy into an empty stage is untested — testing it would have meant deleting the Test
+   semantic model, orphaning the two Test reports bound to it. Worth checking in Phase 11, where Prod's first
+   deploy is a genuine create.
+4. **The original authoring was not at fault.** Fabric's own UI emits the identical hardcoded-GUID
+   `AzureStorage.DataLake` expression when you create a Direct Lake on OneLake model. The defect is in the
+   storage mode's relationship to deployment pipelines, not in how this model was written.
+5. **Direct Lake on SQL is the correct storage mode for anything promoted through a deployment pipeline.**
+   It emits `Sql.Database(server, databaseGuid)` — a bound connection, targetable on both Server and Database
+   in the Deployment rules pane. Conversion is mechanical, not a rebuild. Recommend recording this as an ADR.
+6. **`Context/environment-reference.md` lacks the Test-stage identifiers** now needed to maintain the rule:
+   Test Warehouse `c2ce6eed-…` and its TDS endpoint, Test Semantic Model `d93844d0-…`, Test Lakehouse
+   `620d0b45-…`.
+7. **Runbook header is still stale** (Phase 9 finding 3, unchanged) — it says "Current phase: 3" with the
+   Phase 3–9 checkboxes unticked.
+8. **Runbook Phases 10–11 still omit the Variable Library value-set step** (Phase 9 finding 4, unchanged).
+   Phase 10 could not have run correctly without it.
+9. **Fabric's Direct Lake on SQL models also carry `collation: Latin1_General_100_BIN2_UTF8` on
+   repo file `model.tmdl`; ours does not.** Deliberately left alone — adding it would make DAX string
+   comparison case-sensitive and could change measure results. The model imported and queried correctly
+   without it. Revisit only if a string-comparison discrepancy appears.
