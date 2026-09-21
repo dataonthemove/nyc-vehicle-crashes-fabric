@@ -1,8 +1,5 @@
 # Claude Code — local-only hook rules (not for shared repos)
 .claude/*.local.md
-Misc_Stuff/Fabric_SDLC_Process_Flow_v3.png
-Misc_Stuff/Fabric_SDLC_Process_Flow_v2.drawio
-Misc_Stuff/Fabric_SDLC_Process_Flow_v3.drawio
 .claude/settings.local.json
 
 # Editor/tool backups — never version these

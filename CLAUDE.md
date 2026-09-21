@@ -62,10 +62,7 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
 
 ## Fabric SDLC Process Flow (ALWAYS apply to Fabric project work)
 
-Step-by-step detail — all 34 steps, gateways and per-step surface — is in CC skill `/fabric-sdlc`.
-Invoke it when starting, planning or executing any lifecycle step. Canonical diagram: Draw.io file
-`Process_Flow_SDLC_v24.drawio` in repo folder `DIagrams/Process_Flow_SDLC/`. The rules below always
-apply, skill or no skill.
+These rules are the authoritative SDLC definition for this project.
 
 1. **Git is the source of truth. MCP is run/read/validate only** — pipeline runs, Livy/Spark,
    `refresh_semantic_model`, validation DAX, job polling. Never author or alter item definitions via

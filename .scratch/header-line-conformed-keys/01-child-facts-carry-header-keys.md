@@ -66,7 +66,7 @@ paths. Give each fact its own diagram layout for readability.
 
 ## Notes
 
-- Follow the full SDLC flow (`/fabric-sdlc`): feature branch, plan mode, PR. This is not a
+- Follow the full SDLC flow: feature branch, plan mode, PR. This is not a
   `main`-direct change.
 - Blank borough: 691,375 crashes (30%) have no borough, so location-based RLS silently hides them
   from every borough role. Decide how to handle them (an "UNKNOWN" member or an admin-only view).
