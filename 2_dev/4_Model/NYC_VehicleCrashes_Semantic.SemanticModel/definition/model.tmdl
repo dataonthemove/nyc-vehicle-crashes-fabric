@@ -25,3 +25,5 @@ ref table fact_crash_vehicle
 ref table dim_factor_group
 ref table fact_persons
 
+ref role Borough_Reader
+

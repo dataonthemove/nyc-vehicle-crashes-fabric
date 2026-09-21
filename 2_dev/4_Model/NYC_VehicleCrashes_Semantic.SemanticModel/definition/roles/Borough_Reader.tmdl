@@ -1,0 +1,5 @@
+role Borough_Reader
+	modelPermission: read
+
+	tablePermission dim_location = [borough] = "BROOKLYN"
+
