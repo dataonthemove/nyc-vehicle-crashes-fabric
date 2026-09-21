@@ -8,21 +8,30 @@ Power BI reporting, with CDC pipeline orchestration and Git-based source control
 
 | Layer | Implementation |
 |---|---|
-| Ingestion | CDC pipeline (`pl_cdc_NYC_Crashes_Landing`, landing workspace) loads Socrata endpoints into `Files/raw/`, watermark-filtered. The Dev-workspace predecessor `pl_cdc_NYC_Crashes` was retired 2026-09-10 |
+| Ingestion | CDC pipeline (`pl_cdc_NYC_Crashes_Landing`, landing workspace) loads Socrata endpoints into `Files/raw/`, watermark-filtered. The watermark is Delta table `etl_watermark` in the landing lakehouse, written only by notebook `nb_etl_watermark`. The Dev-workspace predecessor pipeline `pl_cdc_NYC_Crashes` was retired 2026-09-10 |
+| Staging | Notebook `nb_cdc_to_delta` (Dev) merges the staged CSVs, read through a OneLake shortcut to the landing lakehouse, into Delta tables |
 | Warehouse | Kimball star schema — conformed dimensions, three facts, and a factor-group bridge — loaded by `etl.usp_load_*` stored procedures |
-| Semantic model | Direct Lake, Warehouse-sourced via OneLake; authored as TMDL in this repo |
+| Semantic model | Direct Lake on SQL, Warehouse-sourced; rebound per stage by a deployment data source rule (ADR-0004); authored as TMDL in this repo |
 | Reports | Authored in the Fabric web UI, synced back through Git integration |
 
 ## Repo layout
 
 | Path | Contents |
 |---|---|
-| `1_Landing/` | Landing-zone workspace, bound separately — raw data, owned upstream of Dev/Test/Prod |
-| `2_dev/` | Dev workspace, Git-bound. All Fabric items live here |
-| `2_dev/1_DDL/` · `3_Transform/` | DDL and ETL notebooks. `2_Ingest/` was deleted 2026-09-10 with the retired CDC pipeline; the numbering gap is deliberate — renaming folders would re-create every item in Fabric |
+| `1_Landing/` | Landing-zone workspace, bound separately — landing lakehouse, CDC pipeline, watermark notebook. Owned upstream of Dev/Test/Prod |
+| `2_dev/` | Dev workspace, Git-bound. All Dev Fabric items live here |
+| `2_dev/0_*.Lakehouse` · `0_*.Warehouse` | Lakehouse and Warehouse item definitions. The Warehouse item holds the deployed copy of every stored procedure |
+| `2_dev/1_DDL/` · `3_Transform/` | DDL and ETL notebooks. `3_Transform/` is the source of truth for stored procedures — change it and the Warehouse item together |
+| `2_dev/2_Ingest/` | Notebook `nb_cdc_to_delta`, restored 2026-09-11 after the pipeline retirement |
 | `2_dev/4_Model/` | Semantic model TMDL — the authoritative source for model changes |
 | `2_dev/5_Reports/` | Report definitions — read-only locally |
+| `2_dev/vl_NYC_Crashes.VariableLibrary/` | Variable Library — per-stage configuration values (ADR-0003) |
+| `2_dev/Misc_Fabric_Items/` | Utility items, e.g. the semantic model refresh notebook |
 | `Context/` | Environment reference — live physical Fabric IDs |
+| `docs/adr/` | Architecture Decision Records |
+| `docs/agents/` | Agent conventions — issue tracker, triage labels, domain docs |
+| `CONTEXT.md` | Domain glossary |
+| `DIagrams/` | As-built architecture diagrams — documentation, not spec |
 | `.scratch/` | Backlog — issues as local Markdown files |
 | `Other/` | Ad-hoc SQL and PowerShell scratch |
 
@@ -33,4 +42,4 @@ pushed to Azure DevOps, then pulled into the workspace via Fabric Source Control
 Update All. Test and Prod receive content through deployment pipelines, not Git.
 
 Full conventions and constraints: `CLAUDE.md`.
-Current work: issues under `.scratch/` (see `docs/agents/issue-tracker.md`) and `Context/landing_zone_runbook.md`.
+Current work: issues under `.scratch/` (see `docs/agents/issue-tracker.md`).
