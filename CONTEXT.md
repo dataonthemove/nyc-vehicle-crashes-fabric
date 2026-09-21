@@ -36,6 +36,7 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 | **Transform** | The warehouse load: `etl.usp_load_*` procedures that populate the star. Repo folder `2_dev/3_Transform/`. |
 | **Watermark** | The high-water mark for incremental loads, in Delta table `etl_watermark` in the landing Lakehouse, written only by Fabric Notebook `nb_etl_watermark`. See `CLAUDE.md` for the legacy warehouse copy. |
 | **CDC run** | One pass of Fabric Pipeline `pl_cdc_NYC_Crashes_Landing`, picking up rows newer than the watermark. |
+| **Stage load** | One end-to-end pass inside a single stage (Dev, Test or Prod): Ingest → Transform → Refresh. Distinct from a **CDC run**, which happens once, in landing, for all stages. |
 | **Framing** | Direct Lake re-reading the current Delta files. An unframed model raises "failed to resolve name" after a deploy; it is not a broken model. |
 
 ## Open terms *(unconfirmed)*
