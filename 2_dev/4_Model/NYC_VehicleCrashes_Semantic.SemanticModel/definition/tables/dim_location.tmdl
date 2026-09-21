@@ -57,5 +57,5 @@ table dim_location
 		source
 			entityName: dim_location
 			schemaName: dbo
-			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+			expressionSource: DatabaseQuery
 

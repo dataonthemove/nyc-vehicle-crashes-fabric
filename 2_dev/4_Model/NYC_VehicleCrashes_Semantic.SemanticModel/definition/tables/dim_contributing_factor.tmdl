@@ -26,5 +26,5 @@ table dim_contributing_factor
 		source
 			entityName: dim_contributing_factor
 			schemaName: dbo
-			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+			expressionSource: DatabaseQuery
 

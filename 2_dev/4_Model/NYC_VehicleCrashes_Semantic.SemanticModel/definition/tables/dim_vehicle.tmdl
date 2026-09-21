@@ -99,5 +99,5 @@ table dim_vehicle
 		source
 			entityName: dim_vehicle
 			schemaName: dbo
-			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+			expressionSource: DatabaseQuery
 

@@ -107,5 +107,5 @@ table dim_person
 		source
 			entityName: dim_person
 			schemaName: dbo
-			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+			expressionSource: DatabaseQuery
 

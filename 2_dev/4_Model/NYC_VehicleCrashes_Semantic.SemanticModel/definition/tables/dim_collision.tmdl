@@ -27,5 +27,5 @@ table dim_collision
 		source
 			entityName: dim_collision
 			schemaName: dbo
-			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+			expressionSource: DatabaseQuery
 

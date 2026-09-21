@@ -102,5 +102,5 @@ table fact_persons
 		source
 			entityName: fact_persons
 			schemaName: dbo
-			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+			expressionSource: DatabaseQuery
 

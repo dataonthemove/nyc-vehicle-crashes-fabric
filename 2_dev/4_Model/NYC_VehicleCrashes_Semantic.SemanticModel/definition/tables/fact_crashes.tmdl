@@ -227,5 +227,5 @@ table fact_crashes
 		source
 			entityName: fact_crashes
 			schemaName: dbo
-			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+			expressionSource: DatabaseQuery
 

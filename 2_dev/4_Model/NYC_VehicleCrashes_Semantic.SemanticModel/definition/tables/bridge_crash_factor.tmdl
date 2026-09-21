@@ -37,5 +37,5 @@ table bridge_crash_factor
 		source
 			entityName: bridge_crash_factor
 			schemaName: dbo
-			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+			expressionSource: DatabaseQuery
 

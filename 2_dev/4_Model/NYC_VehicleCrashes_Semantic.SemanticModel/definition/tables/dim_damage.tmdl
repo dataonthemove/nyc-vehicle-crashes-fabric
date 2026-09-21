@@ -44,5 +44,5 @@ table dim_damage
 		source
 			entityName: dim_damage
 			schemaName: dbo
-			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+			expressionSource: DatabaseQuery
 

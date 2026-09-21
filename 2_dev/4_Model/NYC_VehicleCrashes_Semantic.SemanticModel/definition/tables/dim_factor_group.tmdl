@@ -27,5 +27,5 @@ table dim_factor_group
 		source
 			entityName: dim_factor_group
 			schemaName: dbo
-			expressionSource: 'DirectLake - NYC_VehicleCrashes_Warehouse'
+			expressionSource: DatabaseQuery
 
