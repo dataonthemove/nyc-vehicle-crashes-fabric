@@ -1,6 +1,6 @@
 # Landing-Zone Runbook — NYC_VehicleCrashes
 
-> **Last reviewed:** 2026-09-11 · **Current phase:** 10 · **Owner:** Pat
+> **Last reviewed:** 2026-09-21 · **Current phase:** Phases 1–11 complete (11 closed with deferrals) · **Owner:** Pat
 >
 > Live IDs live in `Context/environment-reference.md`. The landing workspace is not
 > recorded there yet; its ID is pinned under *Workspaces* below until it is.
@@ -160,7 +160,7 @@ then move on.
    - Built 2026-09-11 as `dp_NYC_VehicleCrashes`; IDs in `Context/environment-reference.md`.
 
 
-10. ⬜ **← NEXT · Deploy to Test** — deploy, set the Variable Library's active value set, recreate
+10. ✅ **Deploy to Test** — deploy, set the Variable Library's active value set, recreate
     shortcut `raw_nyc_crashes` if the deploy didn't carry it, rebind sources, run, validate.
     - **Active value set (deployment never carries it):** right after the deploy, open `vl_NYC_Crashes`
       in Test and set its active value set to `Test`, before running anything. Otherwise Fabric Notebook
@@ -170,7 +170,7 @@ then move on.
     - **Rollback:** redeploy the previous commit from Dev; Test holds no authored content.
 
 
-11. ⬜ **Deploy to Prod** — same as Phase 10, plus RBAC, RLS and semantic model endorsement
+11. ✅ **Deploy to Prod** (closed 2026-09-21 with deferrals: RBAC, endorsement, release tag and the RLS header/line fix — see results Phase 11 and `.scratch/header-line-conformed-keys/`) — same as Phase 10, plus RBAC, RLS and semantic model endorsement
     (endorsement is manual and is never deployed).
     - **Active value set:** set `vl_NYC_Crashes` to `Prod` in the Prod workspace after the deploy,
       before running anything.
