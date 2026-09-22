@@ -23,10 +23,9 @@ Power BI reporting, with CDC pipeline orchestration and Git-based source control
 | `2_dev/0_*.Lakehouse` · `0_*.Warehouse` | Lakehouse and Warehouse item definitions. The Warehouse item holds the deployed copy of every stored procedure |
 | `2_dev/1_DDL/` · `3_Transform/` | DDL and ETL notebooks. `3_Transform/` is the source of truth for stored procedures — change it and the Warehouse item together |
 | `2_dev/2_Ingest/` | Notebook `nb_cdc_to_delta`, restored 2026-09-11 after the pipeline retirement |
-| `2_dev/4_Model/` | Semantic model TMDL — the authoritative source for model changes |
+| `2_dev/4_Model/` | Semantic model TMDL — the authoritative source for model changes — plus notebook `RefreshSemanticModel` |
 | `2_dev/5_Reports/` | Report definitions — read-only locally |
-| `2_dev/vl_NYC_Crashes.VariableLibrary/` | Variable Library — per-stage configuration values (ADR-0003) |
-| `2_dev/Misc_Fabric_Items/` | Utility items, e.g. the semantic model refresh notebook |
+| `2_dev/99_Config/` | Variable Library `vl_NYC_Crashes` — per-stage configuration values (ADR-0003) |
 | `Context/` | Environment reference — live physical Fabric IDs |
 | `docs/adr/` | Architecture Decision Records |
 | `docs/agents/` | Agent conventions — issue tracker, triage labels, domain docs |

@@ -165,7 +165,9 @@ Socrata is called unauthenticated (app token retired; ADR-0001).
 | 3_Transform | `e88dbad8-087f-4676-82ad-e46646a164a8` |
 | 4_Model | `3601518e-ee50-4bc3-8d36-e72254912921` |
 | 5_Reports | `2d197305-e28f-457b-b3dc-abe35b0dc1a4` |
-| Misc_Fabric_Items | `05968e69-1632-4bdc-a169-2c5898cd8097` |
+| 99_Config | `TBD — physical ID after the folder is created in Dev` |
+
+`Misc_Fabric_Items` (`05968e69-1632-4bdc-a169-2c5898cd8097`) was emptied 2026-09-22 and is being deleted.
 
 Test and Prod folders mirror these names with their own physical IDs.
 
@@ -209,7 +211,7 @@ Test and Prod folders mirror these names with their own physical IDs.
 
 `10_ETL_fact_crashes_old` was deleted 2026-08-01 (commit `f01f79d`) and is no longer in the workspace.
 
-### Misc_Fabric_Items
+### 4_Model
 
 | Notebook | ID |
 |---|---|
