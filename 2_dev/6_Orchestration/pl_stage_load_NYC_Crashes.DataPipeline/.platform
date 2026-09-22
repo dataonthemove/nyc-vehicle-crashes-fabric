@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "pl_stage_load_NYC_Crashes",
+    "description": "Stage load — Ingest landed CSV to Delta (nb_cdc_to_delta), Transform into the Warehouse star (etl.usp_load_* procedures), then Refresh the Direct Lake model (RefreshSemanticModel). Every edge on success."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "21199329-c823-420e-b6d0-7ff5d840aff9"
+  }
+}

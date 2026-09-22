@@ -1,0 +1,93 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "source_name": {
+              "value": "crashes",
+              "type": "string"
+            },
+            "file_subfolder": {
+              "value": "raw_nyc_crashes/crashes",
+              "type": "string"
+            },
+            "natural_key": {
+              "value": "collision_id",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Ingest_Crashes",
+        "dependsOn": []
+      },
+      {
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "storedProcedureName": "[etl].[usp_load_dim_collision]"
+        },
+        "linkedService": {
+          "name": "NYC_VehicleCrashes_Warehouse",
+          "properties": {
+            "annotations": [],
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Load_dim_collision",
+        "dependsOn": [
+          {
+            "activity": "Ingest_Crashes",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "dd7244d9-b3ac-ad5d-4ec7-9353166e6595",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Refresh_Semantic_Model",
+        "dependsOn": [
+          {
+            "activity": "Load_dim_collision",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
