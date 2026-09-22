@@ -60,46 +60,6 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   different values. Never copy IDs from repo files into that doc.
 
 
-## Fabric SDLC Process Flow (ALWAYS apply to Fabric project work)
-
-These rules are the authoritative SDLC definition for this project.
-
-1. **Git is the source of truth. MCP is run/read/validate only** — pipeline runs, Livy/Spark,
-   `refresh_semantic_model`, validation DAX, job polling. Never author or alter item definitions via
-   MCP: it writes *workspace* state, bypasses the PR and drifts invisibly. Sole exception: one-off
-   scaffolding of empty shells into an empty repo.
-2. **Authoring path:** local TMDL / T-SQL / pipeline JSON → commit/push to ADO → Fabric Source Control
-   **Update** (manual; no auto-commit exists) → MCP validation. Local edits are invisible to Fabric
-   until pushed *and* pulled; Fabric-UI commits are invisible locally until pulled.
-3. **Plan, and specs, before code.** CC plan mode drafts the plan first; no TMDL, T-SQL or pipeline
-   JSON until it is approved. ADRs, mappings and measure definitions are Markdown in the repo, merged
-   in the same PR as the code they describe.
-4. **Branching:** work is committed directly to `main` by default — do not propose a feature branch
-   or PR for routine changes. No test/prod branches. A feature branch is the exception, for risky
-   or long-running work, and only when Pat asks: create it with Fabric SC → "Branch out to new
-   workspace" (branch + Personal Dev WS together), then fetch/checkout locally. Branch-out copies
-   definitions only, not data, connections or bindings. Rules 5 and 10 apply only to such branches.
-5. **The pre-PR sync check is one-directional.** Commits ahead of main are the PR payload and do not
-   count; the question is only whether main holds commits the branch lacks. Resolve TMDL and pipeline
-   JSON conflicts as text locally — Fabric cannot.
-6. **Failure = roll back, not fix forward. Revert, never reset.** Integration failure: revert the
-   merged PR in ADO, re-Update the Shared Integration WS, re-work on a fresh branch. Prod failure:
-   revert the PRs merged since the previous release tag; that earlier tag becomes the Prod record.
-7. **Tag the exact commit deployed to Test**, not the newest on main. The Prod WS is not Git-bound, so
-   the last verified tag is the only authoritative record of what is in Prod.
-8. **Deployment pipelines carry structure and metadata only** — no data. What they do not copy they
-   also do not clear, so endorsement, bindings/credentials and RBAC/RLS membership are first-release
-   and on-change actions, never per promotion. Prod endorsement is always manual.
-9. **Environment-specific values come from the Variable Library**, one value set per stage; Deployment
-   Rules are the fallback. Connections, gateways and OneLake shortcuts are not in Git and are carried
-   by neither deployment nor branch-out — every stage and every Personal Dev WS needs its own.
-10. **Clean up after a validated release** — delete the merged feature branch in ADO and delete or
-    unbind the Personal Dev WS. A branch abandoned earlier never reaches that step, so clean it up on
-    the way back to the spec stage.
-
-Commit message body: `[domain]_[artifact]_[action]`. Surface prefixes: `VSC Commit:` · `CC Commit:` ·
-`ADO Commit:` · `Fab Commit:`.
-
 ## Fabric Warehouse — T-SQL Constraints (ALWAYS apply)
 - No PRIMARY KEY, UNIQUE, or FOREIGN KEY constraints. No inline constraints in `CREATE TABLE`.
 - No TINYINT — use SMALLINT.
