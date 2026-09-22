@@ -3,10 +3,6 @@
   "name": "Prod",
   "variableOverrides": [
     {
-      "name": "stage_workspace_name",
-      "value": "4_NYC_VehicleCrashes_prod"
-    },
-    {
       "name": "refresh_type",
       "value": "full"
     }

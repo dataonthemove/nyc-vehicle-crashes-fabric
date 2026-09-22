@@ -3,10 +3,6 @@
   "name": "Test",
   "variableOverrides": [
     {
-      "name": "stage_workspace_name",
-      "value": "3_NYC_VehicleCrashes_test"
-    },
-    {
       "name": "refresh_type",
       "value": "full"
     }

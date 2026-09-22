@@ -32,17 +32,17 @@ import sempy.fabric as fabric  # semantic-link, preinstalled in Fabric; no pip i
 
 # Stage-varying values come from Variable Library vl_NYC_Crashes (active value set chosen per stage).
 vl = notebookutils.variableLibrary.getLibrary("vl_NYC_Crashes")
-print(f"workspace={vl.stage_workspace_name} dataset={vl.semantic_model_name} refresh_type={vl.refresh_type}")
+print(f"dataset={vl.semantic_model_name} refresh_type={vl.refresh_type}")
 
+# No workspace argument: sempy defaults to the workspace this notebook runs in, so each stage refreshes its own model.
 request_id = fabric.refresh_dataset(
     dataset=vl.semantic_model_name,
-    workspace=vl.stage_workspace_name,
     refresh_type=vl.refresh_type
 )
 
 # refresh_dataset is asynchronous; poll so the job fails if the refresh fails.
 for _ in range(60):
-    status = fabric.get_refresh_execution_details(vl.semantic_model_name, request_id, workspace=vl.stage_workspace_name).status
+    status = fabric.get_refresh_execution_details(vl.semantic_model_name, request_id).status
     if status not in ("Unknown", "NotStarted", "InProgress"):
         break
     time.sleep(10)
