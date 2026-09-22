@@ -74,9 +74,11 @@ These rules are the authoritative SDLC definition for this project.
 3. **Plan, and specs, before code.** CC plan mode drafts the plan first; no TMDL, T-SQL or pipeline
    JSON until it is approved. ADRs, mappings and measure definitions are Markdown in the repo, merged
    in the same PR as the code they describe.
-4. **Branching:** `main` + short-lived feature branches only — no test/prod branches. Create feature
-   work with Fabric SC → "Branch out to new workspace" (branch + Personal Dev WS together), then
-   fetch/checkout locally. Branch-out copies definitions only, not data, connections or bindings.
+4. **Branching:** work is committed directly to `main` by default — do not propose a feature branch
+   or PR for routine changes. No test/prod branches. A feature branch is the exception, for risky
+   or long-running work, and only when Pat asks: create it with Fabric SC → "Branch out to new
+   workspace" (branch + Personal Dev WS together), then fetch/checkout locally. Branch-out copies
+   definitions only, not data, connections or bindings. Rules 5 and 10 apply only to such branches.
 5. **The pre-PR sync check is one-directional.** Commits ahead of main are the PR payload and do not
    count; the question is only whether main holds commits the branch lacks. Resolve TMDL and pipeline
    JSON conflicts as text locally — Fabric cannot.
