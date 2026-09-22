@@ -165,7 +165,7 @@ Socrata is called unauthenticated (app token retired; ADR-0001).
 | 3_Transform | `e88dbad8-087f-4676-82ad-e46646a164a8` |
 | 4_Model | `3601518e-ee50-4bc3-8d36-e72254912921` |
 | 5_Reports | `2d197305-e28f-457b-b3dc-abe35b0dc1a4` |
-| 99_Config | `TBD — physical ID after the folder is created in Dev` |
+| 99_Config | `0e873041-9b3e-4001-85a0-da5e7a0b1a50` |
 
 `Misc_Fabric_Items` (`05968e69-1632-4bdc-a169-2c5898cd8097`) was emptied 2026-09-22 and is being deleted.
 
