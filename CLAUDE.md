@@ -58,6 +58,8 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
 - `Context/environment-reference.md` — live workspace/artifact IDs. All IDs there are
   **physical** Fabric IDs; the repo's Fabric item files carry *logical* IDs, which are
   different values. Never copy IDs from repo files into that doc.
+- Commit message body: `[domain]_[artifact]_[action]`. Surface prefixes: `VSC Commit:` · `CC Commit:` ·
+  `ADO Commit:` · `Fab Commit:`.
 
 
 ## Fabric Warehouse — T-SQL Constraints (ALWAYS apply)
@@ -85,6 +87,10 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
 - A schema refresh resets all SummarizeBy to Sum — full re-fix required after any refresh.
 
 ## MCP Constraints (ALWAYS apply)
+- **Git is the source of truth. MCP is run/read/validate only** — pipeline runs, Livy/Spark,
+  `refresh_semantic_model`, validation DAX, job polling. Never author or alter item definitions via
+  MCP: it writes *workspace* state, bypasses git and drifts invisibly. Sole exception: one-off
+  scaffolding of empty shells into an empty repo.
 - At the start of any session touching existing Fabric artifacts, **pull current state via MCP
   before making any changes**.
 - `list_lakehouse_files` reads `Files/` only — use Livy `SHOW TABLES` for Delta tables in `Tables/`.
