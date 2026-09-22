@@ -32,6 +32,66 @@
         "dependsOn": []
       },
       {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "source_name": {
+              "value": "persons",
+              "type": "string"
+            },
+            "file_subfolder": {
+              "value": "raw_nyc_crashes/persons",
+              "type": "string"
+            },
+            "natural_key": {
+              "value": "unique_id",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Ingest_Persons",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "4c5431b0-e9ee-be76-4cf3-f0b87eb04901",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "source_name": {
+              "value": "vehicles",
+              "type": "string"
+            },
+            "file_subfolder": {
+              "value": "raw_nyc_crashes/vehicles",
+              "type": "string"
+            },
+            "natural_key": {
+              "value": "unique_id",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Ingest_Vehicles",
+        "dependsOn": []
+      },
+      {
         "type": "SqlServerStoredProcedure",
         "typeProperties": {
           "storedProcedureName": "[etl].[usp_load_dim_collision]"
@@ -59,6 +119,18 @@
         "dependsOn": [
           {
             "activity": "Ingest_Crashes",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Ingest_Persons",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Ingest_Vehicles",
             "dependencyConditions": [
               "Succeeded"
             ]
