@@ -122,7 +122,7 @@ test roles via XMLA impersonation (`powerbi-modeling-mcp` `dax_query_operations`
 `shortcuts.metadata.json` and carried by deployment. Fabric names a new shortcut after its target
 folder (`raw`) by default — rename it if ever recreated by hand.
 
-**Orchestration:** none below landing. Delta build (`nb_cdc_to_delta` ×3) → DDL `01`–`02` (fresh
+**Orchestration:** `pl_stage_load_NYC_Crashes` (Ingest ×3 → 12 SP activities → Refresh), in Dev `977d85cd-f0d8-4628-aca1-6bdfaa79ee6b` and Test `57d48e48-f7fa-4df7-ba55-f35428ce8bcf`. There are no schedules (deferred). SP activity `endpoint` = `vl_NYC_Crashes.warehouse_endpoint`, because deployment doesn't rebind it. The steps it replaces: Delta build (`nb_cdc_to_delta` ×3) → DDL `01`–`02` (fresh
 stage only) → ETL `03`–`13` (`09b` before `10` and `13`) → `RefreshSemanticModel`, all manual job runs.
 `nb_cdc_to_delta` parameters: `source_name`, `file_subfolder` (`raw_nyc_crashes/<source>`),
 `file_pattern` (`*`), `natural_key` (`collision_id` for crashes, `unique_id` for persons/vehicles);
@@ -143,7 +143,7 @@ only — they are not reachable.
 
 | Purpose | Name | Connection ID |
 |---|---|---|
-| Warehouse (OAuth) | — | `1de56b14-e844-4550-bfe4-a679696728e6` |
+| Warehouse (OAuth) | `DataWarehouseConnection` | `1de56b14-e844-4550-bfe4-a679696728e6` |
 | Lakehouse (OAuth) | `Lakehouseconnection` | `92d1dbb4-eab2-4f3b-ae0d-59145fd8c07f` |
 | HTTP source — Crashes (anonymous) | — | `1a0d925e-7e80-4160-a28d-f1aa73b60cc2` |
 | HTTP source — Persons (anonymous) | — | `d6be2434-1299-49f8-ae45-27fe4a15ad7c` |

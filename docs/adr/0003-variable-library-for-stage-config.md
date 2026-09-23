@@ -21,6 +21,7 @@ Leave item *bindings* to deployment autobind, with Deployment Rules as the fallb
 | Values | stage workspace name, semantic model name, refresh type, landing lakehouse reference | `vl_NYC_Crashes`: default value set = Dev; `Test` and `Prod` override |
 | Bindings | notebook default lakehouse/warehouse, report → model | Deployment autobind (works for these) |
 | Binding autobind can't handle | semantic model data source | Deployment Rule per stage (ADR-0004) |
+| Binding autobind can't handle, no rule type exists | pipeline Stored Procedure activity Warehouse `endpoint` (TDS host) | `vl_NYC_Crashes.warehouse_endpoint` String, per-stage override (added 2026-09-23, stage-load ticket 06) |
 | Stage-invariant | procedure lakehouse names, shortcut target, capacity | Nothing |
 
 Fabric Notebook `RefreshSemanticModel` is the library's consumer. It reads through

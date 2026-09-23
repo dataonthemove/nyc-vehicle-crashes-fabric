@@ -4,14 +4,14 @@
 
 **Blocked by:** 05
 
-**Status:** ready-for-human
+**Status:** done (2026-09-23)
 
-- [ ] Pipeline deployed Dev → Test
-- [ ] Stored Procedure activities point at the Test Warehouse after deployment. Watch `endpoint`: it is a literal Dev TDS host in Git (see ticket 01 Outcome); `artifactId` is a logical ID and rehydrates. If not, add a Deployment Rule or Variable Library item reference and record the outcome in the spec's Further Notes (possible ADR).
-- [ ] Ingest and Refresh notebooks bound to Test items (autobind)
-- [ ] `vl_NYC_Crashes` active value set = Test (ADR-0003)
-- [ ] A manual Test run succeeds; the Test model's last-refresh time moved and Dev's did not (spec Test 4)
-- [ ] Test has no schedule
+- [x] Pipeline deployed Dev → Test
+- [x] Stored Procedure activities point at the Test Warehouse after deployment. Watch `endpoint`: it is a literal Dev TDS host in Git (see ticket 01 Outcome); `artifactId` is a logical ID and rehydrates. If not, add a Deployment Rule or Variable Library item reference and record the outcome in the spec's Further Notes (possible ADR).
+- [x] Ingest and Refresh notebooks bound to Test items (autobind)
+- [x] `vl_NYC_Crashes` active value set = Test (ADR-0003)
+- [x] A manual Test run succeeds; the Test model's last-refresh time moved and Dev's did not (spec Test 4)
+- [x] Test has no schedule (scheduling deferred; see Progress)
 
 ## Evidence from ticket 04 (2026-09-23)
 
@@ -34,3 +34,14 @@ Branch-out also left `nb_cdc_to_delta`'s default lakehouse pointing at Dev. The 
 - **Schedules are in Git.** `05a4542` also added `.schedules` (Daily 04:00, GMT Standard Time), which is why deployment carries the schedule. Every deploy to Test will recreate it, so delete it after each Test deploy until a per-stage mechanism exists. Prod wants it.
 - **Scheduling deferred (Pat, 2026-09-23).** Pat deleted the Dev schedule; scheduling in every stage is out of scope for now as premature. The "Test has no schedule" box is satisfied by there being no schedule anywhere. Revisit per-stage schedules (and `.schedules` in Git being carried by deployment) as a separate item.
 - **Dev regression after the endpoint change:** the live Dev definition matched the repo (12/12 SP endpoints on the library variable, `artifactId` = Dev Warehouse). Run `3e181877-01db-47f9-857d-1e7436126762` Succeeded 14:32:41 → ~14:36:30 UTC. All 16 activities Succeeded, and Refresh ran last (14:35:50 → 14:36:27). The library variable resolves inside the SP connection.
+
+## Outcome (2026-09-23)
+
+Pat redeployed `pl_stage_load_NYC_Crashes` and `vl_NYC_Crashes` to Test. Before the run: all 12 SP activities had the library-variable endpoint, with `artifactId`/`workspaceId` = Test; Ingest/Refresh used Test notebooks; the Test active value set = `Test`, whose `warehouse_endpoint` override = the Test TDS host (`…kgbhznqz…`); there was no schedule.
+
+Run `b7180204-24c6-400e-ab34-587312b4fede` Succeeded 14:55:50 → 15:00:14 UTC. All 16 activities Succeeded, and Refresh ran last (14:59:00 → 15:00:13).
+- **Spec Test 4 (stage isolation):** the Test model has an enhanced-API refresh 14:59:20 → 14:59:37 Completed (previous: 12:43:50). Dev's latest refresh is still 14:36:12, from the Dev regression run, so the Test run didn't touch it.
+- A concurrent automatic `DirectLakeFraming` on Test failed at 14:59:13 while the notebook refresh held the model. The next one completed at 14:59:43. This is benign, but expect it in Test/Prod refresh history.
+- Test DAX counts after the run: fact_crashes 2,269,187 · fact_persons 5,984,110 · fact_crash_vehicle 4,551,002 · bridge_crash_factor 1,648,599. These equal the baseline.
+
+Decision recorded in ADR-0003 (Bindings table) and in the spec's Further Notes: the SP endpoint gets its value from the Variable Library, not from autobind or a Deployment Rule.
