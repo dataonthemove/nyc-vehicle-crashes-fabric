@@ -5,6 +5,10 @@
     {
       "name": "refresh_type",
       "value": "full"
+    },
+    {
+      "name": "warehouse_endpoint",
+      "value": "ugzelu45irnefp3jx4vjlmb6u4-d7atl7mnt7vexgkzrj5fhiwdsa.datawarehouse.fabric.microsoft.com"
     }
   ]
 }
