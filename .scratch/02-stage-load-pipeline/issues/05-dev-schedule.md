@@ -4,7 +4,9 @@
 
 **Blocked by:** 04
 
-**Status:** done (2026-09-23)
+**Status:** done (2026-09-23), then superseded
+
+> **Superseded (Pat, 2026-09-23):** scheduling was dropped from the whole solution (see ticket 07 and the spec). The Dev schedule `eeab0d10-…` was deleted, and Fabric commit `1a714bc` removed `.schedules` from Git. The "reopen if the 04:00 run fails" note below no longer applies. The rest is kept as history.
 
 Schedules are workspace-side and not in Git, so this is set in the Fabric UI.
 

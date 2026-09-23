@@ -17,16 +17,15 @@ half-loaded with nothing to flag it, and Prod only goes fresh when someone remem
 ## Solution
 
 One Fabric Data Pipeline per stage runs a complete **Stage load**: Ingest the three raw sources into
-Delta, Transform them into the Warehouse star, then Refresh the Direct Lake semantic model. Dev and
-Prod run it on a daily schedule after the CDC run has landed new files. Test runs it manually after a
-deployment. If any step fails, the run stops before Refresh, so the model never frames a half-loaded
+Delta, Transform them into the Warehouse star, then Refresh the Direct Lake semantic model. Every
+stage runs it manually; nothing is scheduled (Pat, 2026-09-23). If any step fails, the run stops before Refresh, so the model never frames a half-loaded
 star. The failure shows in the Monitor hub's run history.
 
 ## User Stories
 
 1. As the operator, I want one pipeline to run the whole Stage load, so that I stop sequencing sixteen manual job runs.
-2. As the operator, I want the Stage load to run daily at 04:00 in Dev, so that Dev picks up the 02:00 CDC run without my involvement.
-3. As the operator, I want Prod to run the same Stage load daily at 04:00, so that Prod reports are fresh every morning.
+2. ~~As the operator, I want the Stage load to run daily at 04:00 in Dev, so that Dev picks up the 02:00 CDC run without my involvement.~~ Dropped: no scheduling (Pat, 2026-09-23).
+3. ~~As the operator, I want Prod to run the same Stage load daily at 04:00, so that Prod reports are fresh every morning.~~ Dropped: no scheduling (Pat, 2026-09-23).
 4. As the operator, I want Test to run the Stage load only when I trigger it, so that Test stays a controlled post-deployment check.
 5. As the operator, I want the three Ingest sources (crashes, persons, vehicles) to run in parallel, so that the Stage load finishes sooner.
 6. As the operator, I want each Ingest call to pass its own merge key, so that persons and vehicles merge on their row identifier rather than collapsing onto the crash identifier.
@@ -61,7 +60,7 @@ star. The failure shows in the Monitor hub's run history.
   - Implementation may collapse Wave 1 into a single barrier if Fabric's dependency editor times out (known `add_activity_dependency` limitation). Correctness only needs each activity's upstream set to be a superset of its true dependencies.
 - **Refresh phase:** one Notebook activity calling the existing refresh notebook, dependent on success of every Wave 3 activity. The notebook already raises on a non-`Completed` refresh, so a failed refresh fails the run.
 - **Dependency condition:** every edge is *Succeeded*. There are no *On failure* or *On completion* branches. A failure stops downstream activities and marks the run failed.
-- **Schedules:** Dev daily at 04:00; Prod daily at 04:00, set after first promotion (schedules are not deployed); Test none. Landing's CDC run is assumed at 02:00 but currently has no schedule. Setting one is a separate step.
+- **Schedules:** none, in any stage or in landing (Pat, 2026-09-23). This is a practice project; every Stage load and CDC run is triggered by hand. *(Originally: Dev and Prod daily at 04:00, Test none.)*
 - **Alerting:** none. Failures are observed in the Monitor hub. Outlook email was dropped because the Fabric trial account's ability to send is unverified.
 - **Behaviour carried unchanged:** Transform procedures stay insert-only (`NOT EXISTS`); the date dimension truncates and reloads. Rerun safety relies on this.
 - **Authoring path:** pipeline JSON authored locally → commit/push → Fabric Source Control Update. No MCP authoring of the definition (CLAUDE.md SDLC rule 1).
@@ -83,14 +82,15 @@ star. The failure shows in the Monitor hub's run history.
 - Incremental Ingest (reading only new landed files). Rejected for simplicity; every run re-reads all files.
 - Email, Teams or Activator alerting.
 - Triggering the Stage load from the CDC run, or event-based triggers.
-- Scheduling the landing CDC run itself.
+- Scheduling anything: the Stage load in any stage, or the landing CDC run.
+- Release tags on deployed commits (practice project, not a real production).
 - Fixing the watermark defect (advances to run time, not max `crash_date`).
 - The header/line conformed-keys issue and its RLS leak.
 
 ## Further Notes
 
 - **Resolved (ticket 06, 2026-09-23): Stored Procedure activity binding across deployment.** Deployment autobinds the connection's `artifactId` and `workspaceId` but leaves `endpoint` (the TDS host) as a Dev literal. Deployment Rules don't cover pipelines, and an `ItemReference` variable exposes no host. So `endpoint` is `@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint`, a String variable with per-stage overrides (ADR-0003).
-- **Correction: schedules are deployed.** Fabric serializes a pipeline schedule into `.schedules` in Git, and deployment copies it. The Schedules decision above assumed otherwise. Scheduling is deferred (Pat, 2026-09-23), and no stage has a schedule.
+- **Correction: schedules are deployed.** Fabric serializes a pipeline schedule into `.schedules` in Git, and deployment copies it. Deployment copies it from the **source workspace**, not from Git. Scheduling was then dropped (Pat, 2026-09-23). Every schedule has been deleted, and Fabric commit `1a714bc` removed `.schedules` from Git.
 - **Cost:** Ingest re-reads about 2.9 GB of unsplittable multi-line CSV per run, and the landed file set only grows. Revisit incremental Ingest if run time becomes a problem.
-- **Active value set:** each promoted stage must have `vl_NYC_Crashes` set to its own value set before the first scheduled run (ADR-0003). Otherwise Refresh silently refreshes Dev.
+- **Active value set:** each promoted stage must have `vl_NYC_Crashes` set to its own value set before its first run (ADR-0003). Otherwise Refresh silently refreshes Dev.
 - **Parameter cell:** the Ingest notebook's parameter cell must be tagged, or pipeline parameters are ignored. It was already tagged in Git at time of writing.

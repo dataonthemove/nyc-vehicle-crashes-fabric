@@ -1,14 +1,22 @@
-# 07: Promote to Prod and schedule
+# 07: Promote to Prod
 
-**What to build:** The Stage load runs daily at 04:00 in Prod against Prod's own items, keeping Prod reports fresh every morning.
+**What to build:** The Stage load, deployed to Prod by the deployment pipeline, runs manually against Prod's own Lakehouse, Warehouse and model, never Dev's or Test's.
 
 **Blocked by:** 06
 
 **Status:** ready-for-human
 
-- [ ] Pipeline deployed Test → Prod; the tested commit is tagged per CLAUDE.md SDLC rule 7
-- [ ] Any binding fix proven in 06 is applied for Prod: deploy `vl_NYC_Crashes` together with the pipeline (never the pipeline first). Before running, confirm that the Prod `warehouse_endpoint` resolves to the Prod TDS host (`…d7atl7mn…`) and that every SP `artifactId` = the Prod Warehouse.
-- Scheduling was deferred by Pat on 2026-09-23 (ticket 06). `.schedules` is in Git and deployment carries it, so re-plan the schedule boxes below before starting.
+- [ ] Pipeline deployed Test → Prod, together with `vl_NYC_Crashes` (never the pipeline first)
+- [ ] Before running: the Prod `warehouse_endpoint` resolves to the Prod TDS host (`…d7atl7mn…`), and every SP `artifactId` = the Prod Warehouse (`a72a40c8-…`)
 - [ ] `vl_NYC_Crashes` active value set = Prod
-- [ ] One manual Prod run succeeds, then the daily 04:00 schedule is set
-- [ ] The first scheduled Prod run is observed Succeeded, and Prod's model refreshed, not Dev's or Test's
+- [ ] Prod has no schedule after the deploy (deployment copies the source workspace's schedule; there should be none to copy)
+- [ ] One manual Prod run succeeds; Prod's model last-refresh time moved, and Dev's and Test's did not
+
+## Scope decisions (Pat, 2026-09-23)
+
+- **No scheduling anywhere in this solution.** Not in Dev, Test or Prod, and not the landing CDC run. Every Stage load is a manual run. The original "daily 04:00" boxes were removed.
+- **No release tag.** This is a practice project, not a real production, so the old SDLC "tag the commit deployed to Test" rule doesn't apply.
+
+## Pre-deploy state (MCP, 2026-09-23)
+
+The Prod workspace `4_NYC_VehicleCrashes_prod` has no `pl_stage_load_NYC_Crashes` yet. `vl_NYC_Crashes` is present (`b37ae4dd-…`), but its active value set hasn't been checked.

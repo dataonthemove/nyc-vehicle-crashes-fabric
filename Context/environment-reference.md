@@ -48,8 +48,8 @@ workspace is deliberately unassigned, so landing items are never promoted.
 | Stage 2 | Production | `314d8788-f3de-4348-8b03-52b34bd9b62e` | `4_NYC_VehicleCrashes_prod` |
 
 All stages `isPublic: false`. Last deploy: commit `2b8273e` to Test and Prod, 2026-09-21. **No
-release tag exists yet** — Prod is live but not a release of record (endorsement, RBAC and tag
-deferred pending `.scratch/header-line-conformed-keys/`).
+release tags, by design:** this is a practice project with no real production (Pat, 2026-09-23).
+Endorsement and RBAC are deferred until `.scratch/header-line-conformed-keys/` lands.
 
 **Deployment rules (workspace-side config — not in Git; re-enter if the pipeline is rebuilt).**
 Autobind never rebinds a Direct Lake on SQL model, so each downstream stage needs a data source
@@ -122,7 +122,7 @@ test roles via XMLA impersonation (`powerbi-modeling-mcp` `dax_query_operations`
 `shortcuts.metadata.json` and carried by deployment. Fabric names a new shortcut after its target
 folder (`raw`) by default — rename it if ever recreated by hand.
 
-**Orchestration:** `pl_stage_load_NYC_Crashes` (Ingest ×3 → 12 SP activities → Refresh), in Dev `977d85cd-f0d8-4628-aca1-6bdfaa79ee6b` and Test `57d48e48-f7fa-4df7-ba55-f35428ce8bcf`. There are no schedules (deferred). SP activity `endpoint` = `vl_NYC_Crashes.warehouse_endpoint`, because deployment doesn't rebind it. The steps it replaces: Delta build (`nb_cdc_to_delta` ×3) → DDL `01`–`02` (fresh
+**Orchestration:** `pl_stage_load_NYC_Crashes` (Ingest ×3 → 12 SP activities → Refresh), in Dev `977d85cd-f0d8-4628-aca1-6bdfaa79ee6b` and Test `57d48e48-f7fa-4df7-ba55-f35428ce8bcf`. There are no schedules anywhere, by design (Pat, 2026-09-23). All runs are manual. SP activity `endpoint` = `vl_NYC_Crashes.warehouse_endpoint`, because deployment doesn't rebind it. The steps it replaces: Delta build (`nb_cdc_to_delta` ×3) → DDL `01`–`02` (fresh
 stage only) → ETL `03`–`13` (`09b` before `10` and `13`) → `RefreshSemanticModel`, all manual job runs.
 `nb_cdc_to_delta` parameters: `source_name`, `file_subfolder` (`raw_nyc_crashes/<source>`),
 `file_pattern` (`*`), `natural_key` (`collision_id` for crashes, `unique_id` for persons/vehicles);
