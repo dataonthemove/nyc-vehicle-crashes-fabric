@@ -1,6 +1,13 @@
 # 03: Full Transform graph
 
-**What to build:** All twelve Transform procedures run as Stored Procedure activities in the spec's three waves. Wave 1: the seven independent dimensions, in parallel. Wave 2: the factor group dimension, after collision. Wave 3: the three facts and the bridge, in parallel, each after every dimension it references. Refresh depends on all of Wave 3. A Stage load now produces a complete star.
+**What to build:** All twelve Transform procedures run as Stored Procedure activities in the spec's three waves. 
+- Wave 1: the seven independent dimensions, in parallel. 
+- Wave 2: the factor group dimension, after collision. 
+- Wave 3: the three facts and the bridge, in parallel, each after every dimension it references. 
+- Refresh depends on all of Wave 3. 
+
+
+A Stage load now produces a complete star.
 
 **Blocked by:** 02
 
@@ -28,11 +35,14 @@ Every Wave 1 dimension feeds at least one Wave 3 activity, so Refresh transitive
 
 ## Outcome (2026-09-22 UTC)
 
-Commit `be9715d`. Before the run, the live Dev graph was checked against the repo and matched (16 activities, same edges and procedure names).
-Run `2c6f52f6-e16e-45cf-930b-d2fdaf4cfae5` Succeeded 23:28:47 → 23:33:18 UTC, and all 16 activities succeeded.
-Ingest ran 23:28:57 → 23:31:58 (Vehicles was last, 181 s). All seven Wave 1 dimensions started at 23:31:59.
-`Load_dim_factor_group` started at 23:32:13, after `Load_dim_collision` ended at 23:32:12. Each Wave 3 activity started after its last
-upstream finished. Refresh ran 23:32:39 → 23:33:15.
+- Commit `be9715d`. 
+- Before the run, the live Dev graph was checked against the repo and matched (16 activities, same edges and procedure names).
+- Run `2c6f52f6-e16e-45cf-930b-d2fdaf4cfae5` Succeeded 23:28:47 → 23:33:18 UTC, and all 16 activities succeeded.
+- Ingest ran 23:28:57 → 23:31:58 (Vehicles was last, 181 s). 
+- All seven Wave 1 dimensions started at 23:31:59.
+- `Load_dim_factor_group` started at 23:32:13, after `Load_dim_collision` ended at 23:32:12. 
+- Each Wave 3 activity started after its last
+- upstream finished. Refresh ran 23:32:39 → 23:33:15.
 
 This was a warm run. The landed files were unchanged since ticket 02, so every count below matches the counts taken before the run.
 
