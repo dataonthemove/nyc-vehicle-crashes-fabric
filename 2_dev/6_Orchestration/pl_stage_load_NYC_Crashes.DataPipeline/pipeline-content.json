@@ -102,7 +102,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
@@ -194,7 +194,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
@@ -240,7 +240,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
@@ -286,7 +286,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
@@ -332,7 +332,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
@@ -378,7 +378,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
@@ -424,7 +424,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
@@ -458,7 +458,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
@@ -510,7 +510,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
@@ -556,7 +556,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
@@ -608,7 +608,7 @@
             "type": "DataWarehouse",
             "typeProperties": {
               "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "ugzelu45irnefp3jx4vjlmb6u4-fvq5c4z6ak5ubekl7tlzmyqcem.datawarehouse.fabric.microsoft.com",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
               "workspaceId": "00000000-0000-0000-0000-000000000000"
             },
             "annotations": []
