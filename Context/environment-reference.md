@@ -7,7 +7,7 @@
 >
 > **All IDs below are physical Fabric item IDs** (`list_items` / `list_folders`). Do not source them
 > from the repo's Fabric item files — those carry *logical* IDs, which are different values and are
-> rehydrated to physical IDs at deploy time. The 2026-07-31 pass recorded logical IDs for every
+> rehydrated to physical IDs on Source Control Update (see `CONTEXT.md`: rehydrate vs autobind). The 2026-07-31 pass recorded logical IDs for every
 > notebook and folder by mistake; all of them were wrong until the 2026-08-01 correction.
 >
 > The landing-zone build (2026-09-08 → 2026-09-21) is closed. Its architecture decisions are in

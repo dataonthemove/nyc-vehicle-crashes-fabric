@@ -89,7 +89,7 @@ star. The failure shows in the Monitor hub's run history.
 
 ## Further Notes
 
-- **Resolved (ticket 06, 2026-09-23): Stored Procedure activity binding across deployment.** Deployment rehydrates the connection's `artifactId` and `workspaceId` but leaves `endpoint` (the TDS host) as a Dev literal. Deployment Rules don't cover pipelines, and an `ItemReference` variable exposes no host. So `endpoint` is `@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint`, a String variable with per-stage overrides (ADR-0003).
+- **Resolved (ticket 06, 2026-09-23): Stored Procedure activity binding across deployment.** Deployment autobinds the connection's `artifactId` and `workspaceId` but leaves `endpoint` (the TDS host) as a Dev literal. Deployment Rules don't cover pipelines, and an `ItemReference` variable exposes no host. So `endpoint` is `@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint`, a String variable with per-stage overrides (ADR-0003).
 - **Correction: schedules are deployed.** Fabric serializes a pipeline schedule into `.schedules` in Git, and deployment copies it. The Schedules decision above assumed otherwise. Scheduling is deferred (Pat, 2026-09-23), and no stage has a schedule.
 - **Cost:** Ingest re-reads about 2.9 GB of unsplittable multi-line CSV per run, and the landed file set only grows. Revisit incremental Ingest if run time becomes a problem.
 - **Active value set:** each promoted stage must have `vl_NYC_Crashes` set to its own value set before the first scheduled run (ADR-0003). Otherwise Refresh silently refreshes Dev.
