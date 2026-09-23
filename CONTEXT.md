@@ -45,8 +45,10 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 |---|---|
 | **Logical ID** | The workspace-independent ID Fabric writes into Git item files (`.platform` `logicalId`, and cross-item references such as a pipeline's Warehouse `artifactId`). A workspace reference is written as all zeros. It is never a live ID, so never copy one into `Context/environment-reference.md`. |
 | **Physical ID** | The real ID of an item in one workspace, as returned by `list_items`. Each stage has its own. |
-| **Rehydrate** | *(Project term, not Fabric's.)* Fabric replaces a logical ID or zero workspace ID in a Git definition with the physical ID of the matching item in the workspace being written. This happens on Source Control Update and on branch-out. Only ID fields rehydrate; free-text fields such as a Warehouse `endpoint` host are copied unchanged. |
-| **Autobind** | The deployment pipeline's equivalent (Microsoft's term): on Dev → Test/Prod, item references are remapped to the same-named item in the target stage. It covers notebook default lakehouses and pipeline notebook/Warehouse IDs. It does **not** cover a Direct Lake on SQL data source (Deployment Rule, ADR-0004) or a pipeline Warehouse `endpoint` (Variable Library, ADR-0003). |
+| **Rehydrate** | *(Project term, not Fabric's.)* **Git → workspace.** Fabric turns *logical* IDs (and zero workspace IDs) in a Git definition into *physical* IDs of the matching items in the workspace being written. Triggers: Source Control Update, branch-out. Only ID fields rehydrate; free text such as a Warehouse `endpoint` host is copied unchanged. |
+| **Autobind** | *(Microsoft's term.)* **Workspace → workspace.** The deployment pipeline turns *source-stage physical* IDs into *target-stage physical* IDs, matched by item name. Trigger: Deploy (Dev → Test, Test → Prod). Git is not involved. It covers notebook default lakehouses and pipeline notebook/Warehouse IDs. It does **not** cover a Direct Lake on SQL data source (Deployment Rule, ADR-0004) or a pipeline Warehouse `endpoint` (Variable Library, ADR-0003). |
+
+**Rehydrate vs autobind.** Both end with the right physical IDs, so they're easily confused. Tell them apart by what triggered the change: Update or branch-out means rehydrate, Deploy means autobind. Neither one changes free text. Use "rebind" only as a generic verb when you don't know or care which one happened.
 
 ## Open terms *(unconfirmed)*
 
