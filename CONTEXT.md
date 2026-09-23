@@ -39,6 +39,15 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 | **Stage load** | One end-to-end pass inside a single stage (Dev, Test or Prod): Ingest → Transform → Refresh. Distinct from a **CDC run**, which happens once, in landing, for all stages. |
 | **Framing** | Direct Lake re-reading the current Delta files. An unframed model raises "failed to resolve name" after a deploy; it is not a broken model. |
 
+## Lifecycle (Git and deployment)
+
+| Term | Meaning |
+|---|---|
+| **Logical ID** | The workspace-independent ID Fabric writes into Git item files (`.platform` `logicalId`, and cross-item references such as a pipeline's Warehouse `artifactId`). A workspace reference is written as all zeros. It is never a live ID, so never copy one into `Context/environment-reference.md`. |
+| **Physical ID** | The real ID of an item in one workspace, as returned by `list_items`. Each stage has its own. |
+| **Rehydrate** | *(Project term, not Fabric's.)* Fabric replaces a logical ID or zero workspace ID in a Git definition with the physical ID of the matching item in the workspace being written. This happens on Source Control Update and on branch-out. Only ID fields rehydrate; free-text fields such as a Warehouse `endpoint` host are copied unchanged. |
+| **Autobind** | The deployment pipeline's equivalent (Microsoft's term): on Dev → Test/Prod, item references are remapped to the same-named item in the target stage. It covers notebook default lakehouses and pipeline notebook/Warehouse IDs. It does **not** cover a Direct Lake on SQL data source (Deployment Rule, ADR-0004) or a pipeline Warehouse `endpoint` (Variable Library, ADR-0003). |
+
 ## Open terms *(unconfirmed)*
 
 - **Occupancy** — `vehicle_occupants` holds outlier rows that inflate the sum; no agreed definition or cap yet.
