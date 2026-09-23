@@ -8,7 +8,7 @@
 
 Schedules are workspace-side and not in Git, so this is set in the Fabric UI.
 
-- [ ] Dev pipeline schedule set to daily 04:00 in the correct time zone
+- [x] Dev pipeline schedule set to daily 04:00 in the correct time zone
 - [ ] The first scheduled run is observed Succeeded in the Monitor hub
 - [x] Note recorded that the landing CDC run still has no schedule of its own
 
@@ -19,3 +19,4 @@ Schedules are workspace-side and not in Git, so this is set in the Fabric UI.
 - Time zone: `(UTC+00:00) Dublin, Edinburgh, Lisbon, London`, the operator's zone. It follows BST, so 04:00 stays 04:00 local all year and stays two hours after a landing schedule set in the same zone.
 - **Capacity risk:** the trial capacity expires around 28 Sep 2026. After that, scheduled runs will fail or be skipped until the workspaces move to a paid or new capacity.
 - First scheduled trigger: run `6fe0f8e6-f0a5-483d-b928-af7b92ab23a9` (invoke type `Scheduled`) Succeeded 11:37:00 → ~11:41 UTC. All 16 activities succeeded, with Refresh last (11:40:09 → 11:41:01). The schedule that fired it was misconfigured, though: `Cron` with `interval: 60` (hourly) from 12:37 local, not daily at 04:00. So it does not tick the first-run box.
+- Schedule corrected (verified via Fabric REST `jobs/Pipeline/schedules`, 2026-09-23): the single schedule `eeab0d10-e529-4593-b146-99a7169c02fb` is `Daily`, `times: ["04:00"]`, `GMT Standard Time`, enabled, with an open-ended end date. The first expected run is 2026-09-24 04:00 BST (03:00 UTC).
