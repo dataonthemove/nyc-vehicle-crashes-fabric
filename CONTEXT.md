@@ -50,6 +50,18 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 
 **Rehydrate vs autobind.** Both end with the right physical IDs, so they're easily confused. Tell them apart by what triggered the change: Update or branch-out means rehydrate, Deploy means autobind. Neither one changes free text. Use "rebind" only as a generic verb when you don't know or care which one happened.
 
+## Identifiers and connections
+
+| Term | Meaning |
+|---|---|
+| **Warehouse ID** | The item ID of a Fabric Warehouse, i.e. its **physical ID** in one stage (Dev `324e2ac0…`, Test `c2ce6eed…`). Other places call it `artifactId` (pipeline JSON), "Connection (Warehouse ID)" (pipeline UI) and `Database` (Direct Lake on SQL data source / Deployment Rule). It's the same value in each. Identifies *which* Warehouse. |
+| **`artifactId`** | The JSON field in a pipeline Warehouse connection (`linkedService.typeProperties.artifactId`) that holds the **Warehouse ID**. In Git it's a **logical ID**; in a workspace it's the physical Warehouse ID. It is rehydrated on Update and autobound on Deploy. It's a field name, not a separate kind of ID. |
+| **`workspaceId`** | The ID of the workspace that holds a referenced item (UI "Workspace ID"). In Git it's all zeros, meaning "this workspace"; in a workspace it's the stage's physical workspace ID (Dev `73d1612d…`, Test `b67c8251…`). It is rehydrated and autobound like `artifactId`. |
+| **Connection ID** | The ID of a Fabric **connection object** (gear → Manage connections and gateways), which holds credentials, e.g. `DataWarehouseConnection` `1de56b14…` (OAuth, `user7`). It isn't an item: it has no logical ID, it's the same in every stage, and it's never rehydrated or autobound. This pipeline's SP activities don't use one. Don't confuse it with the Warehouse ID in the "Connection (Warehouse ID)" field. |
+| **TDS endpoint** | Tabular Data Stream, the SQL Server wire protocol. The endpoint is the **host name** SQL clients connect to (`…datawarehouse.fabric.microsoft.com`), one per workspace, so it differs per stage. It appears as `endpoint` (pipeline JSON), "SQL connection string" (pipeline UI), `Server` (Direct Lake on SQL data source) and `properties.connectionString` (REST). It's free text, not an ID, so it's never rehydrated or autobound; pipelines read it from `vl_NYC_Crashes.warehouse_endpoint` (ADR-0003). |
+
+**How to tell them apart.** The Warehouse ID and `artifactId` are the same value under two names, and they say *which item*. `workspaceId` says *which workspace* the item is in. The TDS endpoint says *which server to connect to*, as a host name, not a GUID. The connection ID says *whose credentials*. Only the first three change automatically between stages.
+
 ## Open terms *(unconfirmed)*
 
 - **Occupancy** — `vehicle_occupants` holds outlier rows that inflate the sum; no agreed definition or cap yet.
