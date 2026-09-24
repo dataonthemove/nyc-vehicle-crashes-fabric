@@ -1,6 +1,6 @@
 # Spec: Stage load pipeline (Ingest → Transform → Refresh)
 
-Status: ready-for-agent
+Status: done (2026-09-24)
 Category: enhancement
 Raised: 2026-09-21
 
