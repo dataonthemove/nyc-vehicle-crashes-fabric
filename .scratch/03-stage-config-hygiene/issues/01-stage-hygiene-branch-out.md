@@ -1,4 +1,4 @@
-# 01: Stage config hygiene: values vs bindings, stale docs, branch-out pre-flight
+# 01: Stage  hygiene: values vs bindings, stale docs, branch-out pre-flight
 
 **What to build:** Bring the Variable Library, ADR-0003, the stage-load spec, the glossary and the
 branch-out guidance into line with how per-stage config actually works today. Ship it as one commit.
