@@ -1,6 +1,6 @@
 # Child-grain facts must carry the crash header's dimension keys
 
-Status: ready-for-human
+Status: wontfix — superseded by `.scratch/header-line-remodel/spec.md` (2026-09-25)
 Category: enhancement
 Raised: 2026-09-21 (Phase 11, landing-zone runbook)
 
