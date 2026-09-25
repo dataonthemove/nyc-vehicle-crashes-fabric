@@ -22,32 +22,47 @@ against Kimball's method, all in scope below.
 |---|---|---|
 | D1 | Header keys on lines | `fact_persons` and `fact_crash_vehicle` gain `location_key` and `factor_group_key`. Looked up from `fact_crashes` by `collision_id` (header loads first). Lines with no matching crash are dropped, as today. Header-grain measures are **not** copied to lines. |
 | D2 | `dim_collision` | Dropped. `collision_id` becomes a **degenerate dimension** column on all three facts; `collision_key` is removed everywhere. |
-| D3 | `dim_factor_group` | One row per **distinct set** of contributing factors, identified by a hash of the sorted factor codes. Its `collision_key` is dropped. Bridge becomes group × factor. |
+| D3 | `dim_factor_group` | One row per **distinct set** of contributing factors, identified by a hash of the sorted factor codes. Its `collision_key` is dropped. Bridge becomes group × factor. Crashes with no specified factor (null or `Unspecified`; ≥ 620k, since the bridge has 1,648,599 rows against 2,269,187 crashes) share **one empty-set group with no bridge rows**, keeping today's slicer behaviour. |
 | D4 | Two injury sources | Keep both: crash-record counts on `fact_crashes` and `is_injured`/`is_killed` on `fact_persons`. `dim_person[bodily_injury]` stays. No reconciliation check. |
 | D5 | Measures | **All existing measures are removed** from the semantic model. Measures are regenerated from the new model in a separate spec. No measure is repaired, renamed or added here. |
 | D6 | `dim_driver` | New dimension: `driver_sex`, `driver_license_status`, `driver_license_jurisdiction`, moved out of `dim_vehicle`. `fact_crash_vehicle` gains `driver_key`. Link to the driver's `fact_persons` row is out of scope. |
 | D7 | `travel_direction` | Moves from `dim_vehicle` to `dim_damage` (it describes the vehicle in this crash, like `pre_crash`). |
 | D8 | Latitude/longitude | Move from `dim_location` to `fact_crashes` as columns. `dim_location` keeps `borough`, `zip_code`. |
 | D9 | `vehicle_model` | Dropped from `dim_vehicle`. |
-| D10 | RLS | Role `Borough_Reader` is **removed** from the model. Security roles are deferred. |
-| D11 | Delivery | One spec, one Dev full reload, validation, then Dev → Test → Prod. Validation uses `COUNTROWS` DAX queries, Spark row counts and relationship checks — no measures, so `/dax-smoke-test` needs adjusting. Work is split into tickets at ticket-level granularity (not yet written). |
+| D10 | RLS | Role `Borough_Reader` is **deleted** from the model (it currently leaks: line facts return unfiltered under it). Security roles are deferred. |
+| D11 | Delivery | Dev full reload → validation → promote to Test, then Prod, each per the stage sequence in Risks. Validation uses `COUNTROWS` DAX queries, Spark row counts and relationship checks — no measures. Promotion to each of Test and Prod is its own **human-in-the-loop ticket**. No spike ticket. Work is split into tickets at ticket-level granularity (not yet written). |
 | D12 | Line → header filtering | Deferred: `.scratch/Backlog/line-to-header-filtering/`. |
-| D13 | Reports | **All reports are removed** in every stage; rebuilt after the measures spec. Reports are Fabric-UI items, so deletion happens in the Fabric UI, never on disk. Done 2026-09-25: Pat deleted both reports in Dev, Test and Prod (a deploy does not remove items from the target, so each stage was done by hand). Pending: Dev Source Control commit and local `git pull`. |
+| D13 | Reports | **All reports are removed** in every stage; rebuilt after the measures spec. Reports are Fabric-UI items, so deletion happens in the Fabric UI, never on disk. Done 2026-09-25: Pat deleted both reports in Dev, Test and Prod, committed from Dev Source Control and pulled. |
+| D14 | SummarizeBy | New columns: `collision_id`, `driver_key` → `None` (existing `_id`/`_key` rule). `latitude`, `longitude` on `fact_crashes` → `None`, with `dataCategory` Latitude / Longitude. Add the latitude/longitude rule to `CLAUDE.md`. |
 
-## Assumed — confirm before ticketing
+## Scope — items touched
 
-- **Crashes with no specified factor** (null or `Unspecified`; ≥ 620k crashes, since the bridge has
-  1,648,599 rows against 2,269,187 crashes) share **one empty-set factor group with no bridge rows**.
-  This keeps today's slicer behaviour.
-- **D10 means deleting the role**, not just dropping its verification. The role currently leaks: line
-  facts return unfiltered under it.
+Every changed `usp_load_*` is edited in **both** its notebook and the Warehouse item definition, in the same commit (`CLAUDE.md`).
+
+| Area | Location | Change |
+|---|---|---|
+| DDL | `2_dev/1_DDL/01_DDL_Dimensions`, `02_DDL_Facts_Bridges` notebooks | Drop `dim_collision`; new `dim_driver`; column changes per D1–D3, D6–D9. |
+| Warehouse item definition | `2_dev/0_NYC_VehicleCrashes_Warehouse.Warehouse/dbo/Tables/`, `etl/StoredProcedures/` | Same table changes; delete `dim_collision.sql` and `usp_load_dim_collision.sql`; add `dim_driver.sql` and `usp_load_dim_driver.sql`. |
+| Transform | `2_dev/3_Transform/` | Delete `04_ETL_dim_collision`; new `dim_driver` notebook; rewrite `05` location, `07` vehicle, `08` damage, `09b` factor group, `10`–`13` facts and bridge. `09b` sources factor sets from the Lakehouse crashes, not `dim_collision`. |
+| Orchestration | `2_dev/6_Orchestration/pl_stage_load_NYC_Crashes.DataPipeline/pipeline-content.json` | Remove the `usp_load_dim_collision` activity; add `usp_load_dim_driver`; `fact_persons` and `fact_crash_vehicle` depend on `fact_crashes`. Edit in git, not MCP. |
+| Semantic model | `2_dev/4_Model/.../definition/` | Drop `dim_collision` table and its 3 relationships; add `dim_driver` table; add 5 relationships (`fact_persons`→`dim_location`, `dim_factor_group`; `fact_crash_vehicle`→`dim_location`, `dim_factor_group`, `dim_driver`); column changes; remove all measures (D5) and `Borough_Reader` (D10); SummarizeBy per D14. |
+| Docs and skills | `2_dev/4_Model/SEMANTIC_MODEL.md`, `~/.claude/skills/dax-smoke-test/SKILL.md`, `Context/capacity-reassignment-runbook.md` | Update to the new schema; smoke test drops its measure spot-check; runbook baseline counts refreshed after the reload. `Other/sql_scripts/TableChecks_Warehouse.sql` is Pat's, updated later. |
+
+## Risks
+
+- **Destructive Warehouse deploy.** A Dev → Test/Prod deploy that drops tables and columns on tables
+  holding data is unverified and may fail. It is avoided rather than tested — per stage, Test first:
+  1. **Pat** drops all `dbo` tables in the stage's Warehouse (T-SQL notebook needs a manual Warehouse
+     connection; deletes data, so not run by CC). The Warehouse **item is not deleted** — its physical
+     ID is bound by the ADR-0004 deployment rule and the `vl_NYC_Crashes` endpoint.
+  2. **Pat** deploys the stage. The empty Warehouse takes the new schema with nothing destructive to apply.
+     Fallback if tables are not created: run the deployed DDL notebooks in that stage.
+  3. **CC** runs the stage load and validation via MCP.
 
 ## Impact checks done
 
 - All fact and bridge loads are insert-only (`NOT EXISTS`), so a crash's factor set never changes
   after load and D3 groups stay stable.
-- Every changed `usp_load_*` must be edited in both the notebook and the Warehouse item definition
-  (`CLAUDE.md`).
 
 ## Baseline (2026-09-25, all stages)
 
