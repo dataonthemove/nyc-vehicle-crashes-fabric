@@ -20,7 +20,7 @@ against Kimball's method, all in scope below.
 
 | # | Area | Decision |
 |---|---|---|
-| D1 | Header keys on lines | `fact_persons` and `fact_crash_vehicle` gain `location_key` and `factor_group_key`. Looked up from `fact_crashes` by `collision_id` (header loads first). Lines with no matching crash are dropped, as today. Header-grain measures are **not** copied to lines. |
+| D1 | Header keys on lines | `fact_persons` and `fact_crash_vehicle` take **every header key** — `date_key`, `location_key`, `factor_group_key` — from `fact_crashes` by `collision_id` (header loads first). `date_key` is no longer derived from the line's own source date, so a line can never disagree with its crash. Lines with no matching crash are dropped, as today. Header-grain measures are **not** copied to lines. |
 | D2 | `dim_collision` | Dropped. `collision_id` becomes a **degenerate dimension** column on all three facts; `collision_key` is removed everywhere, including every incremental `WHERE NOT EXISTS` predicate (all three facts, `dim_factor_group`), which re-keys to `collision_id`. |
 | D3 | `dim_factor_group` | One row per **distinct set** of contributing factors (duplicates within a crash collapsed). `dim_factor_group` stores the set's hash (`factor_set_hash`, over the sorted distinct `factor_desc` values — business values, not `factor_key`, which is `IDENTITY` and not stable across a `dim_contributing_factor` reload; hidden in the semantic model) so new crashes resolve to an existing group; the bridge inserts rows only for new groups. Its `collision_key` is dropped. Bridge becomes group × factor. Crashes with no specified factor (null or `Unspecified`; ≥ 620k, since the bridge has 1,648,599 rows against 2,269,187 crashes) share **one empty-set group with no bridge rows**, keeping today's slicer behaviour. |
 | D4 | Two injury sources | Keep both: crash-record counts on `fact_crashes` and `is_injured`/`is_killed` on `fact_persons`. `dim_person[bodily_injury]` stays. No reconciliation check. |
@@ -65,18 +65,22 @@ Every changed `usp_load_*` is edited in **both** its notebook and the Warehouse 
   2. **Pat** applies the new definitions: Dev by Source Control → Update All; Test/Prod by deploy. The
      empty star takes the new schema with nothing destructive to apply. Fallback if tables are not
      created: run the DDL notebooks in that stage.
-  3. **CC** runs the stage load, then `refresh_semantic_model` (the model shows framing errors until
+  3. **Pat** drops any stale `etl` procedures left in the stage (`usp_load_dim_collision`,
+     `usp_load_dim_damage`) — Dev after Update All, Test/Prod after deploy. Whether sync or deploy removes
+     them is unverified; a deploy did not remove deleted reports from the target. CC lists `etl`
+     procedures via MCP to confirm.
+  4. **CC** runs the stage load, then `refresh_semantic_model` (the model shows framing errors until
      the tables are loaded), then validation, all via MCP.
 
 ## Acceptance checks (every stage)
 
 Run after the stage load and model refresh; all must pass.
 
-1. Fact row counts equal the baseline (`fact_crashes` 2,269,187 · `fact_persons` 5,984,110 · `fact_crash_vehicle` 4,551,002).
+1. Fact row counts equal that stage's **pre-drop counts**, captured by CC immediately before Risks step 1 (the Baseline below is a reference only; a CDC run in between moves it).
 2. Every line row's `location_key`, `factor_group_key` and `date_key` equal its crash's (join on `collision_id`; zero mismatches).
 3. No orphaned keys: every fact and bridge key exists in its dimension, on every relationship (zero unmatched).
 4. `dim_factor_group` has exactly one empty-set group, and no two groups share a `factor_set_hash`.
-5. Every contributing factor filters all three facts (non-blank, and fewer rows than unfiltered).
+5. Every contributing factor **present in the bridge** filters all three facts (non-blank, and fewer rows than unfiltered). Factors absent from the bridge, e.g. `Unspecified`, are excluded by design.
 6. Relationships in the model match the Scope table: `dim_collision` gone, 5 new relationships present, bridge still `bothDirections`.
 
 ## Impact checks done
