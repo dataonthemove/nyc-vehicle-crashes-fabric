@@ -17,6 +17,10 @@
 
 ## Workspaces
 
+Tenant ID: `d345b2a1-449d-425a-bf69-bf2a95b03ea7` (`DataOnTheMoveoutlook.onmicrosoft.com`), verified
+2026-09-25 via `az account show` and by decoding the TDS endpoint host prefix. The same in every stage.
+OneLake paths (`onelake.dfs.fabric.microsoft.com/<workspaceId>/<itemId>/…`) never contain it.
+
 Verified via `list_workspaces` 2026-09-08. All four sit on capacity `f1b1feea-3619-4c62-928e-69eb8d45b7a9`
 (**trial — expires ~28 Sep 2026**). All are type `Workspace`; none is Template App (that type silently
 blocks Git).
