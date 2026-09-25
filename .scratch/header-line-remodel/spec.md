@@ -22,11 +22,11 @@ against Kimball's method, all in scope below.
 |---|---|---|
 | D1 | Header keys on lines | `fact_persons` and `fact_crash_vehicle` gain `location_key` and `factor_group_key`. Looked up from `fact_crashes` by `collision_id` (header loads first). Lines with no matching crash are dropped, as today. Header-grain measures are **not** copied to lines. |
 | D2 | `dim_collision` | Dropped. `collision_id` becomes a **degenerate dimension** column on all three facts; `collision_key` is removed everywhere, including every incremental `WHERE NOT EXISTS` predicate (all three facts, `dim_factor_group`), which re-keys to `collision_id`. |
-| D3 | `dim_factor_group` | One row per **distinct set** of contributing factors (duplicates within a crash collapsed). `dim_factor_group` stores the set's hash (`factor_set_hash`, over the sorted distinct factor keys) so new crashes resolve to an existing group; the bridge inserts rows only for new groups. Its `collision_key` is dropped. Bridge becomes group × factor. Crashes with no specified factor (null or `Unspecified`; ≥ 620k, since the bridge has 1,648,599 rows against 2,269,187 crashes) share **one empty-set group with no bridge rows**, keeping today's slicer behaviour. |
+| D3 | `dim_factor_group` | One row per **distinct set** of contributing factors (duplicates within a crash collapsed). `dim_factor_group` stores the set's hash (`factor_set_hash`, over the sorted distinct `factor_desc` values — business values, not `factor_key`, which is `IDENTITY` and not stable across a `dim_contributing_factor` reload; hidden in the semantic model) so new crashes resolve to an existing group; the bridge inserts rows only for new groups. Its `collision_key` is dropped. Bridge becomes group × factor. Crashes with no specified factor (null or `Unspecified`; ≥ 620k, since the bridge has 1,648,599 rows against 2,269,187 crashes) share **one empty-set group with no bridge rows**, keeping today's slicer behaviour. |
 | D4 | Two injury sources | Keep both: crash-record counts on `fact_crashes` and `is_injured`/`is_killed` on `fact_persons`. `dim_person[bodily_injury]` stays. No reconciliation check. |
 | D5 | Measures | **All existing measures are removed** from the semantic model. Measures are regenerated from the new model in a separate spec. No measure is repaired, renamed or added here. |
 | D6 | `dim_driver` | New dimension: `driver_sex`, `driver_license_status`, `driver_license_jurisdiction`, moved out of `dim_vehicle`. `fact_crash_vehicle` gains `driver_key`. Link to the driver's `fact_persons` row is out of scope. |
-| D7 | `travel_direction` | Moves from `dim_vehicle` to `dim_damage` (it describes the vehicle in this crash, like `pre_crash`). |
+| D7 | `travel_direction` | Moves from `dim_vehicle` to `dim_vehicle_circumstance` (D16) — it describes the vehicle in this crash, like `pre_crash`. |
 | D8 | Latitude/longitude | Move from `dim_location` to `fact_crashes` as columns. `dim_location` keeps `borough`, `zip_code`. |
 | D9 | `vehicle_model` | Dropped from `dim_vehicle`. |
 | D10 | RLS | Role `Borough_Reader` is **deleted** from the model (it currently leaks: line facts return unfiltered under it). Security roles are deferred. |
@@ -35,6 +35,7 @@ against Kimball's method, all in scope below.
 | D13 | Reports | **All reports are removed** in every stage; rebuilt after the measures spec. Reports are Fabric-UI items, so deletion happens in the Fabric UI, never on disk. Done 2026-09-25: Pat deleted both reports in Dev, Test and Prod, committed from Dev Source Control and pulled. |
 | D14 | SummarizeBy | New columns: `collision_id`, `driver_key` → `None` (existing `_id`/`_key` rule). `latitude`, `longitude` on `fact_crashes` → `None`, with `dataCategory` Latitude / Longitude. Add the latitude/longitude rule to `CLAUDE.md`. |
 | D15 | Unknown location | `dim_location` gets an **Unknown** member row (sentinel attributes, e.g. `borough` = `UNKNOWN`), replacing today's hard-coded `-1`, which points at no row. Fabric `IDENTITY` cannot take an explicit `-1`, so the row is inserted by `usp_load_dim_location` if absent and loads resolve its key **by lookup**, never by a literal. Line facts inherit it via D1. Affected row count not yet measured. |
+| D16 | `dim_damage` rename | Renamed **`dim_vehicle_circumstance`** (`damage_key` → `vehicle_circumstance_key`): after D7 it holds `pre_crash`, `travel_direction`, `point_of_impact`, `vehicle_damage` — the vehicle's circumstances in this crash, not only damage. Renames its DDL, table file, notebook `08`, procedure, pipeline activity, semantic model table and relationship. |
 
 ## Scope — items touched
 
@@ -42,11 +43,11 @@ Every changed `usp_load_*` is edited in **both** its notebook and the Warehouse 
 
 | Area | Location | Change |
 |---|---|---|
-| DDL | `2_dev/1_DDL/01_DDL_Dimensions`, `02_DDL_Facts_Bridges` notebooks | Drop `dim_collision`; new `dim_driver`; column changes per D1–D3, D6–D9. |
-| Warehouse item definition | `2_dev/0_NYC_VehicleCrashes_Warehouse.Warehouse/dbo/Tables/`, `etl/StoredProcedures/` | Same table changes; delete `dim_collision.sql` and `usp_load_dim_collision.sql`; add `dim_driver.sql` and `usp_load_dim_driver.sql`. |
-| Transform | `2_dev/3_Transform/` | Delete `04_ETL_dim_collision`; new `dim_driver` notebook; rewrite `05` location, `07` vehicle, `08` damage, `09b` factor group, `10`–`13` facts and bridge. `09b` sources factor sets from the Lakehouse crashes, not `dim_collision`. |
-| Orchestration | `2_dev/6_Orchestration/pl_stage_load_NYC_Crashes.DataPipeline/pipeline-content.json` | `Load_dim_collision` is the hub five activities wait on, so the dependency graph is rebuilt, not just trimmed: remove it; add `usp_load_dim_driver`; `dim_factor_group` waits on `Ingest_Crashes` and `dim_contributing_factor`; bridge waits on `dim_factor_group`; `fact_crashes` waits on its dims and `dim_factor_group`; `fact_persons` and `fact_crash_vehicle` wait on `fact_crashes` and their own dims (`dim_person`; `dim_vehicle`, `dim_damage`, `dim_driver`). Edit in git, not MCP. |
-| Semantic model | `2_dev/4_Model/.../definition/` | Drop `dim_collision` table and its 3 relationships; add `dim_driver` table; add 5 relationships (`fact_persons`→`dim_location`, `dim_factor_group`; `fact_crash_vehicle`→`dim_location`, `dim_factor_group`, `dim_driver`); column changes; remove all measures (D5) and `Borough_Reader` (D10); SummarizeBy per D14. |
+| DDL | `2_dev/1_DDL/01_DDL_Dimensions`, `02_DDL_Facts_Bridges` notebooks | Drop `dim_collision`; new `dim_driver`; rename per D16; column changes per D1–D3, D6–D9, D15. |
+| Warehouse item definition | `2_dev/0_NYC_VehicleCrashes_Warehouse.Warehouse/dbo/Tables/`, `etl/StoredProcedures/` | Same table changes; delete `dim_collision.sql` and `usp_load_dim_collision.sql`; add `dim_driver.sql` and `usp_load_dim_driver.sql`; rename `dim_damage.sql` and `usp_load_dim_damage.sql` per D16. |
+| Transform | `2_dev/3_Transform/` | Delete `04_ETL_dim_collision`; new `dim_driver` notebook; rewrite `05` location, `07` vehicle, `08` damage (renamed per D16), `09b` factor group, `10`–`13` facts and bridge. `09b` sources factor sets from the Lakehouse crashes, not `dim_collision`. |
+| Orchestration | `2_dev/6_Orchestration/pl_stage_load_NYC_Crashes.DataPipeline/pipeline-content.json` | `Load_dim_collision` is the hub five activities wait on, so the dependency graph is rebuilt, not just trimmed: remove it; add `usp_load_dim_driver`; `dim_factor_group` waits on `Ingest_Crashes` and `dim_contributing_factor`; bridge waits on `dim_factor_group`; `fact_crashes` waits on its dims and `dim_factor_group`; `fact_persons` and `fact_crash_vehicle` wait on `fact_crashes` and their own dims (`dim_person`; `dim_vehicle`, `dim_vehicle_circumstance`, `dim_driver`); rename the `dim_damage` activity per D16. Edit in git, not MCP. |
+| Semantic model | `2_dev/4_Model/.../definition/` | Drop `dim_collision` table and its 3 relationships; add `dim_driver` table; rename `dim_damage` per D16; add 5 relationships (`fact_persons`→`dim_location`, `dim_factor_group`; `fact_crash_vehicle`→`dim_location`, `dim_factor_group`, `dim_driver`); column changes; remove all measures (D5) and `Borough_Reader` (D10); SummarizeBy per D14. |
 | Docs and skills | `2_dev/4_Model/SEMANTIC_MODEL.md`, `~/.claude/skills/dax-smoke-test/SKILL.md`, `Context/capacity-reassignment-runbook.md` | Update to the new schema; smoke test drops its measure spot-check; runbook baseline counts refreshed after the reload. `Other/sql_scripts/TableChecks_Warehouse.sql` is Pat's, updated later. |
 
 ## Risks
@@ -54,7 +55,10 @@ Every changed `usp_load_*` is edited in **both** its notebook and the Warehouse 
 - **Destructive Warehouse deploy.** Applying dropped tables and columns to tables holding data is
   unverified and may fail — through Source Control **Update All** in Dev as much as through a deploy to
   Test/Prod. It is avoided rather than tested. Per stage, Dev → Test → Prod:
-  1. **Pat** drops the star tables only (`dim_*`, `fact_*`, `bridge_*`) in that stage's Warehouse. Leave
+  1. **Pat** drops the star tables only (`dim_*`, `fact_*`, `bridge_*`) in that stage's Warehouse, by
+     running **only the DROP cells** of the DDL notebooks currently in that stage — before Update All or
+     the deploy, so the old notebooks are still in place and their drops also cover `dim_collision`.
+     Never run their CREATE cells: they rebuild the old schema. Leave
      the legacy `dbo.etl_watermark` (0 rows) and the `etl` procedures alone. T-SQL notebook needs a
      manual Warehouse connection; deletes data, so not run by CC. The Warehouse **item is not deleted** —
      its physical ID is bound by the ADR-0004 deployment rule and the `vl_NYC_Crashes` endpoint.
@@ -63,6 +67,17 @@ Every changed `usp_load_*` is edited in **both** its notebook and the Warehouse 
      created: run the DDL notebooks in that stage.
   3. **CC** runs the stage load, then `refresh_semantic_model` (the model shows framing errors until
      the tables are loaded), then validation, all via MCP.
+
+## Acceptance checks (every stage)
+
+Run after the stage load and model refresh; all must pass.
+
+1. Fact row counts equal the baseline (`fact_crashes` 2,269,187 · `fact_persons` 5,984,110 · `fact_crash_vehicle` 4,551,002).
+2. Every line row's `location_key`, `factor_group_key` and `date_key` equal its crash's (join on `collision_id`; zero mismatches).
+3. No orphaned keys: every fact and bridge key exists in its dimension, on every relationship (zero unmatched).
+4. `dim_factor_group` has exactly one empty-set group, and no two groups share a `factor_set_hash`.
+5. Every contributing factor filters all three facts (non-blank, and fewer rows than unfiltered).
+6. Relationships in the model match the Scope table: `dim_collision` gone, 5 new relationships present, bridge still `bothDirections`.
 
 ## Impact checks done
 
@@ -78,10 +93,11 @@ Every changed `usp_load_*` is edited in **both** its notebook and the Warehouse 
 | `dim_location` / `dim_vehicle` / `dim_damage` / `dim_person` | 381,068 / 596,157 / 4,602 / 25,990 |
 
 Fact row counts must be unchanged after the reload. `dim_factor_group`, `bridge_crash_factor`,
-`dim_location` and `dim_vehicle` should shrink sharply.
+`dim_location` and `dim_vehicle` should shrink sharply; `dim_vehicle_circumstance` (was `dim_damage`)
+should **grow**, because it gains `travel_direction`.
 
 ## Out of scope
 
-Measures and reports (separate spec, after this one), line → header filtering (D12), person-to-vehicle link, security roles, `vehicle_occupants` outlier cap.
+Measures and reports (separate spec, after this one), line → header filtering (D12), person-to-vehicle link, security roles, `vehicle_occupants` outlier cap, late-arriving line rows (`.scratch/Backlog/late-arriving-line-rows/`).
 
 ## Comments
