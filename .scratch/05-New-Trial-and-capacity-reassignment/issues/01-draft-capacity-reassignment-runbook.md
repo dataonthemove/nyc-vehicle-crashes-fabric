@@ -9,9 +9,13 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** done (2026-09-25)
 
-- [ ] The runbook exists in `Context/` and uses the glossary terms **Capacity** and **Capacity reassignment**.
-- [ ] Every step names who does it (Pat or CC) and where (Fabric portal, admin portal, MCP).
-- [ ] The step order, fallback route, "don't cancel the old trial" rule and validation checks all match the parent spec's decisions.
-- [ ] Anything specific to a single rotation (capacity IDs, dates, user number) is a parameter, so the runbook can be reused.
+- [x] The runbook exists in `Context/` and uses the glossary terms **Capacity** and **Capacity reassignment**.
+- [x] Every step names who does it (Pat or CC) and where (Fabric portal, admin portal, MCP).
+- [x] The step order, fallback route, "don't cancel the old trial" rule and validation checks all match the parent spec's decisions.
+- [x] Anything specific to a single rotation (capacity IDs, dates, user number) is a parameter, so the runbook can be reused.
+
+## Comments
+
+2026-09-25 (CC): Drafted `Context/capacity-reassignment-runbook.md`. Rotation-specific values live in its Parameters table; the baseline is dated and refreshed at step 2.4.
