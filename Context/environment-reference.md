@@ -18,14 +18,13 @@
 ## Workspaces
 
 Tenant ID: `d345b2a1-449d-425a-bf69-bf2a95b03ea7` (`DataOnTheMoveoutlook.onmicrosoft.com`), verified
-2026-09-25 via `az account show` and by decoding the TDS endpoint host prefix. The same in every stage.
-OneLake paths (`onelake.dfs.fabric.microsoft.com/<workspaceId>/<itemId>/…`) never contain it.
+2026-09-25 via `az account show` and by decoding the TDS endpoint host prefix. 
 
 Verified via `list_workspaces` 2026-09-08. All four sit on capacity `f1b1feea-3619-4c62-928e-69eb8d45b7a9`
 (**trial — expires ~28 Sep 2026**). All are type `Workspace`; none is Template App (that type silently
 blocks Git).
 
-| Stage | Name | Workspace ID | Git |
+| Stage | Name | Physical workspace ID | Git |
 |---|---|---|---|
 | Landing | `1_NYC_VehicleCrashes_Landing` | `bae79a94-0103-45dc-9993-d9041fbd4e80` | bound to `/1_Landing` |
 | Dev | `2_NYC_VehicleCrashes_dev` | `73d1612d-023e-40bb-914b-fcd796620223` | bound to `/2_dev` |
@@ -44,7 +43,7 @@ preinstalled; `sempy_labs` is **not**.
 Created 2026-09-11 via Fabric REST; no MCP tool covers deployment pipelines. The landing
 workspace is deliberately unassigned, so landing items are never promoted.
 
-| Object | Name | ID | Assigned workspace |
+| Object | Name | Physical ID | Assigned workspace |
 |---|---|---|---|
 | Deployment pipeline | `dp_NYC_VehicleCrashes` | `df1e3e42-ea3a-4c74-9567-a63a7bc1898f` | — |
 | Stage 0 | Development | `e7887720-b6d2-4955-8184-b2916ba9710a` | `2_NYC_VehicleCrashes_dev` |
@@ -59,7 +58,7 @@ Endorsement and RBAC are deferred until `.scratch/header-line-conformed-keys/` l
 Autobind never rebinds a Direct Lake on SQL model, so each downstream stage needs a data source
 rule on `NYC_VehicleCrashes_Semantic` (ADR-0004):
 
-| Stage | Server (warehouse TDS endpoint) | Database (warehouse item ID) |
+| Stage | Server (warehouse TDS endpoint) | Database (warehouse physical ID) |
 |---|---|---|
 | Test | `ugzelu45irnefp3jx4vjlmb6u4-kgbhznqz6ckeln3zxqxoctmda4.datawarehouse.fabric.microsoft.com` | `c2ce6eed-e8d2-46dc-93f6-7bd3bb12edff` |
 | Production | `ugzelu45irnefp3jx4vjlmb6u4-d7atl7mnt7vexgkzrj5fhiwdsa.datawarehouse.fabric.microsoft.com` | `a72a40c8-7dba-497e-9c92-0847e39c0ebd` |
@@ -76,7 +75,7 @@ Prod 2026-09-21); notebook default lakehouse/warehouse bindings (autobind works 
 
 ## Landing-stage artifacts
 
-| Type | Display Name | Artifact ID |
+| Type | Display Name | Physical ID |
 |---|---|---|
 | Lakehouse | NYC_VehicleCrashes_Landing_Lakehouse | `b7f1c383-0af0-4b21-bf6b-4ac398b84391` |
 | SQLEndpoint | NYC_VehicleCrashes_Landing_Lakehouse | `ef5d1260-aa46-4bea-9fd5-2427f38adf0a` |
@@ -96,7 +95,7 @@ Prod 2026-09-21); notebook default lakehouse/warehouse bindings (autobind works 
 
 Same item set in every stage (22 deployed items + the auto-created lakehouse SQL endpoint).
 
-| Type | Display Name | Dev | Test | Prod |
+| Type | Display Name | Dev physical ID | Test physical ID | Prod physical ID |
 |---|---|---|---|---|
 | Lakehouse | NYC_VehicleCrashes_Lakehouse | `69699b13-5771-422f-874c-461430f81d9b` | `620d0b45-d190-44a2-83d1-22cdcdce02ec` | `ebf4cc6f-f282-4cb7-98c0-3924af774ad7` |
 | SQLEndpoint | NYC_VehicleCrashes_Lakehouse | `63b7bc57-9351-4c56-a1cf-cda93ca7828c` | `0b6d46d4-d947-4553-99bd-741890e6400f` | `c64195a8-5a7f-43fe-a503-07bd429658ab` |
@@ -162,7 +161,7 @@ Socrata is called unauthenticated (app token retired; ADR-0001).
 
 ## Workspace Folders (Dev)
 
-| Folder | ID |
+| Folder | Physical ID |
 |---|---|
 | 1_DDL | `cd9c010d-de8c-4c73-98ef-92d340c73376` |
 | 2_Ingest | `1bc40e35-fb48-497f-8fde-d2be1ced2efe` |
@@ -185,20 +184,20 @@ Test and Prod folders mirror these names with their own physical IDs.
 
 ### 1_DDL
 
-| Notebook | ID |
+| Notebook | Physical ID |
 |---|---|
 | 01_DDL_Dimensions | `88230b3b-b754-4dac-a6e1-7850d98b91c7` |
 | 02_DDL_Facts_Bridges | `8b3ed125-413c-47ce-bfa8-00c5e5683434` |
 
 ### 2_Ingest
 
-| Notebook | ID |
+| Notebook | Physical ID |
 |---|---|
 | nb_cdc_to_delta | `0b138bcd-d73b-425a-b198-7e78a643e33b` |
 
 ### 3_Transform
 
-| Notebook | ID |
+| Notebook | Physical ID |
 |---|---|
 | 03_ETL_dim_date | `48394d16-a615-433d-b5ad-6e1b43b7f6b5` |
 | 04_ETL_dim_collision | `668544bb-9590-4fcb-a385-cac2bc435aa6` |
@@ -217,7 +216,7 @@ Test and Prod folders mirror these names with their own physical IDs.
 
 ### 4_Model
 
-| Notebook | ID |
+| Notebook | Physical ID |
 |---|---|
 | RefreshSemanticModel | `890dfd06-78fa-4781-9340-21efdfc967ba` |
 
@@ -228,7 +227,7 @@ Library reads fail from a Livy session — test through a notebook job.
 
 ## Reports (Dev)
 
-| Report | ID | Folder |
+| Report | Physical ID | Folder |
 |---|---|---|
 | `Test_ReportCreatedWeb. ` (trailing space in name) | `453c8292-b50c-404c-a4c2-a52b23c34ed5` | 5_Reports |
 | `Crashes last six years; clustered by crash cause. ` (trailing space) | `b4922e2d-4c3a-42da-a75a-e8a34ece0c9c` | 5_Reports |
