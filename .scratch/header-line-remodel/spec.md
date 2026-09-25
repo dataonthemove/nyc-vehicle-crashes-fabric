@@ -32,7 +32,7 @@ against Kimball's method, all in scope below.
 | D10 | RLS | Role `Borough_Reader` is **removed** from the model. Security roles are deferred. |
 | D11 | Delivery | One spec, one Dev full reload, validation, then Dev → Test → Prod. Validation uses `COUNTROWS` DAX queries, Spark row counts and relationship checks — no measures, so `/dax-smoke-test` needs adjusting. Work is split into tickets at ticket-level granularity (not yet written). |
 | D12 | Line → header filtering | Deferred: `.scratch/Backlog/line-to-header-filtering/`. |
-| D13 | Reports | **All reports are removed** in every stage; rebuilt after the measures spec. Reports are Fabric-UI items, so deletion happens in the Fabric UI, never on disk. Dev: both reports deleted by Pat 2026-09-25 — Source Control commit and local `git pull` pending. Test and Prod: delete by hand (a deploy does not remove items from the target). |
+| D13 | Reports | **All reports are removed** in every stage; rebuilt after the measures spec. Reports are Fabric-UI items, so deletion happens in the Fabric UI, never on disk. Done 2026-09-25: Pat deleted both reports in Dev, Test and Prod (a deploy does not remove items from the target, so each stage was done by hand). Pending: Dev Source Control commit and local `git pull`. |
 
 ## Assumed — confirm before ticketing
 
