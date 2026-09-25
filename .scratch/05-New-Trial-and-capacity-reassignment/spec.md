@@ -1,6 +1,6 @@
 # Move all four workspaces to the new trial capacity
 
-Status: ready-for-human
+Status: done (2026-09-25)
 Category: operations
 Raised: 2026-09-25 (grill-with-docs session)
 
@@ -86,11 +86,16 @@ Out of scope: a CDC run, because it tests Socrata, not the capacity.
 
 ## Acceptance criteria
 
-- [ ] All four workspaces report `capacityId` `e52c9636-f9c4-4f58-94c7-57568d827005`, and none shows a not-migrated banner.
-- [ ] Row counts in every stage match the baseline, and the Landing watermark is unchanged.
-- [ ] `/dax-smoke-test` passes in Dev, Test and Prod, and the effective bindings match the deployment rules.
-- [ ] The Dev stage load and the Landing `nb_etl_watermark` `mode=read` run both succeed.
-- [ ] The runbook exists and has been corrected after first use. Env-reference and memory are updated and committed.
-- [ ] Everything above is done before the old trial expires on 2026-09-28.
+- [x] All four workspaces report `capacityId` `e52c9636-f9c4-4f58-94c7-57568d827005`, and none shows a not-migrated banner.
+- [x] Row counts in every stage match the baseline, and the Landing watermark is unchanged.
+- [x] `/dax-smoke-test` passes in Dev, Test and Prod, and the effective bindings match the deployment rules.
+- [x] The Dev stage load and the Landing `nb_etl_watermark` `mode=read` run both succeed.
+- [x] The runbook exists and has been corrected after first use. Env-reference and memory are updated and committed.
+- [x] Everything above is done before the old trial expires on 2026-09-28.
 
 ## Comments
+
+2026-09-25 (CC): Done. Tickets 01–06 closed; every validation check passed on the new capacity the
+same day. Still open after this spec: the post-expiry `user7` authoring check (runbook section 6,
+Pat, on or after 2026-09-29), and a surprise found at close-out: `Jpb_fabric_user6` is Admin in Dev. Both are tracked in ticket 07
+(also recorded in `environment-reference.md`).

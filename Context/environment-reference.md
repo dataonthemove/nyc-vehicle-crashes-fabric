@@ -2,7 +2,7 @@
 
 > Generated 2026-07-31 via MCP; full re-verification 2026-09-08; **all four workspaces re-verified
 > 2026-09-21** (MCP `list_items` / `list_folders`, Power BI `/datasources` API). Refresh by re-running
-> the MCP fetch session.
+> the MCP fetch session. Capacity reassigned and all four workspaces re-validated **2026-09-25**.
 > Migrated from workspace `NYC_Motor_Vehicle_Collisions` on 2026-07-31.
 >
 > **All IDs below are physical Fabric item IDs** (`list_items` / `list_folders`). Do not source them
@@ -20,9 +20,16 @@
 Tenant ID: `d345b2a1-449d-425a-bf69-bf2a95b03ea7` (`DataOnTheMoveoutlook.onmicrosoft.com`), verified
 2026-09-25 via `az account show` and by decoding the TDS endpoint host prefix. 
 
-Verified via `list_workspaces` 2026-09-08. All four sit on capacity `f1b1feea-3619-4c62-928e-69eb8d45b7a9`
-(**trial — expires ~28 Sep 2026**). All are type `Workspace`; none is Template App (that type silently
-blocks Git).
+Verified via `list_workspaces` 2026-09-25 (re-verify by **2026-11-17**, a week before expiry). All
+four sit on trial capacity `e52c9636-f9c4-4f58-94c7-57568d827005`
+(`Trial-20260925T023943Z-aQK6FvSBUUWGWhfq5mTwIw`) · **FTL64** · UK South · owner `Jpb_fabric_user8`
+· **expires ~2026-11-24**. Moved there 2026-09-25 by capacity reassignment from `f1b1feea-3619-4c62-928e-69eb8d45b7a9`
+(owner `user7`, expires 2026-09-28, left to lapse). Next rotation: `Context/capacity-reassignment-runbook.md`.
+All are type `Workspace`; none is Template App (that type silently blocks Git).
+
+`Jpb_fabric_user8` holds the Entra **Fabric Administrator** role and a Fabric (Free) license. It
+exists only to own the trial capacity and is a member of **no** workspace (verified via
+`roleAssignments` 2026-09-25). Never add it to one, and never use it for `az`, MCP or connections.
 
 | Stage | Name | Physical workspace ID | Git |
 |---|---|---|---|
@@ -31,9 +38,11 @@ blocks Git).
 | Test | `3_NYC_VehicleCrashes_test` | `b67c8251-f019-4594-b779-bc2ee14d8307` | never — deployment pipeline only |
 | Prod | `4_NYC_VehicleCrashes_prod` | `fd35c11f-9f8d-4bea-9959-8a7a53a2c390` | never — deployment pipeline only |
 
-Every workspace has one principal: `Jpb_fabric_user7` · User · **Admin**. Use `user7` only — az CLI
-defaults to `user6`, which holds no membership (every call returns `InsufficientPrivileges`).
-Verify with `az account show --query user.name -o tsv`.
+Every workspace has principal `Jpb_fabric_user7` · User · **Admin**. Use `user7` only — az CLI
+defaults to `user6`. **Discrepancy (2026-09-25 `roleAssignments`):** `Jpb_fabric_user6` is also
+**Admin** in Dev (not in Landing, Test or Prod), contradicting the earlier "no membership" note;
+unresolved — Pat decides in `.scratch/05-New-Trial-and-capacity-reassignment/issues/07-post-expiry-check.md`. Verify the az user with
+`az account show --query user.name -o tsv`.
 
 Dev Spark runtime: 1.3 — Spark 3.5.5, Python 3.11.8 (verified via Livy 2026-08-01). `sempy` is
 preinstalled; `sempy_labs` is **not**.
@@ -256,7 +265,7 @@ dependency, retry 2 @ 60s — parallel MERGEs on the single-file Delta table rai
 
 ---
 
-## Baseline row counts (all stages, 2026-09-21)
+## Baseline row counts (all stages, 2026-09-21; re-confirmed after the capacity move 2026-09-25)
 
 `fact_crashes` 2,269,187 · `fact_persons` 5,984,110 · `fact_crash_vehicle` 4,551,002 ·
 `bridge_crash_factor` 1,648,599 · `dim_collision` 2,269,187 · `dim_factor_group` 2,269,187 ·
