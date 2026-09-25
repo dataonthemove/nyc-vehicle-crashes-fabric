@@ -24,24 +24,15 @@ against Kimball's method, all in scope below.
 | D2 | `dim_collision` | Dropped. `collision_id` becomes a **degenerate dimension** column on all three facts; `collision_key` is removed everywhere. |
 | D3 | `dim_factor_group` | One row per **distinct set** of contributing factors, identified by a hash of the sorted factor codes. Its `collision_key` is dropped. Bridge becomes group × factor. |
 | D4 | Two injury sources | Keep both: crash-record counts on `fact_crashes` and `is_injured`/`is_killed` on `fact_persons`. `dim_person[bodily_injury]` stays. No reconciliation check. |
-| D5 | Measure naming | Every measure that counts injured or killed **people** is prefixed **Reported** (from crash-record columns) or **Recorded** (from person rows). Crash-count measures (Crashes with Injury, Injury Rate, …) are unchanged. See table below. |
+| D5 | Measures | **All existing measures are removed** from the semantic model. Measures are regenerated from the new model in a separate spec. No measure is repaired, renamed or added here. |
 | D6 | `dim_driver` | New dimension: `driver_sex`, `driver_license_status`, `driver_license_jurisdiction`, moved out of `dim_vehicle`. `fact_crash_vehicle` gains `driver_key`. Link to the driver's `fact_persons` row is out of scope. |
 | D7 | `travel_direction` | Moves from `dim_vehicle` to `dim_damage` (it describes the vehicle in this crash, like `pre_crash`). |
 | D8 | Latitude/longitude | Move from `dim_location` to `fact_crashes` as columns. `dim_location` keeps `borough`, `zip_code`. |
 | D9 | `vehicle_model` | Dropped from `dim_vehicle`. |
 | D10 | RLS | Role `Borough_Reader` is **removed** from the model. Security roles are deferred. |
-| D11 | Delivery | One spec, one Dev full reload, `/dax-smoke-test`, then Dev → Test. Work is split into tickets at ticket-level granularity (not yet written). |
+| D11 | Delivery | One spec, one Dev full reload, validation, then Dev → Test → Prod. Validation uses `COUNTROWS` DAX queries, Spark row counts and relationship checks — no measures, so `/dax-smoke-test` needs adjusting. Work is split into tickets at ticket-level granularity (not yet written). |
 | D12 | Line → header filtering | Deferred: `.scratch/Backlog/line-to-header-filtering/`. |
-
-### Measure renames (D5)
-
-| Table | Current | New |
-|---|---|---|
-| `fact_crashes` | Persons Injured / Persons Killed | Reported Persons Injured / Reported Persons Killed |
-| `fact_crashes` | Pedestrians · Cyclists · Motorists Injured / Killed | Reported Pedestrians · Cyclists · Motorists Injured / Killed |
-| `fact_crashes` | Injuries per Crash | Reported Injuries per Crash |
-| `fact_persons` | Injured Persons / Killed Persons | Recorded Persons Injured / Recorded Persons Killed |
-| `fact_persons` | Person Injury Rate | Recorded Person Injury Rate |
+| D13 | Reports | **All reports are removed** in every stage; rebuilt after the measures spec. Reports are Fabric-UI items, so deletion happens in the Fabric UI, never on disk. Dev: both reports deleted by Pat 2026-09-25 — Source Control commit and local `git pull` pending. Test and Prod: delete by hand (a deploy does not remove items from the target). |
 
 ## Assumed — confirm before ticketing
 
@@ -53,8 +44,6 @@ against Kimball's method, all in scope below.
 
 ## Impact checks done
 
-- Reports (`2_dev/5_Reports/`) use only `Total Crashes`, `fact_crashes[cyclists_killed]`,
-  `dim_contributing_factor[factor_desc]`, `dim_date[year]` — none affected.
 - All fact and bridge loads are insert-only (`NOT EXISTS`), so a crash's factor set never changes
   after load and D3 groups stay stable.
 - Every changed `usp_load_*` must be edited in both the notebook and the Warehouse item definition
@@ -73,6 +62,6 @@ Fact row counts must be unchanged after the reload. `dim_factor_group`, `bridge_
 
 ## Out of scope
 
-Line → header filtering (D12), person-to-vehicle link, security roles, `vehicle_occupants` outlier cap.
+Measures and reports (separate spec, after this one), line → header filtering (D12), person-to-vehicle link, security roles, `vehicle_occupants` outlier cap.
 
 ## Comments
