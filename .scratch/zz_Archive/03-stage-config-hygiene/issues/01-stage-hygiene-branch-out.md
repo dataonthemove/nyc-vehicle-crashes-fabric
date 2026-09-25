@@ -6,7 +6,7 @@ No Fabric changes, and no Variable Library change beyond removing an unused vari
 
 **Blocked by:** none
 
-**Status:** ready-for-agent
+**Status:** closed (2026-09-25). Superseded by 02-stage-hygiene-docs-and-preflight.md, which delivered the remaining scope.
 
 > Generated from a grilling session on 2026-09-23 about Variable Library use and branch-out isolation.
 

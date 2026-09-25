@@ -14,15 +14,6 @@
       "value": "calculate"
     },
     {
-      "name": "landing_lakehouse",
-      "note": "Landing lakehouse NYC_VehicleCrashes_Landing_Lakehouse, target of shortcut raw_nyc_crashes. Same in every stage.",
-      "type": "ItemReference",
-      "value": {
-        "workspaceId": "bae79a94-0103-45dc-9993-d9041fbd4e80",
-        "itemId": "b7f1c383-0af0-4b21-bf6b-4ac398b84391"
-      }
-    },
-    {
       "name": "warehouse_endpoint",
       "note": "TDS host of this stage's NYC_VehicleCrashes_Warehouse. Used by pl_stage_load_NYC_Crashes Stored Procedure activities, whose connection endpoint does not rebind on deployment.",
       "type": "String",

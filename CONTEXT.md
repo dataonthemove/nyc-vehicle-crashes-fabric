@@ -38,6 +38,11 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 | **CDC run** | One pass of Fabric Pipeline `pl_cdc_NYC_Crashes_Landing`, picking up rows newer than the watermark. |
 | **Stage load** | One end-to-end pass inside a single stage (Dev, Test or Prod): Ingest → Transform → Refresh. Distinct from a **CDC run**, which happens once, in landing, for all stages. |
 | **Framing** | Direct Lake re-reading the current Delta files. An unframed model raises "failed to resolve name" after a deploy; it is not a broken model. |
+| **Stage-varying value** | A setting whose value differs between Dev, Test and Prod, and which Fabric treats as a literal. It lives in the stage's variable library (`vl_NYC_Crashes`, ADR-0003). |
+| **Binding** | A reference from one item to another that Fabric re-points to the target stage's item when it deploys. |
+| **Active value set** | The set of variable values a stage's library currently serves. It is chosen by hand in each stage and never deployed. |
+| **Branch workspace** | A feature workspace created by Git branch-out. It is *not* a stage: its bindings still point at Dev, and its active value set is Dev's. Pre-flight: `Context/branch-out-preflight.md`. |
+| **Default lakehouse** | The lakehouse a notebook resolves relative `Files/` and `Tables/` paths against. It is stored in the `# META` header of the notebook's git file. Autobind repoints it on deploy, but branch-out doesn't. |
 
 ## Lifecycle (Git and deployment)
 
