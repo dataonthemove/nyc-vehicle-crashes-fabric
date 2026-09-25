@@ -27,6 +27,8 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 | **Bridge** | `bridge_crash_factor`, resolving the many-to-many between factor group and contributing factor. Its relationship cross-filter must be `bothDirections`, or every factor returns the full crash count. |
 | **Header fact** | The fact at crash grain (`fact_crashes`). Holds measures that exist once per crash. |
 | **Line fact** | A fact at a grain below the crash — person or crash–vehicle. Carries every header dimension key, so header dimensions filter it directly. |
+| **Vehicle circumstance** | What a vehicle was doing and what happened to it in one crash — pre-crash action, travel direction, point of impact, damage. Belongs to the crash–vehicle pairing, not to the vehicle. Held in `dim_vehicle_circumstance`. |
+| **Unknown member** | A dimension row standing for "no match in the source", so a fact row always points at a real row instead of an orphaned key. Its key is found by lookup, never hard-coded. |
 | **Degenerate dimension** | An identifier with no descriptive attributes, kept as a column on the fact rather than as its own table, e.g. `collision_id`. |
 | **Surrogate key** | `*_key` column, warehouse-generated, the join column. Never summarised. |
 | **Business key** | `*_id` column carrying the source system's identifier, e.g. the Socrata collision id. |
