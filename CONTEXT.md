@@ -10,12 +10,14 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 
 | Term | Meaning |
 |---|---|
-| **Crash** | One reported collision event, the grain of `fact_crashes`. NYC Open Data calls it a "collision"; this project says **crash** for the event and reserves *collision* for the descriptive dimension. |
+| **Crash** | One reported collision event, the grain of `fact_crashes`. NYC Open Data calls it a "collision"; this project says **crash** for the event. *Collision* survives only in the business key `collision_id`. |
 | **Person** | One individual involved in a crash — occupant, pedestrian or cyclist. Grain of `fact_persons`. |
 | **Vehicle** | One vehicle involved in a crash. A crash has zero or more; the crash–vehicle pairing is the grain of `fact_crash_vehicle`. |
 | **Contributing factor** | A cause code recorded against a crash. A crash may have several, which is why the model uses a bridge rather than a foreign key. |
 | **Factor group** | The distinct *set* of contributing factors attached to one crash, held in `dim_factor_group`. A crash points at one factor group; the group resolves to many factors through `bridge_crash_factor`. |
-| **Injury / fatality counts** | Person counts carried on the crash, split by role (motorist, pedestrian, cyclist). |
+| **Driver** | The person operating a vehicle in a crash, as described on the vehicle record (sex, licence status, licence jurisdiction). Distinct from a **Person** row whose position is driver; the two are not yet linked. |
+| **Reported injury counts** | Injury and fatality counts carried on the crash record, split by role (motorist, pedestrian, cyclist). |
+| **Recorded injured person** | A **Person** flagged injured or killed on their own record. Can disagree with **Reported injury counts** for the same crash; neither silently replaces the other. |
 
 ## Modeling
 
@@ -23,6 +25,9 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 |---|---|
 | **Star schema** | Kimball layout in the Fabric Warehouse: conformed dimensions (`dim_*`) around fact tables (`fact_*`). |
 | **Bridge** | `bridge_crash_factor`, resolving the many-to-many between factor group and contributing factor. Its relationship cross-filter must be `bothDirections`, or every factor returns the full crash count. |
+| **Header fact** | The fact at crash grain (`fact_crashes`). Holds measures that exist once per crash. |
+| **Line fact** | A fact at a grain below the crash — person or crash–vehicle. Carries every header dimension key, so header dimensions filter it directly. |
+| **Degenerate dimension** | An identifier with no descriptive attributes, kept as a column on the fact rather than as its own table, e.g. `collision_id`. |
 | **Surrogate key** | `*_key` column, warehouse-generated, the join column. Never summarised. |
 | **Business key** | `*_id` column carrying the source system's identifier, e.g. the Socrata collision id. |
 | **Grain** | The one row means exactly one ___ statement for a fact table. State it before adding any measure. |
