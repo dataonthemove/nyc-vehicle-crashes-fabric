@@ -94,52 +94,6 @@
       {
         "type": "SqlServerStoredProcedure",
         "typeProperties": {
-          "storedProcedureName": "[etl].[usp_load_dim_collision]"
-        },
-        "linkedService": {
-          "name": "NYC_VehicleCrashes_Warehouse",
-          "properties": {
-            "type": "DataWarehouse",
-            "typeProperties": {
-              "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
-              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
-              "workspaceId": "00000000-0000-0000-0000-000000000000"
-            },
-            "annotations": []
-          }
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "Load_dim_collision",
-        "dependsOn": [
-          {
-            "activity": "Ingest_Crashes",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          },
-          {
-            "activity": "Ingest_Persons",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          },
-          {
-            "activity": "Ingest_Vehicles",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ]
-      },
-      {
-        "type": "SqlServerStoredProcedure",
-        "typeProperties": {
           "storedProcedureName": "[etl].[usp_load_dim_date]"
         },
         "linkedService": {
@@ -440,7 +394,7 @@
         "name": "Load_dim_factor_group",
         "dependsOn": [
           {
-            "activity": "Load_dim_collision",
+            "activity": "Ingest_Crashes",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -473,12 +427,6 @@
         },
         "name": "Load_fact_crashes",
         "dependsOn": [
-          {
-            "activity": "Load_dim_collision",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          },
           {
             "activity": "Load_dim_factor_group",
             "dependencyConditions": [
@@ -526,19 +474,13 @@
         "name": "Load_fact_persons",
         "dependsOn": [
           {
-            "activity": "Load_dim_collision",
+            "activity": "Load_fact_crashes",
             "dependencyConditions": [
               "Succeeded"
             ]
           },
           {
             "activity": "Load_dim_person",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          },
-          {
-            "activity": "Load_dim_date",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -572,7 +514,7 @@
         "name": "Load_fact_crash_vehicle",
         "dependsOn": [
           {
-            "activity": "Load_dim_collision",
+            "activity": "Load_fact_crashes",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -585,12 +527,6 @@
           },
           {
             "activity": "Load_dim_damage",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          },
-          {
-            "activity": "Load_dim_date",
             "dependencyConditions": [
               "Succeeded"
             ]
@@ -623,12 +559,6 @@
         },
         "name": "Load_bridge_crash_factor",
         "dependsOn": [
-          {
-            "activity": "Load_dim_collision",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          },
           {
             "activity": "Load_dim_factor_group",
             "dependencyConditions": [

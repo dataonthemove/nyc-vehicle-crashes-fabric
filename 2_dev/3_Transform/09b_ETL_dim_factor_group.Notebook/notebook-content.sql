@@ -29,25 +29,25 @@
 -- # 09b_ETL_dim_factor_group
 -- **Purpose:** Create stored procedure `etl.usp_load_dim_factor_group`.
 -- 
--- **Source:** `dbo.dim_collision`
+-- **Source:** `NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes`
 -- 
 -- **Target:** `dbo.dim_factor_group`
 -- 
--- **Grain:** One row per collision (1:1 with dim_collision).
+-- **Grain:** One row per collision (1:1 with `collision_id`).
 -- 
 -- **Kimball factor-group bridge pattern (2026-06-12, Fig. 14-4 analog):**
 -- `dim_factor_group` sits between `fact_crashes` and `bridge_crash_factor`, restoring
--- conventional many-to-one joins on both sides. `collision_key` is a 1:1 correlation
+-- conventional many-to-one joins on both sides. `collision_id` is a 1:1 correlation
 -- column (not a descriptive attribute) used by 10_ETL_fact_crashes and
 -- 13_ETL_bridge_crash_factor to resolve `factor_group_key`.
 -- 
 -- **Key logic:**
--- - One row inserted per `collision_key` from `dim_collision` not yet in `dim_factor_group`
--- - Incremental: skips collision_keys already present
+-- - One row inserted per distinct `collision_id` in the Lakehouse crashes not yet in `dim_factor_group`
+-- - Incremental: skips collision_ids already present
 -- 
 -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
--- 2. Ensure dim_collision is populated first.
+-- 2. Ensure the Lakehouse crashes are ingested first.
 -- 3. Run Cell 1 — DROP/CREATE procedure.
 -- 4. Run Cell 2 — execute and verify.
 -- 5. Run BEFORE 10_ETL_fact_crashes and 13_ETL_bridge_crash_factor — both depend on dim_factor_group.
@@ -65,14 +65,15 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    INSERT INTO dbo.dim_factor_group (collision_key)
-    SELECT dc.collision_key
-    FROM   dbo.dim_collision dc
-    WHERE NOT EXISTS
+    INSERT INTO dbo.dim_factor_group (collision_id)
+    SELECT DISTINCT TRY_CAST(src.collision_id AS INT)
+    FROM   NYC_VehicleCrashes_Lakehouse.dbo.nyc_crashes src
+    WHERE  TRY_CAST(src.collision_id AS INT) IS NOT NULL
+    AND NOT EXISTS
     (
         SELECT 1
         FROM   dbo.dim_factor_group tgt
-        WHERE  tgt.collision_key = dc.collision_key
+        WHERE  tgt.collision_id = TRY_CAST(src.collision_id AS INT)
     );
 
 END;

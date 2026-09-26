@@ -6,14 +6,18 @@ BEGIN
     INSERT INTO dbo.fact_crash_vehicle
     (
         date_key,
-        collision_key,
+        collision_id,
+        location_key,
+        factor_group_key,
         vehicle_key,
         damage_key,
         vehicle_occupants
     )
     SELECT
-        CAST(FORMAT(TRY_CAST(src.crash_date AS DATE), 'yyyyMMdd') AS INT) AS date_key,
-        dc.collision_key,
+        fc.date_key,
+        fc.collision_id,
+        fc.location_key,
+        fc.factor_group_key,
         dv.vehicle_key,
         dd.damage_key,
         CASE
@@ -22,9 +26,10 @@ BEGIN
         END AS vehicle_occupants
     FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles src
 
-    -- Resolve collision_key
-    INNER JOIN dbo.dim_collision dc
-        ON dc.collision_id = TRY_CAST(src.collision_id AS INT)
+    -- Header keys (date_key, location_key, factor_group_key) come from the vehicle's crash,
+    -- never the vehicle row (ADR-0005). Vehicles with no loaded crash are dropped.
+    INNER JOIN dbo.fact_crashes fc
+        ON fc.collision_id = TRY_CAST(src.collision_id AS INT)
 
     -- Resolve vehicle_key
     INNER JOIN dbo.dim_vehicle dv
@@ -44,15 +49,13 @@ BEGIN
         AND ISNULL(dd.point_of_impact, '') = ISNULL(NULLIF(TRIM(src.point_of_impact), ''), '')
         AND ISNULL(dd.vehicle_damage,  '') = ISNULL(NULLIF(TRIM(src.vehicle_damage),  ''), '')
 
-    -- Incremental: skip collision_keys already loaded
+    -- Incremental: skip collisions already loaded
     WHERE NOT EXISTS
     (
         SELECT 1
         FROM   dbo.fact_crash_vehicle tgt
-        WHERE  tgt.collision_key = dc.collision_key
-    )
-    AND TRY_CAST(src.crash_date   AS DATE) IS NOT NULL
-    AND TRY_CAST(src.collision_id AS INT)  IS NOT NULL;
+        WHERE  tgt.collision_id = fc.collision_id
+    );
 
 END;
 

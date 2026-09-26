@@ -16,7 +16,6 @@ ref table dim_damage
 ref table dim_person
 ref table dim_location
 ref table dim_contributing_factor
-ref table dim_collision
 ref table dim_vehicle
 ref table dim_date
 ref table bridge_crash_factor

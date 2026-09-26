@@ -12,13 +12,27 @@ table fact_crash_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	column collision_key
+	column collision_id
 		dataType: int64
 		formatString: 0
-		lineageTag: 6fcff260-b52a-4e2c-b6b7-32ede9063045
-		sourceLineageTag: collision_key
 		summarizeBy: none
-		sourceColumn: collision_key
+		sourceColumn: collision_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column factor_group_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: factor_group_key
 
 		annotation SummarizationSetBy = Automatic
 

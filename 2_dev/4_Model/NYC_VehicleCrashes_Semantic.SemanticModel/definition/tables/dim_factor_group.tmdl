@@ -12,13 +12,11 @@ table dim_factor_group
 
 		annotation SummarizationSetBy = Automatic
 
-	column collision_key
+	column collision_id
 		dataType: int64
 		formatString: 0
-		lineageTag: 6e5c3bf8-b652-464f-8b33-d5fc327eca3d
-		sourceLineageTag: collision_key
 		summarizeBy: none
-		sourceColumn: collision_key
+		sourceColumn: collision_id
 
 		annotation SummarizationSetBy = Automatic
 

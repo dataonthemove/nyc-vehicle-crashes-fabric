@@ -1,7 +1,7 @@
 CREATE TABLE [dbo].[fact_crashes] (
     [crash_id]            BIGINT IDENTITY NOT NULL,
     [date_key]            INT    NOT NULL,
-    [collision_key]       BIGINT NOT NULL,
+    [collision_id]        INT    NOT NULL,
     [location_key]        BIGINT NOT NULL,
     [factor_group_key]    BIGINT NOT NULL,
     [persons_injured]     INT    NULL,

@@ -28,6 +28,7 @@
 -- **Updated:** 2026-06-10 — dim_vehicle: vehicle_make VARCHAR(60), vehicle_occupants VARCHAR(15)
 -- **Updated:** 2026-06-10 — dim_person: position_in_vehicle VARCHAR(100) — source max 86 chars
 -- **Updated:** 2026-06-12 — added dim_factor_group (Kimball factor-group bridge pattern); removed vehicle_occupants from dim_vehicle (relocated to fact_crash_vehicle as numeric measure)
+-- **Updated:** 2026-09-26 — dim_collision dropped; collision_id is a degenerate dimension on the facts (ADR-0005)
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -65,7 +66,7 @@ IF OBJECT_ID('dbo.dim_vehicle',             'U') IS NOT NULL DROP TABLE dbo.dim_
 IF OBJECT_ID('dbo.dim_person',              'U') IS NOT NULL DROP TABLE dbo.dim_person;
 IF OBJECT_ID('dbo.dim_contributing_factor', 'U') IS NOT NULL DROP TABLE dbo.dim_contributing_factor;
 IF OBJECT_ID('dbo.dim_location',            'U') IS NOT NULL DROP TABLE dbo.dim_location;
-IF OBJECT_ID('dbo.dim_collision',           'U') IS NOT NULL DROP TABLE dbo.dim_collision;
+IF OBJECT_ID('dbo.dim_collision',           'U') IS NOT NULL DROP TABLE dbo.dim_collision;  -- legacy, dropped 2026-09-26 (ADR-0005)
 IF OBJECT_ID('dbo.dim_date',                'U') IS NOT NULL DROP TABLE dbo.dim_date;
 
 -- METADATA ********************
@@ -104,25 +105,7 @@ CREATE TABLE dbo.dim_date (
 
 -- MARKDOWN ********************
 
--- ## Step 4 — Create dim_collision (conformed dimension)
-
--- CELL ********************
-
-CREATE TABLE dbo.dim_collision (
-    collision_key   BIGINT  NOT NULL IDENTITY,
-    collision_id    INT     NOT NULL
-);
-
--- METADATA ********************
-
--- META {
--- META   "language": "sql",
--- META   "language_group": "sqldatawarehouse"
--- META }
-
--- MARKDOWN ********************
-
--- ## Step 5 — Create dim_location
+-- ## Step 4 — Create dim_location
 
 -- CELL ********************
 
@@ -143,7 +126,7 @@ CREATE TABLE dbo.dim_location (
 
 -- MARKDOWN ********************
 
--- ## Step 6 — Create dim_contributing_factor
+-- ## Step 5 — Create dim_contributing_factor
 
 -- CELL ********************
 
@@ -161,7 +144,7 @@ CREATE TABLE dbo.dim_contributing_factor (
 
 -- MARKDOWN ********************
 
--- ## Step 7 — Create dim_person
+-- ## Step 6 — Create dim_person
 -- > 2026-06-10: position_in_vehicle VARCHAR(100) — source max 86 chars
 
 -- CELL ********************
@@ -189,7 +172,7 @@ CREATE TABLE dbo.dim_person (
 
 -- MARKDOWN ********************
 
--- ## Step 8 — Create dim_vehicle
+-- ## Step 7 — Create dim_vehicle
 -- > pre_crash and point_of_impact removed — those belong exclusively to dim_damage
 -- > 2026-06-10: vehicle_make VARCHAR(60), vehicle_occupants VARCHAR(15) — profiled from source
 -- > 2026-06-12: vehicle_occupants removed — relocated to fact_crash_vehicle as numeric measure
@@ -218,7 +201,7 @@ CREATE TABLE dbo.dim_vehicle (
 
 -- MARKDOWN ********************
 
--- ## Step 9 — Create dim_damage (junk dimension)
+-- ## Step 8 — Create dim_damage (junk dimension)
 -- > Junk dimension collapsing low-cardinality vehicle-event damage descriptors
 -- > Profiled distinct combinations: 4,523 across 4.4M vehicle rows
 -- > pre_crash and point_of_impact exclusively here — removed from dim_vehicle
@@ -241,18 +224,19 @@ CREATE TABLE dbo.dim_damage (
 
 -- MARKDOWN ********************
 
--- ## Step 10 — Create dim_factor_group
+-- ## Step 9 — Create dim_factor_group
 -- > 2026-06-12: Kimball factor-group bridge pattern (Fig. 14-4 analog)
 -- > One row per collision — restores conventional many-to-one joins on both
 -- > fact_crashes (factor_group_key FK) and bridge_crash_factor (factor_group_key FK)
--- > collision_key: 1:1 correlation to dim_collision — used by ETL to resolve factor_group_key,
+-- > collision_id: 1:1 correlation to the crash — used by ETL to resolve factor_group_key,
 -- > not a descriptive attribute (Kimball diagram shows this as ETL plumbing, omitted from the figure)
+-- > 2026-09-26: collision_key replaced by collision_id — dim_collision dropped (ADR-0005)
 
 -- CELL ********************
 
 CREATE TABLE dbo.dim_factor_group (
     factor_group_key  BIGINT  NOT NULL IDENTITY,
-    collision_key     BIGINT  NOT NULL
+    collision_id      INT     NOT NULL
 );
 
 -- METADATA ********************
@@ -264,7 +248,7 @@ CREATE TABLE dbo.dim_factor_group (
 
 -- MARKDOWN ********************
 
--- ## Step 11 — Verify all dimension tables created
+-- ## Step 10 — Verify all dimension tables created
 
 -- CELL ********************
 

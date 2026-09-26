@@ -26,6 +26,7 @@
 -- **Created:** 2026-06-08  
 -- **Updated:** 2026-06-09 — added damage_key to fact_crash_vehicle
 -- **Updated:** 2026-06-12 — fact_crashes: added factor_group_key (FK dim_factor_group); bridge_crash_factor: collision_key replaced by factor_group_key (Kimball factor-group bridge pattern); fact_crash_vehicle: added vehicle_occupants (relocated from dim_vehicle, now numeric)
+-- **Updated:** 2026-09-26 — collision_key replaced by degenerate collision_id on all three facts (dim_collision dropped); fact_persons and fact_crash_vehicle carry the header keys location_key and factor_group_key (ADR-0005)
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -56,7 +57,7 @@ IF OBJECT_ID('dbo.fact_crashes',         'U') IS NOT NULL DROP TABLE dbo.fact_cr
 -- ## Step 2 — Create fact_crashes
 -- > Grain: one row per collision event (COLLISION_ID)
 -- > All measure columns cast to INT at load time via stored proc
--- > FK references: dim_collision, dim_date, dim_location, dim_factor_group
+-- > FK references: dim_date, dim_location, dim_factor_group; collision_id is a degenerate dimension
 -- > 2026-06-12: added factor_group_key — restores conventional many-to-one join to bridge_crash_factor via dim_factor_group
 
 -- CELL ********************
@@ -64,7 +65,7 @@ IF OBJECT_ID('dbo.fact_crashes',         'U') IS NOT NULL DROP TABLE dbo.fact_cr
 CREATE TABLE dbo.fact_crashes (
     crash_id            BIGINT  NOT NULL IDENTITY,
     date_key            INT     NOT NULL,  -- FK dim_date (YYYYMMDD)        
-    collision_key       BIGINT  NOT NULL,  -- FK dim_collision
+    collision_id        INT     NOT NULL,  -- degenerate dimension
     location_key        BIGINT  NOT NULL,  -- FK dim_location
     factor_group_key    BIGINT  NOT NULL,  -- FK dim_factor_group
     persons_injured     INT     NULL,
@@ -88,19 +89,21 @@ CREATE TABLE dbo.fact_crashes (
 
 -- ## Step 3 — Create fact_persons
 -- > Grain: one row per person per collision (UNIQUE_ID from source)
--- > date_key sourced directly from source CRASH_DATE (same pattern as fact_crashes)
+-- > date_key, location_key, factor_group_key are header keys copied from fact_crashes by collision_id (ADR-0005)
 -- > PERSON_INJURY source column drives is_injured and is_killed flags
 
 -- CELL ********************
 
 CREATE TABLE dbo.fact_persons (
-    fact_person_id  BIGINT  NOT NULL IDENTITY,
-    date_key        INT     NOT NULL,  -- FK dim_date (YYYYMMDD)
-    collision_key   BIGINT  NOT NULL,  -- FK dim_collision
-    person_key      BIGINT  NOT NULL,  -- FK dim_person
-    person_age      INT     NULL,
-    is_injured      BIT     NOT NULL,
-    is_killed       BIT     NOT NULL
+    fact_person_id    BIGINT  NOT NULL IDENTITY,
+    date_key          INT     NOT NULL,  -- FK dim_date (YYYYMMDD)
+    collision_id      INT     NOT NULL,  -- degenerate dimension
+    location_key      BIGINT  NOT NULL,  -- FK dim_location (header key)
+    factor_group_key  BIGINT  NOT NULL,  -- FK dim_factor_group (header key)
+    person_key        BIGINT  NOT NULL,  -- FK dim_person
+    person_age        INT     NULL,
+    is_injured        BIT     NOT NULL,
+    is_killed         BIT     NOT NULL
 );
 
 -- METADATA ********************
@@ -118,14 +121,16 @@ CREATE TABLE dbo.fact_persons (
 -- > damage_key links to dim_damage junk dimension (PRE_CRASH, POINT_OF_IMPACT, VEHICLE_DAMAGE)
 -- > Replaces VEHICLE_TYPE_CODE_1-5 columns on fact_crashes
 -- > 2026-06-12: added vehicle_occupants (INT) — relocated from dim_vehicle, source is numeric by nature
--- > date_key sourced directly from source CRASH_DATE (same pattern as fact_crashes)
+-- > date_key, location_key, factor_group_key are header keys copied from fact_crashes by collision_id (ADR-0005)
 
 -- CELL ********************
 
 CREATE TABLE dbo.fact_crash_vehicle (
     fact_crash_vehicle_id   BIGINT  NOT NULL IDENTITY,
     date_key                INT     NOT NULL,  -- FK dim_date (YYYYMMDD)
-    collision_key           BIGINT  NOT NULL,  -- FK dim_collision
+    collision_id            INT     NOT NULL,  -- degenerate dimension
+    location_key            BIGINT  NOT NULL,  -- FK dim_location (header key)
+    factor_group_key        BIGINT  NOT NULL,  -- FK dim_factor_group (header key)
     vehicle_key             BIGINT  NOT NULL,  -- FK dim_vehicle
     damage_key              BIGINT  NOT NULL,  -- FK dim_damage
     vehicle_occupants       INT     NULL

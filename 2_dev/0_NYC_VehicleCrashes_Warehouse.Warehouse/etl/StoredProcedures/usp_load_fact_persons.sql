@@ -6,24 +6,29 @@ BEGIN
     INSERT INTO dbo.fact_persons
     (
         date_key,
-        collision_key,
+        collision_id,
+        location_key,
+        factor_group_key,
         person_key,
         person_age,
         is_injured,
         is_killed
     )
     SELECT
-        CAST(FORMAT(TRY_CAST(src.crash_date AS DATE), 'yyyyMMdd') AS INT)  AS date_key,
-        dc.collision_key,
+        fc.date_key,
+        fc.collision_id,
+        fc.location_key,
+        fc.factor_group_key,
         dp.person_key,
         TRY_CAST(src.person_age AS INT)                                    AS person_age,
         CASE WHEN src.person_injury = 'Injured' THEN 1 ELSE 0 END          AS is_injured,
         CASE WHEN src.person_injury = 'Killed'  THEN 1 ELSE 0 END          AS is_killed
     FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_persons src
 
-    -- Resolve collision_key
-    INNER JOIN dbo.dim_collision dc
-        ON dc.collision_id = TRY_CAST(src.collision_id AS INT)
+    -- Header keys (date_key, location_key, factor_group_key) come from the person's crash,
+    -- never the person row (ADR-0005). Persons with no loaded crash are dropped.
+    INNER JOIN dbo.fact_crashes fc
+        ON fc.collision_id = TRY_CAST(src.collision_id AS INT)
 
     -- Resolve person_key
     INNER JOIN dbo.dim_person dp
@@ -43,10 +48,8 @@ BEGIN
     (
         SELECT 1
         FROM   dbo.fact_persons tgt
-        WHERE  tgt.collision_key = dc.collision_key
-    )
-    AND TRY_CAST(src.crash_date   AS DATE) IS NOT NULL
-    AND TRY_CAST(src.collision_id AS INT)  IS NOT NULL;
+        WHERE  tgt.collision_id = fc.collision_id
+    );
 
 END;
 

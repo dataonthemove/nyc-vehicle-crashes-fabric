@@ -6,10 +6,6 @@ relationship fact_crashes_location_key_dim_location_location_key
 	fromColumn: fact_crashes.location_key
 	toColumn: dim_location.location_key
 
-relationship fact_crashes_collision_key_dim_collision_collision_key
-	fromColumn: fact_crashes.collision_key
-	toColumn: dim_collision.collision_key
-
 relationship fact_crashes_factor_group_key_dim_factor_group_factor_group_key
 	fromColumn: fact_crashes.factor_group_key
 	toColumn: dim_factor_group.factor_group_key
@@ -23,10 +19,6 @@ relationship bridge_crash_factor_factor_key_dim_contributing_factor_factor_key
 	fromColumn: bridge_crash_factor.factor_key
 	toColumn: dim_contributing_factor.factor_key
 
-relationship fact_crash_vehicle_collision_key_dim_collision_collision_key
-	fromColumn: fact_crash_vehicle.collision_key
-	toColumn: dim_collision.collision_key
-
 relationship fact_crash_vehicle_vehicle_key_dim_vehicle_vehicle_key
 	fromColumn: fact_crash_vehicle.vehicle_key
 	toColumn: dim_vehicle.vehicle_key
@@ -39,10 +31,6 @@ relationship fact_persons_person_key_dim_person_person_key
 	fromColumn: fact_persons.person_key
 	toColumn: dim_person.person_key
 
-relationship fact_persons_collision_key_dim_collision_collision_key
-	fromColumn: fact_persons.collision_key
-	toColumn: dim_collision.collision_key
-
 relationship fact_persons_date_key_dim_date_date_key
 	fromColumn: fact_persons.date_key
 	toColumn: dim_date.date_key
@@ -50,4 +38,20 @@ relationship fact_persons_date_key_dim_date_date_key
 relationship fact_crash_vehicle_date_key_dim_date_date_key
 	fromColumn: fact_crash_vehicle.date_key
 	toColumn: dim_date.date_key
+
+relationship fact_persons_location_key_dim_location_location_key
+	fromColumn: fact_persons.location_key
+	toColumn: dim_location.location_key
+
+relationship fact_persons_factor_group_key_dim_factor_group_factor_group_key
+	fromColumn: fact_persons.factor_group_key
+	toColumn: dim_factor_group.factor_group_key
+
+relationship fact_crash_vehicle_location_key_dim_location_location_key
+	fromColumn: fact_crash_vehicle.location_key
+	toColumn: dim_location.location_key
+
+relationship fact_crash_vehicle_factor_group_key_dim_factor_group_factor_group_key
+	fromColumn: fact_crash_vehicle.factor_group_key
+	toColumn: dim_factor_group.factor_group_key
 

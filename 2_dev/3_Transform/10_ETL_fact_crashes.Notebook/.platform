@@ -3,7 +3,7 @@
   "metadata": {
     "type": "Notebook",
     "displayName": "10_ETL_fact_crashes",
-    "description": "ETL stored procedure — CREATE PROCEDURE for fact_crashes. Joins lakehouse crashes to dim_collision, dim_date, dim_location to resolve surrogate keys, then inserts fact rows."
+    "description": "ETL stored procedure — CREATE PROCEDURE for fact_crashes. Joins lakehouse crashes to dim_factor_group and dim_location to resolve surrogate keys, carries collision_id as a degenerate dimension, then inserts fact rows."
   },
   "config": {
     "version": "2.0",

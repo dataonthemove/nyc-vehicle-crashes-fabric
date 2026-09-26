@@ -22,12 +22,9 @@ BEGIN
         df.factor_key
     FROM  unpivoted u
 
-    INNER JOIN dbo.dim_collision dc
-        ON dc.collision_id = TRY_CAST(u.collision_id AS INT)
-
-    -- Resolve factor_group_key (1:1 with collision_key)
+    -- Resolve factor_group_key (1:1 with collision_id)
     INNER JOIN dbo.dim_factor_group dfg
-        ON dfg.collision_key = dc.collision_key
+        ON dfg.collision_id = TRY_CAST(u.collision_id AS INT)
 
     INNER JOIN dbo.dim_contributing_factor df
         ON df.factor_desc = u.factor_desc

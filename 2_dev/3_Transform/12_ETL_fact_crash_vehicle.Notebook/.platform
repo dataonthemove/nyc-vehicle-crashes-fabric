@@ -3,7 +3,7 @@
   "metadata": {
     "type": "Notebook",
     "displayName": "12_ETL_fact_crash_vehicle",
-    "description": "ETL stored procedure — CREATE PROCEDURE for fact_crash_vehicle. Joins lakehouse vehicles to dim_collision, dim_vehicle, dim_damage to resolve surrogate keys."
+    "description": "ETL stored procedure — CREATE PROCEDURE for fact_crash_vehicle. Takes header keys (date, location, factor group) from fact_crashes by collision_id and resolves vehicle_key and damage_key from dim_vehicle, dim_damage."
   },
   "config": {
     "version": "2.0",

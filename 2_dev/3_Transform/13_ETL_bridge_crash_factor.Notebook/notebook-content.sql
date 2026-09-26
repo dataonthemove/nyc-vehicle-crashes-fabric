@@ -33,13 +33,12 @@
 -- -- **Key logic:**
 -- - UNION all 5 factor columns to produce collision_id x factor_desc pairs
 -- - Filter out NULL and 'Unspecified' factors
--- - Resolve `collision_key` via INNER JOIN to `dim_collision`
--- - Resolve `factor_group_key` via INNER JOIN to `dim_factor_group` on `collision_key`
+-- - Resolve `factor_group_key` via INNER JOIN to `dim_factor_group` on `collision_id`
 -- - Resolve `factor_key` via INNER JOIN to `dim_contributing_factor`
 -- - Incremental: skip factor_group_keys already in target
 -- -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
--- 2. Ensure dim_collision, dim_factor_group and dim_contributing_factor are populated first (run 09b_ETL_dim_factor_group before this).
+-- 2. Ensure dim_factor_group and dim_contributing_factor are populated first (run 09b_ETL_dim_factor_group before this).
 -- 3. Run Cell 1 — DROP/CREATE procedure.
 -- 4. Run Cell 2 — execute and verify.
 
@@ -75,12 +74,9 @@ BEGIN
         df.factor_key
     FROM  unpivoted u
 
-    INNER JOIN dbo.dim_collision dc
-        ON dc.collision_id = TRY_CAST(u.collision_id AS INT)
-
-    -- Resolve factor_group_key (1:1 with collision_key)
+    -- Resolve factor_group_key (1:1 with collision_id)
     INNER JOIN dbo.dim_factor_group dfg
-        ON dfg.collision_key = dc.collision_key
+        ON dfg.collision_id = TRY_CAST(u.collision_id AS INT)
 
     INNER JOIN dbo.dim_contributing_factor df
         ON df.factor_desc = u.factor_desc
