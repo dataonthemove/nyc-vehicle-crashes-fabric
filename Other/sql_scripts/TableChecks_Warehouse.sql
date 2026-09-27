@@ -49,3 +49,7 @@ select top 10 * FROM [dbo].[dim_person]
 select top 10 * FROM [dbo].[dim_vehicle]
 
 
+--Cleanup during application of a structural change. 
+-- Drop procedure   etl.usp_load_dim_collision 
+-- Drop procedure   etl.usp_load_dim_damage
+-- Drop procedure   etl.dim_factor_group
