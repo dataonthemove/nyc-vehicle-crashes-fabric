@@ -1,14 +1,14 @@
-table dim_damage
+table dim_vehicle_circumstance
 	lineageTag: 3f52ff57-eb0f-469c-bd09-b593ac101b95
-	sourceLineageTag: [dbo].[dim_damage]
+	sourceLineageTag: [dbo].[dim_vehicle_circumstance]
 
-	column damage_key
+	column vehicle_circumstance_key
 		dataType: int64
 		formatString: 0
 		lineageTag: 393774e8-592c-4bca-9614-87f7662b4829
-		sourceLineageTag: damage_key
+		sourceLineageTag: vehicle_circumstance_key
 		summarizeBy: none
-		sourceColumn: damage_key
+		sourceColumn: vehicle_circumstance_key
 
 		annotation SummarizationSetBy = Automatic
 
@@ -18,6 +18,13 @@ table dim_damage
 		sourceLineageTag: pre_crash
 		summarizeBy: none
 		sourceColumn: pre_crash
+
+		annotation SummarizationSetBy = Automatic
+
+	column travel_direction
+		dataType: string
+		summarizeBy: none
+		sourceColumn: travel_direction
 
 		annotation SummarizationSetBy = Automatic
 
@@ -39,10 +46,10 @@ table dim_damage
 
 		annotation SummarizationSetBy = Automatic
 
-	partition dim_damage = entity
+	partition dim_vehicle_circumstance = entity
 		mode: directLake
 		source
-			entityName: dim_damage
+			entityName: dim_vehicle_circumstance
 			schemaName: dbo
 			expressionSource: DatabaseQuery
 

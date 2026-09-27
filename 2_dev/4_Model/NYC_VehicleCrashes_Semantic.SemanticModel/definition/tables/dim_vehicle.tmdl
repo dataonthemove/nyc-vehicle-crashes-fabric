@@ -30,15 +30,6 @@ table dim_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	column vehicle_model
-		dataType: string
-		lineageTag: 137f4a49-725f-41e2-951a-7336233e6982
-		sourceLineageTag: vehicle_model
-		summarizeBy: none
-		sourceColumn: vehicle_model
-
-		annotation SummarizationSetBy = Automatic
-
 	column vehicle_year
 		dataType: int64
 		formatString: 0
@@ -55,42 +46,6 @@ table dim_vehicle
 		sourceLineageTag: state_registration
 		summarizeBy: none
 		sourceColumn: state_registration
-
-		annotation SummarizationSetBy = Automatic
-
-	column travel_direction
-		dataType: string
-		lineageTag: d737ca60-f844-41b4-b084-e21967684a66
-		sourceLineageTag: travel_direction
-		summarizeBy: none
-		sourceColumn: travel_direction
-
-		annotation SummarizationSetBy = Automatic
-
-	column driver_license_status
-		dataType: string
-		lineageTag: 2a2dd40a-781b-4285-a05a-e9b9ef12116f
-		sourceLineageTag: driver_license_status
-		summarizeBy: none
-		sourceColumn: driver_license_status
-
-		annotation SummarizationSetBy = Automatic
-
-	column driver_license_jurisdiction
-		dataType: string
-		lineageTag: 712d1740-1e56-4dce-83b9-63c3755f874c
-		sourceLineageTag: driver_license_jurisdiction
-		summarizeBy: none
-		sourceColumn: driver_license_jurisdiction
-
-		annotation SummarizationSetBy = Automatic
-
-	column driver_sex
-		dataType: string
-		lineageTag: 57ce952b-f0ea-406a-8886-c5cfea006fb8
-		sourceLineageTag: driver_sex
-		summarizeBy: none
-		sourceColumn: driver_sex
 
 		annotation SummarizationSetBy = Automatic
 

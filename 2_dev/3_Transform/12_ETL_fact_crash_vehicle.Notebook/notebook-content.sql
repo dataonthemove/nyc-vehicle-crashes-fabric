@@ -30,14 +30,15 @@
 -- -- **Key logic:**
 -- - `date_key`, `location_key`, `factor_group_key` taken from `fact_crashes` by `collision_id` (ADR-0005, 2026-09-26) — a vehicle always agrees with its crash; vehicles with no loaded crash are dropped
 -- - `collision_id` carried as a degenerate dimension (ADR-0005)
--- - `vehicle_key` resolved via INNER JOIN to `dim_vehicle` on all 9 attribute columns (vehicle_occupants removed 2026-06-12)
--- - `damage_key` resolved via INNER JOIN to `dim_damage` on pre_crash/point_of_impact/vehicle_damage
+-- - `vehicle_key` resolved via INNER JOIN to `dim_vehicle` on its 4 attribute columns (vehicle_occupants removed 2026-06-12; driver, travel_direction and vehicle_model removed 2026-09-27, ADR-0005)
+-- - `vehicle_circumstance_key` resolved via INNER JOIN to `dim_vehicle_circumstance` on pre_crash/travel_direction/point_of_impact/vehicle_damage (renamed from dim_damage, ADR-0005 D16)
+-- - `driver_key` resolved via INNER JOIN to `dim_driver` on driver_sex/driver_license_status/driver_license_jurisdiction (ADR-0005 D6)
 -- - `vehicle_occupants` cast to INT from source, capped: values > 100 set to NULL (2026-06-12: relocated from dim_vehicle — numeric by nature)
 -- - Incremental: skips collision_ids already in target
 -- -- **vehicle_occupants cap (2026-08-01):** source `number_of_occupants` carries garbage — 152 rows exceeded 100, one being the sentinel 999999999 (max otherwise 981,990,849), inflating the column SUM from ~3.1M to 2.74B. Values above 100 are not credible for any road vehicle, so they are nulled. The cap is set at 100 rather than lower because the 21–100 band is legitimate: 809 Bus and 20 School Bus rows.
 -- -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
--- 2. Ensure fact_crashes, dim_vehicle, dim_damage are populated first.
+-- 2. Ensure fact_crashes, dim_vehicle, dim_vehicle_circumstance, dim_driver are populated first.
 -- 3. Run Cell 1 — DROP/CREATE procedure.
 -- 4. Run Cell 2 — execute and verify.
 -- 5. Run Cell 3 ONCE — remediates rows loaded before the cap existed. The procedure is incremental, so a rerun alone will not correct them.
@@ -62,7 +63,8 @@ BEGIN
         location_key,
         factor_group_key,
         vehicle_key,
-        damage_key,
+        vehicle_circumstance_key,
+        driver_key,
         vehicle_occupants
     )
     SELECT
@@ -71,7 +73,8 @@ BEGIN
         fc.location_key,
         fc.factor_group_key,
         dv.vehicle_key,
-        dd.damage_key,
+        dvc.vehicle_circumstance_key,
+        ddr.driver_key,
         CASE
             WHEN TRY_CAST(src.vehicle_occupants AS INT) > 100 THEN NULL
             ELSE TRY_CAST(src.vehicle_occupants AS INT)
@@ -85,21 +88,23 @@ BEGIN
 
     -- Resolve vehicle_key
     INNER JOIN dbo.dim_vehicle dv
-        ON  ISNULL(dv.vehicle_type,                '') = ISNULL(NULLIF(TRIM(src.vehicle_type),                ''), '')
-        AND ISNULL(dv.vehicle_make,                '') = ISNULL(NULLIF(TRIM(src.vehicle_make),                ''), '')
-        AND ISNULL(dv.vehicle_model,               '') = ISNULL(NULLIF(TRIM(src.vehicle_model),               ''), '')
-        AND ISNULL(dv.vehicle_year,                -1) = ISNULL(TRY_CAST(src.vehicle_year AS SMALLINT),       -1)
-        AND ISNULL(dv.state_registration,          '') = ISNULL(NULLIF(TRIM(src.state_registration),         ''), '')
-        AND ISNULL(dv.travel_direction,            '') = ISNULL(NULLIF(TRIM(src.travel_direction),           ''), '')
-        AND ISNULL(dv.driver_sex,                  '') = ISNULL(NULLIF(TRIM(src.driver_sex),                 ''), '')
-        AND ISNULL(dv.driver_license_status,       '') = ISNULL(NULLIF(TRIM(src.driver_license_status),      ''), '')
-        AND ISNULL(dv.driver_license_jurisdiction, '') = ISNULL(NULLIF(TRIM(src.driver_license_jurisdiction),''), '')
+        ON  ISNULL(dv.vehicle_type,       '') = ISNULL(NULLIF(TRIM(src.vehicle_type),       ''), '')
+        AND ISNULL(dv.vehicle_make,       '') = ISNULL(NULLIF(TRIM(src.vehicle_make),       ''), '')
+        AND ISNULL(dv.vehicle_year,       -1) = ISNULL(TRY_CAST(src.vehicle_year AS SMALLINT), -1)
+        AND ISNULL(dv.state_registration, '') = ISNULL(NULLIF(TRIM(src.state_registration), ''), '')
 
-    -- Resolve damage_key
-    INNER JOIN dbo.dim_damage dd
-        ON  ISNULL(dd.pre_crash,       '') = ISNULL(NULLIF(TRIM(src.pre_crash),       ''), '')
-        AND ISNULL(dd.point_of_impact, '') = ISNULL(NULLIF(TRIM(src.point_of_impact), ''), '')
-        AND ISNULL(dd.vehicle_damage,  '') = ISNULL(NULLIF(TRIM(src.vehicle_damage),  ''), '')
+    -- Resolve vehicle_circumstance_key
+    INNER JOIN dbo.dim_vehicle_circumstance dvc
+        ON  ISNULL(dvc.pre_crash,        '') = ISNULL(NULLIF(TRIM(src.pre_crash),        ''), '')
+        AND ISNULL(dvc.travel_direction, '') = ISNULL(NULLIF(TRIM(src.travel_direction), ''), '')
+        AND ISNULL(dvc.point_of_impact,  '') = ISNULL(NULLIF(TRIM(src.point_of_impact),  ''), '')
+        AND ISNULL(dvc.vehicle_damage,   '') = ISNULL(NULLIF(TRIM(src.vehicle_damage),   ''), '')
+
+    -- Resolve driver_key
+    INNER JOIN dbo.dim_driver ddr
+        ON  ISNULL(ddr.driver_sex,                  '') = ISNULL(NULLIF(TRIM(src.driver_sex),                  ''), '')
+        AND ISNULL(ddr.driver_license_status,       '') = ISNULL(NULLIF(TRIM(src.driver_license_status),       ''), '')
+        AND ISNULL(ddr.driver_license_jurisdiction, '') = ISNULL(NULLIF(TRIM(src.driver_license_jurisdiction), ''), '')
 
     -- Incremental: skip collisions already loaded
     WHERE NOT EXISTS

@@ -46,13 +46,21 @@ table fact_crash_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	column damage_key
+	column vehicle_circumstance_key
 		dataType: int64
 		formatString: 0
 		lineageTag: 0af7ff52-5747-4cbe-8e74-6cfb81d7247e
-		sourceLineageTag: damage_key
+		sourceLineageTag: vehicle_circumstance_key
 		summarizeBy: none
-		sourceColumn: damage_key
+		sourceColumn: vehicle_circumstance_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: driver_key
 
 		annotation SummarizationSetBy = Automatic
 

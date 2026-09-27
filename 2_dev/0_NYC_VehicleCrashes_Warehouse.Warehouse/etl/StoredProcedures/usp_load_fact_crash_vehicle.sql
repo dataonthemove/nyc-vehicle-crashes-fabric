@@ -10,7 +10,8 @@ BEGIN
         location_key,
         factor_group_key,
         vehicle_key,
-        damage_key,
+        vehicle_circumstance_key,
+        driver_key,
         vehicle_occupants
     )
     SELECT
@@ -19,7 +20,8 @@ BEGIN
         fc.location_key,
         fc.factor_group_key,
         dv.vehicle_key,
-        dd.damage_key,
+        dvc.vehicle_circumstance_key,
+        ddr.driver_key,
         CASE
             WHEN TRY_CAST(src.vehicle_occupants AS INT) > 100 THEN NULL
             ELSE TRY_CAST(src.vehicle_occupants AS INT)
@@ -33,21 +35,23 @@ BEGIN
 
     -- Resolve vehicle_key
     INNER JOIN dbo.dim_vehicle dv
-        ON  ISNULL(dv.vehicle_type,                '') = ISNULL(NULLIF(TRIM(src.vehicle_type),                ''), '')
-        AND ISNULL(dv.vehicle_make,                '') = ISNULL(NULLIF(TRIM(src.vehicle_make),                ''), '')
-        AND ISNULL(dv.vehicle_model,               '') = ISNULL(NULLIF(TRIM(src.vehicle_model),               ''), '')
-        AND ISNULL(dv.vehicle_year,                -1) = ISNULL(TRY_CAST(src.vehicle_year AS SMALLINT),       -1)
-        AND ISNULL(dv.state_registration,          '') = ISNULL(NULLIF(TRIM(src.state_registration),         ''), '')
-        AND ISNULL(dv.travel_direction,            '') = ISNULL(NULLIF(TRIM(src.travel_direction),           ''), '')
-        AND ISNULL(dv.driver_sex,                  '') = ISNULL(NULLIF(TRIM(src.driver_sex),                 ''), '')
-        AND ISNULL(dv.driver_license_status,       '') = ISNULL(NULLIF(TRIM(src.driver_license_status),      ''), '')
-        AND ISNULL(dv.driver_license_jurisdiction, '') = ISNULL(NULLIF(TRIM(src.driver_license_jurisdiction),''), '')
+        ON  ISNULL(dv.vehicle_type,       '') = ISNULL(NULLIF(TRIM(src.vehicle_type),       ''), '')
+        AND ISNULL(dv.vehicle_make,       '') = ISNULL(NULLIF(TRIM(src.vehicle_make),       ''), '')
+        AND ISNULL(dv.vehicle_year,       -1) = ISNULL(TRY_CAST(src.vehicle_year AS SMALLINT), -1)
+        AND ISNULL(dv.state_registration, '') = ISNULL(NULLIF(TRIM(src.state_registration), ''), '')
 
-    -- Resolve damage_key
-    INNER JOIN dbo.dim_damage dd
-        ON  ISNULL(dd.pre_crash,       '') = ISNULL(NULLIF(TRIM(src.pre_crash),       ''), '')
-        AND ISNULL(dd.point_of_impact, '') = ISNULL(NULLIF(TRIM(src.point_of_impact), ''), '')
-        AND ISNULL(dd.vehicle_damage,  '') = ISNULL(NULLIF(TRIM(src.vehicle_damage),  ''), '')
+    -- Resolve vehicle_circumstance_key
+    INNER JOIN dbo.dim_vehicle_circumstance dvc
+        ON  ISNULL(dvc.pre_crash,        '') = ISNULL(NULLIF(TRIM(src.pre_crash),        ''), '')
+        AND ISNULL(dvc.travel_direction, '') = ISNULL(NULLIF(TRIM(src.travel_direction), ''), '')
+        AND ISNULL(dvc.point_of_impact,  '') = ISNULL(NULLIF(TRIM(src.point_of_impact),  ''), '')
+        AND ISNULL(dvc.vehicle_damage,   '') = ISNULL(NULLIF(TRIM(src.vehicle_damage),   ''), '')
+
+    -- Resolve driver_key
+    INNER JOIN dbo.dim_driver ddr
+        ON  ISNULL(ddr.driver_sex,                  '') = ISNULL(NULLIF(TRIM(src.driver_sex),                  ''), '')
+        AND ISNULL(ddr.driver_license_status,       '') = ISNULL(NULLIF(TRIM(src.driver_license_status),       ''), '')
+        AND ISNULL(ddr.driver_license_jurisdiction, '') = ISNULL(NULLIF(TRIM(src.driver_license_jurisdiction), ''), '')
 
     -- Incremental: skip collisions already loaded
     WHERE NOT EXISTS

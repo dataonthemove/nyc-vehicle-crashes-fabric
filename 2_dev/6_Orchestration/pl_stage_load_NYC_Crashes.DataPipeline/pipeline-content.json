@@ -278,7 +278,7 @@
       {
         "type": "SqlServerStoredProcedure",
         "typeProperties": {
-          "storedProcedureName": "[etl].[usp_load_dim_damage]"
+          "storedProcedureName": "[etl].[usp_load_dim_vehicle_circumstance]"
         },
         "linkedService": {
           "name": "NYC_VehicleCrashes_Warehouse",
@@ -299,7 +299,53 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Load_dim_damage",
+        "name": "Load_dim_vehicle_circumstance",
+        "dependsOn": [
+          {
+            "activity": "Ingest_Crashes",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Ingest_Persons",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Ingest_Vehicles",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "storedProcedureName": "[etl].[usp_load_dim_driver]"
+        },
+        "linkedService": {
+          "name": "NYC_VehicleCrashes_Warehouse",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "da2b14e1-b933-a3f7-47de-f697ddedf601",
+              "endpoint": "@pipeline().libraryVariables.vl_NYC_Crashes_warehouse_endpoint",
+              "workspaceId": "00000000-0000-0000-0000-000000000000"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Load_dim_driver",
         "dependsOn": [
           {
             "activity": "Ingest_Crashes",
@@ -532,7 +578,13 @@
             ]
           },
           {
-            "activity": "Load_dim_damage",
+            "activity": "Load_dim_vehicle_circumstance",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Load_dim_driver",
             "dependencyConditions": [
               "Succeeded"
             ]

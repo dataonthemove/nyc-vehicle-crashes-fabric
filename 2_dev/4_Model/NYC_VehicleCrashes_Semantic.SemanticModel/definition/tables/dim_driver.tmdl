@@ -1,0 +1,38 @@
+table dim_driver
+
+	column driver_key
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: driver_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_sex
+		dataType: string
+		summarizeBy: none
+		sourceColumn: driver_sex
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_license_status
+		dataType: string
+		summarizeBy: none
+		sourceColumn: driver_license_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_license_jurisdiction
+		dataType: string
+		summarizeBy: none
+		sourceColumn: driver_license_jurisdiction
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_driver = entity
+		mode: directLake
+		source
+			entityName: dim_driver
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+

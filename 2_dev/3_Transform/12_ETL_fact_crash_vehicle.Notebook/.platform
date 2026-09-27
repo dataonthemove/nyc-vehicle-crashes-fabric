@@ -3,7 +3,7 @@
   "metadata": {
     "type": "Notebook",
     "displayName": "12_ETL_fact_crash_vehicle",
-    "description": "ETL stored procedure — CREATE PROCEDURE for fact_crash_vehicle. Takes header keys (date, location, factor group) from fact_crashes by collision_id and resolves vehicle_key and damage_key from dim_vehicle, dim_damage."
+    "description": "ETL stored procedure — CREATE PROCEDURE for fact_crash_vehicle. Takes header keys (date, location, factor group) from fact_crashes by collision_id and resolves vehicle_key, vehicle_circumstance_key and driver_key from dim_vehicle, dim_vehicle_circumstance, dim_driver."
   },
   "config": {
     "version": "2.0",

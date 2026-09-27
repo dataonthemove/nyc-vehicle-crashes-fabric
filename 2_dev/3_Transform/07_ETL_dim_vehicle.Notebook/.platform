@@ -3,7 +3,7 @@
   "metadata": {
     "type": "Notebook",
     "displayName": "07_ETL_dim_vehicle",
-    "description": "ETL stored procedure — CREATE PROCEDURE for dim_vehicle. Loads distinct vehicle attribute combinations from the lakehouse vehicles table."
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_vehicle. Loads distinct vehicle_type/vehicle_make/vehicle_year/state_registration combinations from the lakehouse vehicles table."
   },
   "config": {
     "version": "2.0",

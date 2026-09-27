@@ -31,6 +31,7 @@
 -- **Updated:** 2026-09-26 — dim_collision dropped; collision_id is a degenerate dimension on the facts (ADR-0005)
 -- **Updated:** 2026-09-27 — dim_factor_group: one row per distinct factor set; collision_id replaced by factor_set_hash (ADR-0005, D3)
 -- **Updated:** 2026-09-27 — dim_location: latitude/longitude moved to fact_crashes; borough/zip_code only, plus an Unknown member row inserted by the load (ADR-0005, D8/D15)
+-- **Updated:** 2026-09-27 — dim_damage renamed dim_vehicle_circumstance and gains travel_direction; new dim_driver takes the driver columns; dim_vehicle drops vehicle_model (ADR-0005, D6/D7/D9/D16)
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -63,7 +64,9 @@ IF OBJECT_ID('dbo.fact_crashes',         'U') IS NOT NULL DROP TABLE dbo.fact_cr
 -- CELL ********************
 
 IF OBJECT_ID('dbo.dim_factor_group',        'U') IS NOT NULL DROP TABLE dbo.dim_factor_group;
-IF OBJECT_ID('dbo.dim_damage',              'U') IS NOT NULL DROP TABLE dbo.dim_damage;
+IF OBJECT_ID('dbo.dim_driver',              'U') IS NOT NULL DROP TABLE dbo.dim_driver;
+IF OBJECT_ID('dbo.dim_vehicle_circumstance', 'U') IS NOT NULL DROP TABLE dbo.dim_vehicle_circumstance;
+IF OBJECT_ID('dbo.dim_damage',              'U') IS NOT NULL DROP TABLE dbo.dim_damage;  -- legacy, renamed dim_vehicle_circumstance 2026-09-27 (ADR-0005)
 IF OBJECT_ID('dbo.dim_vehicle',             'U') IS NOT NULL DROP TABLE dbo.dim_vehicle;
 IF OBJECT_ID('dbo.dim_person',              'U') IS NOT NULL DROP TABLE dbo.dim_person;
 IF OBJECT_ID('dbo.dim_contributing_factor', 'U') IS NOT NULL DROP TABLE dbo.dim_contributing_factor;
@@ -173,9 +176,10 @@ CREATE TABLE dbo.dim_person (
 -- MARKDOWN ********************
 
 -- ## Step 7 — Create dim_vehicle
--- > pre_crash and point_of_impact removed — those belong exclusively to dim_damage
+-- > pre_crash and point_of_impact removed — those belong exclusively to dim_vehicle_circumstance
 -- > 2026-06-10: vehicle_make VARCHAR(60), vehicle_occupants VARCHAR(15) — profiled from source
 -- > 2026-06-12: vehicle_occupants removed — relocated to fact_crash_vehicle as numeric measure
+-- > 2026-09-27: driver columns moved to dim_driver, travel_direction to dim_vehicle_circumstance, vehicle_model dropped (ADR-0005, D6/D7/D9)
 
 -- CELL ********************
 
@@ -183,10 +187,51 @@ CREATE TABLE dbo.dim_vehicle (
     vehicle_key                  BIGINT       NOT NULL IDENTITY,
     vehicle_type                 VARCHAR(100) NULL,
     vehicle_make                 VARCHAR(60)  NULL,
-    vehicle_model                VARCHAR(50)  NULL,
     vehicle_year                 SMALLINT     NULL,
-    state_registration           VARCHAR(10)  NULL,
-    travel_direction             VARCHAR(20)  NULL,
+    state_registration           VARCHAR(10)  NULL
+);
+
+-- METADATA ********************
+
+-- META {
+-- META   "language": "sql",
+-- META   "language_group": "sqldatawarehouse"
+-- META }
+
+-- MARKDOWN ********************
+
+-- ## Step 8 — Create dim_vehicle_circumstance (junk dimension)
+-- > Junk dimension collapsing low-cardinality descriptors of the vehicle's circumstances in one crash
+-- > Profiled distinct combinations: 4,523 across 4.4M vehicle rows (before travel_direction was added)
+-- > pre_crash and point_of_impact exclusively here — removed from dim_vehicle
+-- > 2026-09-27: renamed from dim_damage (damage_key → vehicle_circumstance_key); travel_direction moved here from dim_vehicle (ADR-0005, D7/D16)
+
+-- CELL ********************
+
+CREATE TABLE dbo.dim_vehicle_circumstance (
+    vehicle_circumstance_key  BIGINT        NOT NULL IDENTITY,
+    pre_crash                 VARCHAR(100)  NULL,
+    travel_direction          VARCHAR(20)   NULL,
+    point_of_impact           VARCHAR(100)  NULL,
+    vehicle_damage            VARCHAR(100)  NULL
+);
+
+-- METADATA ********************
+
+-- META {
+-- META   "language": "sql",
+-- META   "language_group": "sqldatawarehouse"
+-- META }
+
+-- MARKDOWN ********************
+
+-- ## Step 9 — Create dim_driver
+-- > 2026-09-27: driver attributes split out of dim_vehicle (ADR-0005, D6)
+
+-- CELL ********************
+
+CREATE TABLE dbo.dim_driver (
+    driver_key                   BIGINT       NOT NULL IDENTITY,
     driver_sex                   VARCHAR(10)  NULL,
     driver_license_status        VARCHAR(50)  NULL,
     driver_license_jurisdiction  VARCHAR(50)  NULL
@@ -201,30 +246,7 @@ CREATE TABLE dbo.dim_vehicle (
 
 -- MARKDOWN ********************
 
--- ## Step 8 — Create dim_damage (junk dimension)
--- > Junk dimension collapsing low-cardinality vehicle-event damage descriptors
--- > Profiled distinct combinations: 4,523 across 4.4M vehicle rows
--- > pre_crash and point_of_impact exclusively here — removed from dim_vehicle
-
--- CELL ********************
-
-CREATE TABLE dbo.dim_damage (
-    damage_key       BIGINT        NOT NULL IDENTITY,
-    pre_crash        VARCHAR(100)  NULL,
-    point_of_impact  VARCHAR(100)  NULL,
-    vehicle_damage   VARCHAR(100)  NULL
-);
-
--- METADATA ********************
-
--- META {
--- META   "language": "sql",
--- META   "language_group": "sqldatawarehouse"
--- META }
-
--- MARKDOWN ********************
-
--- ## Step 9 — Create dim_factor_group
+-- ## Step 10 — Create dim_factor_group
 -- > 2026-06-12: Kimball factor-group bridge pattern (Fig. 14-4 analog)
 -- > Restores conventional many-to-one joins on both
 -- > fact_crashes (factor_group_key FK) and bridge_crash_factor (factor_group_key FK)
@@ -248,7 +270,7 @@ CREATE TABLE dbo.dim_factor_group (
 
 -- MARKDOWN ********************
 
--- ## Step 10 — Verify all dimension tables created
+-- ## Step 11 — Verify all dimension tables created
 
 -- CELL ********************
 

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "08_ETL_dim_vehicle_circumstance",
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_vehicle_circumstance (junk dimension, renamed from dim_damage). Loads distinct pre_crash/travel_direction/point_of_impact/vehicle_damage combinations from lakehouse vehicles table."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5ba77fda-da3e-8340-4a2f-1f1c6593163f"
+  }
+}

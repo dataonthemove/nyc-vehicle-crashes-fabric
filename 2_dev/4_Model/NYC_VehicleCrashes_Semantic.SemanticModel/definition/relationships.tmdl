@@ -23,9 +23,9 @@ relationship fact_crash_vehicle_vehicle_key_dim_vehicle_vehicle_key
 	fromColumn: fact_crash_vehicle.vehicle_key
 	toColumn: dim_vehicle.vehicle_key
 
-relationship fact_crash_vehicle_damage_key_dim_damage_damage_key
-	fromColumn: fact_crash_vehicle.damage_key
-	toColumn: dim_damage.damage_key
+relationship fact_crash_vehicle_vehicle_circumstance_key_dim_vehicle_circumstance_vehicle_circumstance_key
+	fromColumn: fact_crash_vehicle.vehicle_circumstance_key
+	toColumn: dim_vehicle_circumstance.vehicle_circumstance_key
 
 relationship fact_persons_person_key_dim_person_person_key
 	fromColumn: fact_persons.person_key
@@ -54,4 +54,8 @@ relationship fact_crash_vehicle_location_key_dim_location_location_key
 relationship fact_crash_vehicle_factor_group_key_dim_factor_group_factor_group_key
 	fromColumn: fact_crash_vehicle.factor_group_key
 	toColumn: dim_factor_group.factor_group_key
+
+relationship fact_crash_vehicle_driver_key_dim_driver_driver_key
+	fromColumn: fact_crash_vehicle.driver_key
+	toColumn: dim_driver.driver_key
 

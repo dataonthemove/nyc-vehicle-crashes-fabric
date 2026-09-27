@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "07b_ETL_dim_driver",
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_driver. Loads distinct driver_sex/driver_license_status/driver_license_jurisdiction combinations from the lakehouse vehicles table (split out of dim_vehicle, ADR-0005 D6)."
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a1861f00-88b5-41de-ac93-d47c73c53f01"
+  }
+}

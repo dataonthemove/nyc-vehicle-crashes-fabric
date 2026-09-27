@@ -28,6 +28,7 @@
 -- **Updated:** 2026-06-12 — fact_crashes: added factor_group_key (FK dim_factor_group); bridge_crash_factor: collision_key replaced by factor_group_key (Kimball factor-group bridge pattern); fact_crash_vehicle: added vehicle_occupants (relocated from dim_vehicle, now numeric)
 -- **Updated:** 2026-09-26 — collision_key replaced by degenerate collision_id on all three facts (dim_collision dropped); fact_persons and fact_crash_vehicle carry the header keys location_key and factor_group_key (ADR-0005)
 -- **Updated:** 2026-09-27 — fact_crashes: latitude/longitude moved here from dim_location (ADR-0005, D8)
+-- **Updated:** 2026-09-27 — fact_crash_vehicle: damage_key renamed vehicle_circumstance_key (dim_vehicle_circumstance); added driver_key (FK dim_driver) (ADR-0005, D6/D16)
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -121,7 +122,8 @@ CREATE TABLE dbo.fact_persons (
 -- ## Step 4 — Create fact_crash_vehicle (factless fact)
 -- > Grain: one row per collision x vehicle combination
 -- > Resolves many-to-many between crashes and vehicles
--- > damage_key links to dim_damage junk dimension (PRE_CRASH, POINT_OF_IMPACT, VEHICLE_DAMAGE)
+-- > vehicle_circumstance_key links to dim_vehicle_circumstance junk dimension (PRE_CRASH, TRAVEL_DIRECTION, POINT_OF_IMPACT, VEHICLE_DAMAGE)
+-- > driver_key links to dim_driver (DRIVER_SEX, DRIVER_LICENSE_STATUS, DRIVER_LICENSE_JURISDICTION)
 -- > Replaces VEHICLE_TYPE_CODE_1-5 columns on fact_crashes
 -- > 2026-06-12: added vehicle_occupants (INT) — relocated from dim_vehicle, source is numeric by nature
 -- > date_key, location_key, factor_group_key are header keys copied from fact_crashes by collision_id (ADR-0005)
@@ -135,7 +137,8 @@ CREATE TABLE dbo.fact_crash_vehicle (
     location_key            BIGINT  NOT NULL,  -- FK dim_location (header key)
     factor_group_key        BIGINT  NOT NULL,  -- FK dim_factor_group (header key)
     vehicle_key             BIGINT  NOT NULL,  -- FK dim_vehicle
-    damage_key              BIGINT  NOT NULL,  -- FK dim_damage
+    vehicle_circumstance_key BIGINT NOT NULL,  -- FK dim_vehicle_circumstance
+    driver_key              BIGINT  NOT NULL,  -- FK dim_driver
     vehicle_occupants       INT     NULL
 );
 
