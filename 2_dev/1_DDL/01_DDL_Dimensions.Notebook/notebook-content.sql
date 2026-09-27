@@ -29,6 +29,7 @@
 -- **Updated:** 2026-06-10 — dim_person: position_in_vehicle VARCHAR(100) — source max 86 chars
 -- **Updated:** 2026-06-12 — added dim_factor_group (Kimball factor-group bridge pattern); removed vehicle_occupants from dim_vehicle (relocated to fact_crash_vehicle as numeric measure)
 -- **Updated:** 2026-09-26 — dim_collision dropped; collision_id is a degenerate dimension on the facts (ADR-0005)
+-- **Updated:** 2026-09-27 — dim_factor_group: one row per distinct factor set; collision_id replaced by factor_set_hash (ADR-0005, D3)
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -226,17 +227,17 @@ CREATE TABLE dbo.dim_damage (
 
 -- ## Step 9 — Create dim_factor_group
 -- > 2026-06-12: Kimball factor-group bridge pattern (Fig. 14-4 analog)
--- > One row per collision — restores conventional many-to-one joins on both
+-- > Restores conventional many-to-one joins on both
 -- > fact_crashes (factor_group_key FK) and bridge_crash_factor (factor_group_key FK)
--- > collision_id: 1:1 correlation to the crash — used by ETL to resolve factor_group_key,
--- > not a descriptive attribute (Kimball diagram shows this as ETL plumbing, omitted from the figure)
--- > 2026-09-26: collision_key replaced by collision_id — dim_collision dropped (ADR-0005)
+-- > 2026-09-27: one row per distinct factor set (ADR-0005, D3); collision_id removed
+-- > factor_set_hash: SHA-256 hex over the sorted distinct factor_desc values — ETL plumbing used to
+-- > resolve factor_group_key, not a descriptive attribute; hidden in the semantic model
 
 -- CELL ********************
 
 CREATE TABLE dbo.dim_factor_group (
-    factor_group_key  BIGINT  NOT NULL IDENTITY,
-    collision_id      INT     NOT NULL
+    factor_group_key  BIGINT       NOT NULL IDENTITY,
+    factor_set_hash   VARCHAR(64)  NOT NULL
 );
 
 -- METADATA ********************

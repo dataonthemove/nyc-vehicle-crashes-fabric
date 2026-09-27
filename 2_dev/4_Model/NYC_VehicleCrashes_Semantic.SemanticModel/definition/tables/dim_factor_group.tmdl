@@ -12,11 +12,11 @@ table dim_factor_group
 
 		annotation SummarizationSetBy = Automatic
 
-	column collision_id
-		dataType: int64
-		formatString: 0
+	column factor_set_hash
+		dataType: string
+		isHidden
 		summarizeBy: none
-		sourceColumn: collision_id
+		sourceColumn: factor_set_hash
 
 		annotation SummarizationSetBy = Automatic
 

@@ -398,6 +398,12 @@
             "dependencyConditions": [
               "Succeeded"
             ]
+          },
+          {
+            "activity": "Load_dim_contributing_factor",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
           }
         ]
       },
