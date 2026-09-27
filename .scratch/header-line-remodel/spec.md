@@ -1,6 +1,6 @@
 # Header/line remodel of the star schema
 
-Status: needs-triage
+Status: done
 Category: enhancement
 Raised: 2026-09-25 (header/line grilling session)
 

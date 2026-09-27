@@ -144,10 +144,12 @@ may also have been what licensed that account to author; this proves it still ca
 | 6.2 | `list_workspaces` still shows all four on `NEW_CAPACITY_ID`, and one `nb_etl_watermark` `mode=read` job succeeds. | CC | MCP |
 | 6.3 | If 6.1 fails: assign `WORKSPACE_PRINCIPAL` a Fabric (Free) license and repeat 6.1. Don't start a trial on it: trial owners stay out of workspaces. Record the outcome in the Move log. | Pat | Microsoft 365 admin center |
 
-## Baseline (rotation 2, taken 2026-09-25)
+## Baseline (rotation 2, taken 2026-09-25; star counts refreshed 2026-09-27)
 
-Refresh it at step 2.4 of the next rotation. Every stage should match. Unchanged since the last
-load (2026-09-10) and re-confirmed in every stage after the move.
+Refresh it at step 2.4 of the next rotation. Every stage should match. The landing data has not
+changed since the last CDC load (2026-09-10). The Warehouse star counts were re-taken on 2026-09-27,
+after the header/line remodel rebuilt Dev, Test and Prod (`.scratch/header-line-remodel/`, tickets
+07–09). Fact counts are unchanged; the dimensions changed shape.
 
 Landing `etl_watermark`: crashes `2026-09-10 13:04:16`, persons `2026-09-10 13:05:12`,
 vehicles `2026-09-10 13:06:06`.
@@ -165,10 +167,9 @@ folder holds one full extract plus header-only files from zero-row runs:
 |---|---|
 | Lakehouse `nyc_crashes` / `nyc_persons` / `nyc_vehicles` | 2,269,187 / 5,984,110 / 4,551,002 |
 | `fact_crashes` / `fact_persons` / `fact_crash_vehicle` | 2,269,187 / 5,984,110 / 4,551,002 |
-| `bridge_crash_factor` | 1,648,599 |
-| `dim_collision` / `dim_factor_group` | 2,269,187 / 2,269,187 |
-| `dim_contributing_factor` / `dim_damage` / `dim_date` | 66 / 4,602 / 6,940 |
-| `dim_location` / `dim_person` / `dim_vehicle` | 381,068 / 25,990 / 596,157 |
+| `bridge_crash_factor` / `dim_factor_group` | 3,610 / 1,581 |
+| `dim_contributing_factor` / `dim_vehicle_circumstance` / `dim_date` | 66 / 21,430 / 6,940 |
+| `dim_location` / `dim_person` / `dim_vehicle` / `dim_driver` | 246 / 25,990 / 155,594 / 670 |
 
 ## Move log
 

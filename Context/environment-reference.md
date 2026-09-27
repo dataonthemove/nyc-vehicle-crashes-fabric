@@ -3,6 +3,8 @@
 > Generated 2026-07-31 via MCP; full re-verification 2026-09-08; **all four workspaces re-verified
 > 2026-09-21** (MCP `list_items` / `list_folders`, Power BI `/datasources` API). Refresh by re-running
 > the MCP fetch session. Capacity reassigned and all four workspaces re-validated **2026-09-25**.
+> Dev, Test and Prod item inventories re-verified **2026-09-28** (`list_items` / `list_folders`) after
+> the header/line remodel (`.scratch/header-line-remodel/`, ADR-0005).
 > Migrated from workspace `NYC_Motor_Vehicle_Collisions` on 2026-07-31.
 >
 > **All IDs below are physical Fabric item IDs** (`list_items` / `list_folders`). Do not source them
@@ -59,9 +61,16 @@ workspace is deliberately unassigned, so landing items are never promoted.
 | Stage 1 | Test | `a0ab3671-2d5f-44d1-8e05-dc7c13a2f99a` | `3_NYC_VehicleCrashes_test` |
 | Stage 2 | Production | `314d8788-f3de-4348-8b03-52b34bd9b62e` | `4_NYC_VehicleCrashes_prod` |
 
-All stages `isPublic: false`. Last deploy: commit `2b8273e` to Test and Prod, 2026-09-21. **No
-release tags, by design:** this is a practice project with no real production (Pat, 2026-09-23).
-Endorsement and RBAC are deferred until `.scratch/header-line-conformed-keys/` lands.
+All stages `isPublic: false`. Last deploys, 2026-09-27 (header/line remodel): Dev → Test, then
+Test → Prod (operation `7bc133aa-…`, after two failed attempts). **No release tags, by design:** this
+is a practice project with no real production (Pat, 2026-09-23). Endorsement, RBAC and security roles
+are deferred to a later spec.
+
+**Deploy behaviour learned 2026-09-27:** the Warehouse import validates `ALTER PROCEDURE` against the
+*live* tables, so drop changed star tables before deploying, not after. A deploy renames items in
+place when their logical ID is kept, but never deletes items removed from the source stage — delete
+those in the target by hand. It may also leave the star tables uncreated (Prod): check `sys.tables`
+and run DDL `01`/`02` if they are missing.
 
 **Deployment rules (workspace-side config — not in Git; re-enter if the pipeline is rebuilt).**
 Autobind never rebinds a Direct Lake on SQL model, so each downstream stage needs a data source
@@ -102,7 +111,11 @@ Prod 2026-09-21); notebook default lakehouse/warehouse bindings (autobind works 
 
 ## Stage artifacts
 
-Same item set in every stage (22 deployed items + the auto-created lakehouse SQL endpoint).
+Dev holds 21 items plus the auto-created lakehouse SQL endpoint: Lakehouse, Warehouse,
+SemanticModel, VariableLibrary, DataPipeline and 16 notebooks. Test and Prod hold 20 because
+**`07b_ETL_dim_driver` was never deployed to them** (2026-09-28). Nothing breaks: the pipeline
+calls `etl.usp_load_dim_driver`, which the Warehouse item carries. Still, the stages differ until
+Pat deploys the notebook. No reports in any stage (all deleted 2026-09-25, spec D13).
 
 | Type | Display Name | Dev physical ID | Test physical ID | Prod physical ID |
 |---|---|---|---|---|
@@ -124,10 +137,11 @@ Same item set in every stage (22 deployed items + the auto-created lakehouse SQL
 | Prod | `ugzelu45irnefp3jx4vjlmb6u4-d7atl7mnt7vexgkzrj5fhiwdsa.datawarehouse.fabric.microsoft.com` |
 
 **Semantic model:** Direct Lake **on SQL** since 2026-09-21 (`expression DatabaseQuery =
-Sql.Database(<Dev TDS endpoint>, "324e2ac0-…")`). RLS role `Borough_Reader` (static, 0 members) has a
-known leak into `fact_persons` / `fact_crash_vehicle` / the bridge — see
-`.scratch/header-line-conformed-keys/`. Fabric *Test as role* is unsupported on this model (SSO);
-test roles via XMLA impersonation (`powerbi-modeling-mcp` `dax_query_operations` → `impersonation.roles`).
+Sql.Database(<Dev TDS endpoint>, "324e2ac0-…")`). Since the 2026-09-27 remodel it has **no measures
+and no roles**: every measure was removed (spec D5) and RLS role `Borough_Reader`, which leaked into the
+line facts, was deleted (D10). Table and relationship detail: `2_dev/4_Model/SEMANTIC_MODEL.md`. If
+roles return, Fabric *Test as role* is unsupported on this model (SSO). Test them with XMLA
+impersonation instead (`powerbi-modeling-mcp` `dax_query_operations` → `impersonation.roles`).
 
 **Lakehouse `Files/`:** holds only OneLake shortcut `raw_nyc_crashes` → landing
 `NYC_VehicleCrashes_Landing_Lakehouse` `Files/raw/`; serialized in repo file
@@ -135,7 +149,8 @@ test roles via XMLA impersonation (`powerbi-modeling-mcp` `dax_query_operations`
 folder (`raw`) by default — rename it if ever recreated by hand.
 
 **Orchestration:** `pl_stage_load_NYC_Crashes` (Ingest ×3 → 12 SP activities → Refresh), in Dev `977d85cd-f0d8-4628-aca1-6bdfaa79ee6b`, Test `57d48e48-f7fa-4df7-ba55-f35428ce8bcf` and Prod `8d6d62a6-2bee-4b4f-b29b-03c70a01bdcb`. There are no schedules anywhere, by design (Pat, 2026-09-23). All runs are manual. SP activity `endpoint` = `vl_NYC_Crashes.warehouse_endpoint`, because deployment doesn't rebind it. The steps it replaces: Delta build (`nb_cdc_to_delta` ×3) → DDL `01`–`02` (fresh
-stage only) → ETL `03`–`13` (`09b` before `10` and `13`) → `RefreshSemanticModel`, all manual job runs.
+stage only) → ETL `03`–`13` (`09b` before `10` and `13`; `10` before `11` and `12`, which take their
+header keys from `fact_crashes`) → `RefreshSemanticModel`, all manual job runs.
 `nb_cdc_to_delta` parameters: `source_name`, `file_subfolder` (`raw_nyc_crashes/<source>`),
 `file_pattern` (`*`), `natural_key` (`collision_id` for crashes, `unique_id` for persons/vehicles);
 job `execution_data` overrides work.
@@ -177,9 +192,11 @@ Socrata is called unauthenticated (app token retired; ADR-0001).
 | 3_Transform | `e88dbad8-087f-4676-82ad-e46646a164a8` |
 | 4_Model | `3601518e-ee50-4bc3-8d36-e72254912921` |
 | 5_Reports | `2d197305-e28f-457b-b3dc-abe35b0dc1a4` |
+| 6_Orchestration | `d77abec1-4f47-4e0e-b318-4b098e3eafbe` |
 | 99_Config | `0e873041-9b3e-4001-85a0-da5e7a0b1a50` |
 
-`Misc_Fabric_Items` (`05968e69-1632-4bdc-a169-2c5898cd8097`) was emptied 2026-09-22 and is being deleted.
+`5_Reports` has been empty since the reports were deleted (2026-09-25). `Misc_Fabric_Items` is deleted
+(gone from `list_folders` 2026-09-28).
 
 Test and Prod folders mirror these names with their own physical IDs.
 
@@ -187,7 +204,9 @@ Test and Prod folders mirror these names with their own physical IDs.
 
 ## Notebooks (Dev)
 
-16 notebooks, re-confirmed 2026-09-21. `000_DDL_ETL_Watermark_Seed` was deleted 2026-09-10
+16 notebooks, re-confirmed 2026-09-28. The remodel deleted `04_ETL_dim_collision` (Dev
+`668544bb-…`), added `07b_ETL_dim_driver`, and renamed `08_ETL_dim_damage` in place to
+`08_ETL_dim_vehicle_circumstance` (same ID), so the count is unchanged. `000_DDL_ETL_Watermark_Seed` was deleted 2026-09-10
 (workspace commit `293f3e1`); `nb_cdc_to_delta` was deleted in the same commit and restored
 2026-09-10 under a new ID.
 
@@ -209,11 +228,11 @@ Test and Prod folders mirror these names with their own physical IDs.
 | Notebook | Physical ID |
 |---|---|
 | 03_ETL_dim_date | `48394d16-a615-433d-b5ad-6e1b43b7f6b5` |
-| 04_ETL_dim_collision | `668544bb-9590-4fcb-a385-cac2bc435aa6` |
 | 05_ETL_dim_location | `c04d0676-4e7e-4d36-a2d3-e64f06c2c753` |
 | 06_ETL_dim_contributing_factor | `0987cf73-a3b0-4634-80ce-93ab32d90d1a` |
 | 07_ETL_dim_vehicle | `ec2a4b2e-3b7a-4fe7-86b6-5e1eb21b4093` |
-| 08_ETL_dim_damage | `06cf8361-91af-4a90-89fc-8d8e36a51006` |
+| 07b_ETL_dim_driver | `1e560818-cf85-4688-b189-a6b50938e695` |
+| 08_ETL_dim_vehicle_circumstance | `06cf8361-91af-4a90-89fc-8d8e36a51006` |
 | 09_ETL_dim_person | `cec6b9ba-8eab-4914-a7d1-2596a0e302a0` |
 | 09b_ETL_dim_factor_group | `f6aa92ab-a522-4f65-9c88-4de665fe6f8c` |
 | 10_ETL_fact_crashes | `b93e6bc5-0c6e-4d4d-b1e2-0d6409891440` |
@@ -222,6 +241,17 @@ Test and Prod folders mirror these names with their own physical IDs.
 | 13_ETL_bridge_crash_factor | `0a5ff01a-9501-4720-873a-768c29943f49` |
 
 `10_ETL_fact_crashes_old` was deleted 2026-08-01 (commit `f01f79d`) and is no longer in the workspace.
+
+**Remodel notebooks, per stage** (2026-09-28). `04_ETL_dim_collision` is gone from all three stages.
+Pat deleted the copies the deploys left behind in Test and Prod.
+
+| Notebook | Dev | Test | Prod |
+|---|---|---|---|
+| 07b_ETL_dim_driver | `1e560818-cf85-4688-b189-a6b50938e695` | not deployed | not deployed |
+| 08_ETL_dim_vehicle_circumstance | `06cf8361-91af-4a90-89fc-8d8e36a51006` | `2e725019-acae-4ff8-8754-79e9e4cc0956` | `c8461d0b-f0f7-4fb1-829a-c2b6e772c151` |
+
+`dim_driver` is a Warehouse table (`dbo.dim_driver`), not a Fabric item, so it has no item ID. It is
+loaded by `etl.usp_load_dim_driver` through pipeline activity `Load_dim_driver`.
 
 ### 4_Model
 
@@ -234,12 +264,10 @@ Library reads fail from a Livy session — test through a notebook job.
 
 ---
 
-## Reports (Dev)
+## Reports
 
-| Report | Physical ID | Folder |
-|---|---|---|
-| `Test_ReportCreatedWeb. ` (trailing space in name) | `453c8292-b50c-404c-a4c2-a52b23c34ed5` | 5_Reports |
-| `Crashes last six years; clustered by crash cause. ` (trailing space) | `b4922e2d-4c3a-42da-a75a-e8a34ece0c9c` | 5_Reports |
+None in any stage. Pat deleted both reports in Dev, Test and Prod on 2026-09-25 (spec D13). They will
+be rebuilt after the measures spec.
 
 ---
 
@@ -265,12 +293,17 @@ dependency, retry 2 @ 60s — parallel MERGEs on the single-file Delta table rai
 
 ---
 
-## Baseline row counts (all stages, 2026-09-21; re-confirmed after the capacity move 2026-09-25)
+## Baseline row counts (all stages, post-remodel rebuild 2026-09-27)
 
+Identical in Dev, Test and Prod (tickets 07–09 of `.scratch/header-line-remodel/`):
 `fact_crashes` 2,269,187 · `fact_persons` 5,984,110 · `fact_crash_vehicle` 4,551,002 ·
-`bridge_crash_factor` 1,648,599 · `dim_collision` 2,269,187 · `dim_factor_group` 2,269,187 ·
-`dim_date` 6,940 · `dim_location` 381,068 · `dim_vehicle` 596,157 · `dim_damage` 4,602 ·
-`dim_person` 25,990 · `dim_contributing_factor` 66 · `etl_watermark` 0.
+`bridge_crash_factor` 3,610 · `dim_factor_group` 1,581 · `dim_date` 6,940 · `dim_location` 246 ·
+`dim_vehicle` 155,594 · `dim_vehicle_circumstance` 21,430 · `dim_driver` 670 · `dim_person` 25,990 ·
+`dim_contributing_factor` 66 · `etl_watermark` 0.
+
+Before the remodel (2026-09-21 → 2026-09-25) the fact counts were the same, but the dimensions
+differed: `bridge_crash_factor` 1,648,599, `dim_collision` and `dim_factor_group` 2,269,187 each,
+`dim_location` 381,068, `dim_vehicle` 596,157, `dim_damage` 4,602.
 
 Read Warehouse tables by OneLake path from Livy
 (`abfss://{ws}@onelake.dfs.fabric.microsoft.com/{warehouse}/Tables/dbo/<table>`): `sqldatawarehouse`
