@@ -30,6 +30,7 @@
 -- **Updated:** 2026-06-12 — added dim_factor_group (Kimball factor-group bridge pattern); removed vehicle_occupants from dim_vehicle (relocated to fact_crash_vehicle as numeric measure)
 -- **Updated:** 2026-09-26 — dim_collision dropped; collision_id is a degenerate dimension on the facts (ADR-0005)
 -- **Updated:** 2026-09-27 — dim_factor_group: one row per distinct factor set; collision_id replaced by factor_set_hash (ADR-0005, D3)
+-- **Updated:** 2026-09-27 — dim_location: latitude/longitude moved to fact_crashes; borough/zip_code only, plus an Unknown member row inserted by the load (ADR-0005, D8/D15)
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -113,9 +114,7 @@ CREATE TABLE dbo.dim_date (
 CREATE TABLE dbo.dim_location (
     location_key    BIGINT       NOT NULL IDENTITY,
     borough         VARCHAR(50)  NULL,
-    zip_code        VARCHAR(10)  NULL,
-    latitude        FLOAT        NULL,
-    longitude       FLOAT        NULL
+    zip_code        VARCHAR(10)  NULL
 );
 
 -- METADATA ********************

@@ -27,6 +27,7 @@
 -- **Updated:** 2026-06-09 — added damage_key to fact_crash_vehicle
 -- **Updated:** 2026-06-12 — fact_crashes: added factor_group_key (FK dim_factor_group); bridge_crash_factor: collision_key replaced by factor_group_key (Kimball factor-group bridge pattern); fact_crash_vehicle: added vehicle_occupants (relocated from dim_vehicle, now numeric)
 -- **Updated:** 2026-09-26 — collision_key replaced by degenerate collision_id on all three facts (dim_collision dropped); fact_persons and fact_crash_vehicle carry the header keys location_key and factor_group_key (ADR-0005)
+-- **Updated:** 2026-09-27 — fact_crashes: latitude/longitude moved here from dim_location (ADR-0005, D8)
 -- **Fabric Warehouse T-SQL constraints:**
 -- - No PRIMARY KEY or UNIQUE constraints in CREATE TABLE
 -- - No TINYINT — use SMALLINT
@@ -68,6 +69,8 @@ CREATE TABLE dbo.fact_crashes (
     collision_id        INT     NOT NULL,  -- degenerate dimension
     location_key        BIGINT  NOT NULL,  -- FK dim_location
     factor_group_key    BIGINT  NOT NULL,  -- FK dim_factor_group
+    latitude            FLOAT   NULL,      -- crash point, moved from dim_location (D8)
+    longitude           FLOAT   NULL,
     persons_injured     INT     NULL,
     persons_killed      INT     NULL,
     pedestrians_injured INT     NULL,

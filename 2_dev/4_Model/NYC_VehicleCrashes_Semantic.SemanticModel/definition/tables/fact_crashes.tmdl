@@ -50,6 +50,26 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
+	column latitude
+		dataType: double
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column persons_injured
 		dataType: int64
 		formatString: 0

@@ -84,6 +84,7 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
 - All `_key` and `_id` columns → `None`.
 - Numeric dim attributes (year, quarter, month, day, day_of_week, vehicle_year) → `None`.
 - `person_age` → `Average`; `vehicle_occupants` → `Sum`.
+- `latitude`, `longitude` (on `fact_crashes`) → `None`, with `dataCategory` `Latitude` / `Longitude`.
 - A schema refresh resets all SummarizeBy to Sum — full re-fix required after any refresh.
 
 ## MCP Constraints (ALWAYS apply)

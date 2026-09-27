@@ -30,28 +30,6 @@ table dim_location
 
 		annotation SummarizationSetBy = Automatic
 
-	column latitude
-		dataType: double
-		lineageTag: cc2b1020-106f-4ef7-a7d3-9169d2b1c608
-		sourceLineageTag: latitude
-		summarizeBy: sum
-		sourceColumn: latitude
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column longitude
-		dataType: double
-		lineageTag: 53497743-b384-416a-9062-2e97b4592730
-		sourceLineageTag: longitude
-		summarizeBy: sum
-		sourceColumn: longitude
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	partition dim_location = entity
 		mode: directLake
 		source

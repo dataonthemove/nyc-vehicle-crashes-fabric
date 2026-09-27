@@ -29,7 +29,8 @@
 -- **Key logic:**
 -- - `collision_id` carried as a degenerate dimension (ADR-0005; `dim_collision` dropped 2026-09-26)
 -- - `date_key` derived as INT in YYYYMMDD format from `CRASH_DATE`
--- - `location_key` resolved via lookup to `dim_location` on borough/zip/lat/long
+-- - `location_key` resolved via lookup to `dim_location` on borough/zip_code; no match resolves to the Unknown member, found by lookup (ADR-0005, D15) — the proc THROWs if it is missing
+-- - `latitude`/`longitude` carried on the fact as the crash point (moved from `dim_location`, D8)
 -- - `factor_group_key` resolved via lookup to `dim_factor_group` on the crash's `factor_set_hash` (ADR-0005, D3; derivation must match 09b_ETL_dim_factor_group)
 -- - All measure columns cast to INT; NULL-safe via TRY_CAST
 -- - Incremental: skips collision_ids already present in fact_crashes
@@ -51,6 +52,14 @@ CREATE PROCEDURE etl.usp_load_fact_crashes
 AS
 BEGIN
     SET NOCOUNT ON;
+
+    -- Unknown location member (ADR-0005, D15): resolved by lookup, never a literal key.
+    DECLARE @unknown_location_key BIGINT;
+    SELECT @unknown_location_key = location_key
+    FROM   dbo.dim_location
+    WHERE  borough = 'UNKNOWN' AND zip_code = 'UNKNOWN';
+    IF @unknown_location_key IS NULL
+        THROW 50001, 'dim_location Unknown member missing: run etl.usp_load_dim_location first.', 1;
 
     -- Unpivot 5 contributing factor columns into collision x factor pairs (UNION collapses duplicates within a crash)
     WITH crash_factor AS
@@ -85,6 +94,8 @@ BEGIN
         collision_id,
         location_key,
         factor_group_key,
+        latitude,
+        longitude,
         persons_injured,
         persons_killed,
         pedestrians_injured,
@@ -97,8 +108,10 @@ BEGIN
     SELECT
         CAST(FORMAT(TRY_CAST(src.crash_date AS DATE), 'yyyyMMdd') AS INT) AS date_key,
         TRY_CAST(src.collision_id AS INT)                                  AS collision_id,
-        ISNULL(dl.location_key, -1)                                        AS location_key,
+        ISNULL(dl.location_key, @unknown_location_key)                     AS location_key,
         dfg.factor_group_key                                               AS factor_group_key,
+        TRY_CAST(src.latitude  AS FLOAT)                                   AS latitude,
+        TRY_CAST(src.longitude AS FLOAT)                                   AS longitude,
         TRY_CAST(src.number_of_persons_injured    AS INT)                  AS persons_injured,
         TRY_CAST(src.number_of_persons_killed     AS INT)                  AS persons_killed,
         TRY_CAST(src.number_of_pedestrians_injured AS INT)                 AS pedestrians_injured,
@@ -115,12 +128,10 @@ BEGIN
     INNER JOIN dbo.dim_factor_group dfg
         ON dfg.factor_set_hash = cfs.factor_set_hash
 
-    -- Resolve location_key (NULL-safe match on all four columns)
+    -- Resolve location_key (NULL-safe match on borough/zip_code); no match -> Unknown member
     LEFT JOIN dbo.dim_location dl
         ON  ISNULL(dl.borough,   '') = ISNULL(NULLIF(TRIM(src.borough),   ''), '')
         AND ISNULL(dl.zip_code,  '') = ISNULL(NULLIF(TRIM(src.zip_code),  ''), '')
-        AND ISNULL(dl.latitude,  -999) = ISNULL(TRY_CAST(src.latitude  AS FLOAT), -999)
-        AND ISNULL(dl.longitude, -999) = ISNULL(TRY_CAST(src.longitude AS FLOAT), -999)
 
     -- Incremental: skip already-loaded collisions
     WHERE NOT EXISTS
