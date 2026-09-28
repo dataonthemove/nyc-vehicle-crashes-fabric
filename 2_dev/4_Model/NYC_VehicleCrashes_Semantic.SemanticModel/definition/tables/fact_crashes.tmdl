@@ -22,14 +22,6 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
-	column collision_id
-		dataType: int64
-		formatString: 0
-		summarizeBy: none
-		sourceColumn: collision_id
-
-		annotation SummarizationSetBy = Automatic
-
 	column location_key
 		dataType: int64
 		formatString: 0
@@ -49,26 +41,6 @@ table fact_crashes
 		sourceColumn: factor_group_key
 
 		annotation SummarizationSetBy = Automatic
-
-	column latitude
-		dataType: double
-		dataCategory: Latitude
-		summarizeBy: none
-		sourceColumn: latitude
-
-		annotation SummarizationSetBy = User
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column longitude
-		dataType: double
-		dataCategory: Longitude
-		summarizeBy: none
-		sourceColumn: longitude
-
-		annotation SummarizationSetBy = User
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column persons_injured
 		dataType: int64
@@ -149,6 +121,37 @@ table fact_crashes
 		sourceColumn: motorists_killed
 
 		annotation SummarizationSetBy = Automatic
+
+	column collision_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d1588838-98f0-428b-a005-349b5b4e2224
+		summarizeBy: none
+		sourceColumn: collision_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 0246ef0b-25b3-441c-b366-bd3dd4f4bff8
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: 3339bffb-8912-4677-b46b-54345f151492
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition fact_crashes = entity
 		mode: directLake

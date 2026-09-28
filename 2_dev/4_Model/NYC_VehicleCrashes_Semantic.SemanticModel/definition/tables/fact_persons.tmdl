@@ -12,30 +12,6 @@ table fact_persons
 
 		annotation SummarizationSetBy = Automatic
 
-	column collision_id
-		dataType: int64
-		formatString: 0
-		summarizeBy: none
-		sourceColumn: collision_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column location_key
-		dataType: int64
-		formatString: 0
-		summarizeBy: none
-		sourceColumn: location_key
-
-		annotation SummarizationSetBy = Automatic
-
-	column factor_group_key
-		dataType: int64
-		formatString: 0
-		summarizeBy: none
-		sourceColumn: factor_group_key
-
-		annotation SummarizationSetBy = Automatic
-
 	column person_key
 		dataType: int64
 		formatString: 0
@@ -83,6 +59,33 @@ table fact_persons
 		sourceLineageTag: date_key
 		summarizeBy: none
 		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column collision_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e29d3a7-9e19-41e5-8eb3-f931ef3be977
+		summarizeBy: none
+		sourceColumn: collision_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_key
+		dataType: int64
+		formatString: 0
+		lineageTag: ce59237a-fc69-4a47-8493-9e5f3547f7e1
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column factor_group_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 28965a0b-a2ce-4943-b0d3-c553aa2cee0d
+		summarizeBy: none
+		sourceColumn: factor_group_key
 
 		annotation SummarizationSetBy = Automatic
 

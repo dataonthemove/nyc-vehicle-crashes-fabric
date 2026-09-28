@@ -15,6 +15,7 @@ table dim_factor_group
 	column factor_set_hash
 		dataType: string
 		isHidden
+		lineageTag: f3549dba-5eac-45c3-b68d-f3f360f5c278
 		summarizeBy: none
 		sourceColumn: factor_set_hash
 

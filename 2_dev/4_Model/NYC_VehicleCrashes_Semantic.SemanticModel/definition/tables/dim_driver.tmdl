@@ -1,8 +1,10 @@
 table dim_driver
+	lineageTag: 4ca4e9e3-3553-43d9-971f-878ef5f110f7
 
 	column driver_key
 		dataType: int64
 		formatString: 0
+		lineageTag: a605d1bd-f6b8-41c7-bab2-ce94ebb2f5f4
 		summarizeBy: none
 		sourceColumn: driver_key
 
@@ -10,6 +12,7 @@ table dim_driver
 
 	column driver_sex
 		dataType: string
+		lineageTag: e0156377-5eb0-46b8-bfd0-e9f59c96e8fc
 		summarizeBy: none
 		sourceColumn: driver_sex
 
@@ -17,6 +20,7 @@ table dim_driver
 
 	column driver_license_status
 		dataType: string
+		lineageTag: 36a66109-85e5-477b-aec7-95c79b9e0688
 		summarizeBy: none
 		sourceColumn: driver_license_status
 
@@ -24,6 +28,7 @@ table dim_driver
 
 	column driver_license_jurisdiction
 		dataType: string
+		lineageTag: 0aded577-b8b9-4ade-aa35-7c124fa7735f
 		summarizeBy: none
 		sourceColumn: driver_license_jurisdiction
 

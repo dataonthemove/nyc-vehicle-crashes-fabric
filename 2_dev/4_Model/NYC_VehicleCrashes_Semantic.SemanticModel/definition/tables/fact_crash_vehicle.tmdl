@@ -12,30 +12,6 @@ table fact_crash_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	column collision_id
-		dataType: int64
-		formatString: 0
-		summarizeBy: none
-		sourceColumn: collision_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column location_key
-		dataType: int64
-		formatString: 0
-		summarizeBy: none
-		sourceColumn: location_key
-
-		annotation SummarizationSetBy = Automatic
-
-	column factor_group_key
-		dataType: int64
-		formatString: 0
-		summarizeBy: none
-		sourceColumn: factor_group_key
-
-		annotation SummarizationSetBy = Automatic
-
 	column vehicle_key
 		dataType: int64
 		formatString: 0
@@ -56,14 +32,6 @@ table fact_crash_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	column driver_key
-		dataType: int64
-		formatString: 0
-		summarizeBy: none
-		sourceColumn: driver_key
-
-		annotation SummarizationSetBy = Automatic
-
 	column vehicle_occupants
 		dataType: int64
 		formatString: 0
@@ -81,6 +49,42 @@ table fact_crash_vehicle
 		sourceLineageTag: date_key
 		summarizeBy: none
 		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column collision_id
+		dataType: int64
+		formatString: 0
+		lineageTag: c67f1a2b-3b4c-46d2-bc43-f0c1d9507a0f
+		summarizeBy: none
+		sourceColumn: collision_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 9bc303fb-64f5-46e2-81c4-9d363f6ab4df
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column factor_group_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 9e596f14-faff-489c-9d3c-6a16ff2cfdef
+		summarizeBy: none
+		sourceColumn: factor_group_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 3de53fed-0a08-4b1c-a890-ced16a46ed0b
+		summarizeBy: none
+		sourceColumn: driver_key
 
 		annotation SummarizationSetBy = Automatic
 

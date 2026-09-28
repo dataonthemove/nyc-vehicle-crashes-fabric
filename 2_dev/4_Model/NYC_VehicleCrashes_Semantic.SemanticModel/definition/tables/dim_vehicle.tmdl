@@ -10,6 +10,8 @@ table dim_vehicle
 		summarizeBy: none
 		sourceColumn: vehicle_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column vehicle_type
@@ -19,6 +21,8 @@ table dim_vehicle
 		summarizeBy: none
 		sourceColumn: vehicle_type
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column vehicle_make
@@ -27,6 +31,8 @@ table dim_vehicle
 		sourceLineageTag: vehicle_make
 		summarizeBy: none
 		sourceColumn: vehicle_make
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -38,6 +44,8 @@ table dim_vehicle
 		summarizeBy: none
 		sourceColumn: vehicle_year
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column state_registration
@@ -47,6 +55,8 @@ table dim_vehicle
 		summarizeBy: none
 		sourceColumn: state_registration
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	partition dim_vehicle = entity
@@ -55,4 +65,6 @@ table dim_vehicle
 			entityName: dim_vehicle
 			schemaName: dbo
 			expressionSource: DatabaseQuery
+
+	changedProperty = IsHidden
 

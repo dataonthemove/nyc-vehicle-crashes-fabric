@@ -21,13 +21,6 @@ table dim_vehicle_circumstance
 
 		annotation SummarizationSetBy = Automatic
 
-	column travel_direction
-		dataType: string
-		summarizeBy: none
-		sourceColumn: travel_direction
-
-		annotation SummarizationSetBy = Automatic
-
 	column point_of_impact
 		dataType: string
 		lineageTag: f3e9597b-c183-4ba1-b1af-657368bd17a0
@@ -43,6 +36,14 @@ table dim_vehicle_circumstance
 		sourceLineageTag: vehicle_damage
 		summarizeBy: none
 		sourceColumn: vehicle_damage
+
+		annotation SummarizationSetBy = Automatic
+
+	column travel_direction
+		dataType: string
+		lineageTag: 28dc6fd6-90fa-4a8d-8d5d-70e784a1d4bb
+		summarizeBy: none
+		sourceColumn: travel_direction
 
 		annotation SummarizationSetBy = Automatic
 

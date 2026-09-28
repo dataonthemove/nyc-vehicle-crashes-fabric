@@ -23,10 +23,6 @@ relationship fact_crash_vehicle_vehicle_key_dim_vehicle_vehicle_key
 	fromColumn: fact_crash_vehicle.vehicle_key
 	toColumn: dim_vehicle.vehicle_key
 
-relationship fact_crash_vehicle_vehicle_circumstance_key_dim_vehicle_circumstance_vehicle_circumstance_key
-	fromColumn: fact_crash_vehicle.vehicle_circumstance_key
-	toColumn: dim_vehicle_circumstance.vehicle_circumstance_key
-
 relationship fact_persons_person_key_dim_person_person_key
 	fromColumn: fact_persons.person_key
 	toColumn: dim_person.person_key
@@ -38,6 +34,10 @@ relationship fact_persons_date_key_dim_date_date_key
 relationship fact_crash_vehicle_date_key_dim_date_date_key
 	fromColumn: fact_crash_vehicle.date_key
 	toColumn: dim_date.date_key
+
+relationship fact_crash_vehicle_vehicle_circumstance_key_dim_vehicle_circumstance_vehicle_circumstance_key
+	fromColumn: fact_crash_vehicle.vehicle_circumstance_key
+	toColumn: dim_vehicle_circumstance.vehicle_circumstance_key
 
 relationship fact_persons_location_key_dim_location_location_key
 	fromColumn: fact_persons.location_key
