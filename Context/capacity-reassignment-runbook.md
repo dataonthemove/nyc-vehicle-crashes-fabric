@@ -36,8 +36,11 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 - **Don't cancel the old trial.** Let it expire on `OLD_EXPIRY`. Items that fail to migrate stay
   attached to `OLD_CAPACITY_ID`, and retrying them depends on it being alive. Finish the move and
   every validation check before `OLD_EXPIRY`.
-- **`NEW_OWNER` never joins a workspace.** It is capacity and Fabric admin only.
-  All work keeps running as `WORKSPACE_PRINCIPAL`, so `az`, MCP, Git and OAuth connections don't change.
+- *Preference, not a Fabric requirement:* `NEW_OWNER` stays out of workspaces where practical, so
+  `az`, MCP, Git and OAuth connections keep running as the single `WORKSPACE_PRINCIPAL`. Exception
+  (Pat, 2026-09-28): `user8` is **Contributor** in Dev, for report authoring only, because its active
+  trial carries the paid-feature entitlement `user7` lost when its trial lapsed. Never use it for `az`,
+  MCP or connections.
 - **No rebuild from ADO.** It would mean new physical IDs everywhere, a new deployment pipeline and
   rules, re-consented connections and a full re-CDC. Don't switch to a rebuild without an explicit
   decision from Pat.
@@ -47,12 +50,12 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 
 | # | Step | Who | Where |
 |---|---|---|---|
-| 1.1 | Create `NEW_OWNER` in the tenant, or reuse an existing account that holds no workspace membership. | Pat | Entra admin center |
+| 1.1 | Create `NEW_OWNER` in the tenant, or reuse an existing account (preferably one with no workspace membership). | Pat | Entra admin center |
 | 1.2 | Assign `NEW_OWNER` the Entra **Fabric Administrator** role. | Pat | Entra admin center → Roles |
 | 1.3 | Assign `NEW_OWNER` a **Fabric (Free)** license. | Pat | Microsoft 365 admin center → Licenses |
 | 1.4 | Sign in as `NEW_OWNER` and start a Fabric trial (Account manager → Free trial). | Pat | Fabric portal |
 | 1.5 | Confirm the trial's region is `REGION` and its SKU is `SKU`. A different region blocks reassignment. Record `NEW_CAPACITY_ID`, `NEW_CAPACITY_NAME` and `NEW_EXPIRY`. | Pat | Admin portal → Capacity settings → Trial |
-| 1.6 | Confirm `NEW_OWNER` holds no role in any of the four workspaces (`GET /v1/workspaces/{ws}/roleAssignments`, run as `WORKSPACE_PRINCIPAL`). | CC | Fabric REST (`az rest`) |
+| 1.6 | List `NEW_OWNER`'s roles in the four workspaces; any role must be a deliberate, recorded exception (`GET /v1/workspaces/{ws}/roleAssignments`, run as `WORKSPACE_PRINCIPAL`). | CC | Fabric REST (`az rest`) |
 
 ## 2. Pre-move checks
 
@@ -142,7 +145,7 @@ may also have been what licensed that account to author; this proves it still ca
 |---|---|---|---|
 | 6.1 | Sign in as `WORKSPACE_PRINCIPAL`. Open all four workspaces, open one Fabric item in each (Lakehouse, Warehouse, notebook) and make and discard an edit. No license or "upgrade" prompt appears. | Pat | Fabric portal |
 | 6.2 | `list_workspaces` still shows all four on `NEW_CAPACITY_ID`, and one `nb_etl_watermark` `mode=read` job succeeds. | CC | MCP |
-| 6.3 | If 6.1 fails: assign `WORKSPACE_PRINCIPAL` a Fabric (Free) license and repeat 6.1. Don't start a trial on it: trial owners stay out of workspaces. Record the outcome in the Move log. | Pat | Microsoft 365 admin center |
+| 6.3 | If 6.1 fails: assign `WORKSPACE_PRINCIPAL` a Fabric (Free) license and repeat 6.1. Or author reports as the current trial owner (Contributor in Dev only), as done 2026-09-28. Record the outcome in the Move log. | Pat | Microsoft 365 admin center |
 
 ## Baseline (rotation 2, taken 2026-09-25; star counts refreshed 2026-09-27)
 

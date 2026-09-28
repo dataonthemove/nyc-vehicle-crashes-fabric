@@ -30,8 +30,9 @@ four sit on trial capacity `e52c9636-f9c4-4f58-94c7-57568d827005`
 All are type `Workspace`; none is Template App (that type silently blocks Git).
 
 `Jpb_fabric_user8` holds the Entra **Fabric Administrator** role and a Fabric (Free) license. It
-exists only to own the trial capacity and is a member of **no** workspace (verified via
-`roleAssignments` 2026-09-25). Never add it to one, and never use it for `az`, MCP or connections.
+owns the trial capacity and, since 2026-09-28, is **Contributor in Dev** for report authoring only
+(`user7` lost paid-feature rights when its trial lapsed). No role elsewhere. Never use it for `az`, MCP
+or connections.
 
 | Stage | Name | Physical workspace ID | Git |
 |---|---|---|---|
@@ -41,9 +42,8 @@ exists only to own the trial capacity and is a member of **no** workspace (verif
 | Prod | `4_NYC_VehicleCrashes_prod` | `fd35c11f-9f8d-4bea-9959-8a7a53a2c390` | never — deployment pipeline only |
 
 Every workspace has principal `Jpb_fabric_user7` · User · **Admin**. Use `user7` only — az CLI
-defaults to `user6`. **Discrepancy (2026-09-25 `roleAssignments`):** `Jpb_fabric_user6` is also
-**Admin** in Dev (not in Landing, Test or Prod), contradicting the earlier "no membership" note;
-unresolved — Pat decides in `.scratch/05-New-Trial-and-capacity-reassignment/issues/07-post-expiry-check.md`. Verify the az user with
+defaults to `user6`. **Note:** `Jpb_fabric_user6` was Admin in Dev on 2026-09-25 but no longer appears in Dev
+`roleAssignments` (2026-09-28). Follow-up in `.scratch/05-New-Trial-and-capacity-reassignment/issues/07-post-expiry-check.md`. Verify the az user with
 `az account show --query user.name -o tsv`.
 
 Dev Spark runtime: 1.3 — Spark 3.5.5, Python 3.11.8 (verified via Livy 2026-08-01). `sempy` is
