@@ -39,6 +39,7 @@
 -- - Uniqueness enforced at stored procedure level
 -- - Drop order respects dependencies — facts and bridges dropped before dims
 
+
 -- MARKDOWN ********************
 
 -- ## Step 1 — Drop dependent tables first (reverse dependency order)
