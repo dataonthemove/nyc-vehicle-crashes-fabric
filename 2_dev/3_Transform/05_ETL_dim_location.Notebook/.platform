@@ -3,7 +3,7 @@
   "metadata": {
     "type": "Notebook",
     "displayName": "05_ETL_dim_location",
-    "description": "ETL stored procedure — CREATE PROCEDURE for dim_location. Loads distinct borough/zip/lat/long combinations from lakehouse crashes table."
+    "description": "ETL stored procedure — CREATE PROCEDURE for dim_location. Loads distinct borough/zip_code combinations from lakehouse crashes table and ensures the Unknown member row (latitude/longitude live on fact_crashes)."
   },
   "config": {
     "version": "2.0",
