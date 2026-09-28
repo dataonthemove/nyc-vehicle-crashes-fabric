@@ -4,6 +4,7 @@ table dim_vehicle_circumstance
 
 	column vehicle_circumstance_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 393774e8-592c-4bca-9614-87f7662b4829
 		sourceLineageTag: vehicle_circumstance_key

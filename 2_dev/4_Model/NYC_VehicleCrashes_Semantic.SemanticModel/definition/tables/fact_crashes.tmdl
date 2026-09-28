@@ -2,8 +2,19 @@ table fact_crashes
 	lineageTag: 4081c01e-bd87-4895-8a18-92d9cc1f76a0
 	sourceLineageTag: [dbo].[fact_crashes]
 
+	column collision_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d1588838-98f0-428b-a005-349b5b4e2224
+		summarizeBy: none
+		sourceColumn: collision_id
+
+		annotation SummarizationSetBy = Automatic
+
 	column crash_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3031e051-e982-4dfb-8ae3-f394ce33ac41
 		sourceLineageTag: crash_id
@@ -14,6 +25,7 @@ table fact_crashes
 
 	column date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3964d7a5-dcff-4964-84d3-1e2f39847e52
 		sourceLineageTag: date_key
@@ -24,6 +36,7 @@ table fact_crashes
 
 	column location_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 0fcdae4a-b700-4ad6-a67b-74759ca0a1f6
 		sourceLineageTag: location_key
@@ -34,6 +47,7 @@ table fact_crashes
 
 	column factor_group_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 2f69b89b-6956-4b51-9c2a-c241a91da41e
 		sourceLineageTag: factor_group_key
@@ -119,15 +133,6 @@ table fact_crashes
 		sourceLineageTag: motorists_killed
 		summarizeBy: sum
 		sourceColumn: motorists_killed
-
-		annotation SummarizationSetBy = Automatic
-
-	column collision_id
-		dataType: int64
-		formatString: 0
-		lineageTag: d1588838-98f0-428b-a005-349b5b4e2224
-		summarizeBy: none
-		sourceColumn: collision_id
 
 		annotation SummarizationSetBy = Automatic
 

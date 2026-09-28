@@ -5,6 +5,7 @@ table dim_date
 
 	column date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 5cfebd5d-ce23-4c87-9583-b26e4d830909
 		sourceLineageTag: date_key

@@ -2,8 +2,19 @@ table fact_persons
 	lineageTag: ddcad6ca-fcd3-4c8c-b6ff-c1ea920aa761
 	sourceLineageTag: [dbo].[fact_persons]
 
+	column collision_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4e29d3a7-9e19-41e5-8eb3-f931ef3be977
+		summarizeBy: none
+		sourceColumn: collision_id
+
+		annotation SummarizationSetBy = Automatic
+
 	column fact_person_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: dfec960c-6f9d-45d6-a57b-b016e5a4a324
 		sourceLineageTag: fact_person_id
@@ -12,8 +23,40 @@ table fact_persons
 
 		annotation SummarizationSetBy = Automatic
 
+	column date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b6f2a1b4-6f0d-4a3c-9d1e-8a5c2e7f9b3a
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ce59237a-fc69-4a47-8493-9e5f3547f7e1
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column factor_group_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 28965a0b-a2ce-4943-b0d3-c553aa2cee0d
+		summarizeBy: none
+		sourceColumn: factor_group_key
+
+		annotation SummarizationSetBy = Automatic
+
 	column person_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3fe004bb-3d44-496d-9097-fc3234e12e77
 		sourceLineageTag: person_key
@@ -49,43 +92,6 @@ table fact_persons
 		sourceLineageTag: is_killed
 		summarizeBy: none
 		sourceColumn: is_killed
-
-		annotation SummarizationSetBy = Automatic
-
-	column date_key
-		dataType: int64
-		formatString: 0
-		lineageTag: b6f2a1b4-6f0d-4a3c-9d1e-8a5c2e7f9b3a
-		sourceLineageTag: date_key
-		summarizeBy: none
-		sourceColumn: date_key
-
-		annotation SummarizationSetBy = Automatic
-
-	column collision_id
-		dataType: int64
-		formatString: 0
-		lineageTag: 4e29d3a7-9e19-41e5-8eb3-f931ef3be977
-		summarizeBy: none
-		sourceColumn: collision_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column location_key
-		dataType: int64
-		formatString: 0
-		lineageTag: ce59237a-fc69-4a47-8493-9e5f3547f7e1
-		summarizeBy: none
-		sourceColumn: location_key
-
-		annotation SummarizationSetBy = Automatic
-
-	column factor_group_key
-		dataType: int64
-		formatString: 0
-		lineageTag: 28965a0b-a2ce-4943-b0d3-c553aa2cee0d
-		summarizeBy: none
-		sourceColumn: factor_group_key
 
 		annotation SummarizationSetBy = Automatic
 

@@ -4,6 +4,7 @@ table dim_factor_group
 
 	column factor_group_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 409d77b0-ac21-47d9-9181-3e9f5e1c8a78
 		sourceLineageTag: factor_group_key

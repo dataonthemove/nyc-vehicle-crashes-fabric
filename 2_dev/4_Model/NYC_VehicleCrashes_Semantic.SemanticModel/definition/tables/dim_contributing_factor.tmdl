@@ -4,6 +4,7 @@ table dim_contributing_factor
 
 	column factor_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: be20da5a-1747-491c-9ddc-f0bf0e21b476
 		sourceLineageTag: factor_key

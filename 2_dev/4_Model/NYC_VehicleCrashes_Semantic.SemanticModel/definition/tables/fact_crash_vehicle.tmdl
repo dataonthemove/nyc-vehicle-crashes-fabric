@@ -2,8 +2,19 @@ table fact_crash_vehicle
 	lineageTag: b8540bca-cde8-408b-ac4f-0a67761442f5
 	sourceLineageTag: [dbo].[fact_crash_vehicle]
 
+	column collision_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c67f1a2b-3b4c-46d2-bc43-f0c1d9507a0f
+		summarizeBy: none
+		sourceColumn: collision_id
+
+		annotation SummarizationSetBy = Automatic
+
 	column fact_crash_vehicle_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a9e8cce1-8754-4cc1-9fed-c7e4b78e8720
 		sourceLineageTag: fact_crash_vehicle_id
@@ -12,8 +23,40 @@ table fact_crash_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
+	column date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e3a7c9f1-2b6d-4e8a-91c5-7d4f0a8b3e2c
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9bc303fb-64f5-46e2-81c4-9d363f6ab4df
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column factor_group_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9e596f14-faff-489c-9d3c-6a16ff2cfdef
+		summarizeBy: none
+		sourceColumn: factor_group_key
+
+		annotation SummarizationSetBy = Automatic
+
 	column vehicle_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 42dfc810-ba53-4163-882b-dca49a787914
 		sourceLineageTag: vehicle_key
@@ -24,11 +67,22 @@ table fact_crash_vehicle
 
 	column vehicle_circumstance_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 0af7ff52-5747-4cbe-8e74-6cfb81d7247e
 		sourceLineageTag: vehicle_circumstance_key
 		summarizeBy: none
 		sourceColumn: vehicle_circumstance_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3de53fed-0a08-4b1c-a890-ced16a46ed0b
+		summarizeBy: none
+		sourceColumn: driver_key
 
 		annotation SummarizationSetBy = Automatic
 
@@ -39,52 +93,6 @@ table fact_crash_vehicle
 		sourceLineageTag: vehicle_occupants
 		summarizeBy: sum
 		sourceColumn: vehicle_occupants
-
-		annotation SummarizationSetBy = Automatic
-
-	column date_key
-		dataType: int64
-		formatString: 0
-		lineageTag: e3a7c9f1-2b6d-4e8a-91c5-7d4f0a8b3e2c
-		sourceLineageTag: date_key
-		summarizeBy: none
-		sourceColumn: date_key
-
-		annotation SummarizationSetBy = Automatic
-
-	column collision_id
-		dataType: int64
-		formatString: 0
-		lineageTag: c67f1a2b-3b4c-46d2-bc43-f0c1d9507a0f
-		summarizeBy: none
-		sourceColumn: collision_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column location_key
-		dataType: int64
-		formatString: 0
-		lineageTag: 9bc303fb-64f5-46e2-81c4-9d363f6ab4df
-		summarizeBy: none
-		sourceColumn: location_key
-
-		annotation SummarizationSetBy = Automatic
-
-	column factor_group_key
-		dataType: int64
-		formatString: 0
-		lineageTag: 9e596f14-faff-489c-9d3c-6a16ff2cfdef
-		summarizeBy: none
-		sourceColumn: factor_group_key
-
-		annotation SummarizationSetBy = Automatic
-
-	column driver_key
-		dataType: int64
-		formatString: 0
-		lineageTag: 3de53fed-0a08-4b1c-a890-ced16a46ed0b
-		summarizeBy: none
-		sourceColumn: driver_key
 
 		annotation SummarizationSetBy = Automatic
 

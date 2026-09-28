@@ -3,6 +3,7 @@ table dim_driver
 
 	column driver_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a605d1bd-f6b8-41c7-bab2-ce94ebb2f5f4
 		summarizeBy: none

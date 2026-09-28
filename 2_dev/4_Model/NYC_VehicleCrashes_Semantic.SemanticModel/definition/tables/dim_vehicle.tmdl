@@ -4,6 +4,7 @@ table dim_vehicle
 
 	column vehicle_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: aa6600db-5b84-462a-85aa-62b9a85aba57
 		sourceLineageTag: vehicle_key

@@ -4,6 +4,7 @@ table dim_person
 
 	column person_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3f766911-ae41-40e4-bb1b-8c842018e57c
 		sourceLineageTag: person_key

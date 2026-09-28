@@ -4,6 +4,7 @@ table dim_location
 
 	column location_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 33b2de67-74cc-4120-a6da-5785f21e0db2
 		sourceLineageTag: location_key
