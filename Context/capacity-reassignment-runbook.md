@@ -39,7 +39,7 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 - **One working account (Pat, 2026-09-29).** `WORKSPACE_PRINCIPAL` is the only principal with a
   role in any workspace, and the only identity for local Git/VSC, ADO, the Fabric UI, `az`, MCP and
   connections. Each trial owner (`NEW_OWNER`, `OLD_OWNER`) only hosts capacity: no workspace role,
-  no development. Origin: `.scratch/Backlog/capacity-rotation-single-account/spec.md`.
+  no development. Origin: `.scratch/Archive/capacity-rotation-single-account/spec.md`.
 - **Licence, not capacity, gates reports.** A trial capacity licenses the *workspace*; Power BI
   Pro/PPU licenses the *user*. `WORKSPACE_PRINCIPAL` is on a Free licence (its Power BI trial lapsed
   2026-09, no further trial allowed). On Free it can do everything on the semantic-model SDLC path

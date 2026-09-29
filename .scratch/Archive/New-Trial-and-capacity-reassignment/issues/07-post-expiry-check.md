@@ -15,4 +15,4 @@
 
 - **Post-expiry check:** `user7` is Free, and its Power BI trial expired with no further trial allowed. The semantic-model SDLC path passed as `user7` (test measure `9cd1bce` / `0fc434e`: Update All, model-only Dev → Test deploy, refresh). Report create/save/delete is blocked by the licence. Logged in the runbook Move log.
 - **`user6`:** no longer present in any workspace, so no decision was needed; env-reference updated.
-- **Follow-on:** single-account rotation model in `.scratch/Backlog/capacity-rotation-single-account/spec.md`.
+- **Follow-on:** single-account rotation model in `.scratch/Archive/capacity-rotation-single-account/spec.md`.

@@ -1,6 +1,6 @@
 # Rotate trial capacities with `user7` as the only working account
 
-Status: ready-for-human (one-time changes done 2026-09-29; open until the next rotation, ~2026-11-24, passes)
+Status: done (2026-09-29)
 Category: operations
 Raised: 2026-09-29 (licence session)
 
@@ -33,28 +33,8 @@ Fabric UI, `az`, MCP) for good, with each new trial account doing nothing but ho
 | D1 | `user7` is the single `WORKSPACE_PRINCIPAL`: Admin in all four workspaces and the only identity for Git/VSC, ADO, the Fabric UI, `az`, MCP and connections. |
 | D2 | Each trial account (`user8`, `user9`, …) only *hosts capacity*. It has no workspace role and does no development. |
 | D3 | Report authoring on Free happens in `user7`'s My workspace (practice only, not Git-tracked). Versioned reports in `5_Reports` wait until `user7` gets Pro; DP-600 scope is the semantic model. |
-| D4 | Rotation reuses `Context/capacity-reassignment-runbook.md` (reassignment, not a rebuild). This spec changes the runbook's account rules; it doesn't replace the runbook. |
+| D4 | `Context/capacity-reassignment-runbook.md` is the **only** rotation process document (reassignment, not a rebuild). This spec records decisions and changed the runbook; it holds no process steps. |
 | D5 | Known risk: chaining trials through new accounts may breach Microsoft's trial terms or hit per-tenant limits. If a new trial is refused, the fallback is a paid F-SKU or Pro for `user7`. |
-
-## Process at each rotation
-
-Step numbers in brackets are the detailed steps in the runbook.
-
-| # | Step | Who |
-|---|---|---|
-| 1 | About 7 days before `OLD_EXPIRY`, confirm the date in Admin portal → Capacity settings → Trial. | Pat |
-| 2 | Create the next account (`user9`, …) in the same tenant, with no workspace roles. [1.1] | Pat |
-| 3 | Give it the Entra **Fabric Administrator** role and a **Fabric (Free)** licence. [1.2–1.3] | Pat |
-| 4 | Sign in as the new account and start the Fabric trial. Check that the region is UK South and the SKU is FTL64, then record the capacity ID, name and expiry. [1.4–1.5] | Pat |
-| 5 | Check that the new account has no role in any workspace. [1.6] | CC |
-| 6 | Run the pre-move checks: no active runs or Livy sessions, Source Control clean, baseline row counts taken. [2.1–2.5] | Pat + CC |
-| 7 | As the new account, bulk-assign all four workspaces to the new capacity. Fallback: `user7` assigns each workspace from Workspace settings. [3.1–3.7] | Pat |
-| 8 | As `user7`, check each workspace for an "items not migrated" banner and retry while the old trial is still alive. [3] | Pat |
-| 9 | Run the post-move validation: capacity ID, row counts, `/dax-smoke-test`, bindings, one Dev stage load. [4.1–4.11] | CC |
-| 10 | As `user7`: Update All in Dev, then a semantic-model-only Dev → Test deploy (proves the SDLC path on Free). [4.12] | Pat + CC |
-| 11 | Close out: correct the runbook, update env-reference and memory, commit. [5.1–5.5] | CC |
-| 12 | Let the old trial expire. Never cancel it. [5.6] | Pat |
-| 13 | After expiry: repeat step 10 and open one item in each workspace as `user7`. Expect no prompts, except for reports. [6] | Pat + CC |
 
 ## One-time changes (this spec's tickets)
 
@@ -69,6 +49,8 @@ Step numbers in brackets are the detailed steps in the runbook.
 
 - [x] `user7` is the only principal with a role in all four workspaces (verified 2026-09-29).
 - [x] The runbook's rules and section 6 match D1–D3; env-reference is updated; everything is committed.
-- [ ] The next rotation (~2026-11-24) runs from the runbook with no workspace role for the new account, and steps 10 and 13 pass as `user7`.
+- [x] ~~The next rotation passes as `user7`~~: moved to the runbook (1.6, 4.12, section 6, Move log). The runbook is the only process document; this spec is the decision record.
 
 ## Comments
+
+2026-09-29 (CC): Done and archived. Its "process at each rotation" table was removed so the runbook is the single process document (Pat, 2026-09-29).
