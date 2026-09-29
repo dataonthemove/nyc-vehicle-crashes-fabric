@@ -4,7 +4,7 @@
 
 **Blocked by:** 01 (Delete the existing report), 02 (Naming review file).
 
-**Status:** done (pending drift check)
+**Status:** done
 
 **Who:** Claude edits and verifies; Pat pushes and runs Source Control Update All.
 
@@ -22,7 +22,7 @@
 - [x] Pat: push, then Update All in Dev, which completes without `Workload_FailedToParseFile`
 - [x] `refresh_semantic_model` succeeds in Dev
 - [x] One DAX query returns a few rows from every table by its new name, selecting every renamed visible column, with no errors and no all-blank columns
-- [ ] Any cosmetic Source Control drift afterwards is classified per item per the CLAUDE.md drift rule
+- [x] Any cosmetic Source Control drift afterwards is classified per item per the CLAUDE.md drift rule
 
 ## Comments
 
@@ -32,3 +32,5 @@ non-blank count per table is > 0 (partial blanks are source nulls, e.g. Vehicle 
 Rows: Fact Crashes 2,269,187 · Fact Crash Vehicles 4,551,002 · Fact Crash Persons 5,984,110 ·
 Dim Date 6,940 · Dim Location 246 · Dim Contributing Factor 66 · Dim Driver 670 · Dim Person 25,990 ·
 Dim Vehicle 155,594 · Dim Vehicle Circumstance 21,430 · dim_factor_group 1,581 · bridge_crash_factor 3,610.
+
+2026-09-29 — Source Control shows no drift on NYC_VehicleCrashes_Semantic after Update All (Pat). Ticket closed.
