@@ -2,6 +2,10 @@ table 'Fact Crashes'
 	lineageTag: 4081c01e-bd87-4895-8a18-92d9cc1f76a0
 	sourceLineageTag: [dbo].[fact_crashes]
 
+	/// Temporary: verifies Free-licence Update All/deploy. Remove after test.
+	measure _licence_test = 1
+		isHidden
+
 	column collision_id
 		dataType: int64
 		isHidden
