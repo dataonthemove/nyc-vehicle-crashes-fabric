@@ -1,4 +1,4 @@
-table dim_location
+table 'Dim Location'
 	lineageTag: 1944405f-9ba2-4d80-8089-7aa8c73d4fcd
 	sourceLineageTag: [dbo].[dim_location]
 
@@ -13,7 +13,7 @@ table dim_location
 
 		annotation SummarizationSetBy = Automatic
 
-	column borough
+	column Borough
 		dataType: string
 		lineageTag: 46ecc632-edb7-4dc2-b4dd-613d3090afef
 		sourceLineageTag: borough
@@ -22,7 +22,7 @@ table dim_location
 
 		annotation SummarizationSetBy = Automatic
 
-	column zip_code
+	column 'ZIP Code'
 		dataType: string
 		lineageTag: 46e937c1-7426-4c91-9445-6a2774c7cac6
 		sourceLineageTag: zip_code
@@ -31,7 +31,7 @@ table dim_location
 
 		annotation SummarizationSetBy = Automatic
 
-	partition dim_location = entity
+	partition 'Dim Location' = entity
 		mode: directLake
 		source
 			entityName: dim_location

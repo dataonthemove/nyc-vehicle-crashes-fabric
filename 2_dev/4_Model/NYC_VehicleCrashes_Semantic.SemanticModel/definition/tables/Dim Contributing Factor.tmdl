@@ -1,4 +1,4 @@
-table dim_contributing_factor
+table 'Dim Contributing Factor'
 	lineageTag: ee63080d-12ac-440c-ac21-4b6140fa5d4b
 	sourceLineageTag: [dbo].[dim_contributing_factor]
 
@@ -13,7 +13,7 @@ table dim_contributing_factor
 
 		annotation SummarizationSetBy = Automatic
 
-	column factor_desc
+	column 'Contributing Factor'
 		dataType: string
 		lineageTag: 9f7a072c-b5db-4fab-8d23-4d602fde8619
 		sourceLineageTag: factor_desc
@@ -22,7 +22,7 @@ table dim_contributing_factor
 
 		annotation SummarizationSetBy = Automatic
 
-	partition dim_contributing_factor = entity
+	partition 'Dim Contributing Factor' = entity
 		mode: directLake
 		source
 			entityName: dim_contributing_factor

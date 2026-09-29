@@ -1,4 +1,4 @@
-table fact_crashes
+table 'Fact Crashes'
 	lineageTag: 4081c01e-bd87-4895-8a18-92d9cc1f76a0
 	sourceLineageTag: [dbo].[fact_crashes]
 
@@ -56,7 +56,7 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
-	column persons_injured
+	column 'Persons Injured'
 		dataType: int64
 		formatString: 0
 		lineageTag: cfea6f52-0c11-45ca-bb82-34b9a84cb51d
@@ -66,7 +66,7 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
-	column persons_killed
+	column 'Persons Killed'
 		dataType: int64
 		formatString: 0
 		lineageTag: a4573472-6cbe-43b1-9b29-0292bbf3c21d
@@ -76,7 +76,7 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
-	column pedestrians_injured
+	column 'Pedestrians Injured'
 		dataType: int64
 		formatString: 0
 		lineageTag: 77f3d9be-45be-4055-9d9a-c8c9ad3e9feb
@@ -86,7 +86,7 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
-	column pedestrians_killed
+	column 'Pedestrians Killed'
 		dataType: int64
 		formatString: 0
 		lineageTag: f550f788-d01b-45a4-b927-51cacbb2d2e8
@@ -96,7 +96,7 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
-	column cyclists_injured
+	column 'Cyclists Injured'
 		dataType: int64
 		formatString: 0
 		lineageTag: b054a65b-d998-4e50-8edf-838b6cb3ff58
@@ -106,7 +106,7 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
-	column cyclists_killed
+	column 'Cyclists Killed'
 		dataType: int64
 		formatString: 0
 		lineageTag: f278f81b-f404-4f40-8534-80caaea719f3
@@ -116,7 +116,7 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
-	column motorists_injured
+	column 'Motorists Injured'
 		dataType: int64
 		formatString: 0
 		lineageTag: 1bad8a9b-9be0-4013-a924-24e14947d823
@@ -126,7 +126,7 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
-	column motorists_killed
+	column 'Motorists Killed'
 		dataType: int64
 		formatString: 0
 		lineageTag: 7fb2cef4-1840-44c7-b779-4f05163468c3
@@ -136,7 +136,7 @@ table fact_crashes
 
 		annotation SummarizationSetBy = Automatic
 
-	column latitude
+	column Latitude
 		dataType: double
 		lineageTag: 0246ef0b-25b3-441c-b366-bd3dd4f4bff8
 		dataCategory: Latitude
@@ -147,7 +147,7 @@ table fact_crashes
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column longitude
+	column Longitude
 		dataType: double
 		lineageTag: 3339bffb-8912-4677-b46b-54345f151492
 		dataCategory: Longitude
@@ -158,7 +158,7 @@ table fact_crashes
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	partition fact_crashes = entity
+	partition 'Fact Crashes' = entity
 		mode: directLake
 		source
 			entityName: fact_crashes

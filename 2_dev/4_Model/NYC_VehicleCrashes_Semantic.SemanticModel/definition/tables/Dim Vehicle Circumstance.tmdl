@@ -1,4 +1,4 @@
-table dim_vehicle_circumstance
+table 'Dim Vehicle Circumstance'
 	lineageTag: 3f52ff57-eb0f-469c-bd09-b593ac101b95
 	sourceLineageTag: [dbo].[dim_vehicle_circumstance]
 
@@ -13,7 +13,7 @@ table dim_vehicle_circumstance
 
 		annotation SummarizationSetBy = Automatic
 
-	column pre_crash
+	column 'Pre-Crash Action'
 		dataType: string
 		lineageTag: f6634c7a-d968-4e13-918d-4fc48cca14b8
 		sourceLineageTag: pre_crash
@@ -22,7 +22,7 @@ table dim_vehicle_circumstance
 
 		annotation SummarizationSetBy = Automatic
 
-	column point_of_impact
+	column 'Point of Impact'
 		dataType: string
 		lineageTag: f3e9597b-c183-4ba1-b1af-657368bd17a0
 		sourceLineageTag: point_of_impact
@@ -31,7 +31,7 @@ table dim_vehicle_circumstance
 
 		annotation SummarizationSetBy = Automatic
 
-	column vehicle_damage
+	column 'Vehicle Damage'
 		dataType: string
 		lineageTag: 8bf198b1-4998-43fc-8166-1397b30cde51
 		sourceLineageTag: vehicle_damage
@@ -40,7 +40,7 @@ table dim_vehicle_circumstance
 
 		annotation SummarizationSetBy = Automatic
 
-	column travel_direction
+	column 'Travel Direction'
 		dataType: string
 		lineageTag: 28dc6fd6-90fa-4a8d-8d5d-70e784a1d4bb
 		summarizeBy: none
@@ -48,7 +48,7 @@ table dim_vehicle_circumstance
 
 		annotation SummarizationSetBy = Automatic
 
-	partition dim_vehicle_circumstance = entity
+	partition 'Dim Vehicle Circumstance' = entity
 		mode: directLake
 		source
 			entityName: dim_vehicle_circumstance

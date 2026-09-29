@@ -1,4 +1,4 @@
-table dim_date
+table 'Dim Date'
 	lineageTag: ccd3e92f-9da3-4a70-af10-9bb3c9b33dc7
 	sourceLineageTag: [dbo].[dim_date]
 	dataCategory: Time
@@ -15,7 +15,7 @@ table dim_date
 		annotation SummarizationSetBy = Automatic
 
 	/// Calendar date. Date-table key column, so time-intelligence measures (YoY, MoM) resolve.
-	column full_date
+	column Date
 		dataType: dateTime
 		isKey
 		formatString: General Date
@@ -26,7 +26,7 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
-	column year
+	column Year
 		dataType: int64
 		formatString: 0
 		lineageTag: cc1c2ac0-e1bd-4af1-8432-83e25585443a
@@ -36,7 +36,7 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
-	column quarter
+	column Quarter
 		dataType: int64
 		formatString: 0
 		lineageTag: cd403c55-55bc-480d-b4ad-5d4427d60e8e
@@ -46,7 +46,7 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
-	column month
+	column 'Month Number'
 		dataType: int64
 		formatString: 0
 		lineageTag: 0065130d-ceda-469a-ac30-ee3bbc11b204
@@ -56,7 +56,7 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
-	column month_name
+	column Month
 		dataType: string
 		lineageTag: 7d5daab3-02bc-49e3-b6c2-fe4b05a52832
 		sourceLineageTag: month_name
@@ -65,7 +65,7 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
-	column day
+	column 'Day of Month'
 		dataType: int64
 		formatString: 0
 		lineageTag: d967badd-c748-4a3d-a6c7-f38cea6e3faf
@@ -75,7 +75,7 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
-	column day_of_week
+	column 'Day of Week Number'
 		dataType: int64
 		formatString: 0
 		lineageTag: f73ddd96-c5d2-4c52-a18a-b3c9876315be
@@ -85,7 +85,7 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
-	column day_name
+	column 'Day of Week'
 		dataType: string
 		lineageTag: afeb37df-22d6-4091-b899-0d86fef269b2
 		sourceLineageTag: day_name
@@ -94,7 +94,7 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
-	column is_weekend
+	column 'Is Weekend'
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		lineageTag: bdef0774-61ea-499b-a12b-043612dab08a
@@ -104,7 +104,7 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
-	partition dim_date = entity
+	partition 'Dim Date' = entity
 		mode: directLake
 		source
 			entityName: dim_date

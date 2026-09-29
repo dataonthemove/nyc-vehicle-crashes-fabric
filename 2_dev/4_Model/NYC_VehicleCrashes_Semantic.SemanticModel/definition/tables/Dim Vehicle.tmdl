@@ -1,4 +1,4 @@
-table dim_vehicle
+table 'Dim Vehicle'
 	lineageTag: eda5f63e-0465-4dea-8983-2376d1930588
 	sourceLineageTag: [dbo].[dim_vehicle]
 
@@ -15,7 +15,7 @@ table dim_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	column vehicle_type
+	column 'Vehicle Type'
 		dataType: string
 		lineageTag: be4bd1f5-3953-4a00-ae0d-a26577e88ede
 		sourceLineageTag: vehicle_type
@@ -26,7 +26,7 @@ table dim_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	column vehicle_make
+	column 'Vehicle Make'
 		dataType: string
 		lineageTag: 5ed5047b-83cb-45a4-b433-c67ea036c4ff
 		sourceLineageTag: vehicle_make
@@ -37,7 +37,7 @@ table dim_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	column vehicle_year
+	column 'Vehicle Model Year'
 		dataType: int64
 		formatString: 0
 		lineageTag: 3f52aca1-d2d2-4168-881e-d561064f9817
@@ -49,7 +49,7 @@ table dim_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	column state_registration
+	column 'Registration State'
 		dataType: string
 		lineageTag: 9dd9a03e-0be0-4e82-b979-03682f81630d
 		sourceLineageTag: state_registration
@@ -60,7 +60,7 @@ table dim_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	partition dim_vehicle = entity
+	partition 'Dim Vehicle' = entity
 		mode: directLake
 		source
 			entityName: dim_vehicle

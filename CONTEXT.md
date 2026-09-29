@@ -34,6 +34,29 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 | **Business key** | `*_id` column carrying the source system's identifier, e.g. the Socrata collision id. |
 | **Grain** | The one row means exactly one ___ statement for a fact table. State it before adding any measure. |
 
+## Semantic model names
+
+The Direct Lake model shows **business names**, and the Warehouse keeps **technical names**. The
+model's `sourceColumn` and partition `entityName` still point at the technical names. Rules:
+Title Case, `Dim ` / `Fact ` table prefixes. Hidden `_key`/`_id` columns keep their technical
+names, and so do the all-hidden tables `dim_factor_group` and `bridge_crash_factor`. Approved
+2026-09-29 (`.scratch/semantic-model-business-names/naming-review.md`).
+
+| Model table | Warehouse table | Renamed visible columns (model ← Warehouse) |
+|---|---|---|
+| Fact Crashes | `fact_crashes` | Persons / Pedestrians / Cyclists / Motorists Injured, Killed ← `*_injured`, `*_killed`; Latitude, Longitude ← `latitude`, `longitude` |
+| Fact Crash Vehicles | `fact_crash_vehicle` | Vehicle Occupants ← `vehicle_occupants` |
+| Fact Crash Persons | `fact_persons` | Person Age ← `person_age`; Is Injured, Is Killed ← `is_injured`, `is_killed` |
+| Dim Date | `dim_date` | Date ← `full_date`; Year, Quarter; Month Number ← `month`; Month ← `month_name`; Day of Month ← `day`; Day of Week Number ← `day_of_week`; Day of Week ← `day_name`; Is Weekend |
+| Dim Location | `dim_location` | Borough; ZIP Code ← `zip_code` |
+| Dim Contributing Factor | `dim_contributing_factor` | Contributing Factor ← `factor_desc` |
+| Dim Driver | `dim_driver` | Driver Sex, Driver License Status, Driver License Jurisdiction ← `driver_*` |
+| Dim Person | `dim_person` | Person Type, Person Sex, Ejection, Emotional Status, Bodily Injury, Position in Vehicle, Safety Equipment; Pedestrian Location, Pedestrian Action ← `ped_location`, `ped_action`; Person Role ← `ped_role` |
+| Dim Vehicle | `dim_vehicle` | Vehicle Type, Vehicle Make; Vehicle Model Year ← `vehicle_year`; Registration State ← `state_registration` |
+| Dim Vehicle Circumstance | `dim_vehicle_circumstance` | Pre-Crash Action ← `pre_crash`; Point of Impact, Vehicle Damage, Travel Direction |
+| dim_factor_group | `dim_factor_group` | none; all columns are hidden |
+| bridge_crash_factor | `bridge_crash_factor` | none; all columns are hidden |
+
 ## Pipeline
 
 | Term | Meaning |

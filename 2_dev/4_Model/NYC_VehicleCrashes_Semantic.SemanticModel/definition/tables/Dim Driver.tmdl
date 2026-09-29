@@ -1,4 +1,4 @@
-table dim_driver
+table 'Dim Driver'
 	lineageTag: 4ca4e9e3-3553-43d9-971f-878ef5f110f7
 
 	column driver_key
@@ -11,7 +11,7 @@ table dim_driver
 
 		annotation SummarizationSetBy = Automatic
 
-	column driver_sex
+	column 'Driver Sex'
 		dataType: string
 		lineageTag: e0156377-5eb0-46b8-bfd0-e9f59c96e8fc
 		summarizeBy: none
@@ -19,7 +19,7 @@ table dim_driver
 
 		annotation SummarizationSetBy = Automatic
 
-	column driver_license_status
+	column 'Driver License Status'
 		dataType: string
 		lineageTag: 36a66109-85e5-477b-aec7-95c79b9e0688
 		summarizeBy: none
@@ -27,7 +27,7 @@ table dim_driver
 
 		annotation SummarizationSetBy = Automatic
 
-	column driver_license_jurisdiction
+	column 'Driver License Jurisdiction'
 		dataType: string
 		lineageTag: 0aded577-b8b9-4ade-aa35-7c124fa7735f
 		summarizeBy: none
@@ -35,7 +35,7 @@ table dim_driver
 
 		annotation SummarizationSetBy = Automatic
 
-	partition dim_driver = entity
+	partition 'Dim Driver' = entity
 		mode: directLake
 		source
 			entityName: dim_driver

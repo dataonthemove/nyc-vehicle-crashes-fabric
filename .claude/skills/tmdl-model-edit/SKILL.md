@@ -55,15 +55,20 @@ them. Delete any that appear.
   genuinely new objects, omit them and let Fabric assign on import.
 - `sourceColumn` must match the Warehouse column exactly — the Warehouse collation is
   case-sensitive.
+- **Object names are business names; source references are Warehouse names.** Visible tables and
+  columns use Title Case with `Dim `/`Fact ` prefixes (`Dim Date`[Month Number]); `sourceColumn`,
+  partition `entityName` and `sourceLineageTag` keep the Warehouse names. Hidden `_key`/`_id`
+  columns and the all-hidden `dim_factor_group` / `bridge_crash_factor` keep technical names.
+  Quote names containing spaces: `'Dim Date'`. Mapping: `CONTEXT.md` → Semantic model names.
 
 ## SummarizeBy rules (ALWAYS apply)
 
 | Column pattern | `summarizeBy` |
 |---|---|
 | Any `_key` or `_id` column | `none` |
-| Numeric dim attributes — `year`, `quarter`, `month`, `day`, `day_of_week`, `vehicle_year` | `none` |
-| `person_age` | `average` |
-| `vehicle_occupants` | `sum` |
+| Numeric dim attributes — `Dim Date`[Year], [Quarter], [Month Number], [Day of Month], [Day of Week Number]; `Dim Vehicle`[Vehicle Model Year] | `none` |
+| `Fact Crash Persons`[Person Age] | `average` |
+| `Fact Crash Vehicles`[Vehicle Occupants] | `sum` |
 
 A schema refresh resets **every** `summarizeBy` to `sum`. After any refresh, re-apply this table
 across all files before committing — do not assume only the touched table drifted.
@@ -80,22 +85,22 @@ across all files before committing — do not assume only the touched table drif
 
 - Measures live inside the `definition/tables/*.tmdl` file of the table they logically belong to
   — normally the fact table being aggregated.
-- Before writing any measure over `vehicle_occupants`, note that it is only trustworthy because
+- Before writing any measure over `Vehicle Occupants`, note that it is only trustworthy because
   of the outlier cap applied in `44ea207`. Raw `SUM` was inflated ~888x by 1,127 garbage rows.
 - Give every measure a `formatString` and a `///` description. A measure layer without
   descriptions reads as unfinished.
 
-## Time intelligence needs dim_date marked as a date table
+## Time intelligence needs Dim Date marked as a date table
 
 `SAMEPERIODLASTYEAR`, `DATEADD`, `TOTALYTD` and friends do not work off the integer `date_key`
-the relationships join on. `dim_date` carries the marking (verified 2026-08-12, commit `721344c`,
+the relationships join on. `Dim Date` (Warehouse `dim_date`) carries the marking (verified 2026-08-12, commit `721344c`,
 survives Fabric Git import):
 
 ```
-table dim_date
+table 'Dim Date'
 	dataCategory: Time
 	...
-	column full_date
+	column Date
 		dataType: dateTime
 		isKey
 ```
@@ -103,8 +108,8 @@ table dim_date
 - `isKey` here is the **date-table designation**, not a relationship key. Do not confuse it with
   `date_key`, which stays the surrogate join column — the relationships were not changed.
 - Only **one** table per model can hold `dataCategory: Time`. Marking another moves the
-  designation off `dim_date` and silently breaks every time-intelligence measure.
-- Preserve both lines on any edit to `dim_date.tmdl`.
+  designation off `Dim Date` and silently breaks every time-intelligence measure.
+- Preserve both lines on any edit to `Dim Date.tmdl`.
 
 Partial-period comparisons look broken and are not: at the CDC watermark the current year and
 month show large negative YoY/MoM. Confirm the prior-period value chains correctly against the
@@ -114,7 +119,7 @@ previous complete period before treating a swing as a defect.
 
 A measure that returns *a* number is not a validated measure. `Average Occupants per Vehicle`
 first shipped dividing by all vehicles and returned 0.69 occupants per vehicle — impossible on
-its face — because ~51% of `fact_crash_vehicle` rows report `vehicle_occupants` as 0 or blank.
+its face — because ~51% of `Fact Crash Vehicles` rows report `Vehicle Occupants` as 0 or blank.
 For any ratio, check what share of the denominator actually carries data, restrict the
 denominator when the blanks are missing rather than genuinely zero, and expose a coverage
 measure next to it so the gap is visible in the report instead of buried in the DAX.

@@ -1,4 +1,4 @@
-table fact_persons
+table 'Fact Crash Persons'
 	lineageTag: ddcad6ca-fcd3-4c8c-b6ff-c1ea920aa761
 	sourceLineageTag: [dbo].[fact_persons]
 
@@ -65,7 +65,7 @@ table fact_persons
 
 		annotation SummarizationSetBy = Automatic
 
-	column person_age
+	column 'Person Age'
 		dataType: int64
 		formatString: 0
 		lineageTag: 459bee3b-933a-4497-924c-076ec9a384e7
@@ -75,7 +75,7 @@ table fact_persons
 
 		annotation SummarizationSetBy = Automatic
 
-	column is_injured
+	column 'Is Injured'
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		lineageTag: c51acfe0-10a2-4425-8dfb-eff5bfd5265c
@@ -85,7 +85,7 @@ table fact_persons
 
 		annotation SummarizationSetBy = Automatic
 
-	column is_killed
+	column 'Is Killed'
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
 		lineageTag: 817ceabf-5644-4a8d-b8ca-be59b221145e
@@ -95,7 +95,7 @@ table fact_persons
 
 		annotation SummarizationSetBy = Automatic
 
-	partition fact_persons = entity
+	partition 'Fact Crash Persons' = entity
 		mode: directLake
 		source
 			entityName: fact_persons

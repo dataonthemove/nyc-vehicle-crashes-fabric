@@ -1,4 +1,4 @@
-table fact_crash_vehicle
+table 'Fact Crash Vehicles'
 	lineageTag: b8540bca-cde8-408b-ac4f-0a67761442f5
 	sourceLineageTag: [dbo].[fact_crash_vehicle]
 
@@ -86,7 +86,7 @@ table fact_crash_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	column vehicle_occupants
+	column 'Vehicle Occupants'
 		dataType: int64
 		formatString: 0
 		lineageTag: cc43c4c4-e5d3-48df-a0aa-9aa8472ab6cf
@@ -96,7 +96,7 @@ table fact_crash_vehicle
 
 		annotation SummarizationSetBy = Automatic
 
-	partition fact_crash_vehicle = entity
+	partition 'Fact Crash Vehicles' = entity
 		mode: directLake
 		source
 			entityName: fact_crash_vehicle
