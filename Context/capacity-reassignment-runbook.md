@@ -36,11 +36,20 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 - **Don't cancel the old trial.** Let it expire on `OLD_EXPIRY`. Items that fail to migrate stay
   attached to `OLD_CAPACITY_ID`, and retrying them depends on it being alive. Finish the move and
   every validation check before `OLD_EXPIRY`.
-- *Preference, not a Fabric requirement:* `NEW_OWNER` stays out of workspaces where practical, so
-  `az`, MCP, Git and OAuth connections keep running as the single `WORKSPACE_PRINCIPAL`. Exception
-  (Pat, 2026-09-28): `user8` is **Contributor** in Dev, for report authoring only, because its active
-  trial carries the paid-feature entitlement `user7` lost when its trial lapsed. Never use it for `az`,
-  MCP or connections.
+- **One working account (Pat, 2026-09-29).** `WORKSPACE_PRINCIPAL` is the only principal with a
+  role in any workspace, and the only identity for local Git/VSC, ADO, the Fabric UI, `az`, MCP and
+  connections. Each trial owner (`NEW_OWNER`, `OLD_OWNER`) only hosts capacity: no workspace role,
+  no development. Origin: `.scratch/Backlog/capacity-rotation-single-account/spec.md`.
+- **Licence, not capacity, gates reports.** A trial capacity licenses the *workspace*; Power BI
+  Pro/PPU licenses the *user*. `WORKSPACE_PRINCIPAL` is on a Free licence (its Power BI trial lapsed
+  2026-09, no further trial allowed). On Free it can do everything on the semantic-model SDLC path
+  (Update All, deployment-pipeline deploy, refresh), verified 2026-09-29. It can't create, save or
+  delete reports in the four workspaces. Report practice happens in its My workspace, which isn't
+  Git-tracked. Versioned reports wait for Pro. A blocked save can still leave an orphan report;
+  delete it with Fabric REST `DELETE /v1/workspaces/{ws}/items/{id}` (`az rest`).
+- **Trial chaining is a risk.** New accounts per rotation may breach Microsoft's trial terms or
+  hit per-tenant limits. If a new trial is refused at 1.4, stop: the fallback is a paid F-SKU or Pro
+  for `WORKSPACE_PRINCIPAL`, which is Pat's decision.
 - **No rebuild from ADO.** It would mean new physical IDs everywhere, a new deployment pipeline and
   rules, re-consented connections and a full re-CDC. Don't switch to a rebuild without an explicit
   decision from Pat.
@@ -55,7 +64,7 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 | 1.3 | Assign `NEW_OWNER` a **Fabric (Free)** license. | Pat | Microsoft 365 admin center → Licenses |
 | 1.4 | Sign in as `NEW_OWNER` and start a Fabric trial (Account manager → Free trial). | Pat | Fabric portal |
 | 1.5 | Confirm the trial's region is `REGION` and its SKU is `SKU`. A different region blocks reassignment. Record `NEW_CAPACITY_ID`, `NEW_CAPACITY_NAME` and `NEW_EXPIRY`. | Pat | Admin portal → Capacity settings → Trial |
-| 1.6 | List `NEW_OWNER`'s roles in the four workspaces; any role must be a deliberate, recorded exception (`GET /v1/workspaces/{ws}/roleAssignments`, run as `WORKSPACE_PRINCIPAL`). | CC | Fabric REST (`az rest`) |
+| 1.6 | Confirm `WORKSPACE_PRINCIPAL` is the only principal with a role in the four workspaces; `NEW_OWNER` and `OLD_OWNER` have none (`GET /v1/workspaces/{ws}/roleAssignments`, run as `WORKSPACE_PRINCIPAL`). Pat removes any extra role via Manage access. | CC | Fabric REST (`az rest`) |
 
 ## 2. Pre-move checks
 
@@ -124,13 +133,14 @@ Open one Livy session per workspace and close it when the counts are read.
 | 4.9 | `refresh_semantic_model`, then `/dax-smoke-test` passes. | CC | MCP |
 | 4.10 | Effective Direct Lake binding (`/datasources`) matches the stage: Dev's own Warehouse; Test and Prod per their deployment rules in `environment-reference.md`. | CC | Power BI REST (`api.powerbi.com`) |
 | 4.11 | **Dev only:** one full `pl_stage_load_NYC_Crashes` run succeeds, and the counts still equal the baseline afterwards. Proves Spark, the Stored Procedure activities and `vl_NYC_Crashes` work on the new capacity. | CC | MCP (`run_on_demand_job`) |
+| 4.12 | **Semantic-model SDLC path as `WORKSPACE_PRINCIPAL`:** push a harmless TMDL change (e.g. hidden measure `_licence_test = 1`), Update All in Dev, deploy the semantic model only (Warehouse unticked) Dev → Test, and CC confirms the measure in both via DAX. Then revert the same way. Proves Git, ADO, Source Control and the deployment pipeline on a Free licence (first run 2026-09-29: `9cd1bce` / `0fc434e`). | Pat (push, Update All, deploy); CC (edit, commit, DAX) | Local (repo) + Fabric portal + MCP |
 
 ## 5. Close out
 
 | # | Step | Who | Where |
 |---|---|---|---|
 | 5.1 | Correct this runbook with whatever differed on move day. Add the next rotation's column to Parameters. | CC | Local (repo) |
-| 5.2 | Update `environment-reference.md`: capacity ID, SKU, expiry, `NEW_OWNER` role note, re-verification date. | CC | Local (repo) |
+| 5.2 | Update `environment-reference.md`: capacity ID, SKU, expiry, `NEW_OWNER` (capacity host only, no workspace role), re-verification date. | CC | Local (repo) |
 | 5.3 | Update the memory index with the new capacity, its expiry and any move-day lessons. | CC | Local (CC memory) |
 | 5.4 | Tick the rotation spec's acceptance criteria and set its status to done. | CC | Local (repo) |
 | 5.5 | Commit `CC Commit: envref_capacity_reassignment_trial<N>`. | CC | Local (repo) |
@@ -138,14 +148,15 @@ Open one Livy session per workspace and close it when the counts are read.
 
 ## 6. After the old trial expires
 
-Run on or after the day after `OLD_EXPIRY`. When `OLD_OWNER` = `WORKSPACE_PRINCIPAL`, the old trial
-may also have been what licensed that account to author; this proves it still can.
+Run on or after the day after `OLD_EXPIRY`. Proves `WORKSPACE_PRINCIPAL` keeps working once the old
+trial, and anything it licensed, is gone.
 
 | # | Check | Who | Where |
 |---|---|---|---|
-| 6.1 | Sign in as `WORKSPACE_PRINCIPAL`. Open all four workspaces, open one Fabric item in each (Lakehouse, Warehouse, notebook) and make and discard an edit. No license or "upgrade" prompt appears. | Pat | Fabric portal |
+| 6.1 | Sign in as `WORKSPACE_PRINCIPAL`. Open all four workspaces, open one Fabric item in each (Lakehouse, Warehouse, notebook) and make and discard an edit. No licence or "upgrade" prompt appears. **Expected exception:** creating, saving or deleting a report shows the "Upgrade to a paid Power BI license" prompt. That is a licence limit, not a failure (see Rules). | Pat | Fabric portal |
 | 6.2 | `list_workspaces` still shows all four on `NEW_CAPACITY_ID`, and one `nb_etl_watermark` `mode=read` job succeeds. | CC | MCP |
-| 6.3 | If 6.1 fails: assign `WORKSPACE_PRINCIPAL` a Fabric (Free) license and repeat 6.1. Or author reports as the current trial owner (Contributor in Dev only), as done 2026-09-28. Record the outcome in the Move log. | Pat | Microsoft 365 admin center |
+| 6.3 | Repeat 4.12 (semantic-model SDLC path). | Pat + CC | Local (repo) + Fabric portal + MCP |
+| 6.4 | If 6.1 fails on a non-report item: assign `WORKSPACE_PRINCIPAL` a Fabric (Free) licence and repeat 6.1. Never grant a trial owner a workspace role as a workaround. Record the outcome in the Move log. | Pat | Microsoft 365 admin center |
 
 ## Baseline (rotation 2, taken 2026-09-25; star counts refreshed 2026-09-27)
 
@@ -179,6 +190,7 @@ folder holds one full extract plus header-only files from zero-row runs:
 | Rotation | Date | Route | Outcome |
 |---|---|---|---|
 | 2 | 2026-09-25 | Bulk (3.1–3.4) | All four moved; no not-migrated banners; validation (4.1–4.11) passed same day (4.5 exit map not read; see 4.5). Dev stage load 4 m 35 s. Post-expiry check (6) due 2026-09-29: `.scratch/05-New-Trial-and-capacity-reassignment/issues/07-post-expiry-check.md`. |
+| 2 (post-expiry) | 2026-09-29 | Section 6 | `user7` is Free, its Power BI trial expired, and no further trial is allowed. Semantic-model SDLC path passed (Update All, model-only Dev → Test deploy, refresh; 4.12 first run). Report create/save/delete is blocked (licence). The `user8` Contributor exception in Dev was removed, so `user7` is the sole principal in all four workspaces, and `user6` is no longer present. |
 
 Background: Microsoft Learn `fabric/fundamentals/fabric-trial`, `fabric/admin/portal-workspaces`,
 `fabric/admin/portal-workspace-capacity-reassignment` (read 2026-09-25).

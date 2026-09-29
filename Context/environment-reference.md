@@ -29,10 +29,10 @@ four sit on trial capacity `e52c9636-f9c4-4f58-94c7-57568d827005`
 (owner `user7`, expires 2026-09-28, left to lapse). Next rotation: `Context/capacity-reassignment-runbook.md`.
 All are type `Workspace`; none is Template App (that type silently blocks Git).
 
-`Jpb_fabric_user8` holds the Entra **Fabric Administrator** role and a Fabric (Free) license. It
-owns the trial capacity and, since 2026-09-28, is **Contributor in Dev** for report authoring only
-(`user7` lost paid-feature rights when its trial lapsed). No role elsewhere. Never use it for `az`, MCP
-or connections.
+`Jpb_fabric_user8` holds the Entra **Fabric Administrator** role and a Fabric (Free) license, plus
+a combined Fabric and Power BI trial. It only hosts the trial capacity: **no workspace role** (its
+2026-09-28 Contributor role in Dev was removed on 2026-09-29). Never use it for development, `az`,
+MCP or connections. Single-account rule: `Context/capacity-reassignment-runbook.md` → Rules.
 
 | Stage | Name | Physical workspace ID | Git |
 |---|---|---|---|
@@ -41,10 +41,11 @@ or connections.
 | Test | `3_NYC_VehicleCrashes_test` | `b67c8251-f019-4594-b779-bc2ee14d8307` | never — deployment pipeline only |
 | Prod | `4_NYC_VehicleCrashes_prod` | `fd35c11f-9f8d-4bea-9959-8a7a53a2c390` | never — deployment pipeline only |
 
-Every workspace has principal `Jpb_fabric_user7` · User · **Admin**. Use `user7` only — az CLI
-defaults to `user6`. **Note:** `Jpb_fabric_user6` was Admin in Dev on 2026-09-25 but no longer appears in Dev
-`roleAssignments` (2026-09-28). Follow-up in `.scratch/05-New-Trial-and-capacity-reassignment/issues/07-post-expiry-check.md`. Verify the az user with
-`az account show --query user.name -o tsv`.
+`Jpb_fabric_user7` · User · **Admin** is the **only** principal in every workspace (`roleAssignments`,
+verified 2026-09-29; `user6`, Admin in Dev on 2026-09-25, is gone). `user7` is on a **Free** Power BI
+licence: semantic-model SDLC works, but report create/save/delete in these workspaces doesn't.
+Use `user7` only. az CLI was logged in as `user7` on 2026-09-29, but has defaulted to `user6`
+before, so verify with `az account show --query user.name -o tsv`.
 
 Dev Spark runtime: 1.3 — Spark 3.5.5, Python 3.11.8 (verified via Livy 2026-08-01). `sempy` is
 preinstalled; `sempy_labs` is **not**.
