@@ -128,7 +128,7 @@ layers union. Put each rule in exactly one layer, per its role:
 - **Standing rule:** allow entries must be recurring prefix patterns, never one-shot literal
   commands. `/fewer-permission-prompts` generates the latter — review before accepting.
 - Never grant `Bash(python *)` / `Bash(node *)`: arbitrary local execution voids the
-  `rm:*` / `git reset --hard:*` / `git clean:*` denies and bypasses `ask(Edit|Write)`.
+  `rm:*` / `git reset --hard:*` / `git clean:*` denies and bypasses `ask(Write)`.
 - The deny list protects the **local machine and this repo**. It makes no claim about the
   Fabric workspace, which Fabric RBAC governs — that is why `livy_run_statement` stays allowed.
 - The MCP governance rules above (TMDL-first authoring, MCP as run/read/validate only) are now
