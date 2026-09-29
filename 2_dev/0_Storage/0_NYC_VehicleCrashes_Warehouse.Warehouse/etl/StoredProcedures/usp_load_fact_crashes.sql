@@ -11,6 +11,10 @@ BEGIN
     IF @unknown_location_key IS NULL
         THROW 50001, 'dim_location Unknown member missing: run etl.usp_load_dim_location first.', 1;
 
+    -- NYC bounding box for a valid crash point (all five boroughs: Staten Island S tip ~40.496, Bronx N ~40.915).
+    DECLARE @lat_min FLOAT = 40.49,  @lat_max FLOAT = 40.92;
+    DECLARE @lon_min FLOAT = -74.27, @lon_max FLOAT = -73.68;
+
     -- Unpivot 5 contributing factor columns into collision x factor pairs (UNION collapses duplicates within a crash)
     WITH crash_factor AS
     (
@@ -93,6 +97,16 @@ BEGIN
     -- Exclude rows with unparseable dates or collision IDs
     AND TRY_CAST(src.crash_date  AS DATE) IS NOT NULL
     AND TRY_CAST(src.collision_id AS INT) IS NOT NULL;
+
+    -- Crash point cleanse: a point outside the NYC box, incl. (0, 0), is unknown, not a location.
+    -- NULLs both coordinates together; the crash row and its counts stay. Idempotent: NULL points
+    -- never match, so this fixes loaded rows and each new batch alike. Raw nyc_crashes is untouched.
+    UPDATE dbo.fact_crashes
+    SET    latitude = NULL, longitude = NULL
+    WHERE  (latitude IS NOT NULL OR longitude IS NOT NULL)
+      AND  NOT (latitude  BETWEEN @lat_min AND @lat_max
+            AND longitude BETWEEN @lon_min AND @lon_max
+            AND latitude IS NOT NULL AND longitude IS NOT NULL);
 
 END;
 

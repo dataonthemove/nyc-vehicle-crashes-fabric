@@ -9,10 +9,10 @@ parent spec: `.scratch/crash-point-coordinate-cleanse/spec.md`.
 
 **Blocked by:** None (can start immediately).
 
-**Status:** ready-for-agent
+**Status:** in-progress
 
-- [ ] Dev baseline captured via Spark before any change: total rows, NULL, (0, 0), in-box and outside-box counts.
-- [ ] Bounds variables and the trailing UPDATE added to the authoring notebook proc, with an intent comment. Fabric notebook formatting is preserved.
+- [x] Dev baseline captured via Spark before any change: total rows, NULL, (0, 0), in-box and outside-box counts.
+- [x] Bounds variables and the trailing UPDATE added to the authoring notebook proc, with an intent comment. Fabric notebook formatting is preserved.
 - [ ] The Warehouse item definition proc has an identical change, in the same commit as the notebook, pushed to ADO.
 - [ ] The proc is altered in Dev after Source Control Update All.
 - [ ] Dev Stage load run; semantic model refreshed if the pipeline's Refresh activity failed.
