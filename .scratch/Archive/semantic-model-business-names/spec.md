@@ -1,6 +1,6 @@
 # Semantic model business-friendly names
 
-Status: ready-for-agent
+Status: done
 Category: enhancement
 Raised: 2026-09-29 (semantic-model naming session)
 
