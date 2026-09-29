@@ -1,6 +1,6 @@
 # Crash-point coordinate cleanse for map visuals
 
-Status: ready-for-agent
+Status: closed
 Category: bug
 Raised: 2026-09-29 (map-visual coordinate check session)
 
@@ -144,3 +144,9 @@ The DAX model agrees: 248,547 blank Latitude, 0 points outside the box.
 Idempotency: notebook `10_ETL_fact_crashes` rerun `8bf8b54b` (proc recreated at 16:47:45, then
 EXEC). The profile is identical and there's no new Delta version. Test and Prod were not run. They
 cleanse on their next promotion and Stage load.
+
+### 2026-09-29 — Promoted to Test and Prod; spec closed
+
+Pat deployed Dev → Test (Test row counts unchanged before and after, no table wipe), then Test → Prod,
+both successful. Test and Prod Stage loads were deferred. Each stage's coordinates are cleansed by its
+next Stage load. Run `/dax-smoke-test` after that load.
