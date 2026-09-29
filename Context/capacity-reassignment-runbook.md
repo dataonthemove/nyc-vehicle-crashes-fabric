@@ -33,6 +33,9 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 
 ## Rules
 
+- **Start early.** Begin section 1 no later than 7 days before `OLD_EXPIRY` (rotation 3: by
+  ~2026-11-17). That leaves time for the paid fallback if a new trial is refused, and for retrying
+  items that weren't migrated.
 - **Don't cancel the old trial.** Let it expire on `OLD_EXPIRY`. Items that fail to migrate stay
   attached to `OLD_CAPACITY_ID`, and retrying them depends on it being alive. Finish the move and
   every validation check before `OLD_EXPIRY`.
@@ -62,7 +65,7 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 | # | Step | Who | Where |
 |---|---|---|---|
 | 1.1 | Create `NEW_OWNER` in the tenant, or reuse an existing account with no workspace role (1.6 enforces this). | Pat | Entra admin center |
-| 1.2 | Assign `NEW_OWNER` the Entra **Fabric Administrator** role. | Pat | Entra admin center → Roles |
+| 1.2 | Assign `NEW_OWNER` the Entra **Fabric Administrator** role. Required: it lets `NEW_OWNER` bulk-assign workspaces it has no role in (3.2). | Pat | Entra admin center → Roles |
 | 1.3 | Assign `NEW_OWNER` a **Fabric (Free)** license. | Pat | Microsoft 365 admin center → Licenses |
 | 1.4 | Sign in as `NEW_OWNER` and start a Fabric trial (Account manager → Free trial). | Pat | Fabric portal |
 | 1.5 | Confirm the trial's region is `REGION` and its SKU is `SKU`. A different region blocks reassignment. Record `NEW_CAPACITY_ID`, `NEW_CAPACITY_NAME` and `NEW_EXPIRY`. | Pat | Admin portal → Capacity settings → Trial |
@@ -94,7 +97,7 @@ Not needed in rotation 2.
 
 | # | Step | Who | Where |
 |---|---|---|---|
-| 3.5 | Sign in as `WORKSPACE_PRINCIPAL`. Confirm `NEW_CAPACITY_NAME` appears under Workspace settings → Workspace type → Trial. If it doesn't, sign in as `NEW_OWNER` and turn on the trial's default contributor rights, or add `WORKSPACE_PRINCIPAL` as a contributor. | Pat | Fabric portal / Admin portal → Capacity settings → Trial |
+| 3.5 | Sign in as `WORKSPACE_PRINCIPAL`. Confirm `NEW_CAPACITY_NAME` appears under Workspace settings → Workspace type → Trial. If it doesn't, sign in as `NEW_OWNER` and turn on the trial's default contributor rights, or add `WORKSPACE_PRINCIPAL` as a **capacity** contributor (a capacity permission, not a workspace role). | Pat | Fabric portal / Admin portal → Capacity settings → Trial |
 | 3.6 | For each workspace: Workspace settings → Workspace type → Trial → select `NEW_CAPACITY_NAME` → Apply. | Pat | Fabric portal |
 | 3.7 | Repeat 3.4. | CC | MCP (`list_workspaces`) |
 
@@ -133,7 +136,7 @@ Open one Livy session per workspace and close it when the counts are read.
 | 4.9 | `refresh_semantic_model`, then `/dax-smoke-test` passes. | CC | MCP |
 | 4.10 | Effective Direct Lake binding (`/datasources`) matches the stage: Dev's own Warehouse; Test and Prod per their deployment rules in `environment-reference.md`. | CC | Power BI REST (`api.powerbi.com`) |
 | 4.11 | **Dev only:** one full `pl_stage_load_NYC_Crashes` run succeeds, and the counts still equal the baseline afterwards. Proves Spark, the Stored Procedure activities and `vl_NYC_Crashes` work on the new capacity. | CC | MCP (`run_on_demand_job`) |
-| 4.12 | **Semantic-model SDLC path as `WORKSPACE_PRINCIPAL`:** push a harmless TMDL change (e.g. hidden measure `_licence_test = 1`), Update All in Dev, deploy the semantic model only (Warehouse unticked) Dev → Test, and CC confirms the measure in both via DAX (on "Failed to resolve name", run `refresh_semantic_model` first; it's unframed, not broken). Then revert the same way. Proves Git, ADO, Source Control and the deployment pipeline on a Free licence (first run 2026-09-29: `9cd1bce` / `0fc434e`). | Pat (push, Update All, deploy); CC (edit, commit, DAX) | Local (repo) + Fabric portal + MCP |
+| 4.12 | **Once, Dev → Test (not per stage). Semantic-model SDLC path as `WORKSPACE_PRINCIPAL`:** push a harmless TMDL change (e.g. hidden measure `_licence_test = 1`), Update All in Dev, deploy the semantic model only (Warehouse unticked) Dev → Test, and CC confirms the measure in both via DAX (on "Failed to resolve name", run `refresh_semantic_model` first; it's unframed, not broken). Then revert the same way. Proves Git, ADO, Source Control and the deployment pipeline on a Free licence (first run 2026-09-29: `9cd1bce` / `0fc434e`). | Pat (push, Update All, deploy); CC (edit, commit, DAX) | Local (repo) + Fabric portal + MCP |
 
 ## 5. Close out
 
