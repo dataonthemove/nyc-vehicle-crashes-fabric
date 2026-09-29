@@ -7,7 +7,7 @@ active value sets and connections all stay the same. Only the capacity ID change
 
 Reuse it at every trial rotation: fill in the parameters, run the steps in order, then correct the
 runbook with whatever differed. Rotation 1 was the original trial (started 2026-07-30); rotation 2
-is the first move. Origin: `.scratch/05-New-Trial-and-capacity-reassignment/spec.md`.
+is the first move. Origin: `.scratch/Archive/New-Trial-and-capacity-reassignment/spec.md`.
 
 ## Parameters
 
@@ -22,7 +22,7 @@ Set these per rotation. The steps below refer to them by name only.
 | `NEW_CAPACITY_NAME` | New trial's display name | `Trial-20260925T023943Z-aQK6FvSBUUWGWhfq5mTwIw` | *set at 1.5* |
 | `NEW_EXPIRY` | Date the new trial expires (start + 60 days) | ~2026-11-24 | *set at 1.5* |
 | `NEW_OWNER` | User who starts the new trial | `Jpb_fabric_user8` | *new account, set at 1.1* |
-| `WORKSPACE_PRINCIPAL` | Admin in every workspace and the account all work runs as (`az`, MCP, Git, connections); unchanged by the move | `Jpb_fabric_user7` | `Jpb_fabric_user7` |
+| `WORKSPACE_PRINCIPAL` | Sole Admin in every workspace and the Entra account all Fabric work runs as (Fabric UI, Fabric Source Control, `az`, MCP, connections); unchanged by the move | `Jpb_fabric_user7` | `Jpb_fabric_user7` |
 | `REGION` | Home region; must match on both capacities | UK South | UK South |
 | `SKU` | Trial SKU | FTL64 | FTL64 |
 
@@ -37,9 +37,11 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
   attached to `OLD_CAPACITY_ID`, and retrying them depends on it being alive. Finish the move and
   every validation check before `OLD_EXPIRY`.
 - **One working account (Pat, 2026-09-29).** `WORKSPACE_PRINCIPAL` is the only principal with a
-  role in any workspace, and the only identity for local Git/VSC, ADO, the Fabric UI, `az`, MCP and
-  connections. Each trial owner (`NEW_OWNER`, `OLD_OWNER`) only hosts capacity: no workspace role,
-  no development. Origin: `.scratch/Archive/capacity-rotation-single-account/spec.md`.
+  role in any workspace, and the only Entra identity for the Fabric UI, Fabric Source Control commits,
+  `az`, MCP and connections. Each trial owner (`NEW_OWNER`, `OLD_OWNER`) only hosts capacity: no
+  workspace role, no development. Its Fabric-side commits would carry its own name in ADO history
+  (as `user8`'s did on 2026-09-28/29). Local Git/VSC commits and pushes use Pat's own ADO identity,
+  which no rotation touches. Origin: `.scratch/Archive/capacity-rotation-single-account/spec.md`.
 - **Licence, not capacity, gates reports.** A trial capacity licenses the *workspace*; Power BI
   Pro/PPU licenses the *user*. `WORKSPACE_PRINCIPAL` is on a Free licence (its Power BI trial lapsed
   2026-09, no further trial allowed). On Free it can do everything on the semantic-model SDLC path
@@ -59,7 +61,7 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 
 | # | Step | Who | Where |
 |---|---|---|---|
-| 1.1 | Create `NEW_OWNER` in the tenant, or reuse an existing account (preferably one with no workspace membership). | Pat | Entra admin center |
+| 1.1 | Create `NEW_OWNER` in the tenant, or reuse an existing account with no workspace role (1.6 enforces this). | Pat | Entra admin center |
 | 1.2 | Assign `NEW_OWNER` the Entra **Fabric Administrator** role. | Pat | Entra admin center → Roles |
 | 1.3 | Assign `NEW_OWNER` a **Fabric (Free)** license. | Pat | Microsoft 365 admin center → Licenses |
 | 1.4 | Sign in as `NEW_OWNER` and start a Fabric trial (Account manager → Free trial). | Pat | Fabric portal |
@@ -100,8 +102,6 @@ Not needed in rotation 2.
 open workspace settings). For each workspace, open Workspace settings → Workspace type (Pat, Fabric
 portal). If a banner says some items were not migrated, retry the reassignment for that workspace
 while `OLD_CAPACITY_ID` is still alive. Don't start validation on a workspace that shows the banner.
-If `OLD_OWNER` = `WORKSPACE_PRINCIPAL`, that account also sees a "trial expiring in N days" banner:
-that is the old trial itself, expected, and needs no action.
 
 ## 4. Post-move validation
 
@@ -133,7 +133,7 @@ Open one Livy session per workspace and close it when the counts are read.
 | 4.9 | `refresh_semantic_model`, then `/dax-smoke-test` passes. | CC | MCP |
 | 4.10 | Effective Direct Lake binding (`/datasources`) matches the stage: Dev's own Warehouse; Test and Prod per their deployment rules in `environment-reference.md`. | CC | Power BI REST (`api.powerbi.com`) |
 | 4.11 | **Dev only:** one full `pl_stage_load_NYC_Crashes` run succeeds, and the counts still equal the baseline afterwards. Proves Spark, the Stored Procedure activities and `vl_NYC_Crashes` work on the new capacity. | CC | MCP (`run_on_demand_job`) |
-| 4.12 | **Semantic-model SDLC path as `WORKSPACE_PRINCIPAL`:** push a harmless TMDL change (e.g. hidden measure `_licence_test = 1`), Update All in Dev, deploy the semantic model only (Warehouse unticked) Dev → Test, and CC confirms the measure in both via DAX. Then revert the same way. Proves Git, ADO, Source Control and the deployment pipeline on a Free licence (first run 2026-09-29: `9cd1bce` / `0fc434e`). | Pat (push, Update All, deploy); CC (edit, commit, DAX) | Local (repo) + Fabric portal + MCP |
+| 4.12 | **Semantic-model SDLC path as `WORKSPACE_PRINCIPAL`:** push a harmless TMDL change (e.g. hidden measure `_licence_test = 1`), Update All in Dev, deploy the semantic model only (Warehouse unticked) Dev → Test, and CC confirms the measure in both via DAX (on "Failed to resolve name", run `refresh_semantic_model` first; it's unframed, not broken). Then revert the same way. Proves Git, ADO, Source Control and the deployment pipeline on a Free licence (first run 2026-09-29: `9cd1bce` / `0fc434e`). | Pat (push, Update All, deploy); CC (edit, commit, DAX) | Local (repo) + Fabric portal + MCP |
 
 ## 5. Close out
 
@@ -142,7 +142,7 @@ Open one Livy session per workspace and close it when the counts are read.
 | 5.1 | Correct this runbook with whatever differed on move day. Add the next rotation's column to Parameters. | CC | Local (repo) |
 | 5.2 | Update `environment-reference.md`: capacity ID, SKU, expiry, `NEW_OWNER` (capacity host only, no workspace role), re-verification date. | CC | Local (repo) |
 | 5.3 | Update the memory index with the new capacity, its expiry and any move-day lessons. | CC | Local (CC memory) |
-| 5.4 | Tick the rotation spec's acceptance criteria and set its status to done. | CC | Local (repo) |
+| 5.4 | Add the rotation's row to the Move log. If a rotation spec was raised, tick its acceptance criteria and archive it. | CC | Local (repo) |
 | 5.5 | Commit `CC Commit: envref_capacity_reassignment_trial<N>`. | CC | Local (repo) |
 | 5.6 | Let `OLD_CAPACITY_ID` expire on `OLD_EXPIRY`. Don't cancel it (only `OLD_OWNER` could). | Pat | Admin portal (no action) |
 
@@ -162,7 +162,7 @@ trial, and anything it licensed, is gone.
 
 Refresh it at step 2.4 of the next rotation. Every stage should match. The landing data has not
 changed since the last CDC load (2026-09-10). The Warehouse star counts were re-taken on 2026-09-27,
-after the header/line remodel rebuilt Dev, Test and Prod (`.scratch/header-line-remodel/`, tickets
+after the header/line remodel rebuilt Dev, Test and Prod (`.scratch/Archive/header-line-remodel/`, tickets
 07–09). Fact counts are unchanged; the dimensions changed shape.
 
 Landing `etl_watermark`: crashes `2026-09-10 13:04:16`, persons `2026-09-10 13:05:12`,
@@ -189,7 +189,7 @@ folder holds one full extract plus header-only files from zero-row runs:
 
 | Rotation | Date | Route | Outcome |
 |---|---|---|---|
-| 2 | 2026-09-25 | Bulk (3.1–3.4) | All four moved; no not-migrated banners; validation (4.1–4.11) passed same day (4.5 exit map not read; see 4.5). Dev stage load 4 m 35 s. Post-expiry check (6) due 2026-09-29: `.scratch/05-New-Trial-and-capacity-reassignment/issues/07-post-expiry-check.md`. |
+| 2 | 2026-09-25 | Bulk (3.1–3.4) | All four moved; no not-migrated banners; validation (4.1–4.11) passed same day (4.5 exit map not read; see 4.5). Dev stage load 4 m 35 s. Post-expiry check (6) due 2026-09-29: `.scratch/Archive/New-Trial-and-capacity-reassignment/issues/07-post-expiry-check.md`. |
 | 2 (post-expiry) | 2026-09-29 | Section 6 | `user7` is Free, its Power BI trial expired, and no further trial is allowed. Semantic-model SDLC path passed (Update All, model-only Dev → Test deploy, refresh; 4.12 first run). Report create/save/delete is blocked (licence). The `user8` Contributor exception in Dev was removed, so `user7` is the sole principal in all four workspaces, and `user6` is no longer present. |
 
 Background: Microsoft Learn `fabric/fundamentals/fabric-trial`, `fabric/admin/portal-workspaces`,
