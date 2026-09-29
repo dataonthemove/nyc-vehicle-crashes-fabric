@@ -9,15 +9,15 @@ parent spec: `.scratch/crash-point-coordinate-cleanse/spec.md`.
 
 **Blocked by:** None (can start immediately).
 
-**Status:** in-progress
+**Status:** closed
 
 - [x] Dev baseline captured via Spark before any change: total rows, NULL, (0, 0), in-box and outside-box counts.
 - [x] Bounds variables and the trailing UPDATE added to the authoring notebook proc, with an intent comment. Fabric notebook formatting is preserved.
-- [ ] The Warehouse item definition proc has an identical change, in the same commit as the notebook, pushed to ADO.
-- [ ] The proc is altered in Dev after Source Control Update All.
-- [ ] Dev Stage load run; semantic model refreshed if the pipeline's Refresh activity failed.
-- [ ] Dev profile: (0, 0) = 0, non-NULL outside the box = 0, only one coordinate NULL = 0.
-- [ ] Dev profile: in-box count unchanged; NULL count = baseline NULL + (0, 0) + outside-box; total rows unchanged apart from genuinely new collisions.
-- [ ] `/dax-smoke-test` is all green on Dev.
-- [ ] The proc is rerun in Dev and the profile is identical (idempotent).
-- [ ] Outcome recorded under `## Comments` in the spec. Test and Prod are not run.
+- [x] The Warehouse item definition proc has an identical change, in the same commit as the notebook, pushed to ADO.
+- [x] The proc is altered in Dev after Source Control Update All.
+- [x] Dev Stage load run; semantic model refreshed if the pipeline's Refresh activity failed.
+- [x] Dev profile: (0, 0) = 0, non-NULL outside the box = 0, only one coordinate NULL = 0.
+- [x] Dev profile: in-box count unchanged; NULL count = baseline NULL + (0, 0) + outside-box; total rows unchanged apart from genuinely new collisions.
+- [x] `/dax-smoke-test` is all green on Dev.
+- [x] The proc is rerun in Dev and the profile is identical (idempotent).
+- [x] Outcome recorded under `## Comments` in the spec. Test and Prod are not run.

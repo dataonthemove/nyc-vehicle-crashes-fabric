@@ -114,3 +114,33 @@ promotion carries it, and each stage's next Stage load cleanses its own rows.
 - If `warehouse-fact-column-reorder` runs first and fully reloads the stages, the trailing UPDATE still applies unchanged on that reload.
 
 ## Comments
+
+### 2026-09-29 — Ticket 01 closed: Dev cleansed and validated
+
+Change in commit `f6ec11c` (notebook `10_ETL_fact_crashes` and the Warehouse item definition, same
+commit, bodies identical). Code review found that the first predicate (`latitude IS NOT NULL` only)
+would skip a half-NULL point. Fixed before push: the WHERE is now `latitude OR longitude IS NOT NULL`,
+and the in-box test requires both to be non-NULL. Dev Source Control Update All →
+`sys.sql_modules` confirmed the new text → `pl_stage_load_NYC_Crashes` run `4f12dd6f` Completed,
+Refresh activity included. The UPDATE wrote `fact_crashes` Delta v3 at 16:42 UTC.
+
+| Class (Dev `fact_crashes`, Spark) | Baseline | After load | After rerun |
+|---|---|---|---|
+| Total rows | 2,269,187 | 2,269,187 | 2,269,187 |
+| NULL (both) | 240,806 | 248,547 | 248,547 |
+| (0, 0) | 7,591 | 0 | 0 |
+| Non-zero, outside box | 150 | 0 | 0 |
+| Inside box | 2,020,640 | 2,020,640 | 2,020,640 |
+| Only one coordinate NULL | 0 | 0 | 0 |
+| Σ persons injured / killed | 756,353 / 3,617 | same | same |
+
+NULL after = 240,806 + 7,591 + 150 = 248,547 exactly. No new collisions arrived in this load.
+The DAX model agrees: 248,547 blank Latitude, 0 points outside the box.
+
+`/dax-smoke-test` Dev: Spark checks 1–4 are 42/42 PASS. Line-fact row counts are unchanged
+(5,984,110 persons and 4,551,002 vehicles). DAX check 1 counts match Spark. Check 5 PASS
+(63 bridged factors, 0 failing) and check 6 PASS (0 missing, 0 extra).
+
+Idempotency: notebook `10_ETL_fact_crashes` rerun `8bf8b54b` (proc recreated at 16:47:45, then
+EXEC). The profile is identical and there's no new Delta version. Test and Prod were not run. They
+cleanse on their next promotion and Stage load.
