@@ -50,4 +50,20 @@ select top 10 * FROM [dbo].[dim_vehicle]
 
 
 --Cleanup during application of a structural change. 
+DECLARE @lat_min FLOAT = 40.49,  @lat_max FLOAT = 40.92;
+DECLARE @lon_min FLOAT = -74.27, @lon_max FLOAT = -73.68;
 
+select count(*) 
+FROM [dbo].[fact_crashes]           
+WHERE  (latitude IS NOT NULL OR longitude IS NOT NULL)
+AND  NOT (latitude  BETWEEN @lat_min AND @lat_max
+        AND longitude BETWEEN @lon_min AND @lon_max
+        AND latitude IS NOT NULL AND longitude IS NOT NULL);
+--0
+
+UPDATE dbo.fact_crashes
+SET    latitude = NULL, longitude = NULL
+WHERE  (latitude IS NOT NULL OR longitude IS NOT NULL)
+AND  NOT (latitude  BETWEEN @lat_min AND @lat_max
+        AND longitude BETWEEN @lon_min AND @lon_max
+        AND latitude IS NOT NULL AND longitude IS NOT NULL);
