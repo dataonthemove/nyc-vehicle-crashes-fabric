@@ -6,6 +6,9 @@ it into a Kimball star schema in a Fabric Warehouse. A Direct Lake semantic mode
 TMDL in git, serves Power BI. The build is promoted Dev → Test → Prod through Fabric deployment
 pipelines. Every Fabric item is under source control, and design decisions are recorded as ADRs.
 
+The deliverable is the **semantic model**: a governed, documented Direct Lake model built for
+self-service report authors. Reports are its consumers and sit outside the scope of this build.
+
 
 ![End-to-end architecture](Diagrams/Arch_NYC_VehicleCrashes_v3.png)
 
@@ -52,7 +55,7 @@ requests here aren't monitored.
 | Warehouse | Kimball star schema — conformed dimensions, three facts, and a factor-group bridge — loaded by `etl.usp_load_*` stored procedures |
 | Semantic model | Direct Lake on SQL, Warehouse-sourced; rebound per stage by a deployment data source rule ([ADR-0004](docs/adr/0004-direct-lake-on-sql-with-per-stage-rules.md)); authored as TMDL in this repo |
 | Orchestration | Pipeline `pl_stage_load_NYC_Crashes` runs ingest, the full transform graph and the model refresh for a stage |
-| Reports | Authored in the Fabric web UI only, synced back through Git integration. None are published at present: the earlier reports were retired 2026-09-25 |
+| Reports | Out of scope: the semantic model is the deliverable, built for self-service report authors. Any report authoring happens in the Fabric web UI only |
 
 ## Repo layout
 
