@@ -35,25 +35,25 @@ See the parent spec: `.scratch/github-showcase-mirror/spec.md`.
 | 4 | Write author-normalisation rule, empty exclusion list and pipeline YAML in the ops folder | CC | done 2026-09-30 |
 | 5 | Add the GitHub read-only-mirror rule to `CLAUDE.md` | CC | done 2026-09-30 |
 | 6 | Commit steps 4–5 | CC | done 2026-09-30 |
-| 7 | Push to ADO | Pat | |
-| 8 | ADO → Pipelines → New pipeline → Azure Repos Git → existing YAML; select the mirror YAML | Pat | |
-| 9 | Add pipeline variable `GITHUB_PAT`, ticked **Keep this value secret**; paste the PAT (regenerate if lost) | Pat | |
-| 10 | Run the pipeline manually; share the log if it fails | Pat | |
-| 11 | Verify on GitHub: all folders, commit count equals ADO, authors credited to Pat | Pat + CC | |
+| 7 | Push to ADO | Pat | done 2026-09-30 |
+| 8 | ADO → Pipelines → New pipeline → Azure Repos Git → existing YAML; select the mirror YAML | Pat | done 2026-09-30 |
+| 9 | Add pipeline variable `GITHUB_PAT`, ticked **Keep this value secret**; paste the PAT (regenerate if lost) | Pat | done 2026-09-30 |
+| 10 | Run the pipeline manually; share the log if it fails | Pat | done 2026-09-30 |
+| 11 | Verify on GitHub: all folders, commit count equals ADO, authors credited to Pat | Pat + CC | done 2026-09-30 |
 | 12 | Run again with no new commits; confirm GitHub head SHA unchanged | Pat | |
 
 **Blocked by:** 01 (Confirm ADO can run hosted pipelines).
 
 **Status:** ready-for-agent
 
-- [ ] The GitHub repo exists: public and empty before the first run, with Issues, Wiki and Projects off. Pat's other repos are untouched.
+- [x] The GitHub repo exists: public and empty before the first run, with Issues, Wiki and Projects off. Pat's other repos are untouched.
 - [ ] The PAT is fine-grained and scoped to this repo only. Its expiry date is recorded under Comments.
 - [x] The author-normalisation rule, the empty exclusion list and the pipeline YAML are committed outside the Fabric Git-bound folders. Fabric Source Control shows nothing new.
-- [ ] The PAT exists only as an ADO secret variable. It doesn't appear in the repo or in the pipeline logs.
+- [x] The PAT exists only as an ADO secret variable. It doesn't appear in the repo or in the pipeline logs.
 - [x] `CLAUDE.md` has the rule: GitHub is a read-only mirror, everything is public unless it's added to the exclusion list, and nobody pushes to GitHub directly.
-- [ ] The manual pipeline run is green.
-- [ ] On GitHub, every top-level ADO folder is present and the `main` commit count equals ADO's.
-- [ ] On GitHub, no commit author shows an `@onmicrosoft.com` address; all resolve to Pat's account.
+- [x] The manual pipeline run is green.
+- [x] On GitHub, every top-level ADO folder is present and the `main` commit count equals ADO's.
+- [x] On GitHub, no commit author shows an `@onmicrosoft.com` address; all resolve to Pat's account.
 - [ ] A second manual run with no new commits leaves GitHub's head SHA unchanged.
 
 ## Comments
@@ -66,3 +66,11 @@ See the parent spec: `.scratch/github-showcase-mirror/spec.md`.
   exclusion list are in `ops/github-mirror/`. The YAML hasn't been run yet, because local Python
   is denied by settings; the first manual run (step 10) is its first test. Its log prints the
   commit counts before and after and the author identities after the rewrite, for step 11.
+- 2026-09-30 (CC): CC created pipeline `github-mirror` (ID 2) in ADO through `az pipelines create`,
+  after two wizard attempts weren't saved. Pat added the secret `GITHUB_PAT`. First manual run
+  **succeeded** on ADO commit `637ee42`. CC verified by cloning GitHub:
+  - 433 commits on both sides.
+  - Root tree hash identical (`8b1182d`), so every file matches byte for byte.
+  - All 433 authors and committers are `John P Brownie <dataonthemove@outlook.com>`.
+  - GitHub head is `04f2871`. Step 12 passes if a second run with no new ADO commits leaves it
+    unchanged.
