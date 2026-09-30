@@ -8,8 +8,8 @@ Raised: 2026-09-21 (Stage load grilling)
 
 ## Idea
 
-A `full_rebuild` boolean on the Stage load pipeline would run the two DDL notebooks (drop and
-recreate every Warehouse table) before Transform.
+A `full_rebuild` boolean on the Stage load pipeline would run the two DDL notebooks before Transform.\
+(drop and recreate every Warehouse table)
 
 ## Why deferred
 
