@@ -40,11 +40,11 @@ See the parent spec: `.scratch/github-showcase-mirror/spec.md`.
 | 9 | Add pipeline variable `GITHUB_PAT`, ticked **Keep this value secret**; paste the PAT (regenerate if lost) | Pat | done 2026-09-30 |
 | 10 | Run the pipeline manually; share the log if it fails | Pat | done 2026-09-30 |
 | 11 | Verify on GitHub: all folders, commit count equals ADO, authors credited to Pat | Pat + CC | done 2026-09-30 |
-| 12 | Run again with no new commits; confirm GitHub head SHA unchanged | Pat | |
+| 12 | Run again with no new commits; confirm GitHub head SHA unchanged | Pat | done 2026-09-30 |
 
 **Blocked by:** 01 (Confirm ADO can run hosted pipelines).
 
-**Status:** ready-for-agent
+**Status:** closed
 
 - [x] The GitHub repo exists: public and empty before the first run, with Issues, Wiki and Projects off. Pat's other repos are untouched.
 - [x] The PAT is fine-grained and scoped to this repo only. Its expiry date is recorded under Comments.
@@ -54,7 +54,7 @@ See the parent spec: `.scratch/github-showcase-mirror/spec.md`.
 - [x] The manual pipeline run is green.
 - [x] On GitHub, every top-level ADO folder is present and the `main` commit count equals ADO's.
 - [x] On GitHub, no commit author shows an `@onmicrosoft.com` address; all resolve to Pat's account.
-- [ ] A second manual run with no new commits leaves GitHub's head SHA unchanged.
+- [x] A second manual run with no new commits leaves GitHub's head SHA unchanged.
 
 ## Comments
 
@@ -75,3 +75,4 @@ See the parent spec: `.scratch/github-showcase-mirror/spec.md`.
   - GitHub head is `04f2871`. Step 12 passes if a second run with no new ADO commits leaves it
     unchanged.
 - 2026-09-30 (Pat): PAT `ado-mirror-nyc-vehicle-crashes-fabric` expires **2027-09-30**.
+- 2026-09-30 (CC): Second manual run on the same ADO commit `637ee42` succeeded, and GitHub head stayed `04f2871`, so the rewrite is deterministic. All criteria met; ticket closed.
