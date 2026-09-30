@@ -25,16 +25,44 @@ The work is split between Pat and CC:
 
 See the parent spec: `.scratch/github-showcase-mirror/spec.md`.
 
+## Steps and owners
+
+| # | Step | Who | Status |
+|---|---|---|---|
+| 1 | Create empty public GitHub repo `dataonthemove/nyc-vehicle-crashes-fabric` (no README/licence/.gitignore) | Pat | done 2026-09-30 (renamed to drop a leading hyphen) |
+| 2 | Turn off Issues, Wiki, Projects and Pull requests in repo Settings → General | Pat | done 2026-09-30 |
+| 3 | Create fine-grained PAT: this repo only, Contents read and write | Pat | done 2026-09-30 (expiry date: record under Comments) |
+| 4 | Write author-normalisation rule, empty exclusion list and pipeline YAML in the ops folder | CC | done 2026-09-30 |
+| 5 | Add the GitHub read-only-mirror rule to `CLAUDE.md` | CC | done 2026-09-30 |
+| 6 | Commit steps 4–5 | CC | done 2026-09-30 |
+| 7 | Push to ADO | Pat | |
+| 8 | ADO → Pipelines → New pipeline → Azure Repos Git → existing YAML; select the mirror YAML | Pat | |
+| 9 | Add pipeline variable `GITHUB_PAT`, ticked **Keep this value secret**; paste the PAT (regenerate if lost) | Pat | |
+| 10 | Run the pipeline manually; share the log if it fails | Pat | |
+| 11 | Verify on GitHub: all folders, commit count equals ADO, authors credited to Pat | Pat + CC | |
+| 12 | Run again with no new commits; confirm GitHub head SHA unchanged | Pat | |
+
 **Blocked by:** 01 (Confirm ADO can run hosted pipelines).
 
 **Status:** ready-for-agent
 
 - [ ] The GitHub repo exists: public and empty before the first run, with Issues, Wiki and Projects off. Pat's other repos are untouched.
 - [ ] The PAT is fine-grained and scoped to this repo only. Its expiry date is recorded under Comments.
-- [ ] The mailmap, the empty exclusion list and the pipeline YAML are committed outside the Fabric Git-bound folders. Fabric Source Control shows nothing new.
+- [x] The author-normalisation rule, the empty exclusion list and the pipeline YAML are committed outside the Fabric Git-bound folders. Fabric Source Control shows nothing new.
 - [ ] The PAT exists only as an ADO secret variable. It doesn't appear in the repo or in the pipeline logs.
-- [ ] `CLAUDE.md` has the rule: GitHub is a read-only mirror, everything is public unless it's added to the exclusion list, and nobody pushes to GitHub directly.
+- [x] `CLAUDE.md` has the rule: GitHub is a read-only mirror, everything is public unless it's added to the exclusion list, and nobody pushes to GitHub directly.
 - [ ] The manual pipeline run is green.
 - [ ] On GitHub, every top-level ADO folder is present and the `main` commit count equals ADO's.
 - [ ] On GitHub, no commit author shows an `@onmicrosoft.com` address; all resolve to Pat's account.
 - [ ] A second manual run with no new commits leaves GitHub's head SHA unchanged.
+
+## Comments
+
+- 2026-09-30 (CC): Steps 4–6 done. **Deviation from spec:** authors are normalised by a
+  filter-repo commit callback rather than a mailmap file. The callback matches *any* address on
+  the trial tenant domain, case-insensitively, so future `Jpb_fabric_userN` accounts created by
+  capacity rotation are covered without an edit. A mailmap would need a new line per account.
+  The canonical identity is `John P Brownie <dataonthemove@outlook.com>`. Pipeline YAML and the
+  exclusion list are in `ops/github-mirror/`. The YAML hasn't been run yet, because local Python
+  is denied by settings; the first manual run (step 10) is its first test. Its log prints the
+  commit counts before and after and the author identities after the rewrite, for step 11.

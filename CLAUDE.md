@@ -60,6 +60,11 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   different values. Never copy IDs from repo files into that doc.
 - Commit message body: `[domain]_[artifact]_[action]`. Surface prefixes: `VSC Commit:` · `CC Commit:` ·
   `ADO Commit:` · `Fab Commit:`.
+- **GitHub is a read-only public mirror** (`dataonthemove/nyc-vehicle-crashes-fabric`), pushed by
+  the ADO pipeline in `ops/github-mirror/` on every push to `main`. ADO stays the only origin:
+  never add GitHub as a remote, push to it, or edit it in the browser — the next run overwrites it.
+  Everything in this repo is public unless listed in `ops/github-mirror/exclusions.txt` (empty by
+  design), so write nothing here that must not be published.
 
 
 ## Fabric Warehouse — T-SQL Constraints (ALWAYS apply)

@@ -1,0 +1,91 @@
+# One-way mirror: Azure DevOps main -> public GitHub showcase repo (read-only).
+# Spec: .scratch/github-showcase-mirror/spec.md
+#
+# Every run rewrites the full history with git filter-repo, then force-pushes main to GitHub.
+# The rewrite is deterministic, so unchanged history keeps the same SHAs on GitHub.
+#  - Authors: every trial-account UPN (any address on the Fabric trial tenant domain) and the
+#    mixed-case outlook address become one canonical identity, so GitHub credits every commit.
+#    Matching on the domain covers future trial accounts after a capacity rotation.
+#  - Exclusions: paths listed in exclusions.txt are removed from all history. Empty by design.
+#
+# Secret: GITHUB_PAT, a pipeline variable marked secret. It's a fine-grained PAT scoped to the
+# GitHub repo only, with Contents read and write. It is never stored in this file.
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  githubRepo: dataonthemove/nyc-vehicle-crashes-fabric
+  canonicalName: John P Brownie
+  canonicalEmail: dataonthemove@outlook.com
+  trialDomain: '@dataonthemoveoutlook.onmicrosoft.com'
+
+steps:
+  - checkout: self
+    fetchDepth: 0
+    clean: true
+    persistCredentials: false
+
+  - script: pipx install git-filter-repo
+    displayName: Install git-filter-repo
+
+  - script: |
+      set -euo pipefail
+      export PATH="$HOME/.local/bin:$PATH"
+
+      # Mirror exactly the commit that triggered this run.
+      git checkout -q -B main "$(Build.SourceVersion)"
+      echo "ADO main: $(git rev-parse HEAD) ($(git rev-list --count HEAD) commits)"
+
+      # Author normalisation, case-insensitive on email.
+      cat > "$(Agent.TempDirectory)/authors.py" <<'PY'
+      import os
+      name = os.environ["CANON_NAME"].encode()
+      email = os.environ["CANON_EMAIL"].encode()
+      domain = os.environ["TRIAL_DOMAIN"].lower().encode()
+      def is_pat(e):
+          e = e.lower()
+          return e == email or e.endswith(domain)
+      if is_pat(commit.author_email):
+          commit.author_name, commit.author_email = name, email
+      if is_pat(commit.committer_email):
+          commit.committer_name, commit.committer_email = name, email
+      PY
+
+      # Only pass exclusions when the list has real entries.
+      grep -vE '^[[:space:]]*(#|$)' ops/github-mirror/exclusions.txt > "$(Agent.TempDirectory)/paths.txt" || true
+      exclude_args=()
+      if [ -s "$(Agent.TempDirectory)/paths.txt" ]; then
+        echo "Excluding:"; cat "$(Agent.TempDirectory)/paths.txt"
+        exclude_args=(--invert-paths --paths-from-file "$(Agent.TempDirectory)/paths.txt")
+      fi
+
+      git filter-repo --force --refs main \
+        --commit-callback "$(cat "$(Agent.TempDirectory)/authors.py")" \
+        "${exclude_args[@]}"
+
+      echo "Mirror main: $(git rev-parse main) ($(git rev-list --count main) commits)"
+      echo "Author identities after rewrite:"
+      git log main --format='%an <%ae>' | sort | uniq -c
+    displayName: Rewrite history (authors, exclusions)
+    env:
+      CANON_NAME: $(canonicalName)
+      CANON_EMAIL: $(canonicalEmail)
+      TRIAL_DOMAIN: $(trialDomain)
+
+  - script: |
+      set -euo pipefail
+      auth=$(printf 'x-access-token:%s' "$GITHUB_PAT" | base64 -w0)
+      git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $auth" \
+        push --force "https://github.com/$(githubRepo).git" main:main
+    displayName: Force-push main to GitHub
+    env:
+      GITHUB_PAT: $(GITHUB_PAT)
