@@ -20,13 +20,13 @@ GitHub. Use `CONTEXT.md` vocabulary throughout. See the parent spec:
 
 **Blocked by:** None (can start immediately). The GitHub render check needs ticket 02 to be live.
 
-**Status:** ready-for-agent
+**Status:** closed
 
 - [x] The README opens with the pitch, diagram, demonstrates list and "Nature of this repo" notice, in that order.
 - [x] The notice covers all of: demonstration project, trial capacity, public data, no credentials, IDs and working notes unredacted on purpose, read-only mirror of ADO.
 - [x] The existing architecture and repo-layout tables are kept and still accurate.
-- [ ] The diagram renders in ADO's file view.
-- [ ] After the next mirror run, the diagram and notice render on GitHub.
+- [x] The diagram renders in ADO's file view.
+- [x] After the next mirror run, the diagram and notice render on GitHub.
 
 ## Comments
 
@@ -34,3 +34,4 @@ GitHub. Use `CONTEXT.md` vocabulary throughout. See the parent spec:
   `6_Orchestration/` row plus an Orchestration architecture row, and dropped `2_dev/5_Reports/`
   because no report definitions are in the repo yet. The diagram uses a relative link, so it
   renders in ADO and GitHub. Open: Pat to check the ADO render, then the GitHub render after 02.
+- 2026-09-30 (CC): Closed at Pat's request. The automatic mirror run (batchedCI, ADO `dafce3e`) published the new README to GitHub. CC confirmed the "Nature of this repo" section is present and the diagram's relative path resolves on GitHub (HTTP 200). The visual render in ADO and GitHub was accepted by Pat.
