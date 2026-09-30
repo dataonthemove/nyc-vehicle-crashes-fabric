@@ -22,8 +22,15 @@ GitHub. Use `CONTEXT.md` vocabulary throughout. See the parent spec:
 
 **Status:** ready-for-agent
 
-- [ ] The README opens with the pitch, diagram, demonstrates list and "Nature of this repo" notice, in that order.
-- [ ] The notice covers all of: demonstration project, trial capacity, public data, no credentials, IDs and working notes unredacted on purpose, read-only mirror of ADO.
-- [ ] The existing architecture and repo-layout tables are kept and still accurate.
+- [x] The README opens with the pitch, diagram, demonstrates list and "Nature of this repo" notice, in that order.
+- [x] The notice covers all of: demonstration project, trial capacity, public data, no credentials, IDs and working notes unredacted on purpose, read-only mirror of ADO.
+- [x] The existing architecture and repo-layout tables are kept and still accurate.
 - [ ] The diagram renders in ADO's file view.
 - [ ] After the next mirror run, the diagram and notice render on GitHub.
+
+## Comments
+
+- 2026-09-30 (CC): README rewritten. Layout table corrected: `0_Storage/` path, added
+  `6_Orchestration/` row plus an Orchestration architecture row, and dropped `2_dev/5_Reports/`
+  because no report definitions are in the repo yet. The diagram uses a relative link, so it
+  renders in ADO and GitHub. Open: Pat to check the ADO render, then the GitHub render after 02.
