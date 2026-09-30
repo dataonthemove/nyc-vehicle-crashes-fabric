@@ -6,7 +6,10 @@ it into a Kimball star schema in a Fabric Warehouse. A Direct Lake semantic mode
 TMDL in git, serves Power BI. The build is promoted Dev → Test → Prod through Fabric deployment
 pipelines. Every Fabric item is under source control, and design decisions are recorded as ADRs.
 
-![End-to-end architecture](DIagrams/Arch_NYC_VehicleCrashes_v3.png)
+
+![End-to-end architecture](Diagrams/Arch_NYC_VehicleCrashes_v3.png)
+
+![Samantic Model](Diagrams/SemanticModel6.png)
 
 ## What this demonstrates
 
