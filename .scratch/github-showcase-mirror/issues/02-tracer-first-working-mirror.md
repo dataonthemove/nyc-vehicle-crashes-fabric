@@ -31,7 +31,7 @@ See the parent spec: `.scratch/github-showcase-mirror/spec.md`.
 |---|---|---|---|
 | 1 | Create empty public GitHub repo `dataonthemove/nyc-vehicle-crashes-fabric` (no README/licence/.gitignore) | Pat | done 2026-09-30 (renamed to drop a leading hyphen) |
 | 2 | Turn off Issues, Wiki, Projects and Pull requests in repo Settings → General | Pat | done 2026-09-30 |
-| 3 | Create fine-grained PAT: this repo only, Contents read and write | Pat | done 2026-09-30 (expiry date: record under Comments) |
+| 3 | Create fine-grained PAT: this repo only, Contents read and write | Pat | done 2026-09-30 (expires 2027-09-30) |
 | 4 | Write author-normalisation rule, empty exclusion list and pipeline YAML in the ops folder | CC | done 2026-09-30 |
 | 5 | Add the GitHub read-only-mirror rule to `CLAUDE.md` | CC | done 2026-09-30 |
 | 6 | Commit steps 4–5 | CC | done 2026-09-30 |
@@ -47,7 +47,7 @@ See the parent spec: `.scratch/github-showcase-mirror/spec.md`.
 **Status:** ready-for-agent
 
 - [x] The GitHub repo exists: public and empty before the first run, with Issues, Wiki and Projects off. Pat's other repos are untouched.
-- [ ] The PAT is fine-grained and scoped to this repo only. Its expiry date is recorded under Comments.
+- [x] The PAT is fine-grained and scoped to this repo only. Its expiry date is recorded under Comments.
 - [x] The author-normalisation rule, the empty exclusion list and the pipeline YAML are committed outside the Fabric Git-bound folders. Fabric Source Control shows nothing new.
 - [x] The PAT exists only as an ADO secret variable. It doesn't appear in the repo or in the pipeline logs.
 - [x] `CLAUDE.md` has the rule: GitHub is a read-only mirror, everything is public unless it's added to the exclusion list, and nobody pushes to GitHub directly.
@@ -74,3 +74,4 @@ See the parent spec: `.scratch/github-showcase-mirror/spec.md`.
   - All 433 authors and committers are `John P Brownie <dataonthemove@outlook.com>`.
   - GitHub head is `04f2871`. Step 12 passes if a second run with no new ADO commits leaves it
     unchanged.
+- 2026-09-30 (Pat): PAT `ado-mirror-nyc-vehicle-crashes-fabric` expires **2027-09-30**.
