@@ -67,7 +67,9 @@ single direction except for one deliberate exception:
 | Dim Location | ✓ | ✓ | ✓ | |
 | `dim_factor_group` | ✓ | ✓ | ✓ | ✓ (bothDirections) |
 | Dim Contributing Factor | | | | ✓ |
-| Dim Vehicle / Dim Vehicle Circumstance / Dim Driver | | ✓ | | |
+| Dim Vehicle | | ✓ | | |
+| Dim Vehicle Circumstance | | ✓ | | |
+| Dim Driver | | ✓ | | |
 | Dim Person | | | ✓ | |
 
 ## Measures
