@@ -8,9 +8,19 @@ the parent spec: `.scratch/github-showcase-mirror/spec.md`.
 
 **Blocked by:** 02 (Tracer — first working mirror to GitHub), 03 (Recruiter-facing README).
 
-**Status:** ready-for-human
+**Status:** closed
 
-- [ ] A trivial commit pushed to ADO `main` appears on GitHub within minutes, with no manual run.
-- [ ] The repo has a description and the five topics, and is pinned on Pat's profile.
-- [ ] The contribution graph on Pat's GitHub profile shows the mirrored history.
-- [ ] A PAT renewal reminder is set in Pat's calendar before the expiry date.
+- [x] A trivial commit pushed to ADO `main` appears on GitHub within minutes, with no manual run.
+- [x] The repo has a description and the five topics, and is pinned on Pat's profile.
+- [x] The contribution graph on Pat's GitHub profile shows the mirrored history.
+- [x] A PAT renewal reminder is set in Pat's calendar before the expiry date.
+
+## Comments
+
+- 2026-09-30 (CC): Closed.
+  - Automatic trigger verified: two `batchedCI` runs succeeded after Pat's push, including ADO
+    `dafce3e`.
+  - Topics confirmed through the GitHub API (10): analytics-engineering, data-engineering,
+    dimensional-modeling, etl, kimball-methodology, power-bi, direct-lake, lakehouse,
+    microsoft-fabric, tmdl. This replaces the spec's list of five.
+  - Pat confirmed the pin, the contribution graph and the PAT renewal reminder (expiry 2027-09-30).
