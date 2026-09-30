@@ -1,5 +1,5 @@
 # Paths withheld from the public GitHub mirror, one per line, relative to the repo root.
 # A folder entry ends in "/". Blank lines and lines starting with "#" are ignored.
-# Empty by design: everything is public (spec: .scratch/github-showcase-mirror/spec.md).
+# Empty by design: everything is public (spec: .scratch/_Archive/github-showcase-mirror/spec.md).
 # Adding a path removes it from all mirrored history on the next run and rewrites SHAs
 # from the first commit that touched it.

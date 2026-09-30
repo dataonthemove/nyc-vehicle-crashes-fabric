@@ -1,4 +1,4 @@
-Status: ready-for-agent
+Status: done (2026-10-01)
 
 # GitHub showcase mirror
 

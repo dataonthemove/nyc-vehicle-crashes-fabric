@@ -1,5 +1,5 @@
 # One-way mirror: Azure DevOps main -> public GitHub showcase repo (read-only).
-# Spec: .scratch/github-showcase-mirror/spec.md
+# Spec: .scratch/_Archive/github-showcase-mirror/spec.md
 #
 # Every run rewrites the full history with git filter-repo, then force-pushes main to GitHub.
 # The rewrite is deterministic, so unchanged history keeps the same SHAs on GitHub.
