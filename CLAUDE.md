@@ -50,7 +50,8 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   - Semantic model changes: local TMDL edits → commit/push to ADO → Fabric Source Control → Update All.
   - Report changes: Fabric web UI → Fabric Source Control syncs to ADO automatically.
   - Repo folder `2_dev/4_Model/` is the authoritative source for semantic model development.
-  - Repo folder `2_dev/5_Reports/` is read-only locally — never author or edit report files on disk.
+  - Report definitions synced into the repo by Fabric Git Integration are read-only locally — never
+    author or edit report files on disk. (None are in the repo yet.)
 
 ## Working Docs
 - Backlog: issues live under `.scratch/` per `docs/agents/issue-tracker.md`. Read open issues
@@ -80,7 +81,7 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
 - Cross-database lakehouse references use the lakehouse name directly (SQL analytics endpoint = same object).
 - **Stored procedures exist twice in the repo** — the authoring notebook under `2_dev/3_Transform/` and
   the Fabric-exported Warehouse item definition under
-  `2_dev/0_NYC_VehicleCrashes_Warehouse.Warehouse/etl/StoredProcedures/`. The notebook is the source of
+  `2_dev/0_Storage/0_NYC_VehicleCrashes_Warehouse.Warehouse/etl/StoredProcedures/`. The notebook is the source of
   truth; the item definition is what the Dev→Test deployment pipeline actually promotes. Change
   **both in the same commit** or the two silently diverge — running the notebook masks a stale item
   definition completely, so a green validation proves nothing about the deployed copy.

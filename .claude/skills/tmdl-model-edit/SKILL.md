@@ -43,7 +43,8 @@ IDs only).
 Do not create manually-exported folders (e.g. `Semantic_model/`) — Git Integration does not watch
 them. Delete any that appear.
 
-`2_dev/5_Reports/` is read-only locally. Report changes happen in the Fabric web UI.
+Report definitions synced into the repo by Fabric Git Integration are read-only locally (none are in
+the repo at present). Report changes happen in the Fabric web UI.
 
 ## TMDL rules (apply to every edit)
 
