@@ -125,9 +125,9 @@ to 2026-06-11, so the backfill is captured when NYC resumes.
   5. Read mode → crashes value is 2026-06-24 (07-01 minus 7 days); table still holds 07-01.
   6. Advance with neither parameter → the run fails.
   7. Finish with the explicit reset of all three sources to 2026-06-11.
-- **Seam 2: one end-to-end CDC run** after the reset. The source is frozen, so this exercises only the
-  empty path: three run-ID-named, header-only files land; watermarks stay at 2026-06-11; the Copy
-  queries resolve to `crash_date > '2026-06-04T00:00:00'`. Check the Copy step's input in the run
+- **Seam 2: one end-to-end CDC run** after the reset. The Copy queries resolve to
+  `crash_date > '2026-06-04T00:00:00'`, so even with the source frozen, three run-ID-named files land
+  holding the re-pulled 06-05 → 06-11 rows, and the watermarks stay at 2026-06-11. Check the Copy step's input in the run
   output, and read files and table over Livy.
 - **Prior art:** `/livy-notebook-ops` (reading `Tables/` and `Files/` from Livy), and `/dax-smoke-test`
   for the before/after-counts style of verification.
