@@ -136,9 +136,10 @@ the other values in. The setting can only be changed by hand in the Fabric UI.
 
 The **Destination** tab of each Copy activity saves the download as a CSV file in lakehouse
 `NYC_VehicleCrashes_Landing_Lakehouse`, under `Files/raw/crashes`, `Files/raw/persons` or
-`Files/raw/vehicles`. It writes through OAuth connection `Lakehouseconnection`. If a write fails
-with `LakehouseForbiddenError`, open that connection in Manage connections and gateways and
-re-enter its credentials.
+`Files/raw/vehicles`. Each file is named `<pipeline run ID>.csv`, so the Advance step can read
+exactly the file its own run wrote. It writes through OAuth connection `Lakehouseconnection`. If a
+write fails with `LakehouseForbiddenError`, open that connection in Manage connections and
+gateways and re-enter its credentials.
 
 - **Every run adds new files and never replaces old ones.** A run that finds no new rows still
   writes a file containing only the header row. The raw folders also contain a `.keep`
@@ -155,19 +156,23 @@ re-enter its credentials.
    at the same time, they would all write to the same small Delta table at once, and the writes
    would collide with `ConcurrentAppendException`.
 
-Each advance step sets the watermark to the current time, using the expression
-`@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')`.
+Each advance step passes its own landed file as `loaded_file`, using the expression
+`@concat('raw/<source>/', pipeline().RunId, '.csv')`. The notebook sets the watermark to the
+newest `crash_date` in that file, and never moves it backwards. A header-only file leaves it
+unchanged. A manual run can still pass `new_value` to set a watermark exactly, e.g. to reset it.
+`Read_Watermarks` hands each Copy the stored watermark minus 7 days, so crashes NYC publishes a
+few days late are still caught. Downstream MERGEs on the natural key, so the overlap adds nothing.
 
 **A UI quirk:** when you save this parameter, the Fabric UI wraps it in an extra
 `"type": "Expression"`, and the run then fails to start. Fix it in the JSON. The shape that works is
-`"new_value": {"value": {"value": "@…", "type": "Expression"}, "type": "string"}`.
+`"loaded_file": {"value": {"value": "@…", "type": "Expression"}, "type": "string"}`.
 
 ## 7. Known weaknesses
 
-- **Late-arriving crashes can be missed.** The watermark is set to the time of the run, not to
-  the latest `crash_date` downloaded. Suppose NYC adds a crash from last Tuesday after
-  Wednesday's run. Every later run asks only for crashes dated after Wednesday, so that crash is
-  never downloaded. This is a known, unfixed defect (ADR-0002).
+- **Very late crashes can still be missed.** A crash NYC publishes more than 7 days after its
+  `crash_date` falls outside the lookback and is never downloaded. (Until 2026-10-01 the
+  watermark was set to the run time, which skipped any late crash; fixed in
+  `.scratch/watermark-from-loaded-data`.)
 - **Corrections to rows already loaded never arrive.** The filter looks only at `crash_date`, so
   if NYC edits a row that we've already downloaded, we never see the change. Filtering on a
   "last modified" column, such as Socrata's `:updated_at`, would catch edits. The open question is

@@ -12,13 +12,13 @@ Parent spec: `.scratch/watermark-from-loaded-data/spec.md`
 
 **Blocked by:** 01 (the notebook must accept `loaded_file` first)
 
-**Status:** ready-for-agent
+**Status:** in-progress (CC steps 1–3 done 2026-10-01; awaiting push + CDC run)
 
 | Step | Description | Owner | Status |
 |---|---|---|---|
-| 1 | Edit the pipeline definition locally: run-ID file name on the three Copy sinks; `loaded_file` replaces `new_value` on the three Advance activities | CC | todo |
-| 2 | Correct the pipeline's `.platform` description | CC | todo |
-| 3 | Commit locally (`CC Commit: landing_pl_cdc_advance-from-landed-file`) | CC | todo |
+| 1 | Edit the pipeline definition locally: run-ID file name on the three Copy sinks; `loaded_file` replaces `new_value` on the three Advance activities | CC | done |
+| 2 | Correct the pipeline's `.platform` description | CC | done |
+| 3 | Commit locally (`CC Commit: landing_pl_cdc_advance-from-landed-file`) | CC | done |
 | 4 | Push; landing Source Control → Update All; confirm pipeline opens without errors | Pat | todo |
 | 5 | Run one full CDC run (all activities active) | Pat | todo |
 | 6 | Verify landed file names and `etl_watermark` over MCP/Livy; check the Advance activity inputs in the run output | CC | todo |

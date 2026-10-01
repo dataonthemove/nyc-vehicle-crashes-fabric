@@ -72,6 +72,10 @@
               "typeProperties": {
                 "location": {
                   "type": "LakehouseLocation",
+                  "fileName": {
+                    "value": "@concat(pipeline().RunId, '.csv')",
+                    "type": "Expression"
+                  },
                   "folderPath": "raw/crashes"
                 },
                 "columnDelimiter": ",",
@@ -139,9 +143,9 @@
               "value": "crashes",
               "type": "string"
             },
-            "new_value": {
+            "loaded_file": {
               "value": {
-                "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+                "value": "@concat('raw/crashes/', pipeline().RunId, '.csv')",
                 "type": "Expression"
               },
               "type": "string"
@@ -214,6 +218,10 @@
               "typeProperties": {
                 "location": {
                   "type": "LakehouseLocation",
+                  "fileName": {
+                    "value": "@concat(pipeline().RunId, '.csv')",
+                    "type": "Expression"
+                  },
                   "folderPath": "raw/persons"
                 },
                 "columnDelimiter": ",",
@@ -281,9 +289,9 @@
               "value": "persons",
               "type": "string"
             },
-            "new_value": {
+            "loaded_file": {
               "value": {
-                "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+                "value": "@concat('raw/persons/', pipeline().RunId, '.csv')",
                 "type": "Expression"
               },
               "type": "string"
@@ -362,6 +370,10 @@
               "typeProperties": {
                 "location": {
                   "type": "LakehouseLocation",
+                  "fileName": {
+                    "value": "@concat(pipeline().RunId, '.csv')",
+                    "type": "Expression"
+                  },
                   "folderPath": "raw/vehicles"
                 },
                 "columnDelimiter": ",",
@@ -429,9 +441,9 @@
               "value": "vehicles",
               "type": "string"
             },
-            "new_value": {
+            "loaded_file": {
               "value": {
-                "value": "@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')",
+                "value": "@concat('raw/vehicles/', pipeline().RunId, '.csv')",
                 "type": "Expression"
               },
               "type": "string"
