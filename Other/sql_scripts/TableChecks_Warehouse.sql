@@ -1,10 +1,9 @@
 
 USE NYC_VehicleCrashes_Landing_Lakehouse  -- Only in 1_NYC_VehicleCrashes_Landing workspace.
 /*
-select top 10 * FROM [dbo].[etl_watermark]
-
-source_name	    last_loaded_value	        last_run_utc
-vehicles	    2026-09-10 13:06:06.000000  2026-09-10 13:06:33.811315
+--select top 10 * FROM [dbo].[etl_watermark]
+source_name     last_loaded_value	        last_run_utc
+vehicles        2026-09-10 13:06:06.000000      2026-09-10 13:06:33.811315
 persons	        2026-09-10 13:05:12.000000	2026-09-10 13:05:37.119364
 crashes	        2026-09-10 13:04:16.000000	2026-09-10 13:04:42.437451
 */

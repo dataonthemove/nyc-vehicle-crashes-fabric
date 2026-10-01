@@ -4,3 +4,4 @@
 
 # Editor/tool backups — never version these
 *.bak
+Other/sql_scripts/TableChecks_Warehouse.sql
