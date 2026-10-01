@@ -1,118 +1,174 @@
 # How ingestion from NYC Open Data works
 
-This doc explains how Fabric Pipeline `pl_cdc_NYC_Crashes_Landing` pulls the three Motor Vehicle
-Collisions datasets from NYC Open Data (Socrata) into the landing lakehouse. The reasons behind
-the design are in ADR-0001 (the app token) and ADR-0002 (the landing zone). Live IDs are in
-`Context/environment-reference.md` → Connections.
+NYC publishes its crash data on its open-data portal, which runs on a platform called **Socrata**.
+This doc explains how Fabric Pipeline `pl_cdc_NYC_Crashes_Landing` downloads that data into our
+landing lakehouse, and how it avoids downloading the same rows twice.
 
-**In short:** three anonymous HTTP connections each hold one dataset's base URL. At run time, each
-Copy activity adds a SoQL query string to that URL, filtered on the watermark. The results land as
-CSV files under `Files/raw/<source>/`.
+The reasons behind the design are in ADR-0001 (why no API token) and ADR-0002 (why a separate
+landing workspace). Live IDs are in `Context/environment-reference.md` → Connections.
 
-## A. The fixed part: connection objects
+## The whole thing in one paragraph
 
-1. **Where they are in the UI:** gear icon → **Manage connections and gateways**. They are
-   connection objects, not workspace items, which means:
-   - Git never serializes them.
-   - They have no logical ID, so the ID is the same in every stage.
-   - Deployment never rebinds them.
+The pipeline has three Copy activities, one for each dataset. Each one sends a web request to
+NYC's API that says, in effect, "give me every row with a `crash_date` later than X". X is the
+**watermark**: a note of where the last run got to, kept in the `etl_watermark` table. The rows
+come back as a CSV file, which is saved in the landing lakehouse. When all three downloads are
+done, the watermark moves forward so the next run starts where this one stopped.
 
-   The pipeline JSON only stores their IDs, in `externalReferences.connection`.
-2. **There are three connections, one per dataset.** All are type **HTTP** with **Anonymous**
-   authentication.
+## 1. The source: three NYC datasets
 
-   | Source | Dataset | Socrata ID |
-   |---|---|---|
-   | crashes | Motor Vehicle Collisions - Crashes | `h9gi-nx95` |
-   | persons | Motor Vehicle Collisions - Person | `f55k-p6yu` |
-   | vehicles | Motor Vehicle Collisions - Vehicles | `bm4k-52h4` |
+NYC publishes crashes, the people involved and the vehicles involved as three separate datasets.
+Socrata identifies each dataset by a short ID. Dataset names and IDs were checked against the
+Socrata API on 2026-10-01.
 
-3. **Each connection's base URL has the form**
-   `https://data.cityofnewyork.us/resource/<id>.csv`. The base URL is stored only in the connection
-   object and appears in no repo file. The dataset IDs above were confirmed against the Socrata
-   API on 2026-10-01. The `.csv` ending follows from the Copy source being DelimitedText.
-4. **Why anonymous:** the earlier pipeline sent an `X-App-Token` header. The token only raised the
-   rate limit. It was retired and rotated after it leaked into git history (ADR-0001).
-5. **Why anonymous HTTP connections are easy to work with:** MCP `update_pipeline_definition` can
-   edit them. The OAuth Lakehouse and Warehouse connections fail there with permission errors.
+| Our name | NYC dataset | Socrata ID |
+|---|---|---|
+| crashes | Motor Vehicle Collisions - Crashes | `h9gi-nx95` |
+| persons | Motor Vehicle Collisions - Person | `f55k-p6yu` |
+| vehicles | Motor Vehicle Collisions - Vehicles | `bm4k-52h4` |
 
-## B. The dynamic part: the Relative URL
+Each dataset can be downloaded from a URL of the form
+`https://data.cityofnewyork.us/resource/<id>.csv`.
 
-6. **Where it is in the UI:** open the pipeline → click `Copy_<Source>_CDC` → **Source** tab. The
-   tab shows:
-   - **Connection:** the HTTP connection above.
-   - **Relative URL:** set with **Add dynamic content**.
-   - **File format:** DelimitedText, comma-separated, first row as header.
-   - **Request method:** GET.
-7. **The expression** (crashes shown; persons and vehicles differ only in the key at the end of
-   the watermark reference):
+## 2. The connections: where the URLs are stored
 
-   ```
-   ?$where=crash_date>'@{json(activity('Read_Watermarks').output.result.exitValue).crashes}'&$order=crash_date&$limit=10000000
-   ```
+A Fabric **connection** stores an address and the credentials for reaching it. We have one
+connection per dataset.
 
-   Fabric appends it to the base URL.
-8. **What each SoQL parameter does:**
-   - `$where`: the incremental filter, "only rows with `crash_date` after the watermark."
-   - `$order=crash_date`: gives a stable order.
-   - `$limit=10000000`: Socrata returns only **1,000 rows** by default. This raises the cap far
-     above the dataset size, so the first full load (watermark `1900-01-01`) comes back in one
-     request.
-9. **How the `@{…}` part works:** it is string interpolation.
-   - The `Read_Watermarks` exit value is a JSON string such as `{"crashes":"…","persons":"…","vehicles":"…"}`.
-   - `json()` parses that string.
-   - `.crashes`, `.persons` or `.vehicles` picks the watermark for that Copy.
+- **Where to find them:** gear icon → **Manage connections and gateways**.
+- **Type:** HTTP, with **Anonymous** authentication, so no login and no API key.
+- **What each one holds:** the base URL for one dataset (section 1). That URL isn't stored in any
+  repo file, so to see or change it, open the connection in Fabric.
+- **Why they behave differently from workspace items:**
+  - Connections are not workspace items, so Git doesn't track them.
+  - A connection has the same ID in every stage, and deployment never repoints it.
+  - The pipeline JSON stores only each connection's ID, in `externalReferences.connection`.
+- **Why anonymous:** an earlier version of the pipeline sent a Socrata app token, a kind of API
+  key. The token was only there to raise the rate limit. It leaked into git history, so it was
+  rotated and dropped (ADR-0001).
+- **A useful side effect:** MCP `update_pipeline_definition` can edit pipelines that use these
+  connections. Pipelines that use the OAuth Lakehouse and Warehouse connections fail there with
+  permission errors.
 
-## C. Where the watermark comes from
+## 3. The request: building the URL for each run
 
-10. **What `Read_Watermarks` does:** it runs notebook `nb_etl_watermark` with `mode=read`. The
-    notebook reads Delta table `etl_watermark` in the landing lakehouse and returns it with
-    `notebookutils.notebook.exit(json.dumps(payload))`.
-11. **Why a notebook and not a Lookup activity:**
-    - A Lookup would have to point at the lakehouse SQL endpoint.
-    - That endpoint isn't a Git item, so Git import fails with `MissingDependencies`.
-    - The endpoint is also read-only, so it couldn't advance the watermark anyway.
-12. **The parameters cell:** the notebook's first cell must be tagged as the parameters cell
-    (… → **Toggle parameter cell**). Without the tag, the pipeline can't override `mode`,
-    `source_name` and `new_value`. The tag can only be set by hand in the UI.
+The connection supplies the fixed part of the URL. Each Copy activity adds a query string that
+changes on every run. To see it: open the pipeline → click `Copy_Crashes_CDC` (or the Persons or
+Vehicles copy) → **Source** tab → **Relative URL**. The query string is entered through **Add
+dynamic content**.
 
-## D. Where the data lands
+Here is the crashes version. The persons and vehicles versions differ only in the last word
+inside `@{…}`:
 
-13. **The Copy activity's Destination tab** has these settings:
-    - Lakehouse `NYC_VehicleCrashes_Landing_Lakehouse`.
-    - Root folder `Files`, folder `raw/<source>`, file extension `.csv`.
-    - OAuth connection `Lakehouseconnection`.
+```
+?$where=crash_date>'@{json(activity('Read_Watermarks').output.result.exitValue).crashes}'&$order=crash_date&$limit=10000000
+```
 
-    If the Copy fails with `LakehouseForbiddenError`, re-consent the credentials in Manage
-    connections and gateways.
-14. **What arrives:** every run adds new CSV files.
-    - A run that finds no new rows still writes a file with only the header row.
-    - The folder also holds a `.keep` sentinel file.
+Fabric adds this to the end of the base URL. Reading it piece by piece:
 
-    Anything that reads these folders must tolerate both.
-15. **How the stages get the data:** Dev, Test and Prod never call Socrata themselves. Each one
-    reads the landing files through OneLake shortcut `raw_nyc_crashes` → landing `Files/raw/`,
-    then builds its own Delta tables with `nb_cdc_to_delta` (ADR-0002).
+- **`$where=crash_date>'…'`:** "only rows with a `crash_date` later than this date." This makes
+  each run download only new rows, which is what makes the load incremental.
+- **`@{…}`:** a Fabric expression that is filled in when the pipeline runs. It takes the output
+  of the `Read_Watermarks` step (section 4), which is a small piece of JSON such as
+  `{"crashes":"2026-09-30T14:02:11", …}`, and picks out the date for this dataset.
+- **`$order=crash_date`:** returns the rows sorted by date.
+- **`$limit=10000000`:** the maximum number of rows to return. Without it, Socrata returns only
+  **1,000 rows**. Ten million is far more than the dataset holds, so the first full load, which
+  starts from `1900-01-01`, comes back in one request.
 
-## E. Run order and advancing the watermark
+The `$where`, `$order` and `$limit` parameters belong to **SoQL**, Socrata's query language.
 
-16. **Run order:**
-    1. `Read_Watermarks` runs first.
-    2. The three Copy activities run in parallel. Each retries 3 times, 120 s apart.
-    3. `Advance_Watermark_*` (`mode=advance`) runs for each source, **one after another**.
+### Which version of the API we use (SODA)
 
-    The advance steps can't run in parallel: concurrent merges into the single-file Delta table
-    raise `ConcurrentAppendException`.
-17. **The value written:** `new_value` is `@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')`.
-    - The Fabric UI saves this parameter with an outer `"type": "Expression"`, and the run then
-      fails when it is submitted.
-    - The shape that works is
-      `"new_value": {"value": {"value": "@…", "type": "Expression"}, "type": "string"}`.
+**SODA** (Socrata Open Data API) is the API that answers these requests. It has three versions,
+and the version decides the URL form, how many rows one request can return, and whether you
+need a token. Facts below are from dev.socrata.com, checked 2026-10-01.
 
-## F. Known weaknesses
+| Version | URL form | Most rows per request | Token needed? |
+|---|---|---|---|
+| 2.0 | `/resource/<id>.csv` | 50,000 | No |
+| 2.1 | `/resource/<id>.csv` (same) | No limit | No |
+| 3.0 (2025) | `/api/v3/views/<id>/query.json` or `/export.csv` | No limit | **Yes** |
 
-18. **The watermark advances to the run time, not to the latest `crash_date` loaded.** A crash
-    that NYC publishes late, with a `crash_date` earlier than the last run, is never picked up.
-19. **Edits to rows already loaded are never picked up.** The filter is on `crash_date`, not on a
-    last-modified column such as Socrata's `:updated_at`. The open question is in
-    `.scratch/_Doubtful/source-rows-append-only-NotUpdate/`.
+- **We use 2.1.** Versions 2.0 and 2.1 share the same URL form, so the URL alone doesn't say which
+  one we're on. We know it isn't 2.0 because our full load returned millions of rows in one
+  request, and 2.0 stops at 50,000.
+- **Requests without a token can be slowed down.** Socrata may throttle anonymous traffic from
+  the same IP address and reply with HTTP **429** ("too many requests"). Each Copy retries 3 times,
+  2 minutes apart, which covers short bursts of throttling.
+- **Moving to version 3.0 would mean using a token again.** If we ever do:
+  - Store the token in the connection's settings, never in the pipeline JSON. Putting it in the
+    pipeline JSON is how it leaked before.
+  - Expect the URLs and query parameters to change too.
+
+  Socrata hasn't said if or when the 2.x URLs will stop working.
+
+## 4. The watermark: the `etl_watermark` table
+
+The watermark records how far the last download got. It is a small Delta table called
+`etl_watermark` in the landing lakehouse, with one row per dataset:
+
+| Column | What it holds |
+|---|---|
+| `source_name` | `crashes`, `persons` or `vehicles` |
+| `last_loaded_value` | The date the next run filters on (`crash_date > this`). Despite the name, it is set to **the time of the last run**, not the latest `crash_date` loaded (see section 7). It starts at `1900-01-01`, so the first run downloads everything. |
+| `last_run_utc` | When the row was last written. This is only an audit stamp, and the pipeline never reads it. |
+
+**Only notebook `nb_etl_watermark` ever writes to this table.** The pipeline calls the notebook
+in one of two modes:
+
+- **`mode=read`:** the `Read_Watermarks` step. The notebook reads the table and returns all three
+  dates to the pipeline as one piece of JSON.
+- **`mode=advance`:** the `Advance_Watermark_*` steps. The notebook updates one dataset's row.
+
+A third mode, `seed`, creates the starting rows, and is run by hand once.
+
+**Why a notebook does this, not a Lookup activity:** a Lookup activity would read the table
+through the lakehouse's SQL endpoint. That endpoint is read-only, so it couldn't advance the
+watermark. A Lookup that points at it also breaks Git import with `MissingDependencies`, because
+Git doesn't track the endpoint.
+
+**A setup step that's easy to forget:** the notebook's first cell must be marked as the
+parameters cell (… → **Toggle parameter cell**). Without that, the pipeline can't pass `mode` and
+the other values in. The setting can only be changed by hand in the Fabric UI.
+
+## 5. Where the data lands
+
+The **Destination** tab of each Copy activity saves the download as a CSV file in lakehouse
+`NYC_VehicleCrashes_Landing_Lakehouse`, under `Files/raw/crashes`, `Files/raw/persons` or
+`Files/raw/vehicles`. It writes through OAuth connection `Lakehouseconnection`. If a write fails
+with `LakehouseForbiddenError`, open that connection in Manage connections and gateways and
+re-enter its credentials.
+
+- **Every run adds new files and never replaces old ones.** A run that finds no new rows still
+  writes a file containing only the header row. The raw folders also contain a `.keep`
+  placeholder file. Anything that reads these folders must tolerate both.
+- **Dev, Test and Prod never call NYC themselves.** Each one reads the landing files through a
+  OneLake shortcut, a kind of pointer, named `raw_nyc_crashes`. Each one then builds its own Delta
+  tables from the files with `nb_cdc_to_delta` (ADR-0002).
+
+## 6. The order of a run
+
+1. **`Read_Watermarks`** gets the three watermark dates.
+2. **The three Copy activities** download at the same time.
+3. **The three `Advance_Watermark_*` steps** update the watermark, **one at a time**. If they ran
+   at the same time, they would all write to the same small Delta table at once, and the writes
+   would collide with `ConcurrentAppendException`.
+
+Each advance step sets the watermark to the current time, using the expression
+`@formatDateTime(utcnow(),'yyyy-MM-ddTHH:mm:ss')`.
+
+**A UI quirk:** when you save this parameter, the Fabric UI wraps it in an extra
+`"type": "Expression"`, and the run then fails to start. Fix it in the JSON. The shape that works is
+`"new_value": {"value": {"value": "@…", "type": "Expression"}, "type": "string"}`.
+
+## 7. Known weaknesses
+
+- **Late-arriving crashes can be missed.** The watermark is set to the time of the run, not to
+  the latest `crash_date` downloaded. Suppose NYC adds a crash from last Tuesday after
+  Wednesday's run. Every later run asks only for crashes dated after Wednesday, so that crash is
+  never downloaded. This is a known, unfixed defect (ADR-0002).
+- **Corrections to rows already loaded never arrive.** The filter looks only at `crash_date`, so
+  if NYC edits a row that we've already downloaded, we never see the change. Filtering on a
+  "last modified" column, such as Socrata's `:updated_at`, would catch edits. The open question is
+  in `.scratch/_Doubtful/source-rows-append-only-NotUpdate/`.
