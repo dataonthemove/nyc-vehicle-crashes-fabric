@@ -3,7 +3,7 @@
 .claude/settings.local.json
 
 # Miscellaneous files that are not useful to track
-"Other\LessonsFromTheBuild.txt"
+Other/LessonsFromTheBuild.txt
 
 # Editor/tool backups — never version these
 *.bak
