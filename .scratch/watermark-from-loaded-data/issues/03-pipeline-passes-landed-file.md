@@ -12,19 +12,19 @@ Parent spec: `.scratch/watermark-from-loaded-data/spec.md`
 
 **Blocked by:** 01 (the notebook must accept `loaded_file` first)
 
-**Status:** claimed (CC steps 1–3 done 2026-10-01; awaiting push + CDC run)
+**Status:** resolved (2026-10-01)
 
 | Step | Description | Owner | Status |
 |---|---|---|---|
 | 1 | Edit the pipeline definition locally: run-ID file name on the three Copy sinks; `loaded_file` replaces `new_value` on the three Advance activities | CC | done |
 | 2 | Correct the pipeline's `.platform` description | CC | done |
 | 3 | Commit locally (`CC Commit: landing_pl_cdc_advance-from-landed-file`) | CC | done |
-| 4 | Push; landing Source Control → Update All; confirm pipeline opens without errors | Pat | todo |
-| 5 | Run one full CDC run (all activities active) | Pat | todo |
-| 6 | Verify landed file names and `etl_watermark` over MCP/Livy; check the Advance activity inputs in the run output | CC | todo |
+| 4 | Push; landing Source Control → Update All; confirm pipeline opens without errors | Pat | done |
+| 5 | Run one full CDC run (all activities active) | CC (Pat asked) | done — run `8a27ad3e-cf01-4460-87d2-e5975b6de9e8` |
+| 6 | Verify landed file names and `etl_watermark` over MCP/Livy; check the Advance activity inputs in the run output | CC | done |
 
-- [ ] Three new files named `<runId>.csv` land in `Files/raw/{crashes,persons,vehicles}`
-- [ ] Each Advance activity's resolved input shows `loaded_file` pointing at its own source's new file
-- [ ] Source is still frozen, so the files are header-only, and all three watermarks are unchanged; `last_run_utc` updated
-- [ ] Pipeline description no longer mentions reading from the SQL endpoint
+- [x] Three new files named `<runId>.csv` land in `Files/raw/{crashes,persons,vehicles}`
+- [x] Each Advance activity's resolved input shows `loaded_file` pointing at its own source's new file
+- [x] Source is still frozen, so the files are header-only, and all three watermarks are unchanged; `last_run_utc` updated
+- [x] Pipeline description no longer mentions reading from the SQL endpoint
 - [ ] Landing Source Control shows nothing pending after Update All
