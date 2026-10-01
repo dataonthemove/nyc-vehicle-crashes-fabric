@@ -37,6 +37,10 @@
 #   read    -> pipeline step `Read_Watermarks` (first activity in pl_cdc_NYC_Crashes_Landing).
 #              Hands all three watermarks back to the pipeline as JSON (see CELL 6). The three
 #              Copy_*_CDC activities plug those values into their Socrata `$where=crash_date>...`.
+#              Each value handed back is the stored watermark MINUS lookback_days (default 7), so
+#              every run re-asks for the last week and catches crashes NYC published late. The
+#              re-pulled rows are harmless: downstream loads skip keys they already hold. The
+#              table itself is never adjusted — it always holds the true newest date loaded.
 #   advance -> pipeline steps `Advance_Watermark_Crashes/_Persons/_Vehicles`, each run after
 #              its own Copy succeeds. Sets one source's watermark in one of two ways:
 #                loaded_file -> from the data: the newest crash_date in the file that Copy just
@@ -51,12 +55,13 @@
 #   The values below are only DEFAULTS for a manual run. Because this cell is tagged as the
 #   parameters cell, the pipeline's Notebook activity injects its own values (its
 #   "Base parameters") in a new cell right after this one, which overwrites these at runtime.
-#   Every later cell reads these five variables.
+#   Every later cell reads these six variables.
 
 mode         = "seed"          # seed | advance | read
 source_name  = "crashes"       # crashes | persons | vehicles — used by advance/read
 loaded_file  = ""              # mode="advance": landed file, relative to Files/, e.g. raw/crashes/<file>
 new_value    = ""              # mode="advance" manual override: ISO timestamp, e.g. 2026-06-11T00:00:00
+lookback_days = 7              # mode="read": days subtracted from each watermark handed back; 0 = none
 seed_value   = "1900-01-01T00:00:00"
 
 
@@ -288,7 +293,8 @@ else:
 #   2. seed mode only: confirm each name in SOURCES (CELL 2) now has a row. `wm.collect()` pulls
 #      the rows into Python; the set subtraction finds any source that is missing; `assert`
 #      fails the notebook with that message if the list is not empty.
-#   3. read mode only: send the watermarks back to the pipeline (explained just below).
+#   3. read mode only: send the watermarks back to the pipeline, each minus the lookback
+#      (explained just below).
 
 wm = read_watermarks()
 wm.show(truncate=False)
@@ -305,8 +311,16 @@ if mode == "seed":
 # How the hand-off works:
 #   - notebookutils (newer name) / mssparkutils (older name) is Fabric's notebook helper library;
 #     the try/except just imports whichever one exists in this runtime.
+#   - The lookback: each stored watermark has lookback_days (CELL 1) taken off before it is sent,
+#     e.g. stored 2026-07-01 -> sent 2026-06-24 with the default 7. It is applied only here, on
+#     the way out; the table is not changed, so it stays an honest record of the newest date
+#     actually loaded, and advance (CELL 4) keeps working from that true value. In T-SQL terms:
+#     DATEADD(day, -lookback_days, last_loaded_value), but never below seed_value — so a seed row
+#     (1900-01-01) is sent as 1900-01-01 unchanged, and a value already at or below seed_value is
+#     sent exactly as stored (never raised).
+#     The pipeline may pass lookback_days as text, so int(...) converts it to a whole number.
 #   - `payload` is a Python dictionary built from the rows, one entry per source, formatted as
-#     text, e.g. {"crashes": "2026-09-30T14:05:00", "persons": "...", "vehicles": "..."}.
+#     text, e.g. {"crashes": "2026-06-24T00:00:00", "persons": "...", "vehicles": "..."}.
 #   - json.dumps turns it into a JSON string; notebook.exit(...) ends the notebook and hands
 #     that string to the pipeline as the activity's "exit value".
 #   - In the pipeline, each Copy activity reads its own entry, e.g. for crashes:
@@ -314,11 +328,18 @@ if mode == "seed":
 #     and drops it into the Socrata query  $where=crash_date>'<that value>'.
 if mode == "read":
     import json
+    from datetime import datetime, timedelta
     try:
         import notebookutils as nbutils
     except ImportError:
         import mssparkutils as nbutils
-    payload = {r["source_name"]: r["last_loaded_value"].strftime("%Y-%m-%dT%H:%M:%S")
+    lookback = timedelta(days=int(lookback_days))
+    if lookback < timedelta(0):
+        raise ValueError(f"lookback_days must be 0 or more: {lookback_days!r}")
+    floor = datetime.fromisoformat(seed_value)
+    def looked_back(v):
+        return v if v <= floor else max(v - lookback, floor)
+    payload = {r["source_name"]: looked_back(r["last_loaded_value"]).strftime("%Y-%m-%dT%H:%M:%S")
                for r in wm.collect()}
     nbutils.notebook.exit(json.dumps(payload))
 

@@ -12,13 +12,13 @@ Parent spec: `.scratch/watermark-from-loaded-data/spec.md`
 
 **Blocked by:** 01 (same notebook)
 
-**Status:** ready-for-agent
+**Status:** in-progress (code committed; awaiting push + Fabric tests)
 
 | Step | Description | Owner | Status |
 |---|---|---|---|
-| 1 | Add `lookback_days` to the parameters cell; apply it to the read-mode payload only; seed values pass through | CC | todo |
-| 2 | Update the comments in cells 1 and 6 to explain the lookback and why the stored value is unadjusted | CC | todo |
-| 3 | Commit locally (`CC Commit: landing_nb_etl_watermark_read-lookback`) | CC | todo |
+| 1 | Add `lookback_days` to the parameters cell; apply it to the read-mode payload only; seed values pass through | CC | done |
+| 2 | Update the comments in cells 1 and 6 to explain the lookback and why the stored value is unadjusted | CC | done |
+| 3 | Commit locally (`CC Commit: landing_nb_etl_watermark_read-lookback`) | CC | done |
 | 4 | Push; landing Source Control → Update All | Pat | todo |
 | 5 | Run the read-mode tests; read `etl_watermark` over Livy | CC | todo |
 | 6 | Restore crashes watermark to its pre-test value via explicit `new_value` | CC | todo |
