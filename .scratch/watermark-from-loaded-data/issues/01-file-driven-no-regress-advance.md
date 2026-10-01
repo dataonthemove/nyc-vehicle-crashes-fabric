@@ -13,22 +13,22 @@ Parent spec: `.scratch/watermark-from-loaded-data/spec.md`
 
 **Blocked by:** None (can start immediately)
 
-**Status:** in-progress (CC code steps done; awaiting Pat steps 1 and 5)
+**Status:** in-progress (seam-1 tests passed 2026-10-01; last check awaits Pat: landing SC shows no notebook diff)
 
 | Step | Description | Owner | Status |
 |---|---|---|---|
-| 1 | Reactivate the pipeline activities deactivated on 2026-10-01, or discard via landing Source Control → Update All; confirm landing SC shows nothing pending | Pat | todo |
+| 1 | Reactivate the pipeline activities deactivated on 2026-10-01, or discard via landing Source Control → Update All; confirm landing SC shows nothing pending | Pat | done |
 | 2 | Add `loaded_file` to the parameters cell; implement file-driven, no-regress advance; keep explicit `new_value` override; fail when neither is set | CC | done |
 | 3 | Update cell comments for the new advance logic, in the same plain-language style as the existing comments | CC | done |
 | 4 | Commit locally (`CC Commit: landing_nb_etl_watermark_advance-from-file`) | CC | done |
-| 5 | Push; landing Source Control → Update All | Pat | todo |
-| 6 | Run seam-1 tests on crashes (MCP on-demand job with parameters, or Fabric UI); read `etl_watermark` over Livy after each | CC | todo |
-| 7 | Restore crashes watermark to its pre-test value (2026-09-10T13:04:16) via explicit `new_value` | CC | todo |
+| 5 | Push; landing Source Control → Update All | Pat | done |
+| 6 | Run seam-1 tests on crashes (MCP on-demand job with parameters, or Fabric UI); read `etl_watermark` over Livy after each | CC | done |
+| 7 | Restore crashes watermark to its pre-test value (2026-09-10T13:04:16) via explicit `new_value` | CC | done |
 
-- [ ] Explicit `new_value = 2026-06-01T00:00:00` → crashes watermark is 2026-06-01
-- [ ] Advance with the 9/10 full-history crashes file → watermark is 2026-06-11
-- [ ] Advance with a header-only crashes file → watermark still 2026-06-11; `last_run_utc` changed
-- [ ] Explicit `new_value = 2026-07-01T00:00:00`, then advance with the full-history file → still 2026-07-01 (no regression)
-- [ ] Advance with neither `loaded_file` nor `new_value` → the run fails and the table is unchanged
-- [ ] Persons and vehicles rows are untouched by every crashes test
+- [x] Explicit `new_value = 2026-06-01T00:00:00` → crashes watermark is 2026-06-01
+- [x] Advance with the 9/10 full-history crashes file → watermark is 2026-06-11
+- [x] Advance with a header-only crashes file → watermark still 2026-06-11; `last_run_utc` changed
+- [x] Explicit `new_value = 2026-07-01T00:00:00`, then advance with the full-history file → still 2026-07-01 (no regression)
+- [x] Advance with neither `loaded_file` nor `new_value` → the run fails and the table is unchanged
+- [x] Persons and vehicles rows are untouched by every crashes test
 - [ ] Notebook code and comments match Fabric's compact formatting (no spurious round-trip diff after Update All)
