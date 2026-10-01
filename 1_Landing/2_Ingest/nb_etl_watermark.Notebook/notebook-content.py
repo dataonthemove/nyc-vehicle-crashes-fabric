@@ -49,7 +49,6 @@
 #                new_value   -> by hand: sets the watermark to exactly this value, even if that
 #                               is earlier. For manual resets and fixes only.
 #              If both are given, loaded_file wins. If neither is given, the run fails.
-#              (Until the pipeline is switched over, it still passes new_value = utcnow().)
 #
 # HOW THESE VARIABLES WORK
 #   The values below are only DEFAULTS for a manual run. Because this cell is tagged as the

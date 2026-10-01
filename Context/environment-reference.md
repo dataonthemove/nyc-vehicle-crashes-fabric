@@ -280,15 +280,16 @@ was since recreated for `nb_cdc_to_delta`). Seven activities:
 `Read_Watermarks` (`nb_etl_watermark`, `mode=read`, exits a JSON map) → three parallel
 `Copy_{Crashes,Persons,Vehicles}_CDC` (Socrata HTTP, `$where crash_date > watermark`, sink
 `Files/raw/<source>/<runId>.csv`) → three **chained** `Advance_Watermark_*` (`mode=advance`,
-`loaded_file` = that source's `raw/<source>/<runId>.csv`, `Completed` dependency, retry 2 @ 60s — parallel MERGEs on the single-file Delta table raise
-`ConcurrentAppendException`).
+`loaded_file` = that source's `raw/<source>/<runId>.csv`, `Completed` dependency, retry 2 @ 60s —
+parallel MERGEs on the single-file Delta table raise `ConcurrentAppendException`).
 
 - Copies read the watermark as `@{json(activity('Read_Watermarks').output.result.exitValue).<source>}`.
 - Notebook-activity parameter shape that works:
   `"loaded_file": {"value": {"value": "@…", "type": "Expression"}, "type": "string"}`. Fabric's UI emits
   an outer `"type": "Expression"`, which fails at submission — fix it in the JSON.
 - Watermark advances to the newest `crash_date` in the landed file (never backwards); read mode
-  subtracts a 7-day lookback. Fixed 2026-10-01 (`.scratch/watermark-from-loaded-data`).
+  subtracts a 7-day lookback (`.scratch/watermark-from-loaded-data`, committed 2026-10-01; deployed
+  once ticket 04 passes).
 - Last full run `06db7dc7-3c8a-46ee-830f-6e2f830db867` (2026-09-10): landed crashes 2,269,187 ·
   persons 5,984,110 · vehicles 4,551,002.
 

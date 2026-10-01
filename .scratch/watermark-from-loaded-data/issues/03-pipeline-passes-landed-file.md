@@ -12,7 +12,7 @@ Parent spec: `.scratch/watermark-from-loaded-data/spec.md`
 
 **Blocked by:** 01 (the notebook must accept `loaded_file` first)
 
-**Status:** in-progress (CC steps 1–3 done 2026-10-01; awaiting push + CDC run)
+**Status:** claimed (CC steps 1–3 done 2026-10-01; awaiting push + CDC run)
 
 | Step | Description | Owner | Status |
 |---|---|---|---|
