@@ -1,20 +1,24 @@
 # NYC Motor Vehicle Collisions — Microsoft Fabric
 
-An end-to-end analytics build on Microsoft Fabric using the NYC Open Data motor vehicle collision
-datasets. A watermark-driven CDC pipeline lands source data in a Lakehouse. Stored procedures load
-it into a Kimball star schema in a Fabric Warehouse. A Direct Lake semantic model, authored as
-TMDL in git, serves Power BI. The build is promoted Dev → Test → Prod through Fabric deployment
-pipelines. Every Fabric item is under source control, and design decisions are recorded as ADRs.
+The primary repo lives in **Azure DevOps**, where Fabric Git Integration is bound. The GitHub copy
+is a **read-only mirror**, updated automatically from Azure DevOps. Issues and pull requests on the
+GitHub mirror aren't monitored.
 
-The deliverable is the **semantic model**: a governed, documented Direct Lake model built for
-self-service report authors. Reports are its consumers and sit outside the scope of this build.
+This repo holds an end-to-end analytics build on Microsoft Fabric using the NYC Open Data motor
+vehicle collision datasets. A watermark-driven CDC pipeline lands source data in a Lakehouse.
+Stored procedures load it into a Kimball star schema in a Fabric Warehouse. The build is promoted
+Dev → Test → Prod through Fabric deployment pipelines. Every Fabric item is under source control,
+and design decisions are recorded as ADRs.
 
-
-![End-to-end architecture](Diagrams/Arch_NYC_VehicleCrashes_v3.png)
+The deliverable is the **semantic model**: a governed, documented Direct Lake model, authored as
+TMDL in git and built for self-service report authors. Reports are its consumers and sit outside
+the scope of this build.
 
 ![Semantic model](Diagrams/SemanticModel6.png)
 
-## What this demonstrates
+![End-to-end architecture](Diagrams/Arch_NYC_VehicleCrashes_v3.png)
+
+## What this repo demonstrates
 
 - **Fabric end to end:** Lakehouse, Warehouse, notebooks, Data Pipelines, Variable Library,
   Direct Lake semantic model, across a landing workspace and Dev, Test and Prod.
@@ -41,10 +45,6 @@ the tenant ID, working notes, runbooks and the backlog are published **unredacte
 None of them grant access to anything, and together they show how the work was actually done.
 One historical NYC Open Data app token appears in early commits; it was rotated and is dead
 ([ADR-0001](docs/adr/0001-rotate-nyc-open-data-app-token.md)).
-
-The primary repo lives in **Azure DevOps**, where Fabric Git Integration is bound. The GitHub
-copy is a **read-only mirror**, updated automatically from Azure DevOps, so issues and pull
-requests here aren't monitored.
 
 ## Architecture
 
