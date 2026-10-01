@@ -38,18 +38,25 @@
 #              Hands all three watermarks back to the pipeline as JSON (see CELL 6). The three
 #              Copy_*_CDC activities plug those values into their Socrata `$where=crash_date>...`.
 #   advance -> pipeline steps `Advance_Watermark_Crashes/_Persons/_Vehicles`, each run after
-#              its own Copy succeeds. Moves one source's watermark forward to `new_value`
-#              (the pipeline passes utcnow()).
+#              its own Copy succeeds. Sets one source's watermark in one of two ways:
+#                loaded_file -> from the data: the newest crash_date in the file that Copy just
+#                               landed. Never moves the watermark backwards, and a file with no
+#                               data rows leaves it where it is (see CELL 4).
+#                new_value   -> by hand: sets the watermark to exactly this value, even if that
+#                               is earlier. For manual resets and fixes only.
+#              If both are given, loaded_file wins. If neither is given, the run fails.
+#              (Until the pipeline is switched over, it still passes new_value = utcnow().)
 #
 # HOW THESE VARIABLES WORK
 #   The values below are only DEFAULTS for a manual run. Because this cell is tagged as the
 #   parameters cell, the pipeline's Notebook activity injects its own values (its
 #   "Base parameters") in a new cell right after this one, which overwrites these at runtime.
-#   Every later cell reads these four variables.
+#   Every later cell reads these five variables.
 
 mode         = "seed"          # seed | advance | read
 source_name  = "crashes"       # crashes | persons | vehicles — used by advance/read
-new_value    = ""              # ISO timestamp for mode="advance", e.g. 2026-09-09T00:00:00
+loaded_file  = ""              # mode="advance": landed file, relative to Files/, e.g. raw/crashes/<file>
+new_value    = ""              # mode="advance" manual override: ISO timestamp, e.g. 2026-06-11T00:00:00
 seed_value   = "1900-01-01T00:00:00"
 
 
@@ -69,7 +76,7 @@ seed_value   = "1900-01-01T00:00:00"
 #   StructType/StructField/... -> a way to describe a table's columns in Python (like a column list
 #                  in CREATE TABLE). SCHEMA below documents the table shape; CELL 3 creates the
 #                  actual table with the same three columns in SQL.
-#   DeltaTable  -> gives access to Delta's MERGE (upsert) API, used by both helpers in CELL 4.
+#   DeltaTable  -> gives access to Delta's MERGE (upsert) API, used by all three writers in CELL 4.
 #   TABLE_NAME  -> the table every cell targets.
 #   SOURCES     -> the three Socrata datasets; seed (CELL 4) creates one row for each, and the
 #                  verify step (CELL 6) checks all three exist.
@@ -132,12 +139,14 @@ print(f"{TABLE_NAME} ready")
 
 # CELL 4 — Helpers
 #
-# Defines three functions (`def` = define a reusable routine, like a stored procedure).
+# Defines four functions (`def` = define a reusable routine, like a stored procedure).
 # Defining them does NOT run them — CELL 5 decides which one to call based on `mode`, and CELL 6
-# calls read_watermarks(). Both writers use Delta MERGE, which behaves like T-SQL MERGE:
+# calls read_watermarks(). All three writers use Delta MERGE, which behaves like T-SQL MERGE:
 #   .merge(source, "t.source_name = s.source_name")  -> ON clause
 #   .whenMatchedUpdateAll()                           -> WHEN MATCHED THEN UPDATE (all columns)
 #   .whenNotMatchedInsertAll()                        -> WHEN NOT MATCHED THEN INSERT (all columns)
+#   .whenMatchedUpdate(set={...})                     -> WHEN MATCHED THEN UPDATE SET col = ..., ...
+#   .whenNotMatchedInsertAll(condition="...")         -> WHEN NOT MATCHED AND <condition> THEN INSERT
 #   .execute()                                        -> actually run it
 # The pattern `spark.createDataFrame(...)` + `.withColumn(...)` builds the small in-memory
 # "source" rowset for the MERGE (like a VALUES table constructor), converting the text
@@ -158,21 +167,63 @@ def seed_watermarks(value: str = seed_value):
         .execute())
 
 
-# Called by CELL 5 when mode = "advance" — i.e. by the pipeline's Advance_Watermark_* activities,
-# once per source, only after that source's Copy succeeded. Builds a single row
-# (source_name, new_value) and MERGEs with UPDATE + INSERT (a true upsert), overwriting the old
-# watermark. Fails fast with an error if no new_value was passed, rather than writing a blank.
+# Called by CELL 5 when mode = "advance" with new_value set — a manual override. Builds a single
+# row (source_name, new_value) and MERGEs with UPDATE + INSERT (a true upsert), overwriting the
+# old watermark. It may move the watermark backwards on purpose, e.g. to reset it. Text that is
+# not a valid timestamp would convert to NULL, so that fails with an error instead of being written.
 def advance_watermark(source: str, value: str):
     """Upsert the watermark for one source to an explicit value."""
-    if not value:
-        raise ValueError("new_value is required when mode='advance'")
     row = (spark.createDataFrame([(source, value)], "source_name STRING, last_loaded_value STRING")
                 .withColumn("last_loaded_value", F.to_timestamp("last_loaded_value"))
                 .withColumn("last_run_utc",      F.current_timestamp()))
+    if row.first()["last_loaded_value"] is None:
+        raise ValueError(f"new_value is not a valid timestamp: {value!r}")
     (DeltaTable.forName(spark, TABLE_NAME).alias("t")
         .merge(row.alias("s"), "t.source_name = s.source_name")
         .whenMatchedUpdateAll()
         .whenNotMatchedInsertAll()
+        .execute())
+
+
+# Called by CELL 5 when mode = "advance" with loaded_file set — the pipeline's Advance_Watermark_*
+# activities, once per source, only after that source's Copy succeeded. Step by step:
+#   1. Read the one CSV file Copy landed (same read options as nb_cdc_to_delta) and find the
+#      newest crash_date in it — like SELECT MAX(CAST(crash_date AS DATETIME2)) FROM <file>.
+#      Socrata writes crash_date as text, e.g. 2026-06-11T00:00:00.000, so it is converted to a
+#      real timestamp first and never compared as text.
+#   2. Safety check: if any crash_date fails that conversion, stop with an error rather than
+#      quietly ignoring rows and computing a wrong date. Like T-SQL COUNT(col), F.count skips
+#      NULLs, so a value that failed to convert shows up as parsed_rows < dated_rows.
+#   3. MERGE the result. On the existing row, the watermark becomes the LATER of the stored value
+#      and the file's newest date (`greatest` skips NULLs, like a MAX across two columns), so it
+#      never moves backwards. A header-only file gives NULL, so the watermark stays put, but
+#      last_run_utc is still stamped to show the source was checked. A source with no row yet
+#      only gets one when the file has data (normally seed has already created every row).
+def advance_watermark_from_file(source: str, path: str):
+    """Move one source's watermark up to the newest crash_date in a landed file; never back."""
+    stats = (spark.read
+                 .option("header", True)
+                 .option("inferSchema", False)
+                 .option("nullValue", "")
+                 .option("multiLine", True)
+                 .csv(f"Files/{path}")
+                 .agg(F.max(F.to_timestamp("crash_date")).alias("newest"),
+                      F.count("crash_date").alias("dated_rows"),
+                      F.count(F.to_timestamp("crash_date")).alias("parsed_rows"))
+                 .first())
+    if stats["dated_rows"] != stats["parsed_rows"]:
+        raise ValueError(f"{stats['dated_rows'] - stats['parsed_rows']} crash_date value(s) in "
+                         f"{path} are not valid timestamps")
+    print(f"newest crash_date in {path}: {stats['newest']}")
+    row = (spark.createDataFrame([(source, stats["newest"])],
+                                 "source_name STRING, last_loaded_value TIMESTAMP")
+                .withColumn("last_run_utc", F.current_timestamp()))
+    (DeltaTable.forName(spark, TABLE_NAME).alias("t")
+        .merge(row.alias("s"), "t.source_name = s.source_name")
+        .whenMatchedUpdate(set={
+            "last_loaded_value": "greatest(t.last_loaded_value, s.last_loaded_value)",
+            "last_run_utc":      "s.last_run_utc"})
+        .whenNotMatchedInsertAll(condition="s.last_loaded_value IS NOT NULL")
         .execute())
 
 
@@ -196,8 +247,10 @@ def read_watermarks():
 #
 # The decision point — like an IF / ELSE IF block in T-SQL. Looks at `mode` (CELL 1, or the
 # pipeline's override) and calls the matching helper from CELL 4:
-#   seed    -> seed_watermarks()                        writes starting rows
-#   advance -> advance_watermark(source_name, new_value) moves one source forward
+#   seed    -> seed_watermarks()                                       writes starting rows
+#   advance -> advance_watermark_from_file(source_name, loaded_file)  when loaded_file is set
+#              advance_watermark(source_name, new_value)               else, if new_value is set
+#              neither set -> raise an error before anything is written, rather than guess a value
 #   read    -> `pass` = do nothing here; there is nothing to write. The real work for read mode
 #              happens in CELL 6, which runs for every mode.
 # Any other value (e.g. a typo in the pipeline parameter) raises an error and fails the
@@ -206,7 +259,12 @@ def read_watermarks():
 if mode == "seed":
     seed_watermarks()
 elif mode == "advance":
-    advance_watermark(source_name, new_value)
+    if loaded_file:
+        advance_watermark_from_file(source_name, loaded_file)
+    elif new_value:
+        advance_watermark(source_name, new_value)
+    else:
+        raise ValueError("mode='advance' needs loaded_file or new_value")
 elif mode == "read":
     pass
 else:

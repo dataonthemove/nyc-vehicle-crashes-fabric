@@ -13,14 +13,14 @@ Parent spec: `.scratch/watermark-from-loaded-data/spec.md`
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** in-progress (CC code steps done; awaiting Pat steps 1 and 5)
 
 | Step | Description | Owner | Status |
 |---|---|---|---|
 | 1 | Reactivate the pipeline activities deactivated on 2026-10-01, or discard via landing Source Control → Update All; confirm landing SC shows nothing pending | Pat | todo |
-| 2 | Add `loaded_file` to the parameters cell; implement file-driven, no-regress advance; keep explicit `new_value` override; fail when neither is set | CC | todo |
-| 3 | Update cell comments for the new advance logic, in the same plain-language style as the existing comments | CC | todo |
-| 4 | Commit locally (`CC Commit: landing_nb_etl_watermark_advance-from-file`) | CC | todo |
+| 2 | Add `loaded_file` to the parameters cell; implement file-driven, no-regress advance; keep explicit `new_value` override; fail when neither is set | CC | done |
+| 3 | Update cell comments for the new advance logic, in the same plain-language style as the existing comments | CC | done |
+| 4 | Commit locally (`CC Commit: landing_nb_etl_watermark_advance-from-file`) | CC | done |
 | 5 | Push; landing Source Control → Update All | Pat | todo |
 | 6 | Run seam-1 tests on crashes (MCP on-demand job with parameters, or Fabric UI); read `etl_watermark` over Livy after each | CC | todo |
 | 7 | Restore crashes watermark to its pre-test value (2026-09-10T13:04:16) via explicit `new_value` | CC | todo |
