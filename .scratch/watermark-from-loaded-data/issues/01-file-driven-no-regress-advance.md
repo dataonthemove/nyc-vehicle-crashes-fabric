@@ -13,7 +13,7 @@ Parent spec: `.scratch/watermark-from-loaded-data/spec.md`
 
 **Blocked by:** None (can start immediately)
 
-**Status:** in-progress (seam-1 tests passed 2026-10-01; last check awaits Pat: landing SC shows no notebook diff)
+**Status:** resolved (2026-10-01)
 
 | Step | Description | Owner | Status |
 |---|---|---|---|
@@ -31,4 +31,4 @@ Parent spec: `.scratch/watermark-from-loaded-data/spec.md`
 - [x] Explicit `new_value = 2026-07-01T00:00:00`, then advance with the full-history file → still 2026-07-01 (no regression)
 - [x] Advance with neither `loaded_file` nor `new_value` → the run fails and the table is unchanged
 - [x] Persons and vehicles rows are untouched by every crashes test
-- [ ] Notebook code and comments match Fabric's compact formatting (no spurious round-trip diff after Update All)
+- [x] Notebook code and comments match Fabric's compact formatting (no spurious round-trip diff after Update All)
