@@ -27,4 +27,4 @@ Parent spec: `.scratch/watermark-from-loaded-data/spec.md`
 - [x] Each Advance activity's resolved input shows `loaded_file` pointing at its own source's new file
 - [x] Source is still frozen, so the files are header-only, and all three watermarks are unchanged; `last_run_utc` updated
 - [x] Pipeline description no longer mentions reading from the SQL endpoint
-- [ ] Landing Source Control shows nothing pending after Update All
+- [x] Landing Source Control shows nothing pending after Update All (cosmetic key-order drift committed from Fabric, `cb61c29`)
