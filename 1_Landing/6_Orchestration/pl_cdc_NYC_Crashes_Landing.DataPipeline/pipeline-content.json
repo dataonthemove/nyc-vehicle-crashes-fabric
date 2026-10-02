@@ -72,11 +72,11 @@
               "typeProperties": {
                 "location": {
                   "type": "LakehouseLocation",
+                  "folderPath": "raw/crashes",
                   "fileName": {
                     "value": "@concat(pipeline().RunId, '.csv')",
                     "type": "Expression"
-                  },
-                  "folderPath": "raw/crashes"
+                  }
                 },
                 "columnDelimiter": ",",
                 "quoteChar": "\"",
@@ -218,11 +218,11 @@
               "typeProperties": {
                 "location": {
                   "type": "LakehouseLocation",
+                  "folderPath": "raw/persons",
                   "fileName": {
                     "value": "@concat(pipeline().RunId, '.csv')",
                     "type": "Expression"
-                  },
-                  "folderPath": "raw/persons"
+                  }
                 },
                 "columnDelimiter": ",",
                 "quoteChar": "\"",
@@ -370,11 +370,11 @@
               "typeProperties": {
                 "location": {
                   "type": "LakehouseLocation",
+                  "folderPath": "raw/vehicles",
                   "fileName": {
                     "value": "@concat(pipeline().RunId, '.csv')",
                     "type": "Expression"
-                  },
-                  "folderPath": "raw/vehicles"
+                  }
                 },
                 "columnDelimiter": ",",
                 "quoteChar": "\"",
