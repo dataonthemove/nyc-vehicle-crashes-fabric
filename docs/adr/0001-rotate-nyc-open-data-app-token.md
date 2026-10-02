@@ -2,7 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-09-20
-- **Context issue:** `.scratch/app-token-history/01-app-token-in-git-history.md`
+- **Context issue:** `.scratch/_Archive/app-token-history/spec.md`
 
 ## Context
 
@@ -38,7 +38,7 @@ incident use commit SHA pointers only.
 ## Consequences
 
 - The token must be rotated in the portal (browser-only, behind Pat's login) before this decision
-  is realised; see ticket `.scratch/app-token-history/tickets/02-rotate-app-token.md`.
+  is realised; see ticket `.scratch/_Archive/app-token-history/issues/02-rotate-app-token.md`.
 - Secret scanners will continue to flag the four historical commits. That is expected, and this
   ADR is the standing answer.
 - Any future doc describing this incident refers to the commits by SHA pointer and never quotes
