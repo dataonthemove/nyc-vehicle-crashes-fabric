@@ -1,3 +1,5 @@
 # Header/line conformed keys
 
-Found that the persons and vehicles facts lacked the crash's location and factor keys, so borough RLS leaked unfiltered rows and slicing was impossible. Never built; superseded by the larger header-line-remodel spec.
+The crash is the header and persons and vehicles are its lines, but only the crashes fact carried the location and factor-group keys. As a result, the Brooklyn RLS role filtered crashes but returned persons and vehicles unfiltered in Prod, and lines could not be sliced by borough or factor.
+
+The proposed fix was to copy the crash's dimension keys onto the persons and vehicles facts. This was never built as a standalone change. It was closed as won't-fix and folded into the broader header-line-remodel spec, which addressed this gap alongside several other Kimball shortfalls.
