@@ -1,6 +1,6 @@
 # Spec: Watermark from loaded data
 
-Status: ready-for-agent
+Status: done (2026-10-02)
 Category: bug
 Raised: 2026-10-01
 

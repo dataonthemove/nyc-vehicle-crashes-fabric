@@ -288,8 +288,9 @@ parallel MERGEs on the single-file Delta table raise `ConcurrentAppendException`
   `"loaded_file": {"value": {"value": "@…", "type": "Expression"}, "type": "string"}`. Fabric's UI emits
   an outer `"type": "Expression"`, which fails at submission — fix it in the JSON.
 - Watermark advances to the newest `crash_date` in the landed file (never backwards); read mode
-  subtracts a 7-day lookback (`.scratch/watermark-from-loaded-data`, committed 2026-10-01; deployed
-  once ticket 04 passes).
+  subtracts a 7-day lookback (`.scratch/_Archive/watermark-from-loaded-data`; deployed 2026-10-01).
+  Watermarks reset to 2026-06-11 and verified end to end 2026-10-02, run
+  `8552e9f4-c872-42b7-ac6c-4162c77fef0c`.
 - Last full run `06db7dc7-3c8a-46ee-830f-6e2f830db867` (2026-09-10): landed crashes 2,269,187 ·
   persons 5,984,110 · vehicles 4,551,002.
 

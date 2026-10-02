@@ -171,7 +171,7 @@ few days late are still caught. Downstream MERGEs on the natural key, so the ove
 
 - **Very late crashes can still be missed.** A crash NYC publishes more than 7 days after its
   `crash_date` falls outside the lookback and is never downloaded. (Before
-  `.scratch/watermark-from-loaded-data` the watermark was set to the run time, which skipped any
+  `.scratch/_Archive/watermark-from-loaded-data` the watermark was set to the run time, which skipped any
   late crash; ADR-0002.)
 - **A "rerun from failed" of an Advance step may fail.** If Fabric gives the rerun a new run ID,
   the step looks for `<new run ID>.csv`, which no Copy wrote, and fails without touching the
