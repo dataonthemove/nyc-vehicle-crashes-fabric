@@ -25,12 +25,17 @@ Moved ingestion into a dedicated landing workspace outside the deployment pipeli
 <br>
 
 **Profile before measuring**
-A "> 0" filter threw out 480K genuine zero-occupant vehicles along with the unreported ones, which skewed the average.
+To average occupants per vehicle, a "> 0" filter was meant to drop unreported rows. But the source keeps NULL (unreported, 1.83M) and 0 (genuinely empty, 480K, mostly parked cars) apart. The filter dropped both, inflating the average to 1.39 (true: 1.15). Count each bucket first; the fix was `NOT ISBLANK`.
 <br>
 <br>
 
 **Green runs prove nothing**<br>
-Three successful-looking ingestion runs each hid a silent corruption. One wrote tables into a hidden schema namespace, one let positional CSV binding null the key on 2.4M rows, and one split 210K multi-line records into fragments. Checking the catalog and the row, null-key and distinct-key counts caught all three.
+Three successful-looking ingestion runs each hid a silent corruption. 
+* One wrote tables into a hidden schema namespace, 
+* one let positional CSV binding null the key on 2.4M rows, 
+* and one split 210K multi-line records into fragments.<br>
+
+Checking the catalog and the row, null-key and distinct-key counts caught all three.
 <br>
 <br>
 
@@ -40,7 +45,7 @@ Three successful-looking ingestion runs each hid a silent corruption. One wrote 
 <br>
 
 **Assumed limits**<br>
-A 2M-row cap on the API extract was believed to be a source limit. It wasn't. Lifting it showed every earlier baseline had come from truncated data.
+First attempt: 50,000-row pages, a legacy SODA 2.0 ceiling. Next, one 2M-row request with an app token (Socrata API key) was assumed to be the source maximum. It wasn't: 12–67% of rows silently missing. Tokens govern throttling, not row count. Token later leaked, so dropped: now anonymous, `$limit=10000000`.
 <br>
 <br>
 
@@ -55,7 +60,7 @@ A routine Test deploy with no schema change recreated every star table empty, an
 <br>
 
 **Branch-out isn't isolation**<br>
-A Fabric branch-out workspace kept Dev's endpoints and default lakehouse, so "isolated" test runs wrote into Dev until those were repointed.
+Fabric branch-out copies items but keeps Dev references: notebooks' default lakehouse, Stored Procedure activities' SQL endpoint, and variable library values. "Isolated" runs wrote into Dev. Fix: before any run, follow `Context/branch-out-preflight.md` to repoint each to the branch-out workspace's own lakehouse, Warehouse endpoint and variable values. Commit those repoints on its Git branch only; never merge them into Dev.
 <br>
 <br>
 
