@@ -11,6 +11,7 @@ Issues and specs for this repo live as markdown files in `.scratch/`.
 - Tickets are the children of a spec: one file per ticket at `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01`, never a single combined file. The folder is always `issues/`, never `tickets/`
 - Triage state is recorded as a `Status:` line near the top of every parent and ticket file (see `triage-labels.md` for the role strings, including the closing states)
 - Comments and conversation history append to the bottom of the file under a `## Comments` heading
+- Parking folders under `.scratch/`: `_Archive/` holds closed work (moved there by `/closeout_pat`, each with a `README.md` summary), `_Backlog/` holds parked work not yet scheduled, `_Doubtful/` holds findings whose validity is in question
 
 ## When a skill says "publish to the issue tracker"
 
