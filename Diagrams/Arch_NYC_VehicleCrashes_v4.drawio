@@ -1,9 +1,9 @@
 <mxfile host="Electron" agent="Claude">
   <diagram id="nyc-crashes-arch-v2" name="NYC VehicleCrashes Architecture v2">
-    <mxGraphModel dx="11512" dy="9332" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="3300" pageHeight="2339" background="#FFFFFF" math="0" shadow="0">
+    <mxGraphModel dx="8763" dy="7388" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="3300" pageHeight="2339" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
-        <mxCell id="1" parent="0" value="1 - Foundation Context" />
+        <mxCell id="1" parent="0" value="1 - Foundation Context" visible="0" />
         <mxCell id="superset" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=3;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;fontColor=#333333;container=0;" value="" vertex="1">
           <mxGeometry height="2840" width="3120" x="-5790" y="-5640" as="geometry" />
         </mxCell>
