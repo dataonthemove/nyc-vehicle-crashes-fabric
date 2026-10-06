@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Claude">
   <diagram id="nyc-crashes-arch-v2" name="NYC VehicleCrashes Architecture v2">
-    <mxGraphModel dx="11512" dy="9332" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="3300" pageHeight="2339" background="#FFFFFF" math="0" shadow="0">
+    <mxGraphModel dx="11676" dy="9332" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="3300" pageHeight="2339" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" value="1 - Foundation Context" />
@@ -216,7 +216,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="QSYWjQXqmjpBzS2L07T0-1210" connectable="0" parent="QSYWjQXqmjpBzS2L07T0-1" style="group" value="" vertex="1">
-          <mxGeometry height="473.52" width="842.6099999999997" x="-6710" y="-5620" as="geometry" />
+          <mxGeometry height="473.52" width="842.6099999999997" x="-5720" y="-5030" as="geometry" />
         </mxCell>
         <mxCell id="QSYWjQXqmjpBzS2L07T0-595" parent="QSYWjQXqmjpBzS2L07T0-1210" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#666666;strokeWidth=6;dashed=1;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;container=0;fillStyle=solid;recursiveResize=0;" value="" vertex="1">
           <mxGeometry height="473.52" width="842.61" as="geometry" />
