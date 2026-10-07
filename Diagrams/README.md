@@ -2,6 +2,7 @@
 
 These diagrams are **as-built documentation**, not design specs. They show what has already been
 built, and they are updated after a change ships.
+This applies to this folder and any sub-folder below it. 
 
 - Where a diagram disagrees with the code, TMDL or pipeline definitions, assume the code is correct and the
   diagram is out of date.
