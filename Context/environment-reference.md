@@ -171,13 +171,15 @@ only — they are not reachable.
 
 | Purpose | Name | Connection ID |
 |---|---|---|
-| Warehouse (OAuth) | `DataWarehouseConnection` | `1de56b14-e844-4550-bfe4-a679696728e6` |
 | Lakehouse (OAuth) | `Lakehouseconnection` | `92d1dbb4-eab2-4f3b-ae0d-59145fd8c07f` |
 | HTTP source — Crashes (anonymous) | — | `1a0d925e-7e80-4160-a28d-f1aa73b60cc2` |
 | HTTP source — Persons (anonymous) | — | `d6be2434-1299-49f8-ae45-27fe4a15ad7c` |
 | HTTP source — Vehicles (anonymous) | — | `cfec87c6-d50d-48a0-b9e3-4e6aee57b7bb` |
 
-OAuth connections are owned by `Jpb_fabric_user7` and carry their own consent, scoped at creation.
+There is no Warehouse connection: SP activities use an inline Warehouse item reference and the
+semantic model binds by SQL endpoint with SSO. `DataWarehouseConnection` (`1de56b14…`) had no
+dependents and was deleted 2026-10-07.
+The OAuth connection is owned by `Jpb_fabric_user7` and carries its own consent, scoped at creation.
 A Copy write failing `LakehouseForbiddenError` despite Admin RBAC is fixed by re-consenting the
 credentials in Manage connections and gateways — expect it on every newly targeted workspace.
 Socrata is called unauthenticated (app token retired; ADR-0001).
