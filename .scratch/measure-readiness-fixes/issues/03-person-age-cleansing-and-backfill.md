@@ -4,7 +4,7 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-human
+**Status:** closed
 
 | Step | Description | Owner | Done when | Status |
 |---|---|---|---|---|
@@ -13,10 +13,10 @@
 | 3 | Add a run-once, idempotent backfill `UPDATE` cell to the fact-persons transform notebook, joining `dim_person` for the role; follow the occupancy backfill cell's pattern. Match Fabric's notebook formatting | CC | The cell exists and is safe to run twice | done |
 | 4 | Update docs: the notebook's markdown header, the model documentation's Person Age rule, and the stale *Occupancy* glossary entry in `CONTEXT.md` (the cap of 100 has existed since 2026-08) | CC | All three read correctly | done |
 | 5 | Commit procedure copies, backfill cell and docs together (`CC Commit: etl_factpersons_age-cleansing`) | CC | One commit contains both procedure copies | done |
-| 6 | Push to ADO, then run Source Control → Update All in Dev | Pat | Source Control pane shows Dev in sync | todo |
-| 7 | Run the backfill cell in the Dev Warehouse SQL editor (script supplied by CC) | Pat | The update completes; Pat reports rows affected | todo |
-| 8 | Run `refresh_semantic_model` on Dev | CC | Refresh completes | todo |
-| 9 | DAX: min Person Age ≥ 0 and max ≤ 110; no zero ages outside `Passenger`/`Pedestrian`; `fact_persons` row count unchanged; blank count rose by the expected amount | CC | All four hold | todo |
+| 6 | Push to ADO, then run Source Control → Update All in Dev | Pat | Source Control pane shows Dev in sync | done |
+| 7 | Run the backfill cell in the Dev Warehouse SQL editor (script supplied by CC) | Pat | The update completes; Pat reports rows affected | done |
+| 8 | Run `refresh_semantic_model` on Dev | CC | Refresh completes | done |
+| 9 | DAX: min Person Age ≥ 0 and max ≤ 110; no zero ages outside `Passenger`/`Pedestrian`; `fact_persons` row count unchanged; blank count rose by the expected amount | CC | All four hold | done |
 
 ## Comments
 
@@ -26,3 +26,9 @@
   Other 175 · In-Line Skater 7. Non-infant zeros = 548,420 − 17,308 − 1,157 = 529,955.
   **Expected NULL increase: 535,179** → blank count after backfill **1,211,090**; rows unchanged.
   The 15,399 role-less zeros are nulled too: with no role, an infant can't be told from "unknown".
+- **2026-10-10 — Steps 6–9 (Dev).** Pat pushed and ran Update All, then ran the Cell 3 backfill:
+  `rows_to_null` 535,179; after: rows 5,984,110, blank 1,211,090, min 0, max 110, non-infant zeros 0 —
+  exactly as expected. `refresh_semantic_model` completed (refresh 459788443). DAX confirms: rows
+  5,984,110 (unchanged); blank Person Age 1,211,090 (+535,179); min 0, max 110; zero ages outside
+  Passenger/Pedestrian: none; the 18,465 remaining zeros = 17,308 Passenger + 1,157 Pedestrian.
+  Average Person Age 37.62 → 40.08. The `UPDATE … FROM … LEFT JOIN` form ran fine in Fabric Warehouse.
