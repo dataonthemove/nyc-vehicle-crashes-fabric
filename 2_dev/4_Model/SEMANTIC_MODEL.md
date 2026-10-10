@@ -60,6 +60,15 @@ single direction except for one deliberate exception:
 - **Lines don't filter the header:** a vehicle or person attribute doesn't filter Fact Crashes.
   That needs business definitions first and is deferred
   ([`line-to-header-filtering`](../../.scratch/_Backlog/line-to-header-filtering/)).
+- **Every relationship assumes referential integrity** (`relyOnReferentialIntegrity`, all 15,
+  bridge included). Without it, Direct Lake adds a blank member to every dimension as a safeguard
+  (per community reports, not Microsoft documentation), so every slicer offers "(Blank)" even
+  with zero orphaned keys. With it, no slicer offers the safeguard "(Blank)".
+  - *Accepted risk:* if a fact or bridge row ever carries a NULL or orphaned key, it drops out of
+    dimension-filtered totals instead of showing as "(Blank)", and grand totals then no longer
+    equal the sum across a dimension's members.
+  - *Standing guard:* `/dax-smoke-test` check 3 (orphans) after every stage load proves the ETL
+    guarantee of zero NULL or orphaned keys; check 6 asserts the flag is still set.
 
 | Dimension | Fact Crashes | Fact Crash Vehicles | Fact Crash Persons | `bridge_crash_factor` |
 |---|---|---|---|---|

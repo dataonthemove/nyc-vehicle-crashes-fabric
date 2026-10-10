@@ -1,61 +1,76 @@
 relationship fact_crashes_date_key_dim_date_date_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crashes'.date_key
 	toColumn: 'Dim Date'.date_key
 
 relationship fact_crashes_location_key_dim_location_location_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crashes'.location_key
 	toColumn: 'Dim Location'.location_key
 
 relationship fact_crashes_factor_group_key_dim_factor_group_factor_group_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crashes'.factor_group_key
 	toColumn: dim_factor_group.factor_group_key
 
 relationship bridge_crash_factor_factor_group_key_dim_factor_group_factor_group_key
 	crossFilteringBehavior: bothDirections
+	relyOnReferentialIntegrity
 	fromColumn: bridge_crash_factor.factor_group_key
 	toColumn: dim_factor_group.factor_group_key
 
 relationship bridge_crash_factor_factor_key_dim_contributing_factor_factor_key
+	relyOnReferentialIntegrity
 	fromColumn: bridge_crash_factor.factor_key
 	toColumn: 'Dim Contributing Factor'.factor_key
 
 relationship fact_crash_vehicle_vehicle_key_dim_vehicle_vehicle_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crash Vehicles'.vehicle_key
 	toColumn: 'Dim Vehicle'.vehicle_key
 
 relationship fact_persons_person_key_dim_person_person_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crash Persons'.person_key
 	toColumn: 'Dim Person'.person_key
 
 relationship fact_persons_date_key_dim_date_date_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crash Persons'.date_key
 	toColumn: 'Dim Date'.date_key
 
 relationship fact_crash_vehicle_date_key_dim_date_date_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crash Vehicles'.date_key
 	toColumn: 'Dim Date'.date_key
 
 relationship fact_crash_vehicle_vehicle_circumstance_key_dim_vehicle_circumstance_vehicle_circumstance_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crash Vehicles'.vehicle_circumstance_key
 	toColumn: 'Dim Vehicle Circumstance'.vehicle_circumstance_key
 
 relationship fact_persons_location_key_dim_location_location_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crash Persons'.location_key
 	toColumn: 'Dim Location'.location_key
 
 relationship fact_persons_factor_group_key_dim_factor_group_factor_group_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crash Persons'.factor_group_key
 	toColumn: dim_factor_group.factor_group_key
 
 relationship fact_crash_vehicle_location_key_dim_location_location_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crash Vehicles'.location_key
 	toColumn: 'Dim Location'.location_key
 
 relationship fact_crash_vehicle_factor_group_key_dim_factor_group_factor_group_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crash Vehicles'.factor_group_key
 	toColumn: dim_factor_group.factor_group_key
 
 relationship fact_crash_vehicle_driver_key_dim_driver_driver_key
+	relyOnReferentialIntegrity
 	fromColumn: 'Fact Crash Vehicles'.driver_key
 	toColumn: 'Dim Driver'.driver_key
 
