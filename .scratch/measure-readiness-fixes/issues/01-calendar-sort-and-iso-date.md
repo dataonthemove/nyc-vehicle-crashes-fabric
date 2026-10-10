@@ -1,0 +1,18 @@
+# 01: Calendar sort order and ISO date format (Dev)
+
+**What to build:** In the Dev semantic model, `Dim Date`[Month] sorts in calendar order and [Day of Week] in week order (Sunday first) in every visual and slicer, with no per-visual re-sorting. `Dim Date`[Date] displays as `yyyy-mm-dd` with no midnight timestamp. The date-table marking (`dataCategory: Time`, `isKey`) is untouched, so time intelligence keeps working. Spec issue 1.
+
+**Blocked by:** None (can start immediately)
+
+**Status:** ready-for-agent
+
+| Step | Description | Owner | Done when | Status |
+|---|---|---|---|---|
+| 1 | Pull the current Dev model state via MCP (read only) and confirm the `Dim Date` TMDL in git matches it | CC | No difference beyond the known cosmetic column order | todo |
+| 2 | Local TMDL edit (`/tmdl-model-edit`): set [Month] to sort by [Month Number], [Day of Week] to sort by [Day of Week Number], and give [Date] the format string `yyyy-mm-dd`. Leave `dataCategory` and `isKey` as they are | CC | The TMDL diff shows only these three property changes | todo |
+| 3 | Update the model documentation's `Dim Date` row to record the sort-by columns and the date format | CC | The doc row names both sort-by columns and the ISO format | todo |
+| 4 | Commit the TMDL and doc changes together (`CC Commit: model_dimdate_sortby-isodate`) | CC | Commit exists on main; working tree clean for these files | todo |
+| 5 | Push to ADO, then run Source Control → Update All in Dev | Pat | Source Control pane shows the semantic model in sync | todo |
+| 6 | Run `refresh_semantic_model` on Dev, because a git deploy leaves the model unframed | CC | Refresh completes | todo |
+| 7 | DAX: `INFO.VIEW.COLUMNS` shows [Month Number] and [Day of Week Number] as sort-by columns and a non-time format on [Date] | CC | Both sort-by columns and the `yyyy-mm-dd` format are reported | todo |
+| 8 | DAX: run a time-intelligence query (prior-year crash count via `SAMEPERIODLASTYEAR`) | CC | The query resolves and returns non-blank values for a loaded year | todo |
