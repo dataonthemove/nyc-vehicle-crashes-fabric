@@ -13,6 +13,6 @@
 | 3 | Check Prod row counts survived the deploy | CC | Every table matches step 1 | todo |
 | 4 | Capture Prod pre-drop counts (`/dax-smoke-test` check 1) and the Person Age baseline (blank count, expected increase) | CC | Recorded in Comments | todo |
 | 5 | Run the Person Age backfill in the Prod Warehouse SQL editor, then empty `dim_vehicle` and `fact_crash_vehicle` (scripts supplied by CC) | Pat | Backfill reports rows affected; both vehicle tables report 0 rows | todo |
-| 6 | Run the stage load pipeline in Prod; then `refresh_semantic_model` | CC | Pipeline succeeds; refresh completes | todo |
+| 6 | Pat runs `etl.usp_load_dim_vehicle` then `etl.usp_load_fact_crash_vehicle` directly (the pipeline's Ingest fails, `.scratch/ingest-duplicate-keys/issue.md`); then CC runs `refresh_semantic_model` | Pat + CC | Procedures load; refresh completes | todo |
 | 7 | Profile checks: Month/Day of Week sort-by and Date format; the referential-integrity result matches Dev; Person Age range and zero-by-role checks; Model Year range check; fact counts equal pre-drop | CC | All hold | todo |
 | 8 | Run the full `/dax-smoke-test` on Prod | CC | Checks 1–6 pass | todo |
