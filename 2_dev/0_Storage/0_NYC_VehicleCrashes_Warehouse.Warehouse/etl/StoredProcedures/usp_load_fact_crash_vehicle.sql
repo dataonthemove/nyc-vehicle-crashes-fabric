@@ -34,10 +34,14 @@ BEGIN
         ON fc.collision_id = TRY_CAST(src.collision_id AS INT)
 
     -- Resolve vehicle_key
+    -- Model year cleansing: NULL unless 1900 to the source row's crash year + 1.
+    -- Identical in usp_load_dim_vehicle and usp_load_fact_crash_vehicle (vehicle_key lookup).
     INNER JOIN dbo.dim_vehicle dv
         ON  ISNULL(dv.vehicle_type,       '') = ISNULL(NULLIF(TRIM(src.vehicle_type),       ''), '')
         AND ISNULL(dv.vehicle_make,       '') = ISNULL(NULLIF(TRIM(src.vehicle_make),       ''), '')
-        AND ISNULL(dv.vehicle_year,       -1) = ISNULL(TRY_CAST(src.vehicle_year AS SMALLINT), -1)
+        AND ISNULL(dv.vehicle_year,       -1) = ISNULL(CASE WHEN TRY_CAST(src.vehicle_year AS SMALLINT)
+                                                       BETWEEN 1900 AND YEAR(TRY_CAST(src.crash_date AS DATE)) + 1
+                                                  THEN TRY_CAST(src.vehicle_year AS SMALLINT) END, -1)
         AND ISNULL(dv.state_registration, '') = ISNULL(NULLIF(TRIM(src.state_registration), ''), '')
 
     -- Resolve vehicle_circumstance_key

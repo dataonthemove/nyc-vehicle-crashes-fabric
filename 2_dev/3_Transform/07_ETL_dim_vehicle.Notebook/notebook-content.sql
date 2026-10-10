@@ -34,6 +34,8 @@
 -- 
 -- **Updated 2026-09-27:** vehicle attributes only — driver_sex/driver_license_status/driver_license_jurisdiction moved to dim_driver (07b_ETL_dim_driver), travel_direction to dim_vehicle_circumstance, vehicle_model dropped (ADR-0005, D6/D7/D9)
 -- 
+-- **vehicle_year cleansing (2026-10-10):** loaded as NULL unless it lies between 1900 and the crash year + 1, the crash year taken from the same source row's `crash_date`. Source years ranged 1000 to 20063 across 4,551,002 crash–vehicles; about 2,927 were impossible. 1900–1979 is kept (1,019 classic vehicles). The expression is identical in `etl.usp_load_fact_crash_vehicle`'s `dim_vehicle` lookup — change both together or the fact's INNER JOIN drops vehicles. `dim_vehicle` is keyed on its whole attribute set, so existing rows are not patched: empty `dim_vehicle` and `fact_crash_vehicle` and reload (`vehicle_key` values are regenerated).
+-- 
 -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
 -- 2. Run Cell 1 — DROP/CREATE procedure.
@@ -63,7 +65,11 @@ BEGIN
     SELECT DISTINCT
         NULLIF(TRIM(src.vehicle_type),       '') AS vehicle_type,
         NULLIF(TRIM(src.vehicle_make),       '') AS vehicle_make,
-        TRY_CAST(src.vehicle_year AS SMALLINT)  AS vehicle_year,
+        -- Model year cleansing: NULL unless 1900 to the source row's crash year + 1.
+        -- Identical in usp_load_dim_vehicle and usp_load_fact_crash_vehicle (vehicle_key lookup).
+        CASE WHEN TRY_CAST(src.vehicle_year AS SMALLINT)
+                  BETWEEN 1900 AND YEAR(TRY_CAST(src.crash_date AS DATE)) + 1
+             THEN TRY_CAST(src.vehicle_year AS SMALLINT) END  AS vehicle_year,
         NULLIF(TRIM(src.state_registration), '') AS state_registration
     FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles src
     WHERE NOT EXISTS
@@ -72,7 +78,9 @@ BEGIN
         FROM   dbo.dim_vehicle tgt
         WHERE  ISNULL(tgt.vehicle_type,       '') = ISNULL(NULLIF(TRIM(src.vehicle_type),       ''), '')
           AND  ISNULL(tgt.vehicle_make,       '') = ISNULL(NULLIF(TRIM(src.vehicle_make),       ''), '')
-          AND  ISNULL(tgt.vehicle_year,       -1) = ISNULL(TRY_CAST(src.vehicle_year AS SMALLINT), -1)
+          AND  ISNULL(tgt.vehicle_year,       -1) = ISNULL(CASE WHEN TRY_CAST(src.vehicle_year AS SMALLINT)
+                                                        BETWEEN 1900 AND YEAR(TRY_CAST(src.crash_date AS DATE)) + 1
+                                                   THEN TRY_CAST(src.vehicle_year AS SMALLINT) END, -1)
           AND  ISNULL(tgt.state_registration, '') = ISNULL(NULLIF(TRIM(src.state_registration), ''), '')
     );
 

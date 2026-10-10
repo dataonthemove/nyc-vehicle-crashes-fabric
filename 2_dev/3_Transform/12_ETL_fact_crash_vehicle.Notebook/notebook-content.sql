@@ -30,7 +30,7 @@
 -- -- **Key logic:**
 -- - `date_key`, `location_key`, `factor_group_key` taken from `fact_crashes` by `collision_id` (ADR-0005, 2026-09-26) — a vehicle always agrees with its crash; vehicles with no loaded crash are dropped
 -- - `collision_id` carried as a degenerate dimension (ADR-0005)
--- - `vehicle_key` resolved via INNER JOIN to `dim_vehicle` on its 4 attribute columns (vehicle_occupants removed 2026-06-12; driver, travel_direction and vehicle_model removed 2026-09-27, ADR-0005)
+-- - `vehicle_key` resolved via INNER JOIN to `dim_vehicle` on its 4 attribute columns (vehicle_occupants removed 2026-06-12; driver, travel_direction and vehicle_model removed 2026-09-27, ADR-0005). `vehicle_year` is matched through the cleansing expression (NULL unless 1900 to the crash year + 1, 2026-10-10), identical in `etl.usp_load_dim_vehicle`
 -- - `vehicle_circumstance_key` resolved via INNER JOIN to `dim_vehicle_circumstance` on pre_crash/travel_direction/point_of_impact/vehicle_damage (renamed from dim_damage, ADR-0005 D16)
 -- - `driver_key` resolved via INNER JOIN to `dim_driver` on driver_sex/driver_license_status/driver_license_jurisdiction (ADR-0005 D6)
 -- - `vehicle_occupants` cast to INT from source, capped: values > 100 set to NULL (2026-06-12: relocated from dim_vehicle — numeric by nature)
@@ -87,10 +87,14 @@ BEGIN
         ON fc.collision_id = TRY_CAST(src.collision_id AS INT)
 
     -- Resolve vehicle_key
+    -- Model year cleansing: NULL unless 1900 to the source row's crash year + 1.
+    -- Identical in usp_load_dim_vehicle and usp_load_fact_crash_vehicle (vehicle_key lookup).
     INNER JOIN dbo.dim_vehicle dv
         ON  ISNULL(dv.vehicle_type,       '') = ISNULL(NULLIF(TRIM(src.vehicle_type),       ''), '')
         AND ISNULL(dv.vehicle_make,       '') = ISNULL(NULLIF(TRIM(src.vehicle_make),       ''), '')
-        AND ISNULL(dv.vehicle_year,       -1) = ISNULL(TRY_CAST(src.vehicle_year AS SMALLINT), -1)
+        AND ISNULL(dv.vehicle_year,       -1) = ISNULL(CASE WHEN TRY_CAST(src.vehicle_year AS SMALLINT)
+                                                       BETWEEN 1900 AND YEAR(TRY_CAST(src.crash_date AS DATE)) + 1
+                                                  THEN TRY_CAST(src.vehicle_year AS SMALLINT) END, -1)
         AND ISNULL(dv.state_registration, '') = ISNULL(NULLIF(TRIM(src.state_registration), ''), '')
 
     -- Resolve vehicle_circumstance_key

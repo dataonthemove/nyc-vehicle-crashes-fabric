@@ -35,7 +35,7 @@ mapping is in [`CONTEXT.md`](../../CONTEXT.md). Every `_key` and `_id` column is
 | **Dim Date** (`dim_date`) | Dimension | One calendar day | Marked date table on Date, formatted `yyyy-mm-dd`. Year, Quarter, Month Number, Month (sorts by Month Number), Day of Month, Day of Week Number, Day of Week (sorts by Day of Week Number), Is Weekend |
 | **Dim Location** (`dim_location`) | Dimension | One borough / ZIP code | Borough, ZIP Code. One **Unknown** member (both `UNKNOWN`) covers crashes with no location |
 | **Dim Contributing Factor** (`dim_contributing_factor`) | Dimension | One contributing factor | Contributing Factor |
-| **Dim Vehicle** (`dim_vehicle`) | Dimension | One vehicle profile | Vehicle Type, Vehicle Make, Vehicle Model Year, Registration State |
+| **Dim Vehicle** (`dim_vehicle`) | Dimension | One vehicle profile | Vehicle Type, Vehicle Make, Vehicle Model Year, Registration State. Vehicle Model Year: BLANK when unknown — the ETL loads years below 1900 or more than a year newer than the crash as NULL |
 | **Dim Vehicle Circumstance** (`dim_vehicle_circumstance`) | Dimension | One vehicle-in-crash profile | Pre-Crash Action, Travel Direction, Point of Impact, Vehicle Damage |
 | **Dim Driver** (`dim_driver`) | Dimension | One driver profile | Driver Sex, Driver License Status, Driver License Jurisdiction |
 | **Dim Person** (`dim_person`) | Dimension | One person profile | Person Type, Person Sex, Ejection, Emotional Status, Bodily Injury, Position in Vehicle, Safety Equipment, Pedestrian Location, Pedestrian Action, Person Role |

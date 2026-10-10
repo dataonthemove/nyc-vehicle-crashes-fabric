@@ -15,7 +15,11 @@ BEGIN
     SELECT DISTINCT
         NULLIF(TRIM(src.vehicle_type),       '') AS vehicle_type,
         NULLIF(TRIM(src.vehicle_make),       '') AS vehicle_make,
-        TRY_CAST(src.vehicle_year AS SMALLINT)  AS vehicle_year,
+        -- Model year cleansing: NULL unless 1900 to the source row's crash year + 1.
+        -- Identical in usp_load_dim_vehicle and usp_load_fact_crash_vehicle (vehicle_key lookup).
+        CASE WHEN TRY_CAST(src.vehicle_year AS SMALLINT)
+                  BETWEEN 1900 AND YEAR(TRY_CAST(src.crash_date AS DATE)) + 1
+             THEN TRY_CAST(src.vehicle_year AS SMALLINT) END  AS vehicle_year,
         NULLIF(TRIM(src.state_registration), '') AS state_registration
     FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_vehicles src
     WHERE NOT EXISTS
@@ -24,7 +28,9 @@ BEGIN
         FROM   dbo.dim_vehicle tgt
         WHERE  ISNULL(tgt.vehicle_type,       '') = ISNULL(NULLIF(TRIM(src.vehicle_type),       ''), '')
           AND  ISNULL(tgt.vehicle_make,       '') = ISNULL(NULLIF(TRIM(src.vehicle_make),       ''), '')
-          AND  ISNULL(tgt.vehicle_year,       -1) = ISNULL(TRY_CAST(src.vehicle_year AS SMALLINT), -1)
+          AND  ISNULL(tgt.vehicle_year,       -1) = ISNULL(CASE WHEN TRY_CAST(src.vehicle_year AS SMALLINT)
+                                                        BETWEEN 1900 AND YEAR(TRY_CAST(src.crash_date AS DATE)) + 1
+                                                   THEN TRY_CAST(src.vehicle_year AS SMALLINT) END, -1)
           AND  ISNULL(tgt.state_registration, '') = ISNULL(NULLIF(TRIM(src.state_registration), ''), '')
     );
 
