@@ -351,3 +351,4 @@ pipeline.
 ## Comments
 
 - 2026-10-10: Pat confirmed the testing seam: DAX over the deployed model, plus `/dax-smoke-test`.
+- 2026-10-10 (CC): Issue 2 go/no-go in Dev: **GO** (ticket 02). With `relyOnReferentialIntegrity` on all 15 relationships, the blank member is gone: `ALL` = `ALLNOBLANKROW` on all eight dimensions, measure-less Borough returns 6 rows (was 7), Month 12 (was 13). Fact grand totals unchanged and equal the sum across every dimension's members on all 15 relationships. Precondition (check 3) was 23/23 PASS; extended check 6 PASS. The community-reported mechanism is confirmed on this model.
