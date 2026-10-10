@@ -29,7 +29,7 @@ mapping is in [`CONTEXT.md`](../../CONTEXT.md). Every `_key` and `_id` column is
 |---|---|---|---|
 | **Fact Crashes** (`fact_crashes`) | Header fact | One crash | Persons / Pedestrians / Cyclists / Motorists × Injured / Killed (additive casualty counts); Latitude, Longitude. `collision_id` is a hidden degenerate dimension |
 | **Fact Crash Vehicles** (`fact_crash_vehicle`) | Line fact | One vehicle in a crash | Vehicle Occupants: BLANK when unreported, not 0. Header keys `date_key`, `location_key`, `factor_group_key` and `collision_id` are copied from its crash |
-| **Fact Crash Persons** (`fact_persons`) | Line fact | One person in a crash | Person Age, Is Injured, Is Killed. Header keys copied from its crash, as above |
+| **Fact Crash Persons** (`fact_persons`) | Line fact | One person in a crash | Person Age, Is Injured, Is Killed. Person Age: BLANK when unknown — the ETL loads ages below 0 or above 110 as NULL, and 0 as NULL unless Person Role is Passenger or Pedestrian (real infants). Header keys copied from its crash, as above |
 | `bridge_crash_factor` | Bridge | One factor group × factor pair | All columns hidden. Resolves the many-to-many between a crash's factor set and its contributing factors |
 | `dim_factor_group` | Dimension | One distinct set of contributing factors | All columns hidden; `factor_set_hash` identifies the set. One empty-set group, with no bridge rows, covers crashes with no specified factor |
 | **Dim Date** (`dim_date`) | Dimension | One calendar day | Marked date table on Date, formatted `yyyy-mm-dd`. Year, Quarter, Month Number, Month (sorts by Month Number), Day of Month, Day of Week Number, Day of Week (sorts by Day of Week Number), Is Weekend |

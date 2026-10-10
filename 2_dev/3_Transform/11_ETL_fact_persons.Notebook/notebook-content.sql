@@ -32,14 +32,16 @@
 -- - `person_key` resolved via lookup to `dim_person` on all 10 attribute columns
 -- - `is_injured` = 1 where PERSON_INJURY = 'Injured'
 -- - `is_killed` = 1 where PERSON_INJURY = 'Killed'
--- - `person_age` cast to INT via TRY_CAST (dirty source values possible)
+-- - `person_age` cast to INT via TRY_CAST, then cleansed: NULL when < 0 or > 110; 0 → NULL unless Person Role (`ped_role`) is Passenger or Pedestrian
 -- - Incremental: skips collisions already loaded (collision_id match)
 -- -- **PERSON_INJURY distinct values (profiled):** Injured, Killed, Unspecified
+-- -- **person_age cleansing (2026-10-10):** source `person_age` ranged −999 to 9999 across 5,984,110 rows. Above 110 the count jumps from 76 rows (106–110) to 627 (111–120), so the tail is junk. 548,420 rows were 0, mostly meaning "unknown": 507,484 Registrants (owners not in the crash) and 6,890 Drivers. Only Passengers (17,308) and Pedestrians (1,157) hold plausible infants, so 0 is kept for those roles alone.
 -- -- **Instructions:**
 -- 1. Connect notebook to `NYC_VehicleCrashes_Warehouse`.
 -- 2. Ensure fact_crashes and dim_person are populated first.
 -- 3. Run Cell 1 — DROP/CREATE procedure.
 -- 4. Run Cell 2 — execute and verify.
+-- 5. Run Cell 3 ONCE per stage — remediates rows loaded before the age cleansing existed. The procedure is incremental, so a rerun alone will not correct them.
 
 
 -- CELL ********************
@@ -71,7 +73,15 @@ BEGIN
         fc.location_key,
         fc.factor_group_key,
         dp.person_key,
-        TRY_CAST(src.person_age AS INT)                                    AS person_age,
+        -- Age cleansing (same rule as the Cell 3 backfill in notebook 11_ETL_fact_persons):
+        -- < 0 or > 110 is junk; 0 means "unknown" except for Passenger/Pedestrian (real infants).
+        CASE
+            WHEN TRY_CAST(src.person_age AS INT) < 0
+              OR TRY_CAST(src.person_age AS INT) > 110 THEN NULL
+            WHEN TRY_CAST(src.person_age AS INT) = 0
+             AND ISNULL(dp.ped_role, '') NOT IN ('Passenger', 'Pedestrian') THEN NULL
+            ELSE TRY_CAST(src.person_age AS INT)
+        END                                                                AS person_age,
         CASE WHEN src.person_injury = 'Injured' THEN 1 ELSE 0 END          AS is_injured,
         CASE WHEN src.person_injury = 'Killed'  THEN 1 ELSE 0 END          AS is_killed
     FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_persons src
@@ -120,6 +130,57 @@ EXEC etl.usp_load_fact_persons;
 SELECT COUNT(*) AS fact_persons_row_count FROM dbo.fact_persons;
 
 SELECT TOP 10 * FROM dbo.fact_persons ORDER BY fact_person_id;
+
+-- METADATA ********************
+
+-- META {
+-- META   "language": "sql",
+-- META   "language_group": "sqldatawarehouse"
+-- META }
+
+-- CELL ********************
+
+-- Cell 3: ONE-TIME remediation of rows loaded before the person_age cleansing existed.
+-- The procedure is incremental (WHERE NOT EXISTS on collision_id), so rerunning it will
+-- NOT revisit already-loaded rows. This UPDATE is what actually corrects them.
+-- Same rule as the person_age CASE in etl.usp_load_fact_persons; role from dim_person.
+-- Safe to re-run: idempotent, and a no-op once no row breaks the rule.
+
+SELECT
+    COUNT(*)                                                    AS row_count_before,
+    SUM(CASE WHEN fp.person_age IS NULL THEN 1 ELSE 0 END)      AS blank_age_before,
+    SUM(CASE WHEN fp.person_age < 0 OR fp.person_age > 110
+             OR (fp.person_age = 0
+                 AND ISNULL(dp.ped_role, '') NOT IN ('Passenger', 'Pedestrian'))
+             THEN 1 ELSE 0 END)                                 AS rows_to_null
+FROM dbo.fact_persons fp
+LEFT JOIN dbo.dim_person dp
+    ON dp.person_key = fp.person_key;
+
+UPDATE fp
+SET    person_age = NULL
+FROM   dbo.fact_persons fp
+LEFT JOIN dbo.dim_person dp
+    ON dp.person_key = fp.person_key
+WHERE  fp.person_age < 0
+   OR  fp.person_age > 110
+   OR  (fp.person_age = 0
+        AND ISNULL(dp.ped_role, '') NOT IN ('Passenger', 'Pedestrian'));
+
+-- Verify: row_count_after = row_count_before; blank_age_after = blank_age_before + rows_to_null;
+-- min_age_after >= 0; max_age_after <= 110; non_infant_zeros_after = 0
+-- Dev expectation (baseline 2026-10-10): rows_to_null 535,179; blank_age_after 1,211,090; rows 5,984,110
+SELECT
+    COUNT(*)                                                    AS row_count_after,
+    SUM(CASE WHEN fp.person_age IS NULL THEN 1 ELSE 0 END)      AS blank_age_after,
+    MIN(fp.person_age)                                          AS min_age_after,
+    MAX(fp.person_age)                                          AS max_age_after,
+    SUM(CASE WHEN fp.person_age = 0
+             AND ISNULL(dp.ped_role, '') NOT IN ('Passenger', 'Pedestrian')
+             THEN 1 ELSE 0 END)                                 AS non_infant_zeros_after
+FROM dbo.fact_persons fp
+LEFT JOIN dbo.dim_person dp
+    ON dp.person_key = fp.person_key;
 
 -- METADATA ********************
 

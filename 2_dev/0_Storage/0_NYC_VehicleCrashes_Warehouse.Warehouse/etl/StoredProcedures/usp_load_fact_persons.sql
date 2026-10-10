@@ -20,7 +20,15 @@ BEGIN
         fc.location_key,
         fc.factor_group_key,
         dp.person_key,
-        TRY_CAST(src.person_age AS INT)                                    AS person_age,
+        -- Age cleansing (same rule as the Cell 3 backfill in notebook 11_ETL_fact_persons):
+        -- < 0 or > 110 is junk; 0 means "unknown" except for Passenger/Pedestrian (real infants).
+        CASE
+            WHEN TRY_CAST(src.person_age AS INT) < 0
+              OR TRY_CAST(src.person_age AS INT) > 110 THEN NULL
+            WHEN TRY_CAST(src.person_age AS INT) = 0
+             AND ISNULL(dp.ped_role, '') NOT IN ('Passenger', 'Pedestrian') THEN NULL
+            ELSE TRY_CAST(src.person_age AS INT)
+        END                                                                AS person_age,
         CASE WHEN src.person_injury = 'Injured' THEN 1 ELSE 0 END          AS is_injured,
         CASE WHEN src.person_injury = 'Killed'  THEN 1 ELSE 0 END          AS is_killed
     FROM  NYC_VehicleCrashes_Lakehouse.dbo.nyc_persons src

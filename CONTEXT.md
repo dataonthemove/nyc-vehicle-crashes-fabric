@@ -101,5 +101,5 @@ names, and so do the all-hidden tables `dim_factor_group` and `bridge_crash_fact
 
 ## Open terms *(unconfirmed)*
 
-- **Occupancy** — `vehicle_occupants` holds outlier rows that inflate the sum; no agreed definition or cap yet.
+- **Occupancy** — `vehicle_occupants` is capped in the ETL: values above 100 load as NULL (since 2026-08-01; 21–100 is legitimate bus traffic). No agreed definition of an occupancy measure yet.
 - **Severity** — no agreed classification of crash severity exists in the model.
