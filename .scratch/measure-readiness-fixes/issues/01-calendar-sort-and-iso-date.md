@@ -4,15 +4,19 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** ready-for-human
 
 | Step | Description | Owner | Done when | Status |
 |---|---|---|---|---|
-| 1 | Pull the current Dev model state via MCP (read only) and confirm the `Dim Date` TMDL in git matches it | CC | No difference beyond the known cosmetic column order | todo |
-| 2 | Local TMDL edit (`/tmdl-model-edit`): set [Month] to sort by [Month Number], [Day of Week] to sort by [Day of Week Number], and give [Date] the format string `yyyy-mm-dd`. Leave `dataCategory` and `isKey` as they are | CC | The TMDL diff shows only these three property changes | todo |
-| 3 | Update the model documentation's `Dim Date` row to record the sort-by columns and the date format | CC | The doc row names both sort-by columns and the ISO format | todo |
-| 4 | Commit the TMDL and doc changes together (`CC Commit: model_dimdate_sortby-isodate`) | CC | Commit exists on main; working tree clean for these files | todo |
+| 1 | Pull the current Dev model state via MCP (read only) and confirm the `Dim Date` TMDL in git matches it | CC | No difference beyond the known cosmetic column order | done |
+| 2 | Local TMDL edit (`/tmdl-model-edit`): set [Month] to sort by [Month Number], [Day of Week] to sort by [Day of Week Number], and give [Date] the format string `yyyy-mm-dd`. Leave `dataCategory` and `isKey` as they are | CC | The TMDL diff shows only these three property changes | done |
+| 3 | Update the model documentation's `Dim Date` row to record the sort-by columns and the date format | CC | The doc row names both sort-by columns and the ISO format | done |
+| 4 | Commit the TMDL and doc changes together (`CC Commit: model_dimdate_sortby-isodate`) | CC | Commit exists on main; working tree clean for these files | done |
 | 5 | Push to ADO, then run Source Control → Update All in Dev | Pat | Source Control pane shows the semantic model in sync | todo |
 | 6 | Run `refresh_semantic_model` on Dev, because a git deploy leaves the model unframed | CC | Refresh completes | todo |
 | 7 | DAX: `INFO.VIEW.COLUMNS` shows [Month Number] and [Day of Week Number] as sort-by columns and a non-time format on [Date] | CC | Both sort-by columns and the `yyyy-mm-dd` format are reported | todo |
 | 8 | DAX: run a time-intelligence query (prior-year crash count via `SAMEPERIODLASTYEAR`) | CC | The query resolves and returns non-blank values for a loaded year | todo |
+
+## Comments
+
+- 2026-10-10 (CC): Steps 1–4 done. Live Dev `Dim Date` matched git apart from the known `Month Number` column order. Live check: `Day of Week Number` 1 = Sunday … 7 = Saturday, one name per number. Next: Pat pushes and runs Update All (step 5).

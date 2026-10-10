@@ -32,7 +32,7 @@ mapping is in [`CONTEXT.md`](../../CONTEXT.md). Every `_key` and `_id` column is
 | **Fact Crash Persons** (`fact_persons`) | Line fact | One person in a crash | Person Age, Is Injured, Is Killed. Header keys copied from its crash, as above |
 | `bridge_crash_factor` | Bridge | One factor group × factor pair | All columns hidden. Resolves the many-to-many between a crash's factor set and its contributing factors |
 | `dim_factor_group` | Dimension | One distinct set of contributing factors | All columns hidden; `factor_set_hash` identifies the set. One empty-set group, with no bridge rows, covers crashes with no specified factor |
-| **Dim Date** (`dim_date`) | Dimension | One calendar day | Marked date table on Date. Year, Quarter, Month Number, Month, Day of Month, Day of Week Number, Day of Week, Is Weekend |
+| **Dim Date** (`dim_date`) | Dimension | One calendar day | Marked date table on Date, formatted `yyyy-mm-dd`. Year, Quarter, Month Number, Month (sorts by Month Number), Day of Month, Day of Week Number, Day of Week (sorts by Day of Week Number), Is Weekend |
 | **Dim Location** (`dim_location`) | Dimension | One borough / ZIP code | Borough, ZIP Code. One **Unknown** member (both `UNKNOWN`) covers crashes with no location |
 | **Dim Contributing Factor** (`dim_contributing_factor`) | Dimension | One contributing factor | Contributing Factor |
 | **Dim Vehicle** (`dim_vehicle`) | Dimension | One vehicle profile | Vehicle Type, Vehicle Make, Vehicle Model Year, Registration State |

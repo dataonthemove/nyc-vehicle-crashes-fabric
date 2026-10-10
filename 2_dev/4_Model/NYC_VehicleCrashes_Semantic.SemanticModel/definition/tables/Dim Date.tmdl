@@ -18,7 +18,7 @@ table 'Dim Date'
 	column Date
 		dataType: dateTime
 		isKey
-		formatString: General Date
+		formatString: yyyy-mm-dd
 		lineageTag: 5e4c6c61-ffe4-4517-baba-9ade8138f74d
 		sourceLineageTag: full_date
 		summarizeBy: none
@@ -62,6 +62,7 @@ table 'Dim Date'
 		sourceLineageTag: month_name
 		summarizeBy: none
 		sourceColumn: month_name
+		sortByColumn: 'Month Number'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -91,6 +92,7 @@ table 'Dim Date'
 		sourceLineageTag: day_name
 		summarizeBy: none
 		sourceColumn: day_name
+		sortByColumn: 'Day of Week Number'
 
 		annotation SummarizationSetBy = Automatic
 
