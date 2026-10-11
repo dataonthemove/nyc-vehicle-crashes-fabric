@@ -142,8 +142,14 @@ write fails with `LakehouseForbiddenError`, open that connection in Manage conne
 gateways and re-enter its credentials.
 
 - **Every run adds new files and never replaces old ones.** A run that finds no new rows still
-  writes a file containing only the header row. The raw folders also contain a `.keep`
-  placeholder file. Anything that reads these folders must tolerate both.
+  writes a file containing only the header row. `Files/raw/` also holds a `.keep` placeholder
+  file. Anything that reads these folders must tolerate both.
+- **Each folder starts from one baseline file, `full_2026-10-11.csv`.** On 2026-10-11 the original
+  full extract and every earlier run file were merged into it, keeping one row per key from the
+  newest file, with every source column. Spark wrote it, so only values that need quotes are quoted
+  (Socrata quotes every field); both forms read the same. Run files from later runs sit beside it.
+  The originals are kept in `Files/archive/2026-10-11/<source>/`, which is also where to look for
+  a row's original file, since `_source_file` now points at the baseline.
 - **Dev, Test and Prod never call NYC themselves.** Each one reads the landing files through a
   OneLake shortcut, a kind of pointer, named `raw_nyc_crashes`. Each one then builds its own Delta
   tables from the files with `nb_cdc_to_delta` (ADR-0002).

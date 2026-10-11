@@ -101,8 +101,10 @@ Prod 2026-09-21); notebook default lakehouse/warehouse bindings (autobind works 
 | Notebook | nb_etl_watermark | `f475e1ca-b96e-4bb6-bc82-759f435e46fb` |
 | DataPipeline | pl_cdc_NYC_Crashes_Landing | `483fda7f-6fc2-4034-9cda-9f28f506515c` |
 
-- `Files/raw/{crashes,persons,vehicles}` — raw CSV from Socrata (~2.9 GB). Also holds a `.keep`
-  sentinel and header-only files from zero-row runs; readers must tolerate both.
+- `Files/raw/{crashes,persons,vehicles}` — raw CSV from Socrata (~2.5 GB): one baseline
+  `full_2026-10-11.csv` per source plus later `<runId>.csv` files, some header-only. `Files/raw/`
+  holds a `.keep` sentinel; readers must tolerate both.
+- `Files/archive/2026-10-11/<source>/` — the original landing files replaced by the baseline (~2.9 GB).
 - `Tables/etl_watermark` — authoritative watermark (`source_name`, `last_loaded_value`,
   `last_run_utc`), written **only** by `nb_etl_watermark` (`mode` = `seed` | `advance` | `read`).
   Seed `1900-01-01`. The SQL endpoint is read-only and cannot be a pipeline dependency in Git.
