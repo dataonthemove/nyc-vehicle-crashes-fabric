@@ -1,6 +1,6 @@
 # Spec: Ingest de-duplication and landing file cleanup
 
-**Status:** ready-for-agent
+**Status:** done (2026-10-11)
 Category: bug
 Raised: 2026-10-10 (as issue); promoted to spec 2026-10-11
 

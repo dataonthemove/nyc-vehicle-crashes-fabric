@@ -62,7 +62,8 @@ workspace is deliberately unassigned, so landing items are never promoted.
 | Stage 1 | Test | `a0ab3671-2d5f-44d1-8e05-dc7c13a2f99a` | `3_NYC_VehicleCrashes_test` |
 | Stage 2 | Production | `314d8788-f3de-4348-8b03-52b34bd9b62e` | `4_NYC_VehicleCrashes_prod` |
 
-All stages `isPublic: false`. Last deploys, 2026-09-27 (header/line remodel): Dev → Test, then
+All stages `isPublic: false`. Last deploys, 2026-10-11: `nb_cdc_to_delta` only, Dev → Test → Prod
+(ingest de-dup, `.scratch/ingest-duplicate-keys/`). Last full deploys, 2026-09-27 (header/line remodel): Dev → Test, then
 Test → Prod (operation `7bc133aa-…`, after two failed attempts). **No release tags, by design:** this
 is a practice project with no real production (Pat, 2026-09-23). Endorsement, RBAC and security roles
 are deferred to a later spec.
