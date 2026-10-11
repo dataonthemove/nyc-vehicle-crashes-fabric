@@ -161,7 +161,10 @@ Each advance step passes its own landed file as `loaded_file`, using the express
 newest `crash_date` in that file, and never moves it backwards. A header-only file leaves it
 unchanged. A manual run can still pass `new_value` to set a watermark exactly, e.g. to reset it.
 `Read_Watermarks` hands each Copy the stored watermark minus 7 days, so crashes NYC publishes a
-few days late are still caught. Downstream MERGEs on the natural key, so the overlap adds nothing.
+few days late are still caught. The overlap puts the same key in two landing files, and a Delta
+MERGE fails if its source holds a key twice, so `nb_cdc_to_delta` first keeps one row per natural
+key: the copy from the newest file by modification time (ties: file path, descending). The overlap
+then adds nothing, and each run prints how many duplicate rows it dropped.
 
 **A UI quirk:** when you save this parameter, the Fabric UI wraps it in an extra
 `"type": "Expression"`, and the run then fails to start. Fix it in the JSON. The shape that works is

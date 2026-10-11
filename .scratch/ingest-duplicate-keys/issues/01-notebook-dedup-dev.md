@@ -9,17 +9,36 @@ ingestion doc stop claiming de-duplication that did not exist.
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** in-progress (CC steps 1–6 done; waiting on Pat for step 7)
 
 | Step | Description | Owner | Done when | Status |
 |---|---|---|---|---|
-| 1 | Pull current Dev state via MCP: notebook definition matches git; last stage-load run failed as described | CC | Live definition diffs clean against the repo (ignoring logical IDs) | todo |
-| 2 | Confirm Spark file `_metadata.file_modification_time` is available on the Dev runtime over Livy | CC | A Livy read of the crashes folder returns one modification time per file; else fallback chosen and noted here | todo |
-| 3 | Re-check the 17 reported within-file crash duplicates with a `multiLine` read | CC | Real within-file duplicate count recorded here (expected 0 if the figure was a split-read artefact) | todo |
-| 4 | Add the de-dup step between the audit columns and the write; drop the ranking column; print dropped-row count | CC | Notebook file edited in Fabric's compact formatting, no spurious diffs | todo |
-| 5 | Update notebook cell 1 and cell 6 comments, and the duplicates claim in `docs/socrata-ingestion.md` | CC | No comment or doc says the MERGE alone handles repeated keys | todo |
-| 6 | Commit locally (`CC Commit: dev_nb_cdc_to_delta_dedup-newest-per-key`) | CC | Commit exists on main, CRLF intact | todo |
+| 1 | Pull current Dev state via MCP: notebook definition matches git; last stage-load run failed as described | CC | Live definition diffs clean against the repo (ignoring logical IDs) | done |
+| 2 | Confirm Spark file `_metadata.file_modification_time` is available on the Dev runtime over Livy | CC | A Livy read of the crashes folder returns one modification time per file; else fallback chosen and noted here | done |
+| 3 | Re-check the 17 reported within-file crash duplicates with a `multiLine` read | CC | Real within-file duplicate count recorded here (expected 0 if the figure was a split-read artefact) | done |
+| 4 | Add the de-dup step between the audit columns and the write; drop the ranking column; print dropped-row count | CC | Notebook file edited in Fabric's compact formatting, no spurious diffs | done |
+| 5 | Update notebook cell 1 and cell 6 comments, and the duplicates claim in `docs/socrata-ingestion.md` | CC | No comment or doc says the MERGE alone handles repeated keys | done |
+| 6 | Commit locally (`CC Commit: dev_nb_cdc_to_delta_dedup-newest-per-key`) | CC | Commit exists on main, CRLF intact | done |
 | 7 | Push; Dev Source Control → Update All | Pat | Dev Source Control shows no pending incoming changes | todo |
-| 8 | Record pre-run `nyc_*` row counts in Dev via Spark | CC | Three counts recorded here | todo |
+| 8 | Record pre-run `nyc_*` row counts in Dev via Spark | CC | Three counts recorded here | done |
 | 9 | Run `pl_stage_load_NYC_Crashes` in Dev; rerun `refresh_semantic_model` if the Refresh activity hits the framing race | CC | All activities succeed; printed drop counts roughly match the overlap (crashes 1,278, persons 4,221, vehicles 2,470) | todo |
 | 10 | Verify each Dev `nyc_*` table: `count = countDistinct(key)`; counts moved only by genuinely new keys | CC | Three checks pass; results recorded here | todo |
+
+## Comments
+
+- **2026-10-11, step 1** — Live Dev `nb_cdc_to_delta` cells match the repo (trailing blank lines
+  only). Run `c829db17` failed in all three Ingest activities with
+  `DELTA_MULTIPLE_SOURCE_ROW_MATCHING_TARGET_ROW_IN_MERGE`.
+- **2026-10-11, step 2** — `_metadata.file_modification_time` resolves on Dev runtime 1.3
+  (Spark 3.5.5) even after cell 4's `select`; no fallback needed. Crashes: full extract
+  `18d27ca4…` 2026-09-10 11:57:00, run file `8552e9f4….csv` 2026-10-02 02:00:18. Header-only
+  files contribute no rows. `input_file_name()` carries a `?version=…?flength=…` suffix; harmless
+  for the tie-break.
+- **2026-10-11, step 3** — `multiLine` read: **0** within-file duplicate `collision_id`. The 17 were
+  a split-read artefact. Crashes files hold 2,270,465 rows, 2,269,187 distinct → 1,278 to drop.
+- **2026-10-11, step 8** — Pre-run Dev counts (`count` = `countDistinct(key)` for all three):
+  `nyc_crashes` 2,269,187 · `nyc_persons` 5,984,110 · `nyc_vehicles` 4,551,002.
+- **2026-10-11, pre-commit dry-run** — Edited cell 5 run over Livy on vehicles (no write): dropped
+  2,470, kept 4,551,002, table columns unchanged (`_file_modified`/`_rank` dropped). Post-dedup distinct 4,551,002;
+  kept rows by file: full extract 4,548,532, run `8552e9f4` file 2,470 — the newer file wins.
+  `/code-review` (low) on the commit: no findings.

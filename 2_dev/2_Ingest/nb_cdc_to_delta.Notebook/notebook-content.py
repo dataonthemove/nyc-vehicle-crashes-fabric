@@ -37,7 +37,8 @@
 #   2 Imports     — tools used by the later cells
 #   3 Schema      — the list of columns (and types) we expect for that source
 #   4 Read        — read every file, keep only the expected columns, check the data is usable
-#   5 Audit       — stamp each row with when it was loaded and which file it came from
+#   5 Audit       — stamp each row with when it was loaded and which file it came from, then
+#                   keep one row per key (the copy from the newest file)
 #   6 Merge       — upsert the rows into the Delta table (create the table on first run)
 #   7 Exit        — report success back to the pipeline
 #
@@ -46,8 +47,10 @@
 # raw_nyc_crashes — a pointer, not a copy (ADR-0002).
 #
 # Despite "cdc" in the name, every run re-reads ALL files in the folder, not just the newest.
-# Cell 6's merge is what makes that safe: rows already in the table are overwritten with the
-# same values and only genuinely new keys are added, so a rerun gives the same table.
+# The landing pipeline's 7-day lookback means the same key can sit in more than one file, so
+# cell 5 first keeps one row per key, from the newest file. Cell 6's merge then makes the
+# re-read safe: rows already in the table are overwritten with the same values and only
+# genuinely new keys are added, so a rerun gives the same table.
 #
 # The values below are the defaults for a manual run (crashes). The pipeline passes its own
 # values per source; persons and vehicles use natural_key = "unique_id".
@@ -72,6 +75,7 @@ natural_key    = "collision_id"             # merge key — unique per source ro
 # Nothing runs against data here; this just loads the tools the later cells use:
 #   F (pyspark functions)  — column operations: casting types (cell 4), timestamps and file
 #                            names (cell 5).
+#   Window                 — ranks the copies of a repeated key, newest file first (cell 5).
 #   pyspark types          — StructType / LongType etc., used to describe the columns in cell 3.
 #   DeltaTable             — the Delta Lake API that performs the MERGE (upsert) in cell 6.
 #   nbutils                — Fabric's notebook utilities. Used for notebook.exit(), which stops
@@ -79,6 +83,7 @@ natural_key    = "collision_id"             # merge key — unique per source ro
 #                            (cells 4 and 7).
 
 from pyspark.sql import functions as F
+from pyspark.sql.window import Window
 from pyspark.sql.types import *
 from delta.tables import DeltaTable
 
@@ -274,21 +279,43 @@ if null_keys:
 
 # CELL ********************
 
-# CELL 5 — Add audit columns
+# CELL 5 — Add audit columns, keep the newest row per key
 #
 # Adds two lineage columns to every row, the same idea as audit columns on a staging table:
 #   _load_timestamp — when this run happened. Because cell 6 rewrites every matched row, this
 #                     shows the LAST run that touched the row, not when it first arrived.
 #   _source_file    — the full path of the file the row was read from, so a bad row can be
 #                     traced back to the download that produced it.
-# Spark is lazy: df_new is still a recipe, not data in memory. The files are actually read
-# again when cell 6 writes, and these columns are filled in at that point.
+#
+# Then keeps ONE row per merge key. The landing pipeline re-downloads the last 7 days on every
+# run, so a key can arrive in two files, and a Delta MERGE fails outright if its source holds
+# a key twice (DELTA_MULTIPLE_SOURCE_ROW_MATCHING_TARGET_ROW_IN_MERGE). Like T-SQL
+#     ROW_NUMBER() OVER (PARTITION BY <key> ORDER BY file_modified DESC, _source_file DESC) = 1
+# the copy from the newest file wins, so a late correction from NYC replaces the older copy.
+# Newest is by file modification time, not name: run-ID file names do not sort by date. The
+# path tie-break keeps reruns deterministic. _file_modified comes from Spark's hidden _metadata
+# column and is dropped again, so the table's columns do not change.
+#
+# Spark is lazy: df_new is still a recipe, not data in memory. The kept-row count below reads
+# the files once more, and they are read again when cell 6 writes.
 
 df_new = (
     df_new
     .withColumn("_load_timestamp", F.current_timestamp())
     .withColumn("_source_file", F.input_file_name())
+    .withColumn("_file_modified", F.col("_metadata.file_modification_time"))
 )
+
+newest_first = Window.partitionBy(merge_key).orderBy(F.col("_file_modified").desc(), F.col("_source_file").desc())
+df_new = (
+    df_new
+    .withColumn("_rank", F.row_number().over(newest_first))
+    .filter(F.col("_rank") == 1)
+    .drop("_rank", "_file_modified")
+)
+
+kept_count = df_new.count()
+print(f"[{source_name}] Duplicate {merge_key} rows dropped: {row_count - kept_count} (kept {kept_count})")
 
 
 # METADATA ********************
@@ -308,8 +335,9 @@ df_new = (
 #       WHEN NOT MATCHED → INSERT the row (InsertAll)
 #     There is no delete branch: a row in the table but no longer in the files is kept.
 #   - Table does not exist yet (first run in a new stage) → plain write that creates it.
-# Nothing removes duplicate keys first. If one key appears in two files, the MERGE fails with a
-# "multiple source rows matched" error (on the first-run write both copies would be kept).
+# Both paths receive one row per key: cell 5 already dropped the older copies of any repeated
+# key, which the MERGE needs (it fails if two source rows match one target row) and which stops
+# the first-run write from creating a table with duplicate keys.
 # The finished table is what the Warehouse procs read as NYC_VehicleCrashes_Lakehouse.dbo.nyc_<source>.
 #
 # Schema-enabled lakehouse: the first level under Tables/ is the SCHEMA namespace.
