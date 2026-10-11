@@ -4,7 +4,7 @@
 
 **Blocked by:** 01, 02, 03, 04
 
-**Status:** closed
+**Status:** done (2026-10-10)
 
 | Step | Description | Owner | Done when | Status |
 |---|---|---|---|---|

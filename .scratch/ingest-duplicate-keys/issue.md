@@ -20,5 +20,5 @@ from Cell 5 carry the source file). Re-check within-file duplicates in the full 
 
 ## Comments
 
-- **2026-10-10** — Found while running issue `measure-readiness-fixes/04` step 8. Worked around by
+- **2026-10-10** — Found while running issue `_Archive/measure-readiness-fixes/issues/04` step 8. Worked around by
   running the two vehicle procedures directly; the Lakehouse vehicle table is unchanged since 2026-09-29.

@@ -4,7 +4,7 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** closed
+**Status:** done (2026-10-10)
 
 | Step | Description | Owner | Done when | Status |
 |---|---|---|---|---|

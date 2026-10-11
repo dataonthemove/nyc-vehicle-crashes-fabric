@@ -1,6 +1,6 @@
 # Measure-readiness fixes: date sorting, blank members, Person Age, Vehicle Model Year
 
-Status: ready-for-agent
+Status: done (2026-10-10)
 Category: bug
 Raised: 2026-10-10 (measure-readiness review of the Dev semantic model)
 
