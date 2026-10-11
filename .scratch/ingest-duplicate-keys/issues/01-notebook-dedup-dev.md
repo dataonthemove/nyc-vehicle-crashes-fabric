@@ -9,7 +9,7 @@ ingestion doc stop claiming de-duplication that did not exist.
 
 **Blocked by:** None (can start immediately)
 
-**Status:** in-progress (CC steps 1–6 done; waiting on Pat for step 7)
+**Status:** done (2026-10-11)
 
 | Step | Description | Owner | Done when | Status |
 |---|---|---|---|---|
@@ -19,10 +19,10 @@ ingestion doc stop claiming de-duplication that did not exist.
 | 4 | Add the de-dup step between the audit columns and the write; drop the ranking column; print dropped-row count | CC | Notebook file edited in Fabric's compact formatting, no spurious diffs | done |
 | 5 | Update notebook cell 1 and cell 6 comments, and the duplicates claim in `docs/socrata-ingestion.md` | CC | No comment or doc says the MERGE alone handles repeated keys | done |
 | 6 | Commit locally (`CC Commit: dev_nb_cdc_to_delta_dedup-newest-per-key`) | CC | Commit exists on main, CRLF intact | done |
-| 7 | Push; Dev Source Control → Update All | Pat | Dev Source Control shows no pending incoming changes | todo |
+| 7 | Push; Dev Source Control → Update All | Pat | Dev Source Control shows no pending incoming changes | done |
 | 8 | Record pre-run `nyc_*` row counts in Dev via Spark | CC | Three counts recorded here | done |
-| 9 | Run `pl_stage_load_NYC_Crashes` in Dev; rerun `refresh_semantic_model` if the Refresh activity hits the framing race | CC | All activities succeed; printed drop counts roughly match the overlap (crashes 1,278, persons 4,221, vehicles 2,470) | todo |
-| 10 | Verify each Dev `nyc_*` table: `count = countDistinct(key)`; counts moved only by genuinely new keys | CC | Three checks pass; results recorded here | todo |
+| 9 | Run `pl_stage_load_NYC_Crashes` in Dev; rerun `refresh_semantic_model` if the Refresh activity hits the framing race | CC | All activities succeed; printed drop counts roughly match the overlap (crashes 1,278, persons 4,221, vehicles 2,470) | done |
+| 10 | Verify each Dev `nyc_*` table: `count = countDistinct(key)`; counts moved only by genuinely new keys | CC | Three checks pass; results recorded here | done |
 
 ## Comments
 
@@ -42,3 +42,11 @@ ingestion doc stop claiming de-duplication that did not exist.
   2,470, kept 4,551,002, table columns unchanged (`_file_modified`/`_rank` dropped). Post-dedup distinct 4,551,002;
   kept rows by file: full extract 4,548,532, run `8552e9f4` file 2,470 — the newer file wins.
   `/code-review` (low) on the commit: no findings.
+- **2026-10-11, step 7** — Pat pushed `1c4be75` and ran Update All; live Dev notebook carries the de-dup.
+- **2026-10-11, step 9** — Pipeline run `37e2f135-1199-4cb4-960f-e1468b264037`: all 16 activities
+  succeeded, Refresh included (no framing race). Printed drops: crashes 1,278 (staged 2,270,465),
+  persons 4,221 (staged 5,988,331), vehicles 2,470 (staged 4,553,472) — exactly the expected overlap.
+- **2026-10-11, step 10** — Dev `nyc_*` after the run: crashes 2,269,187, persons 5,984,110,
+  vehicles 4,551,002; `count = countDistinct(key)` for all three; 0 change from pre-run, as expected
+  (every overlap key was already in the full extract). `_source_file` now spans both files per
+  table, so the overlap rows were rewritten from the newer run file.
