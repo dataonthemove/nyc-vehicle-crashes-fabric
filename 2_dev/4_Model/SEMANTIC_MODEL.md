@@ -86,10 +86,10 @@ single direction except for one deliberate exception:
 Explicit measures are the only aggregate surface for the hidden casualty columns on Fact Crashes,
 Person Age on Fact Crash Persons and Vehicle Occupants on Fact Crash Vehicles.
 Each measure lives on the fact table whose rows it counts, and carries a format string, a display
-folder and a `///` description naming its source. Spec: `.scratch/semantic-model-measures/spec.md`.
+folder and a `///` description naming its source. Spec: `.scratch/_Archive/semantic-model-measures/spec.md`.
 Every display folder below is nested under a top-level `_Measures` folder (e.g. `_Measures\Volume`):
 the Data pane sorts folders and fields together alphabetically, so the underscore keeps all of a
-table's measures in one folder above its columns (`.scratch/measures-folder-nesting/`).
+table's measures in one folder above its columns (`.scratch/_Archive/measures-folder-nesting/`).
 
 **Fact Crashes** — 21 measures, from **reported injury counts** on the crash record.
 

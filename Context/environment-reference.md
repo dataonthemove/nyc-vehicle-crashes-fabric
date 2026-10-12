@@ -63,8 +63,8 @@ workspace is deliberately unassigned, so landing items are never promoted.
 | Stage 2 | Production | `314d8788-f3de-4348-8b03-52b34bd9b62e` | `4_NYC_VehicleCrashes_prod` |
 
 All stages `isPublic: false`. Last deploy, 2026-10-12: semantic model only, Dev → Test → Prod
-(measure display folders nested under `_Measures\`, `.scratch/measures-folder-nesting/`). Earlier the
-same day, the same route for the 38-measure layer (`.scratch/semantic-model-measures/` tickets
+(measure display folders nested under `_Measures\`, `.scratch/_Archive/measures-folder-nesting/`). Earlier the
+same day, the same route for the 38-measure layer (`.scratch/_Archive/semantic-model-measures/` tickets
 04–05). Before that,
 2026-10-11: `nb_cdc_to_delta` only, Dev → Test → Prod
 (ingest de-dup, `.scratch/_Archive/ingest-duplicate-keys/`). Last full deploys, 2026-09-27 (header/line remodel): Dev → Test, then
