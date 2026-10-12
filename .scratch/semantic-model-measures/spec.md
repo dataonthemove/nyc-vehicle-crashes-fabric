@@ -1,6 +1,6 @@
 # Semantic model measure layer: 38 base measures, raw additive columns hidden
 
-Status: ready-for-agent
+Status: done (2026-10-12)
 Category: feature
 Raised: 2026-10-12 (measure-list review of the Dev semantic model)
 
