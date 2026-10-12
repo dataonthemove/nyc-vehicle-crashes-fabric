@@ -27,7 +27,7 @@ mapping is in [`CONTEXT.md`](../../CONTEXT.md). Every `_key` and `_id` column is
 
 | Table | Role | Grain | Visible columns and notes |
 |---|---|---|---|
-| **Fact Crashes** (`fact_crashes`) | Header fact | One crash | Persons / Pedestrians / Cyclists / Motorists × Injured / Killed (additive casualty counts); Latitude, Longitude. `collision_id` is a hidden degenerate dimension |
+| **Fact Crashes** (`fact_crashes`) | Header fact | One crash | Latitude, Longitude. The additive casualty counts Persons / Pedestrians / Cyclists / Motorists × Injured / Killed are **hidden**: aggregate them through the `Total …` measures. `collision_id` is a hidden degenerate dimension |
 | **Fact Crash Vehicles** (`fact_crash_vehicle`) | Line fact | One vehicle in a crash | Vehicle Occupants: BLANK when unreported, not 0. Header keys `date_key`, `location_key`, `factor_group_key` and `collision_id` are copied from its crash |
 | **Fact Crash Persons** (`fact_persons`) | Line fact | One person in a crash | Person Age, Is Injured, Is Killed. Person Age: BLANK when unknown — the ETL loads ages below 0 or above 110 as NULL, and 0 as NULL unless Person Role is Passenger or Pedestrian (real infants). Header keys copied from its crash, as above |
 | `bridge_crash_factor` | Bridge | One factor group × factor pair | All columns hidden. Resolves the many-to-many between a crash's factor set and its contributing factors |
@@ -83,9 +83,29 @@ single direction except for one deliberate exception:
 
 ## Measures
 
-**None yet.** All measures were removed on 2026-09-27 in the header/line remodel. A measure layer
-will be generated from this model in a separate spec. Until then, the model is validated with
-`COUNTROWS` and key-level DAX queries rather than measures.
+Explicit measures are the only aggregate surface for the hidden casualty columns on Fact Crashes
+(Person Age and Vehicle Occupants follow with the line-fact measures).
+Each measure lives on the fact table whose rows it counts, and carries a format string, a display
+folder and a `///` description naming its source. Spec: `.scratch/semantic-model-measures/spec.md`.
+
+**Fact Crashes** — 21 measures, from **reported injury counts** on the crash record.
+
+| Display folder | Measures |
+|---|---|
+| Volume | Total Crashes |
+| Reported Casualties | Total Persons / Pedestrians / Cyclists / Motorists × Injured / Killed (8) |
+| Severity | Injury Crashes, Fatal Crashes, Injury Crash Rate %, Fatalities per 1,000 Crashes, Vulnerable Road User Fatality % |
+| Time Intelligence | Avg Daily Crashes, Crashes PY, Crashes YoY %, Crashes Rolling 12M |
+| Data Quality | Geocoded Crash % |
+| Helpers *(hidden)* | First Data Date, Last Data Date |
+
+- `Dim Date` runs to 2030-12-31 but the data ends earlier. Every calendar-sensitive measure anchors
+  on the hidden helpers: `Crashes PY` and `Crashes Rolling 12M` are BLANK after `Last Data Date`, and
+  `Crashes PY` compares a partial year with the same days of the prior year.
+- `Avg Daily Crashes` divides by calendar days within the data range, not days with crashes.
+- Under a contributing-factor filter, totals exceed the overall total by design (the bridge).
+
+The `/dax-smoke-test` CC skill stays measure-free: it validates with `COUNTROWS` and key-level DAX.
 
 There are no security roles either. `Borough_Reader` was deleted because its filter leaked into
 the line facts; security roles are deferred.
@@ -95,7 +115,7 @@ the line facts; security roles are deferred.
 - **SummarizeBy:** every `_key` and `_id` column (including `collision_id`) → `None`. Numeric
   dimension attributes (Year, Quarter, Month Number, Day of Month, Day of Week Number, Vehicle
   Model Year) → `None`. Latitude / Longitude → `None`, with `dataCategory` Latitude / Longitude.
-  Person Age → `Average`. Vehicle Occupants and the casualty counts → `Sum`. A schema refresh
+  Person Age → `Average`. Vehicle Occupants and the casualty counts → `Sum` (still set on the hidden columns). A schema refresh
   resets SummarizeBy to `Sum`, so re-apply these after any refresh.
 - **Authoring path:** local TMDL edits → commit/push to ADO → Fabric Source Control → Update All.
   Don't author this model through XMLA/MCP; those writes hit workspace state and bypass Git.

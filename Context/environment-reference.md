@@ -141,9 +141,9 @@ Pat deploys the notebook. No reports in any stage (all deleted 2026-09-25, spec 
 | Prod | `ugzelu45irnefp3jx4vjlmb6u4-d7atl7mnt7vexgkzrj5fhiwdsa.datawarehouse.fabric.microsoft.com` |
 
 **Semantic model:** Direct Lake **on SQL** since 2026-09-21 (`expression DatabaseQuery =
-Sql.Database(<Dev TDS endpoint>, "324e2ac0-…")`). Since the 2026-09-27 remodel it has **no measures
-and no roles**: every measure was removed (spec D5) and RLS role `Borough_Reader`, which leaked into the
-line facts, was deleted (D10). Table and relationship detail: `2_dev/4_Model/SEMANTIC_MODEL.md`. If
+Sql.Database(<Dev TDS endpoint>, "324e2ac0-…")`). It has **no roles**: RLS role `Borough_Reader`, which
+leaked into the line facts, was deleted in the 2026-09-27 remodel (D10).
+Measure, table and relationship detail: `2_dev/4_Model/SEMANTIC_MODEL.md`. If
 roles return, Fabric *Test as role* is unsupported on this model (SSO). Test them with XMLA
 impersonation instead (`powerbi-modeling-mcp` `dax_query_operations` → `impersonation.roles`).
 

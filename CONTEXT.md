@@ -17,6 +17,9 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 | **Factor group** | The distinct *set* of contributing factors attached to one crash, held in `dim_factor_group`. A crash points at one factor group; the group resolves to many factors through `bridge_crash_factor`. |
 | **Driver** | The person operating a vehicle in a crash, as described on the vehicle record (sex, licence status, licence jurisdiction). Distinct from a **Person** row whose position is driver; the two are not yet linked. |
 | **Reported injury counts** | Injury and fatality counts carried on the crash record, split by role (motorist, pedestrian, cyclist). |
+| **Severity** | Classification of a **Crash** by its **Reported injury counts**: **Injury crash** or **Fatal crash** (a crash can be both, or neither). Defined 2026-10-12 by the measure layer. |
+| **Injury crash** | A **Crash** with at least one injury in its **Reported injury counts** (`Persons Injured` > 0). Counted once however many people were hurt; measure `Injury Crashes`. One of the two **Severity** classes. |
+| **Fatal crash** | A **Crash** with at least one death in its **Reported injury counts** (`Persons Killed` > 0). Counted once however many people died; measure `Fatal Crashes`. The other **Severity** class; a crash can be both. |
 | **Recorded injured person** | A **Person** flagged injured or killed on their own record. Can disagree with **Reported injury counts** for the same crash; neither silently replaces the other. |
 
 ## Modeling
@@ -44,7 +47,7 @@ names, and so do the all-hidden tables `dim_factor_group` and `bridge_crash_fact
 
 | Model table | Warehouse table | Renamed visible columns (model ← Warehouse) |
 |---|---|---|
-| Fact Crashes | `fact_crashes` | Persons / Pedestrians / Cyclists / Motorists Injured, Killed ← `*_injured`, `*_killed`; Latitude, Longitude ← `latitude`, `longitude` |
+| Fact Crashes | `fact_crashes` | Persons / Pedestrians / Cyclists / Motorists Injured, Killed ← `*_injured`, `*_killed` (hidden: aggregate through the `Total …` measures); Latitude, Longitude ← `latitude`, `longitude` |
 | Fact Crash Vehicles | `fact_crash_vehicle` | Vehicle Occupants ← `vehicle_occupants` |
 | Fact Crash Persons | `fact_persons` | Person Age ← `person_age`; Is Injured, Is Killed ← `is_injured`, `is_killed` |
 | Dim Date | `dim_date` | Date ← `full_date`; Year, Quarter; Month Number ← `month`; Month ← `month_name`; Day of Month ← `day`; Day of Week Number ← `day_of_week`; Day of Week ← `day_name`; Is Weekend |
@@ -102,4 +105,3 @@ names, and so do the all-hidden tables `dim_factor_group` and `bridge_crash_fact
 ## Open terms *(unconfirmed)*
 
 - **Occupancy** — `vehicle_occupants` is capped in the ETL: values above 100 load as NULL (since 2026-08-01; 21–100 is legitimate bus traffic). No agreed definition of an occupancy measure yet.
-- **Severity** — no agreed classification of crash severity exists in the model.
