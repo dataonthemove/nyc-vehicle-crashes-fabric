@@ -86,23 +86,23 @@ table 'Fact Crashes'
 
 	/// Crashes per calendar day. Denominator is every calendar day in the current Dim Date selection that falls between First Data Date and Last Data Date, not only days with crashes, so partial periods and rare factors compare fairly.
 	measure 'Avg Daily Crashes' =
-			VAR firstDate = [First Data Date]
-			VAR lastDate = [Last Data Date]
+			VAR firstDataDate = [First Data Date]
+			VAR lastDataDate = [Last Data Date]
 			RETURN
 				DIVIDE(
 					[Total Crashes],
-					COUNTROWS(FILTER(VALUES('Dim Date'[Date]), 'Dim Date'[Date] >= firstDate && 'Dim Date'[Date] <= lastDate))
+					COUNTROWS(FILTER(VALUES('Dim Date'[Date]), 'Dim Date'[Date] >= firstDataDate && 'Dim Date'[Date] <= lastDataDate))
 				)
 		formatString: #,0.00
 		displayFolder: Time Intelligence
 
 	/// Total Crashes for the same dates one year earlier, limited to dates up to Last Data Date so a partial current year is compared like-for-like. BLANK for periods starting after Last Data Date.
 	measure 'Crashes PY' =
-			VAR lastDate = [Last Data Date]
+			VAR lastDataDate = [Last Data Date]
 			RETURN
 				IF(
-					MIN('Dim Date'[Date]) <= lastDate,
-					CALCULATE([Total Crashes], SAMEPERIODLASTYEAR(FILTER(VALUES('Dim Date'[Date]), 'Dim Date'[Date] <= lastDate)))
+					MIN('Dim Date'[Date]) <= lastDataDate,
+					CALCULATE([Total Crashes], SAMEPERIODLASTYEAR(FILTER(VALUES('Dim Date'[Date]), 'Dim Date'[Date] <= lastDataDate)))
 				)
 		formatString: #,0
 		displayFolder: Time Intelligence
@@ -114,11 +114,11 @@ table 'Fact Crashes'
 
 	/// Crashes in the 12 months ending at the end of the current period, or at Last Data Date if that is earlier. BLANK for periods starting after Last Data Date.
 	measure 'Crashes Rolling 12M' =
-			VAR lastDate = [Last Data Date]
+			VAR lastDataDate = [Last Data Date]
 			RETURN
 				IF(
-					MIN('Dim Date'[Date]) <= lastDate,
-					CALCULATE([Total Crashes], DATESINPERIOD('Dim Date'[Date], MIN(MAX('Dim Date'[Date]), lastDate), -12, MONTH))
+					MIN('Dim Date'[Date]) <= lastDataDate,
+					CALCULATE([Total Crashes], DATESINPERIOD('Dim Date'[Date], MIN(MAX('Dim Date'[Date]), lastDataDate), -12, MONTH))
 				)
 		formatString: #,0
 		displayFolder: Time Intelligence

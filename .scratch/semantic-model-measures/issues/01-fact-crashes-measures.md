@@ -35,3 +35,9 @@ The 8 raw casualty columns are hidden, so measures are the only aggregate surfac
 8 casualty columns; nothing else changed. Docs updated: semantic model doc (Measures section, Fact Crashes
 row), `CONTEXT.md` (Injury crash / Fatal crash; Severity removed from Open terms; hidden columns noted),
 environment reference, and the `/dax-smoke-test` CC skill in the `~/.claude` repo (committed there separately). Code review (standards + spec) applied: Severity glossary row, descriptions no longer cite stale figures or ticket-02 measures, DAX vars renamed.
+
+**2026-10-12 — CC, step 6–7 (first attempt).** Refresh completed, but `INFO.VIEW.MEASURES` showed
+`Avg Daily Crashes`, `Crashes PY` and `Crashes Rolling 12M` as `InvalidExpression` (`SYNTAXERROR`).
+Cause: the review rename used DAX variable names `firstDate` / `lastDate`, which collide with the
+`FIRSTDATE` / `LASTDATE` functions (DAX names are case-insensitive). Renamed to `firstDataDate` /
+`lastDataDate`, verified query-scoped against Dev, recommitted. Steps 5–6 repeat.
