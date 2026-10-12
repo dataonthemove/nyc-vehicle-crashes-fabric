@@ -1,6 +1,6 @@
 # Nest every measure display folder under `_Measures`
 
-**Status:** ready-for-human
+**Status:** done (2026-10-12)
 Raised: 2026-10-12 (Pat, reviewing the measure layer in the Fabric web data model view)
 
 **Problem:** The Data pane in the Fabric web data model view sorts display folders and fields
@@ -22,7 +22,7 @@ measures).
 | 3 | `refresh_semantic_model` on Dev; `INFO.VIEW.MEASURES` shows 38 measures, all `Valid`, every display folder starting `_Measures\` | CC | All hold | done |
 | 4 | Deploy Dev → Test, then Test → Prod, semantic model only | Pat | Both deployments succeed; Warehouse not in the deployed set | done |
 | 5 | Repeat the step 3 check on Test and Prod | CC | All hold in both | done |
-| 6 | Pat confirms the Data pane shows one `_Measures` folder at the top of each fact table | Pat | Confirmed | todo |
+| 6 | Pat confirms the Data pane shows one `_Measures` folder at the top of each fact table | Pat | Confirmed | done |
 
 ## Comments
 
@@ -36,3 +36,8 @@ subfolders as before.
 `refresh_semantic_model` Completed in Test (`460270824`) and Prod (`460270833`). In both:
 38 measures, 0 not `Valid`, 0 display folders outside `_Measures\`, 11 subfolders;
 `Fact Crashes` 2,269,187 rows, unchanged. Remaining: step 6 (Pat's visual check).
+
+**2026-10-12 — Pat, step 6.** Confirmed: `_Measures` shows at the top of each fact table. Side
+effect noted: `Fact Crash Vehicles` has no visible columns, so the Data pane treats it as a measure
+table (calculator icon) and pins it above all other tables, apart from the other two facts. No
+setting turns this off; the only lever is column visibility.
