@@ -18,10 +18,21 @@ measures).
 | Step | Description | Owner | Done when | Status |
 |---|---|---|---|---|
 | 1 | Prefix the 38 `displayFolder` values in the three fact table TMDL files; note the nesting in `SEMANTIC_MODEL.md`; commit (`model_measures_displayfolder_nest`) | CC | Diff is 38 `displayFolder` lines plus the doc | done |
-| 2 | Push to ADO; Dev Source Control → Update All | Pat | Nothing pending for the semantic model | todo |
-| 3 | `refresh_semantic_model` on Dev; `INFO.VIEW.MEASURES` shows 38 measures, all `Valid`, every display folder starting `_Measures\` | CC | All hold | todo |
-| 4 | Deploy Dev → Test, then Test → Prod, semantic model only | Pat | Both deployments succeed; Warehouse not in the deployed set | todo |
-| 5 | Repeat the step 3 check on Test and Prod | CC | All hold in both | todo |
+| 2 | Push to ADO; Dev Source Control → Update All | Pat | Nothing pending for the semantic model | done |
+| 3 | `refresh_semantic_model` on Dev; `INFO.VIEW.MEASURES` shows 38 measures, all `Valid`, every display folder starting `_Measures\` | CC | All hold | done |
+| 4 | Deploy Dev → Test, then Test → Prod, semantic model only | Pat | Both deployments succeed; Warehouse not in the deployed set | done |
+| 5 | Repeat the step 3 check on Test and Prod | CC | All hold in both | done |
 | 6 | Pat confirms the Data pane shows one `_Measures` folder at the top of each fact table | Pat | Confirmed | todo |
 
 ## Comments
+
+**2026-10-12 — CC, step 1.** Committed `95df7b1`.
+
+**2026-10-12 — CC, step 3 (Dev).** `refresh_semantic_model` Completed (refresh `460265395`).
+`INFO.VIEW.MEASURES`: 38 measures, 0 not `Valid`, 0 display folders outside `_Measures\`; 11
+subfolders as before.
+
+**2026-10-12 — CC, step 5 (Test, Prod).** After Pat's semantic-model-only deploys,
+`refresh_semantic_model` Completed in Test (`460270824`) and Prod (`460270833`). In both:
+38 measures, 0 not `Valid`, 0 display folders outside `_Measures\`, 11 subfolders;
+`Fact Crashes` 2,269,187 rows, unchanged. Remaining: step 6 (Pat's visual check).
