@@ -175,7 +175,7 @@ deployment pipeline. Only the semantic model is deployed; no Warehouse change is
   | Fact Crash Vehicles | Unlicensed Driver % † | `DIVIDE(CALCULATE([Vehicles Involved], 'Dim Driver'[Driver License Status] = "Unlicensed"), CALCULATE([Vehicles Involved], 'Dim Driver'[Driver License Status] IN {"Licensed","Unlicensed","Permit"}))` |
 
 - **Literal filter values were verified in Dev on 2026-10-12.** Person Role includes `In-Line Skater` and
-  `Other`, both kept as involved. Ejection takes `Ejected`, `Partially Ejected`, `Not Ejected`, `Trapped`,
+  `Other`, both kept as involved, and a blank role (the pre-2016 injured and killed people, recorded before roles were), also kept. Ejection takes `Ejected`, `Partially Ejected`, `Not Ejected`, `Trapped`,
   `Unknown` and `Does Not Apply`. Is Injured and Is Killed are never both TRUE and never blank.
 - **Driver License Status code set.** The abbreviated codes (VAL, SUS, REVOKE and others, about 10.8k
   vehicles) are excluded from both sides of `Unlicensed Driver %`. Standardising them is parked in

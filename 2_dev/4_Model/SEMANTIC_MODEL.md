@@ -29,7 +29,7 @@ mapping is in [`CONTEXT.md`](../../CONTEXT.md). Every `_key` and `_id` column is
 |---|---|---|---|
 | **Fact Crashes** (`fact_crashes`) | Header fact | One crash | Latitude, Longitude. The additive casualty counts Persons / Pedestrians / Cyclists / Motorists × Injured / Killed are **hidden**: aggregate them through the `Total …` measures. `collision_id` is a hidden degenerate dimension |
 | **Fact Crash Vehicles** (`fact_crash_vehicle`) | Line fact | One vehicle in a crash | Vehicle Occupants: BLANK when unreported, not 0. Header keys `date_key`, `location_key`, `factor_group_key` and `collision_id` are copied from its crash |
-| **Fact Crash Persons** (`fact_persons`) | Line fact | One person in a crash | Person Age, Is Injured, Is Killed. Person Age: BLANK when unknown — the ETL loads ages below 0 or above 110 as NULL, and 0 as NULL unless Person Role is Passenger or Pedestrian (real infants). Header keys copied from its crash, as above |
+| **Fact Crash Persons** (`fact_persons`) | Line fact | One person in a crash | Is Injured, Is Killed. Person Age is **hidden**: aggregate it through `Average Age`, `Average Age of Killed` and `Child Casualties (<18)`. It is BLANK when unknown — the ETL loads ages below 0 or above 110 as NULL, and 0 as NULL unless Person Role is Passenger or Pedestrian (real infants). Header keys copied from its crash, as above |
 | `bridge_crash_factor` | Bridge | One factor group × factor pair | All columns hidden. Resolves the many-to-many between a crash's factor set and its contributing factors |
 | `dim_factor_group` | Dimension | One distinct set of contributing factors | All columns hidden; `factor_set_hash` identifies the set. One empty-set group, with no bridge rows, covers crashes with no specified factor |
 | **Dim Date** (`dim_date`) | Dimension | One calendar day | Marked date table on Date, formatted `yyyy-mm-dd`. Year, Quarter, Month Number, Month (sorts by Month Number), Day of Month, Day of Week Number, Day of Week (sorts by Day of Week Number), Is Weekend |
@@ -83,8 +83,8 @@ single direction except for one deliberate exception:
 
 ## Measures
 
-Explicit measures are the only aggregate surface for the hidden casualty columns on Fact Crashes
-(Person Age and Vehicle Occupants follow with the line-fact measures).
+Explicit measures are the only aggregate surface for the hidden casualty columns on Fact Crashes and
+for Person Age on Fact Crash Persons (Vehicle Occupants follows with the Fact Crash Vehicles measures).
 Each measure lives on the fact table whose rows it counts, and carries a format string, a display
 folder and a `///` description naming its source. Spec: `.scratch/semantic-model-measures/spec.md`.
 
@@ -104,6 +104,24 @@ folder and a `///` description naming its source. Spec: `.scratch/semantic-model
   `Crashes PY` compares a partial year with the same days of the prior year.
 - `Avg Daily Crashes` divides by calendar days within the data range, not days with crashes.
 - Under a contributing-factor filter, totals exceed the overall total by design (the bridge).
+
+**Fact Crash Persons** — 9 measures, from **recorded injured persons** on the person record.
+
+| Display folder | Measures |
+|---|---|
+| Volume | Person Records, Persons Involved |
+| Recorded Casualties | Injured Persons (Person-Level), Killed Persons (Person-Level) |
+| Demographics | Average Age, Average Age of Killed, Child Casualties (<18) |
+| Rates | Ejection Rate %, Person Fatality Rate % |
+
+- **2016 break:** before 2016 the table holds only injured and killed people, so `Person Records`,
+  `Persons Involved`, `Average Age` and both rates aren't comparable across 2016.
+- `Persons Involved` excludes the Registrant, Witness, Owner, Notified Person and Policy Holder roles.
+  It keeps blank roles: those are the pre-2016 injured and killed people, recorded before roles were.
+- The person-level casualty counts differ from the `Total …` measures on Fact Crashes; neither
+  replaces the other.
+- `Child Casualties (<18)` excludes unknown ages; `Ejection Rate %` divides by known ejection
+  statuses only (Ejected, Partially Ejected, Not Ejected, Trapped).
 
 The `/dax-smoke-test` CC skill stays measure-free: it validates with `COUNTROWS` and key-level DAX.
 

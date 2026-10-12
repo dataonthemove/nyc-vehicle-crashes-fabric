@@ -49,7 +49,7 @@ names, and so do the all-hidden tables `dim_factor_group` and `bridge_crash_fact
 |---|---|---|
 | Fact Crashes | `fact_crashes` | Persons / Pedestrians / Cyclists / Motorists Injured, Killed ← `*_injured`, `*_killed` (hidden: aggregate through the `Total …` measures); Latitude, Longitude ← `latitude`, `longitude` |
 | Fact Crash Vehicles | `fact_crash_vehicle` | Vehicle Occupants ← `vehicle_occupants` |
-| Fact Crash Persons | `fact_persons` | Person Age ← `person_age`; Is Injured, Is Killed ← `is_injured`, `is_killed` |
+| Fact Crash Persons | `fact_persons` | Person Age ← `person_age` (hidden: aggregate through `Average Age`, `Average Age of Killed` and `Child Casualties (<18)`); Is Injured, Is Killed ← `is_injured`, `is_killed` |
 | Dim Date | `dim_date` | Date ← `full_date`; Year, Quarter; Month Number ← `month`; Month ← `month_name`; Day of Month ← `day`; Day of Week Number ← `day_of_week`; Day of Week ← `day_name`; Is Weekend |
 | Dim Location | `dim_location` | Borough; ZIP Code ← `zip_code` |
 | Dim Contributing Factor | `dim_contributing_factor` | Contributing Factor ← `factor_desc` |
