@@ -5,7 +5,7 @@ table 'Fact Crash Vehicles'
 	/// Number of vehicle records in Fact Crash Vehicles: one row per vehicle in a crash. Source: vehicle records.
 	measure 'Vehicles Involved' = COUNTROWS('Fact Crash Vehicles')
 		formatString: #,0
-		displayFolder: Volume
+		displayFolder: _Measures\Volume
 
 	/// Vehicles per crash: Vehicles Involved divided by Total Crashes. Source: vehicle records over crash records. BLANK whenever Dim Vehicle, Dim Driver or Dim Vehicle Circumstance is cross-filtered, because those filter only the numerator: line-to-header filtering is unsupported (ADR-0005).
 	measure 'Avg Vehicles per Crash' =
@@ -15,32 +15,32 @@ table 'Fact Crash Vehicles'
 				DIVIDE([Vehicles Involved], [Total Crashes])
 			)
 		formatString: #,0.00
-		displayFolder: Volume
+		displayFolder: _Measures\Volume
 
 	/// Sum of Vehicle Occupants. Values above 100 are loaded as NULL by the ETL; BLANK means unreported, not 0. Source: vehicle records. 2016 break: before 2016 occupants are almost never reported, so this is not comparable across 2016.
 	measure 'Total Occupants' = SUM('Fact Crash Vehicles'[Vehicle Occupants])
 		formatString: #,0
-		displayFolder: Occupancy
+		displayFolder: _Measures\Occupancy
 
 	/// Vehicles with a reported Vehicle Occupants value (not BLANK). The denominator of Avg Occupants per Vehicle. Source: vehicle records. 2016 break: before 2016 occupants are almost never reported, so this is not comparable across 2016.
 	measure 'Vehicles with Occupant Data' = CALCULATE([Vehicles Involved], NOT ISBLANK('Fact Crash Vehicles'[Vehicle Occupants]))
 		formatString: #,0
-		displayFolder: Occupancy
+		displayFolder: _Measures\Occupancy
 
 	/// Average occupants per vehicle. Denominator: Vehicles with Occupant Data only; vehicles with unreported occupants are excluded rather than counted as 0. Read it with Occupant Data Coverage %. Source: vehicle records. 2016 break: before 2016 occupants are almost never reported, so this is not comparable across 2016.
 	measure 'Avg Occupants per Vehicle' = DIVIDE([Total Occupants], [Vehicles with Occupant Data])
 		formatString: #,0.00
-		displayFolder: Occupancy
+		displayFolder: _Measures\Occupancy
 
 	/// Share of vehicles with a reported Vehicle Occupants value: Vehicles with Occupant Data divided by Vehicles Involved. Source: vehicle records. 2016 break: before 2016 occupants are almost never reported, so this is not comparable across 2016.
 	measure 'Occupant Data Coverage %' = DIVIDE([Vehicles with Occupant Data], [Vehicles Involved])
 		formatString: 0.0%
-		displayFolder: Occupancy
+		displayFolder: _Measures\Occupancy
 
 	/// Average of crash Year minus Vehicle Model Year, over vehicles with a known Vehicle Model Year (blank model years are excluded). Source: vehicle records.
 	measure 'Avg Vehicle Age at Crash' = AVERAGEX(FILTER('Fact Crash Vehicles', NOT ISBLANK(RELATED('Dim Vehicle'[Vehicle Model Year]))), RELATED('Dim Date'[Year]) - RELATED('Dim Vehicle'[Vehicle Model Year]))
 		formatString: #,0.00
-		displayFolder: Vehicle & Driver
+		displayFolder: _Measures\Vehicle & Driver
 
 	/// Share of vehicles whose driver was Unlicensed. Denominator: vehicles with a known Driver License Status (Licensed, Unlicensed, Permit); blank and the abbreviated codes (VAL, SUS, REVOKE and others) are excluded. Source: vehicle records. 2016 break: before 2016 license status is almost never reported, so this is not comparable across 2016.
 	measure 'Unlicensed Driver %' =
@@ -49,7 +49,7 @@ table 'Fact Crash Vehicles'
 				CALCULATE([Vehicles Involved], 'Dim Driver'[Driver License Status] IN {"Licensed","Unlicensed","Permit"})
 			)
 		formatString: 0.0%
-		displayFolder: Vehicle & Driver
+		displayFolder: _Measures\Vehicle & Driver
 
 	column collision_id
 		dataType: int64

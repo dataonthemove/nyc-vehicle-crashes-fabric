@@ -5,84 +5,84 @@ table 'Fact Crashes'
 	/// Number of reported crashes (rows in Fact Crashes). Under a contributing-factor filter each crash counts once per factor it carries, so factor totals exceed the overall total.
 	measure 'Total Crashes' = COUNTROWS('Fact Crashes')
 		formatString: #,0
-		displayFolder: Volume
+		displayFolder: _Measures\Volume
 
 	/// Hidden helper: date of the earliest crash in the model, ignoring all filters. Anchors calendar-sensitive measures because Dim Date extends beyond the data.
 	measure 'First Data Date' = LOOKUPVALUE('Dim Date'[Date], 'Dim Date'[date_key], CALCULATE(MIN('Fact Crashes'[date_key]), REMOVEFILTERS()))
 		formatString: yyyy-mm-dd
 		isHidden
-		displayFolder: Helpers
+		displayFolder: _Measures\Helpers
 
 	/// Hidden helper: date of the latest crash in the model, ignoring all filters. Time-intelligence measures return BLANK after this date because Dim Date runs to 2030.
 	measure 'Last Data Date' = LOOKUPVALUE('Dim Date'[Date], 'Dim Date'[date_key], CALCULATE(MAX('Fact Crashes'[date_key]), REMOVEFILTERS()))
 		formatString: yyyy-mm-dd
 		isHidden
-		displayFolder: Helpers
+		displayFolder: _Measures\Helpers
 
 	/// Persons injured, from reported injury counts on the crash record (Persons Injured). Can differ from recorded injured persons on Fact Crash Persons.
 	measure 'Total Persons Injured' = SUM('Fact Crashes'[Persons Injured])
 		formatString: #,0
-		displayFolder: Reported Casualties
+		displayFolder: _Measures\Reported Casualties
 
 	/// Persons killed, from reported injury counts on the crash record (Persons Killed). Can differ from recorded injured persons on Fact Crash Persons, and misses deaths on crashes where Persons Killed is blank but the road-user counts are filled.
 	measure 'Total Persons Killed' = SUM('Fact Crashes'[Persons Killed])
 		formatString: #,0
-		displayFolder: Reported Casualties
+		displayFolder: _Measures\Reported Casualties
 
 	/// Pedestrians injured, from reported injury counts on the crash record (Pedestrians Injured).
 	measure 'Total Pedestrians Injured' = SUM('Fact Crashes'[Pedestrians Injured])
 		formatString: #,0
-		displayFolder: Reported Casualties
+		displayFolder: _Measures\Reported Casualties
 
 	/// Pedestrians killed, from reported injury counts on the crash record (Pedestrians Killed).
 	measure 'Total Pedestrians Killed' = SUM('Fact Crashes'[Pedestrians Killed])
 		formatString: #,0
-		displayFolder: Reported Casualties
+		displayFolder: _Measures\Reported Casualties
 
 	/// Cyclists injured, from reported injury counts on the crash record (Cyclists Injured).
 	measure 'Total Cyclists Injured' = SUM('Fact Crashes'[Cyclists Injured])
 		formatString: #,0
-		displayFolder: Reported Casualties
+		displayFolder: _Measures\Reported Casualties
 
 	/// Cyclists killed, from reported injury counts on the crash record (Cyclists Killed).
 	measure 'Total Cyclists Killed' = SUM('Fact Crashes'[Cyclists Killed])
 		formatString: #,0
-		displayFolder: Reported Casualties
+		displayFolder: _Measures\Reported Casualties
 
 	/// Motorists injured, from reported injury counts on the crash record (Motorists Injured).
 	measure 'Total Motorists Injured' = SUM('Fact Crashes'[Motorists Injured])
 		formatString: #,0
-		displayFolder: Reported Casualties
+		displayFolder: _Measures\Reported Casualties
 
 	/// Motorists killed, from reported injury counts on the crash record (Motorists Killed).
 	measure 'Total Motorists Killed' = SUM('Fact Crashes'[Motorists Killed])
 		formatString: #,0
-		displayFolder: Reported Casualties
+		displayFolder: _Measures\Reported Casualties
 
 	/// Injury crashes: crashes with at least one reported injury (Persons Injured > 0), from reported injury counts. Counts each crash once however many people were hurt.
 	measure 'Injury Crashes' = CALCULATE([Total Crashes], 'Fact Crashes'[Persons Injured] > 0)
 		formatString: #,0
-		displayFolder: Severity
+		displayFolder: _Measures\Severity
 
 	/// Fatal crashes: crashes with at least one reported death (Persons Killed > 0), from reported injury counts. Counts each crash once however many people died.
 	measure 'Fatal Crashes' = CALCULATE([Total Crashes], 'Fact Crashes'[Persons Killed] > 0)
 		formatString: #,0
-		displayFolder: Severity
+		displayFolder: _Measures\Severity
 
 	/// Share of crashes that are injury crashes. Numerator Injury Crashes, denominator Total Crashes; from reported injury counts.
 	measure 'Injury Crash Rate %' = DIVIDE([Injury Crashes], [Total Crashes])
 		formatString: 0.0%
-		displayFolder: Severity
+		displayFolder: _Measures\Severity
 
 	/// Reported deaths per 1,000 crashes. Numerator Total Persons Killed, denominator Total Crashes; from reported injury counts.
 	measure 'Fatalities per 1,000 Crashes' = DIVIDE([Total Persons Killed], [Total Crashes]) * 1000
 		formatString: #,0.00
-		displayFolder: Severity
+		displayFolder: _Measures\Severity
 
 	/// Share of reported deaths that are pedestrians or cyclists (the Vision Zero metric). Numerator Total Pedestrians Killed + Total Cyclists Killed, denominator Total Persons Killed; from reported injury counts.
 	measure 'Vulnerable Road User Fatality %' = DIVIDE([Total Pedestrians Killed] + [Total Cyclists Killed], [Total Persons Killed])
 		formatString: 0.0%
-		displayFolder: Severity
+		displayFolder: _Measures\Severity
 
 	/// Crashes per calendar day. Denominator is every calendar day in the current Dim Date selection that falls between First Data Date and Last Data Date, not only days with crashes, so partial periods and rare factors compare fairly.
 	measure 'Avg Daily Crashes' =
@@ -94,7 +94,7 @@ table 'Fact Crashes'
 					COUNTROWS(FILTER(VALUES('Dim Date'[Date]), 'Dim Date'[Date] >= firstDataDate && 'Dim Date'[Date] <= lastDataDate))
 				)
 		formatString: #,0.00
-		displayFolder: Time Intelligence
+		displayFolder: _Measures\Time Intelligence
 
 	/// Total Crashes for the same dates one year earlier, limited to dates up to Last Data Date so a partial current year is compared like-for-like. BLANK for periods starting after Last Data Date.
 	measure 'Crashes PY' =
@@ -105,12 +105,12 @@ table 'Fact Crashes'
 					CALCULATE([Total Crashes], SAMEPERIODLASTYEAR(FILTER(VALUES('Dim Date'[Date]), 'Dim Date'[Date] <= lastDataDate)))
 				)
 		formatString: #,0
-		displayFolder: Time Intelligence
+		displayFolder: _Measures\Time Intelligence
 
 	/// Year-on-year change in crashes: (Total Crashes - Crashes PY) / Crashes PY. Inherits the like-for-like day range of Crashes PY.
 	measure 'Crashes YoY %' = DIVIDE([Total Crashes] - [Crashes PY], [Crashes PY])
 		formatString: 0.0%
-		displayFolder: Time Intelligence
+		displayFolder: _Measures\Time Intelligence
 
 	/// Crashes in the 12 months ending at the end of the current period, or at Last Data Date if that is earlier. BLANK for periods starting after Last Data Date.
 	measure 'Crashes Rolling 12M' =
@@ -121,12 +121,12 @@ table 'Fact Crashes'
 					CALCULATE([Total Crashes], DATESINPERIOD('Dim Date'[Date], MIN(MAX('Dim Date'[Date]), lastDataDate), -12, MONTH))
 				)
 		formatString: #,0
-		displayFolder: Time Intelligence
+		displayFolder: _Measures\Time Intelligence
 
 	/// Share of crashes with coordinates (Latitude not blank and not 0). Denominator Total Crashes. Use to caption map visuals with their coverage.
 	measure 'Geocoded Crash %' = DIVIDE(CALCULATE([Total Crashes], 'Fact Crashes'[Latitude] <> 0), [Total Crashes])
 		formatString: 0.0%
-		displayFolder: Data Quality
+		displayFolder: _Measures\Data Quality
 
 	column collision_id
 		dataType: int64

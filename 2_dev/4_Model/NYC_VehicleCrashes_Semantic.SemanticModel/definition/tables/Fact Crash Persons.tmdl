@@ -5,32 +5,32 @@ table 'Fact Crash Persons'
 	/// Number of person records in Fact Crash Persons, all Person Roles including Registrants, Witnesses and Owners. Source: person records (the source of the recorded injured persons figures). 2016 break: before 2016 the table holds only injured and killed people, so this is not comparable across 2016.
 	measure 'Person Records' = COUNTROWS('Fact Crash Persons')
 		formatString: #,0
-		displayFolder: Volume
+		displayFolder: _Measures\Volume
 
 	/// People actually involved in a crash: person records excluding the Registrant, Witness, Owner, Notified Person and Policy Holder roles. Blank roles are kept: they are the pre-2016 injured and killed people, recorded before roles were. Source: person records (the source of the recorded injured persons figures). 2016 break: before 2016 the table holds only injured and killed people, so this is not comparable across 2016.
 	measure 'Persons Involved' = CALCULATE([Person Records], NOT 'Dim Person'[Person Role] IN {"Registrant","Witness","Owner","Notified Person","Policy Holder"})
 		formatString: #,0
-		displayFolder: Volume
+		displayFolder: _Measures\Volume
 
 	/// Injured people counted from person records (Is Injured). From recorded injured persons, not the reported injury counts on the crash record (Total Persons Injured), which differ. Sliceable by person attributes.
 	measure 'Injured Persons (Person-Level)' = CALCULATE([Person Records], 'Fact Crash Persons'[Is Injured] = TRUE())
 		formatString: #,0
-		displayFolder: Recorded Casualties
+		displayFolder: _Measures\Recorded Casualties
 
 	/// Killed people counted from person records (Is Killed). From recorded injured persons, not the reported injury counts on the crash record (Total Persons Killed), which differ. Sliceable by person attributes.
 	measure 'Killed Persons (Person-Level)' = CALCULATE([Person Records], 'Fact Crash Persons'[Is Killed] = TRUE())
 		formatString: #,0
-		displayFolder: Recorded Casualties
+		displayFolder: _Measures\Recorded Casualties
 
 	/// Average Person Age over person records with a known age (blank ages are ignored), all Person Roles. Source: person records (the source of the recorded injured persons figures). 2016 break: before 2016 the table holds only injured and killed people, so this is not comparable across 2016.
 	measure 'Average Age' = AVERAGE('Fact Crash Persons'[Person Age])
 		formatString: #,0.00
-		displayFolder: Demographics
+		displayFolder: _Measures\Demographics
 
 	/// Average Person Age of killed people (Is Killed) with a known age. From recorded injured persons.
 	measure 'Average Age of Killed' = CALCULATE([Average Age], 'Fact Crash Persons'[Is Killed] = TRUE())
 		formatString: #,0.00
-		displayFolder: Demographics
+		displayFolder: _Measures\Demographics
 
 	/// Injured or killed people with a known Person Age below 18. Blank ages are excluded (DAX treats BLANK < 18 as true). From recorded injured persons.
 	measure 'Child Casualties (<18)' =
@@ -40,7 +40,7 @@ table 'Fact Crash Persons'
 				KEEPFILTERS(FILTER(ALL('Fact Crash Persons'[Is Injured], 'Fact Crash Persons'[Is Killed]), 'Fact Crash Persons'[Is Injured] || 'Fact Crash Persons'[Is Killed]))
 			)
 		formatString: #,0
-		displayFolder: Demographics
+		displayFolder: _Measures\Demographics
 
 	/// Share of people ejected or partially ejected. Denominator: person records with a known ejection status (Ejected, Partially Ejected, Not Ejected, Trapped); blank, Unknown and Does Not Apply are excluded. Source: person records (the source of the recorded injured persons figures). 2016 break: before 2016 the table holds only injured and killed people, so this is not comparable across 2016.
 	measure 'Ejection Rate %' =
@@ -49,12 +49,12 @@ table 'Fact Crash Persons'
 				CALCULATE([Person Records], 'Dim Person'[Ejection] IN {"Ejected","Partially Ejected","Not Ejected","Trapped"})
 			)
 		formatString: 0.0%
-		displayFolder: Rates
+		displayFolder: _Measures\Rates
 
 	/// Share of people involved who were killed. Numerator Killed Persons (Person-Level), denominator Persons Involved. Source: person records (the source of the recorded injured persons figures). 2016 break: before 2016 the table holds only injured and killed people, so this is not comparable across 2016.
 	measure 'Person Fatality Rate %' = DIVIDE([Killed Persons (Person-Level)], [Persons Involved])
 		formatString: 0.0%
-		displayFolder: Rates
+		displayFolder: _Measures\Rates
 
 	column collision_id
 		dataType: int64
