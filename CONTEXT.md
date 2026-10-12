@@ -21,6 +21,7 @@ Seeded 2026-09-18 from existing artifacts. Terms not yet grilled are marked *(un
 | **Injury crash** | A **Crash** with at least one injury in its **Reported injury counts** (`Persons Injured` > 0). Counted once however many people were hurt; measure `Injury Crashes`. One of the two **Severity** classes. |
 | **Fatal crash** | A **Crash** with at least one death in its **Reported injury counts** (`Persons Killed` > 0). Counted once however many people died; measure `Fatal Crashes`. The other **Severity** class; a crash can be both. |
 | **Recorded injured person** | A **Person** flagged injured or killed on their own record. Can disagree with **Reported injury counts** for the same crash; neither silently replaces the other. |
+| **Occupancy** | The number of people in a **Vehicle**, as reported on the vehicle record (`Vehicle Occupants`). BLANK means unreported, not 0, and is excluded from averages: `Avg Occupants per Vehicle` divides by `Vehicles with Occupant Data`, shown beside `Occupant Data Coverage %`. Values above 100 load as NULL in the ETL (since 2026-08-01; 21–100 is legitimate bus traffic). Almost unreported before 2016. Defined 2026-10-12 by the measure layer. |
 
 ## Modeling
 
@@ -48,7 +49,7 @@ names, and so do the all-hidden tables `dim_factor_group` and `bridge_crash_fact
 | Model table | Warehouse table | Renamed visible columns (model ← Warehouse) |
 |---|---|---|
 | Fact Crashes | `fact_crashes` | Persons / Pedestrians / Cyclists / Motorists Injured, Killed ← `*_injured`, `*_killed` (hidden: aggregate through the `Total …` measures); Latitude, Longitude ← `latitude`, `longitude` |
-| Fact Crash Vehicles | `fact_crash_vehicle` | Vehicle Occupants ← `vehicle_occupants` |
+| Fact Crash Vehicles | `fact_crash_vehicle` | Vehicle Occupants ← `vehicle_occupants` (hidden: aggregate through `Total Occupants` and `Avg Occupants per Vehicle`) |
 | Fact Crash Persons | `fact_persons` | Person Age ← `person_age` (hidden: aggregate through `Average Age`, `Average Age of Killed` and `Child Casualties (<18)`); Is Injured, Is Killed ← `is_injured`, `is_killed` |
 | Dim Date | `dim_date` | Date ← `full_date`; Year, Quarter; Month Number ← `month`; Month ← `month_name`; Day of Month ← `day`; Day of Week Number ← `day_of_week`; Day of Week ← `day_name`; Is Weekend |
 | Dim Location | `dim_location` | Borough; ZIP Code ← `zip_code` |
@@ -101,7 +102,3 @@ names, and so do the all-hidden tables `dim_factor_group` and `bridge_crash_fact
 | **TDS endpoint** | Tabular Data Stream, the SQL Server wire protocol. The endpoint is the **host name** SQL clients connect to (`…datawarehouse.fabric.microsoft.com`), one per workspace, so it differs per stage. It appears as `endpoint` (pipeline JSON), "SQL connection string" (pipeline UI), `Server` (Direct Lake on SQL data source) and `properties.connectionString` (REST). It's free text, not an ID, so it's never rehydrated or autobound; pipelines read it from `vl_NYC_Crashes.warehouse_endpoint` (ADR-0003). |
 | **Endpoint host prefix** | The TDS host's first label, `<tenant>-<workspace>`: two GUIDs, each base32-encoded (lowercase, no padding) to fit DNS's 63-character label limit and a one-level wildcard certificate. Reversible, not secret. The tenant half is the same in every stage; the workspace half differs. 
 **How to tell them apart.** The Warehouse ID and `artifactId` are the same value under two names, and they say *which item*. `workspaceId` says *which workspace* the item is in. The TDS endpoint says *which server to connect to*, as a host name, not a plain GUID. The connection ID says *whose credentials*. Only the first three change automatically between stages.
-
-## Open terms *(unconfirmed)*
-
-- **Occupancy** — `vehicle_occupants` is capped in the ETL: values above 100 load as NULL (since 2026-08-01; 21–100 is legitimate bus traffic). No agreed definition of an occupancy measure yet.

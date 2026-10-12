@@ -10,11 +10,11 @@
 
 | Step | Description | Owner | Done when | Status |
 |---|---|---|---|---|
-| 1 | Pull current Dev model state via MCP; confirm ticket 01's measures are live | CC | Recorded in Comments | todo |
-| 2 | Prove the `Avg Vehicles per Crash` guard as a query-scoped measure before authoring it | CC | BLANK by Vehicle Type and a value by Borough, both recorded in Comments | todo |
-| 3 | Add the 8 measures to the `Fact Crash Vehicles` TMDL with format strings, display folders (`Volume`, `Occupancy`, `Vehicle & Driver`) and `///` descriptions; hide Vehicle Occupants | CC | TMDL diff shows exactly 8 measures and Vehicle Occupants hidden | todo |
-| 4 | Update the Measures section and the Vehicle Occupants column note in the semantic model doc; settle the *Occupancy* term in `CONTEXT.md` | CC | Occupancy no longer marked unconfirmed | todo |
-| 5 | Commit locally (`model_factcrashvehicle_measures`) | CC | Commit exists; working tree clean | todo |
+| 1 | Pull current Dev model state via MCP; confirm ticket 01's measures are live | CC | Recorded in Comments | done |
+| 2 | Prove the `Avg Vehicles per Crash` guard as a query-scoped measure before authoring it | CC | BLANK by Vehicle Type and a value by Borough, both recorded in Comments | done |
+| 3 | Add the 8 measures to the `Fact Crash Vehicles` TMDL with format strings, display folders (`Volume`, `Occupancy`, `Vehicle & Driver`) and `///` descriptions; hide Vehicle Occupants | CC | TMDL diff shows exactly 8 measures and Vehicle Occupants hidden | done |
+| 4 | Update the Measures section and the Vehicle Occupants column note in the semantic model doc; settle the *Occupancy* term in `CONTEXT.md` | CC | Occupancy no longer marked unconfirmed | done |
+| 5 | Commit locally (`model_factcrashvehicle_measures`) | CC | Commit exists; working tree clean | done |
 | 6 | Push to ADO; Dev Source Control → Update All | Pat | Nothing pending for the semantic model | todo |
 | 7 | `refresh_semantic_model` on Dev to frame | CC | Refresh completes | todo |
 | 8 | Metadata check: 8 vehicle measures, each with description, format string and display folder; Vehicle Occupants hidden | CC | All hold | todo |
@@ -23,3 +23,31 @@
 | 11 | Run `/dax-smoke-test` on Dev | CC | All checks pass | todo |
 
 ## Comments
+
+**2026-10-12 — CC, step 1.** Live Dev (`INFO.VIEW.MEASURES` / `INFO.VIEW.COLUMNS`): ticket 01's 21
+`Fact Crashes` measures (2 hidden) and ticket 02's 9 `Fact Crash Persons` measures all `Valid`;
+`Fact Crash Vehicles` has no measures and Vehicle Occupants visible. Matches git. Driver License
+Status values: Licensed 2,018,943 · Unlicensed 44,164 · Permit 20,747 · blank 2,456,358 · 13
+abbreviated codes (VAL 10,014 and others, ~10.8k), as the spec says.
+
+**2026-10-12 — CC, step 2 (test-first).** All 8 measures run first as query-scoped `DEFINE MEASURE`
+against Dev. Guard: `Avg Vehicles per Crash` BLANK for the top 5 Vehicle Types, the top 3 Driver
+License Statuses and all 21,430 `Dim Vehicle Circumstance` rows; by Borough it equals the independent
+`COUNTROWS` ratio in all 6 boroughs (total 2.01). The other measures vs independent
+`COUNTROWS`/`SUMX`/`COUNTX`/`AVERAGEX` by `Dim Date`[Year]: 15 years, all match, including the
+`Unlicensed Driver %` denominator (vehicles minus non-Licensed/Unlicensed/Permit). All years: 4,551,002
+vehicles, 3,118,066 occupants over 2,720,205 vehicles with data (1.15 per vehicle, 59.8% coverage).
+Occupant and license data are near-absent before 2016 (2012: 49 vehicles with occupants, 35 known
+statuses), so both are flagged as a 2016 break in the descriptions. Avg Vehicle Age 2012 → 2026 =
+5.21 → 8.12; Unlicensed Driver % 2025 = 3.1%, both matching the spec's figures.
+
+**2026-10-12 — CC, steps 3–4.** `Fact Crash Vehicles.tmdl`: 8 measures plus `isHidden` on Vehicle
+Occupants. Docs: semantic model doc (Measures section, Fact Crash Vehicles row), `CONTEXT.md`
+(*Occupancy* moved from open terms into the source-domain glossary; Vehicle Occupants mapping).
+
+**2026-10-12 — CC, code review (standards + spec) applied.** Status label kept canonical
+(`ready-for-agent`); descriptions now all say "Source: vehicle records" and use one 2016-break
+wording on the four occupancy measures and `Unlicensed Driver %`; spec ‡ mark on
+`Avg Vehicles per Crash` cleared. Not taken: pointing the guard description at ADR-0005 instead of
+naming the three dimensions (the field-list tooltip should say when it goes BLANK), a known-status
+flag on `Dim Driver` and a `vehicle_age` ETL column (new columns and Warehouse changes are out of scope).

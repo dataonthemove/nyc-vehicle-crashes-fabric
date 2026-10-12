@@ -28,7 +28,7 @@ mapping is in [`CONTEXT.md`](../../CONTEXT.md). Every `_key` and `_id` column is
 | Table | Role | Grain | Visible columns and notes |
 |---|---|---|---|
 | **Fact Crashes** (`fact_crashes`) | Header fact | One crash | Latitude, Longitude. The additive casualty counts Persons / Pedestrians / Cyclists / Motorists × Injured / Killed are **hidden**: aggregate them through the `Total …` measures. `collision_id` is a hidden degenerate dimension |
-| **Fact Crash Vehicles** (`fact_crash_vehicle`) | Line fact | One vehicle in a crash | Vehicle Occupants: BLANK when unreported, not 0. Header keys `date_key`, `location_key`, `factor_group_key` and `collision_id` are copied from its crash |
+| **Fact Crash Vehicles** (`fact_crash_vehicle`) | Line fact | One vehicle in a crash | Vehicle Occupants is **hidden**: aggregate it through `Total Occupants` and `Avg Occupants per Vehicle`. It is BLANK when unreported, not 0, and the ETL loads values above 100 as NULL. Header keys `date_key`, `location_key`, `factor_group_key` and `collision_id` are copied from its crash |
 | **Fact Crash Persons** (`fact_persons`) | Line fact | One person in a crash | Is Injured, Is Killed. Person Age is **hidden**: aggregate it through `Average Age`, `Average Age of Killed` and `Child Casualties (<18)`. It is BLANK when unknown — the ETL loads ages below 0 or above 110 as NULL, and 0 as NULL unless Person Role is Passenger or Pedestrian (real infants). Header keys copied from its crash, as above |
 | `bridge_crash_factor` | Bridge | One factor group × factor pair | All columns hidden. Resolves the many-to-many between a crash's factor set and its contributing factors |
 | `dim_factor_group` | Dimension | One distinct set of contributing factors | All columns hidden; `factor_set_hash` identifies the set. One empty-set group, with no bridge rows, covers crashes with no specified factor |
@@ -83,8 +83,8 @@ single direction except for one deliberate exception:
 
 ## Measures
 
-Explicit measures are the only aggregate surface for the hidden casualty columns on Fact Crashes and
-for Person Age on Fact Crash Persons (Vehicle Occupants follows with the Fact Crash Vehicles measures).
+Explicit measures are the only aggregate surface for the hidden casualty columns on Fact Crashes,
+Person Age on Fact Crash Persons and Vehicle Occupants on Fact Crash Vehicles.
 Each measure lives on the fact table whose rows it counts, and carries a format string, a display
 folder and a `///` description naming its source. Spec: `.scratch/semantic-model-measures/spec.md`.
 
@@ -122,6 +122,22 @@ folder and a `///` description naming its source. Spec: `.scratch/semantic-model
   replaces the other.
 - `Child Casualties (<18)` excludes unknown ages; `Ejection Rate %` divides by known ejection
   statuses only (Ejected, Partially Ejected, Not Ejected, Trapped).
+
+**Fact Crash Vehicles** — 8 measures, from the vehicle record.
+
+| Display folder | Measures |
+|---|---|
+| Volume | Vehicles Involved, Avg Vehicles per Crash |
+| Occupancy | Total Occupants, Vehicles with Occupant Data, Avg Occupants per Vehicle, Occupant Data Coverage % |
+| Vehicle & Driver | Avg Vehicle Age at Crash, Unlicensed Driver % |
+
+- `Avg Vehicles per Crash` divides by `Total Crashes` and is BLANK whenever Dim Vehicle, Dim Driver
+  or Dim Vehicle Circumstance is cross-filtered: those filter only its numerator, and line → header
+  filtering is unsupported (ADR-0005).
+- `Avg Occupants per Vehicle` divides by vehicles with a reported occupant count only; read it with
+  `Occupant Data Coverage %`. Occupants and license status are almost unreported before 2016.
+- `Unlicensed Driver %` divides by Licensed, Unlicensed and Permit only; blank and the abbreviated
+  codes (VAL, SUS, REVOKE and others) are excluded from both sides.
 
 The `/dax-smoke-test` CC skill stays measure-free: it validates with `COUNTROWS` and key-level DAX.
 

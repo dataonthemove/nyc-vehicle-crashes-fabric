@@ -130,8 +130,8 @@ deployment pipeline. Only the semantic model is deployed; no Warehouse change is
 - **Line → header filtering stays unsupported** (ADR-0005). That's why `Avg Vehicles per Crash` returns
   BLANK whenever `Dim Vehicle`, `Dim Driver` or `Dim Vehicle Circumstance` is cross-filtered.
 - **The measure catalogue.** The DAX below came from the 2026-10-12 query-scoped prototype and encodes
-  each decision exactly. Measures marked † were changed in review and run against Dev. Measures marked ‡
-  have not been run yet.
+  each decision exactly. Measures marked † were changed in review and run against Dev. (The one measure
+  marked ‡, not run at drafting, was `Avg Vehicles per Crash`; ticket 03 ran it on 2026-10-12.)
 
   | Table | Measure | DAX |
   |---|---|---|
@@ -166,7 +166,7 @@ deployment pipeline. Only the semantic model is deployed; no Warehouse change is
   | Fact Crash Persons | Ejection Rate % † | `DIVIDE(CALCULATE([Person Records], 'Dim Person'[Ejection] IN {"Ejected","Partially Ejected"}), CALCULATE([Person Records], 'Dim Person'[Ejection] IN {"Ejected","Partially Ejected","Not Ejected","Trapped"}))` |
   | Fact Crash Persons | Person Fatality Rate % | `DIVIDE([Killed Persons (Person-Level)], [Persons Involved])` |
   | Fact Crash Vehicles | Vehicles Involved | `COUNTROWS('Fact Crash Vehicles')` |
-  | Fact Crash Vehicles | Avg Vehicles per Crash † ‡ | `IF(ISCROSSFILTERED('Dim Vehicle') \|\| ISCROSSFILTERED('Dim Driver') \|\| ISCROSSFILTERED('Dim Vehicle Circumstance'), BLANK(), DIVIDE([Vehicles Involved], [Total Crashes]))` |
+  | Fact Crash Vehicles | Avg Vehicles per Crash † | `IF(ISCROSSFILTERED('Dim Vehicle') \|\| ISCROSSFILTERED('Dim Driver') \|\| ISCROSSFILTERED('Dim Vehicle Circumstance'), BLANK(), DIVIDE([Vehicles Involved], [Total Crashes]))` |
   | Fact Crash Vehicles | Total Occupants | `SUM('Fact Crash Vehicles'[Vehicle Occupants])` |
   | Fact Crash Vehicles | Vehicles with Occupant Data | `CALCULATE([Vehicles Involved], NOT ISBLANK('Fact Crash Vehicles'[Vehicle Occupants]))` |
   | Fact Crash Vehicles | Avg Occupants per Vehicle | `DIVIDE([Total Occupants], [Vehicles with Occupant Data])` |
