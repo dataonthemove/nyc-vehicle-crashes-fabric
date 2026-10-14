@@ -8,6 +8,8 @@
   },
   "permissions": {
     "allow": [
+      "Bash(powerbi-report-author *)",
+      "Bash(powerbi-desktop *)",
       "mcp__ms-fabric-mcp-server__execute_dax_query",
       "mcp__ms-fabric-mcp-server__get_dataflow_definition",
       "mcp__ms-fabric-mcp-server__get_item",

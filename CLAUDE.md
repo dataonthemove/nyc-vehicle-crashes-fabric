@@ -44,14 +44,20 @@ MCP servers: `ms-fabric-mcp-server` (Fabric REST) and `powerbi-modeling-mcp` (XM
   activity may write it. Consumers read it through that SQL endpoint.
   Warehouse `dbo.etl_watermark` is the legacy store; it stays in place and authoritative until the
   ingestion move (landing-zone Phase 6) cuts over, then is retired. Do not write both.
-- Report authoring: Fabric web UI only — Power BI Desktop is not used for report development.
-  Reason: `byConnection` + Warehouse-backed Direct Lake in PBID causes Direct Lake framing errors;
-  DirectQuery fallback is unavailable for Warehouse-backed models.
+- Report authoring: **code-first in Power BI Desktop** (ADR-0006). Thin PBIP reports, saved under
+  `2_dev/5_Reports/`, `byConnection` to the **Dev** semantic model → commit/push → Update All →
+  deployment pipeline. The pipeline auto-rebinds reports to each stage's model (verified in Test
+  2026-10-14), so the committed connection string always names Dev.
+  - Never `byPath`: it makes PBID host and rewrite the TMDL model.
+  - Do not edit git-managed reports in the Fabric web UI — one authoring surface, or the two drift.
+  - CC may author/edit PBIR files on disk via the `powerbi-authoring:powerbi-report-authoring`
+    skill; validate with `powerbi-report-author validate`, verify in PBID before committing.
+  - `.pbi/localSettings.json` and `.pbi/cache.abf` stay git-ignored.
   - Semantic model changes: local TMDL edits → commit/push to ADO → Fabric Source Control → Update All.
-  - Report changes: Fabric web UI → Fabric Source Control syncs to ADO automatically.
   - Repo folder `2_dev/4_Model/` is the authoritative source for semantic model development.
-  - Report definitions synced into the repo by Fabric Git Integration are read-only locally — never
-    author or edit report files on disk. (None are in the repo yet.)
+  - Self-service (citizen) reports never go in Test/Prod workspaces; they live in a separate
+    workspace on Build permission to the Prod model, and are adopted into `2_dev/5_Reports/` when
+    business-critical.
 
 ## Working Docs
 - Backlog: issues live under `.scratch/` per `docs/agents/issue-tracker.md`. Read open issues
