@@ -74,11 +74,10 @@ table 'Fact Crashes'
 		formatString: 0.0%
 		displayFolder: _Measures\Severity
 
-	/// DEPRECATED (demo, to be reverted). Reported deaths per 1,000 crashes. Numerator Total Persons Killed, denominator Total Crashes; from reported injury counts.
+	/// Reported deaths per 1,000 crashes. Numerator Total Persons Killed, denominator Total Crashes; from reported injury counts.
 	measure 'Fatalities per 1,000 Crashes' = DIVIDE([Total Persons Killed], [Total Crashes]) * 1000
 		formatString: #,0.00
-		isHidden
-		displayFolder: _Deprecated
+		displayFolder: _Measures\Severity
 
 	/// Share of reported deaths that are pedestrians or cyclists (the Vision Zero metric). Numerator Total Pedestrians Killed + Total Cyclists Killed, denominator Total Persons Killed; from reported injury counts.
 	measure 'Vulnerable Road User Fatality %' = DIVIDE([Total Pedestrians Killed] + [Total Cyclists Killed], [Total Persons Killed])
