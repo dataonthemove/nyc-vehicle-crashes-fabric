@@ -82,7 +82,7 @@ table 'Fact Crashes'
 	/// Share of reported deaths that are pedestrians or cyclists (the Vision Zero metric). Numerator Total Pedestrians Killed + Total Cyclists Killed, denominator Total Persons Killed; from reported injury counts.
 	measure 'Vulnerable Road User Fatality %' = DIVIDE([Total Pedestrians Killed] + [Total Cyclists Killed], [Total Persons Killed])
 		formatString: 0.0%
-		displayFolder: _Measures\Severity
+		displayFolder: _Deprecated
 
 	/// Crashes per calendar day. Denominator is every calendar day in the current Dim Date selection that falls between First Data Date and Last Data Date, not only days with crashes, so partial periods and rare factors compare fairly.
 	measure 'Avg Daily Crashes' =
