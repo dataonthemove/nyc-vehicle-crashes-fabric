@@ -1,0 +1,9 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definitionProperties/2.0.0/schema.json",
+  "version": "4.0",
+  "datasetReference": {
+    "byConnection": {
+      "connectionString": "Data Source=powerbi://api.powerbi.com/v1.0/myorg/2_NYC_VehicleCrashes_dev;initial catalog=NYC_VehicleCrashes_Semantic;access mode=readonly;integrated security=ClaimsToken;semanticmodelid=646ec529-eaaa-4d41-b3b0-a31c94355fdd"
+    }
+  }
+}

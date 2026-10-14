@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "NYC_CrashReports"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a3aaca01-c2a8-4a41-a226-e9d460ffc584"
+  }
+}
