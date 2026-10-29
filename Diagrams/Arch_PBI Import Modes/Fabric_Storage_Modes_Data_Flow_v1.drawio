@@ -1,0 +1,189 @@
+<mxfile host="Electron">
+  <diagram id="storage-modes-v1" name="Storage Modes v1">
+    <mxGraphModel dx="1998" dy="988" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1640" pageHeight="1520" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=22;align=left;verticalAlign=middle;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Power BI Storage Modes in Fabric — Import vs DirectQuery vs Direct Lake&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:13px&quot;&gt;Physical vs logical layers and data flow from OneLake files to the report (v1)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="1540" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lane0" parent="1" style="rounded=0;html=1;fillColor=#fafafa;strokeColor=#cccccc;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="990" width="420" x="280" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="head0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#333333;fontColor=#ffffff;strokeColor=none;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b style=&quot;font-size:16px&quot;&gt;IMPORT&lt;/b&gt;&lt;br&gt;Copy the data into the model" vertex="1">
+          <mxGeometry height="64" width="420" x="280" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="lane1" parent="1" style="rounded=0;html=1;fillColor=#fafafa;strokeColor=#cccccc;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="990" width="420" x="720" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="head1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#333333;fontColor=#ffffff;strokeColor=none;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b style=&quot;font-size:16px&quot;&gt;DIRECTQUERY&lt;/b&gt;&lt;br&gt;Query the source live, per visual" vertex="1">
+          <mxGeometry height="64" width="420" x="720" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="lane2" parent="1" style="rounded=0;html=1;fillColor=#fafafa;strokeColor=#cccccc;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="990" width="420" x="1160" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="head2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#333333;fontColor=#ffffff;strokeColor=none;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b style=&quot;font-size:16px&quot;&gt;DIRECT LAKE&lt;/b&gt;&lt;br&gt;Load Delta columns into memory on demand" vertex="1">
+          <mxGeometry height="64" width="420" x="1160" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="tA" parent="1" style="text;html=1;fontSize=13;align=right;verticalAlign=middle;spacingRight=10;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;1 · Physical storage&lt;/b&gt;&lt;br&gt;&lt;i&gt;bytes on disk&lt;/i&gt;" vertex="1">
+          <mxGeometry height="80" width="220" x="40" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="tB" parent="1" style="text;html=1;fontSize=13;align=right;verticalAlign=middle;spacingRight=10;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;2 · Access path&lt;/b&gt;&lt;br&gt;&lt;i&gt;engine that reads the files&lt;/i&gt;" vertex="1">
+          <mxGeometry height="120" width="220" x="40" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="tC" parent="1" style="text;html=1;fontSize=13;align=right;verticalAlign=middle;spacingRight=10;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;3 · Refresh&lt;/b&gt;&lt;br&gt;&lt;i&gt;what a refresh actually does&lt;/i&gt;" vertex="1">
+          <mxGeometry height="120" width="220" x="40" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="tD" parent="1" style="text;html=1;fontSize=13;align=right;verticalAlign=middle;spacingRight=10;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;4 · Semantic model&lt;/b&gt;&lt;br&gt;&lt;i&gt;logical definition (+ physical data in Import)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="130" width="220" x="40" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="tE" parent="1" style="text;html=1;fontSize=13;align=right;verticalAlign=middle;spacingRight=10;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;5 · Query engine&lt;/b&gt;&lt;br&gt;&lt;i&gt;memory, at query time&lt;/i&gt;" vertex="1">
+          <mxGeometry height="130" width="220" x="40" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="tF" parent="1" style="text;html=1;fontSize=13;align=right;verticalAlign=middle;spacingRight=10;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;6 · Report&lt;/b&gt;&lt;br&gt;&lt;i&gt;what issues queries&lt;/i&gt;" vertex="1">
+          <mxGeometry height="70" width="220" x="40" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="A" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;OneLake — Delta tables (Parquet data files + _delta_log)&lt;/b&gt;&lt;br&gt;Lakehouse / Warehouse · the one physical copy shared by all three modes · Import adds a second copy inside the model" vertex="1">
+          <mxGeometry height="80" width="1300" x="280" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="iB" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Power Query (M)&lt;/b&gt;&lt;br&gt;reads via SQL analytics endpoint or Delta connector&lt;br&gt;Runs at refresh time only; transformations allowed" vertex="1">
+          <mxGeometry height="120" width="320" x="330" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="iC" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#fff2cc;strokeColor=#d6b656;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Refresh&lt;/b&gt; (scheduled / manual / API)&lt;br&gt;Full or incremental data copy; duration scales with volume; data stale between refreshes" vertex="1">
+          <mxGeometry height="120" width="320" x="330" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="iD" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Semantic model&lt;/b&gt;&lt;br&gt;Metadata: tables, relationships, measures &lt;i&gt;(logical)&lt;/i&gt;&lt;br&gt;&lt;b&gt;+ compressed columnar data copy&lt;/b&gt; persisted in model storage &lt;i&gt;(physical)&lt;/i&gt;" vertex="1">
+          <mxGeometry height="130" width="320" x="330" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="iE" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;VertiPaq (in memory)&lt;/b&gt;&lt;br&gt;Whole model resident (large format can page)&lt;br&gt;Formula engine evaluates DAX; storage engine scans compressed columns" vertex="1">
+          <mxGeometry height="130" width="320" x="330" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="iF" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#f5f5f5;strokeColor=#666666;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Power BI visual&lt;/b&gt;&lt;br&gt;page load, slicer or single visual → DAX query" vertex="1">
+          <mxGeometry height="70" width="320" x="330" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="qB" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#e1d5e7;strokeColor=#9673a6;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;SQL analytics endpoint / Warehouse engine&lt;/b&gt;&lt;br&gt;Executes generated T-SQL over the Delta files at query time" vertex="1">
+          <mxGeometry height="120" width="320" x="770" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="qC" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#fff2cc;strokeColor=#d6b656;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Refresh&lt;/b&gt;&lt;br&gt;Schema / metadata only — no data moves&lt;br&gt;Data is live at every query" vertex="1">
+          <mxGeometry height="120" width="320" x="770" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="qD" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#ffffff;strokeColor=#666666;dashed=1;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Semantic model&lt;/b&gt;&lt;br&gt;Metadata + connection to the SQL endpoint &lt;i&gt;(logical)&lt;/i&gt;&lt;br&gt;&lt;b&gt;No data held&lt;/b&gt;" vertex="1">
+          <mxGeometry height="130" width="320" x="770" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="qE" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Formula engine only&lt;/b&gt;&lt;br&gt;Translates each DAX query to T-SQL&lt;br&gt;No model data in VertiPaq" vertex="1">
+          <mxGeometry height="130" width="320" x="770" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="qF" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#f5f5f5;strokeColor=#666666;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Power BI visual&lt;/b&gt;&lt;br&gt;page load, slicer or single visual → DAX query" vertex="1">
+          <mxGeometry height="70" width="320" x="770" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="dB" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#e1d5e7;strokeColor=#9673a6;dashed=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;No SQL engine on the normal path&lt;/b&gt;&lt;br&gt;Fallback target only: SQL analytics endpoint (Direct Lake on SQL endpoints). Direct Lake on OneLake errors instead" vertex="1">
+          <mxGeometry height="120" width="320" x="1210" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="dC" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#fff2cc;strokeColor=#d6b656;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Framing&lt;/b&gt; (the &quot;refresh&quot;)&lt;br&gt;Records the latest Delta version — metadata only, seconds&lt;br&gt;Auto-updates, scheduled / manual, API" vertex="1">
+          <mxGeometry height="120" width="320" x="1210" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="dD" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#ffffff;strokeColor=#666666;dashed=1;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Semantic model&lt;/b&gt;&lt;br&gt;Metadata + Delta version pointer &lt;i&gt;(logical)&lt;/i&gt;&lt;br&gt;&lt;b&gt;No persisted data copy&lt;/b&gt;" vertex="1">
+          <mxGeometry height="130" width="320" x="1210" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="dE" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;VertiPaq (in memory)&lt;/b&gt;&lt;br&gt;Only columns queried so far (working set)&lt;br&gt;Cold columns evicted under pressure; all evicted on reframe" vertex="1">
+          <mxGeometry height="130" width="320" x="1210" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="dF" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=8;spacing=6;fillColor=#f5f5f5;strokeColor=#666666;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Power BI visual&lt;/b&gt;&lt;br&gt;page load, slicer or single visual → DAX query" vertex="1">
+          <mxGeometry height="70" width="320" x="1210" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="ia" edge="1" parent="1" source="A" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#d79b00;strokeWidth=2;exitX=0.1615;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="iB" value="Refresh reads rows">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ib" edge="1" parent="1" source="iB" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#d79b00;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="iC" value="Transformed rows">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ic" edge="1" parent="1" source="iC" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#d79b00;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="iD" value="Compressed columns persisted">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="id" edge="1" parent="1" source="iD" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="iE" value="Model loaded into memory">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ie" edge="1" parent="1" source="iE" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="iF" value="Results">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="if" edge="1" parent="1" source="iF" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#666666;dashed=1;exitX=0.7;exitY=0;exitDx=0;exitDy=0;entryX=0.7;entryY=1;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="iE" value="DAX">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qa" edge="1" parent="1" source="A" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="qB" value="Parquet read at query time">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qc" edge="1" parent="1" source="qC" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#666666;dashed=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="qD" value="Schema only">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qf" edge="1" parent="1" source="qF" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#666666;dashed=1;exitX=0.7;exitY=0;exitDx=0;exitDy=0;entryX=0.7;entryY=1;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="qE" value="DAX">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qs" edge="1" parent="1" source="qE" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#666666;dashed=1;exitX=0;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.33;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="qB" value="T-SQL per query">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="929" />
+              <mxPoint x="740" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qr" edge="1" parent="1" source="qB" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;exitX=1;exitY=0.67;exitDx=0;exitDy=0;entryX=1;entryY=0.7;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="qE" value="Result set">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="420" />
+              <mxPoint x="1120" y="981" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qe" edge="1" parent="1" source="qE" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="qF" value="Results">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="da" edge="1" parent="1" source="A" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#d79b00;strokeWidth=2;exitX=0.6923;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="dC" value="Reads _delta_log">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1180" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dc" edge="1" parent="1" source="dC" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#d79b00;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="dD" value="Version pointer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dt" edge="1" parent="1" source="A" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;exitX=0.9846;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="dE" value="Transcode queried columns on demand (Parquet → VertiPaq)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1560" y="955" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dd" edge="1" parent="1" source="dD" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#666666;dashed=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="dE" value="Pointer selects files">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="de" edge="1" parent="1" source="dE" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="dF" value="Results">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="df" edge="1" parent="1" source="dF" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#666666;dashed=1;exitX=0.7;exitY=0;exitDx=0;exitDy=0;entryX=0.7;entryY=1;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="dE" value="DAX">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dx" edge="1" parent="1" source="dE" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=12;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;strokeColor=#b85450;dashed=1;strokeWidth=2;exitX=0;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="dB" value="Fallback (guardrail exceeded)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1195" y="929" />
+              <mxPoint x="1195" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cmp" parent="1" style="text;html=1;whiteSpace=wrap;overflow=fill;verticalAlign=top;align=left;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;table style=&quot;width:100%;border-collapse:collapse;font-size:12px;&quot;&gt;&lt;tr&gt;&lt;th style=&quot;border:1px solid #999;padding:4px;background:#333;color:#fff;text-align:left;&quot;&gt;Aspect&lt;/th&gt;&lt;th style=&quot;border:1px solid #999;padding:4px;background:#333;color:#fff;text-align:left;&quot;&gt;Import&lt;/th&gt;&lt;th style=&quot;border:1px solid #999;padding:4px;background:#333;color:#fff;text-align:left;&quot;&gt;DirectQuery&lt;/th&gt;&lt;th style=&quot;border:1px solid #999;padding:4px;background:#333;color:#fff;text-align:left;&quot;&gt;Direct Lake&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;&lt;b&gt;Data held in model&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;Full compressed copy&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;None&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;None — Delta version pointer only&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;&lt;b&gt;Refresh moves data?&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;Yes — slow, volume-bound&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;No&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;No — framing in seconds&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;&lt;b&gt;Freshness&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;As of last refresh&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;Live&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;As of last framing (auto-updates ≈ near real time)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;&lt;b&gt;Query speed&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;Fastest — all in memory&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;Slowest — SQL per visual&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;Import-like once warm; first query pays transcoding&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;&lt;b&gt;Transformations&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;Power Query, calculated columns&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;Limited; pushed to source&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;None in model — shape upstream in Delta&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;&lt;b&gt;When too large&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;Capacity model-memory limit&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;Source-bound&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:4px;text-align:left;vertical-align:top;&quot;&gt;SKU guardrails → fallback to DirectQuery, or error&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="250" width="1300" x="280" y="1200" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;align=left;verticalAlign=top;spacing=8;fillColor=#ffffff;strokeColor=#999999;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Nodes&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;color:#6c8ebf;font-size:16px&quot;&gt;■&lt;/span&gt; Physical storage (OneLake)&lt;br&gt;&lt;span style=&quot;color:#9673a6;font-size:16px&quot;&gt;■&lt;/span&gt; Compute engine&lt;br&gt;&lt;span style=&quot;color:#d6b656;font-size:16px&quot;&gt;■&lt;/span&gt; Refresh step&lt;br&gt;&lt;span style=&quot;color:#d79b00;font-size:16px&quot;&gt;■&lt;/span&gt; Model holding persisted data&lt;br&gt;&lt;span style=&quot;font-size:16px&quot;&gt;□&lt;/span&gt; Dashed border = logical only (metadata)&lt;br&gt;&lt;span style=&quot;color:#82b366;font-size:16px&quot;&gt;■&lt;/span&gt; In memory (VertiPaq)&lt;br&gt;&lt;br&gt;&lt;b&gt;Arrows&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;color:#d79b00&quot;&gt;━━&lt;/span&gt; Refresh-time data&lt;br&gt;&lt;span style=&quot;color:#6c8ebf&quot;&gt;━━&lt;/span&gt; Query-time data&lt;br&gt;&lt;span style=&quot;color:#666666&quot;&gt;╍╍&lt;/span&gt; Request / metadata&lt;br&gt;&lt;span style=&quot;color:#b85450&quot;&gt;╍╍&lt;/span&gt; Fallback path" vertex="1">
+          <mxGeometry height="250" width="220" x="40" y="1200" as="geometry" />
+        </mxCell>
+        <mxCell id="copy" parent="1" style="text;html=1;fontSize=10;align=right;fontColor=#888888;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="© John P Brown 2026" vertex="1">
+          <mxGeometry height="24" width="1540" x="40" y="1470" as="geometry" />
+        </mxCell>
+        <mxCell id="CqnIDnYwlZSYT7XdEDGK-2" parent="1" style="text;whiteSpace=wrap;html=1;" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;OneLake&lt;/p&gt;" vertex="1">
+          <mxGeometry height="60" width="80" x="790" y="910" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

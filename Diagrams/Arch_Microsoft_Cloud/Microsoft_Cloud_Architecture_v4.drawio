@@ -1,0 +1,101 @@
+<mxfile host="Electron">
+  <diagram id="ms-cloud-v3" name="Microsoft Cloud Architecture v3">
+    <mxGraphModel dx="4737" dy="2289" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1310" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=15;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Microsoft Cloud — Big-Picture Architecture&lt;/b&gt;" vertex="1">
+          <mxGeometry height="40" width="1620" x="40" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=15;fontColor=#555555;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="How the tenant, Azure, Microsoft 365, Power Platform, Dynamics 365 and Fabric hang together · v3" vertex="1">
+          <mxGeometry height="28" width="1620" x="40" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="tenant" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#333333;strokeWidth=3;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;fontSize=15;" value="" vertex="1">
+          <mxGeometry height="980" width="1620" x="40" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="tenantLbl" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=15;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;MICROSOFT ENTRA TENANT&lt;/b&gt; — identity directory and access boundary; licensing and administration scopes vary by service (e.g. contoso.onmicrosoft.com) · &lt;i&gt;Admin: Microsoft Entra admin center&lt;/i&gt;" vertex="1">
+          <mxGeometry height="32" width="1200" x="60" y="97" as="geometry" />
+        </mxCell>
+        <mxCell id="aiBand" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;AI LAYER — Microsoft Copilot&lt;/b&gt; · M365 Copilot · Copilot in Fabric &amp;amp; Power BI · Copilot in D365 · Copilot Studio · Microsoft Foundry" vertex="1">
+          <mxGeometry height="40" width="1580" x="60" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="secBand" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;strokeWidth=2;fillColor=#f5f5f5;strokeColor=#666666;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;SECURITY &amp;amp; GOVERNANCE&lt;/b&gt; · Microsoft Purview (catalog, lineage, sensitivity labels, DLP) · Microsoft Defender XDR + Microsoft Sentinel (unifying in the Defender portal)" vertex="1">
+          <mxGeometry height="40" width="1580" x="60" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="idBand" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;IDENTITY — Microsoft Entra ID&lt;/b&gt; · users · groups · app registrations · service principals / managed identities · Conditional Access · SSO where supported and configured" vertex="1">
+          <mxGeometry height="45" width="1580" x="60" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="azure" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;fillOpacity=45;strokeColor=#0078D4;strokeWidth=3;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;fontSize=15;" value="" vertex="1">
+          <mxGeometry height="520" width="620" x="80" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="fabric" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;fillOpacity=45;strokeColor=#117865;strokeWidth=3;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;fontSize=15;" value="" vertex="1">
+          <mxGeometry height="420" width="480" x="520" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="pp" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;fillOpacity=45;strokeColor=#742774;strokeWidth=3;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;fontSize=15;" value="" vertex="1">
+          <mxGeometry height="380" width="440" x="860" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="m365" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;fillOpacity=45;strokeColor=#D83B01;strokeWidth=3;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;fontSize=15;" value="" vertex="1">
+          <mxGeometry height="320" width="440" x="1150" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="d365" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;fillOpacity=45;strokeColor=#5C2D91;strokeWidth=3;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;fontSize=15;" value="" vertex="1">
+          <mxGeometry height="330" width="440" x="1150" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="tAzure" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=15;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;&lt;font&gt;AZURE&lt;/font&gt;&lt;/b&gt;&lt;br&gt;IaaS / PaaS&lt;br&gt;&lt;br&gt;Subscriptions → Resource Groups → Resources&lt;br&gt;Compute · Networking · Storage (ADLS Gen2)&lt;br&gt;Azure SQL · Synapse · Azure Data Factory · Azure Databricks&lt;br&gt;Microsoft Foundry (incl. Azure OpenAI)&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Admin: Azure portal&lt;/font&gt;&lt;/i&gt;" vertex="1">
+          <mxGeometry height="150" width="320" x="170" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="tFabric" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=15;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;&lt;font&gt;MICROSOFT&lt;br&gt;FABRIC&lt;/font&gt;&lt;/b&gt;&lt;br&gt;SaaS analytics&lt;br&gt;&lt;br&gt;OneLake&lt;br&gt;Data Factory&lt;br&gt;Data Engineering&lt;br&gt;Warehouse&lt;br&gt;Real-Time Intelligence&lt;br&gt;Databases&lt;br&gt;Data Science&lt;br&gt;IQ&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Admin: Fabric admin portal&lt;/font&gt;&lt;/i&gt;" vertex="1">
+          <mxGeometry height="215" width="150" x="705" y="464.5" as="geometry" />
+        </mxCell>
+        <mxCell id="tPP" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=15;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;&lt;font&gt;POWER PLATFORM&lt;/font&gt;&lt;/b&gt;&lt;br&gt;Low-code&lt;br&gt;&lt;br&gt;Power Apps · Power Automate&lt;br&gt;Copilot Studio · Power Pages&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Admin: Power Platform admin center&lt;/font&gt;&lt;/i&gt;" vertex="1">
+          <mxGeometry height="100" width="190" x="1015" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="tM365" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=15;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;&lt;font&gt;MICROSOFT 365&lt;/font&gt;&lt;/b&gt;&lt;br&gt;Productivity &amp;amp; collaboration&lt;br&gt;&lt;br&gt;Exchange · SharePoint · OneDrive&lt;br&gt;Teams · Office apps&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Admin: Microsoft 365 admin center&lt;/font&gt;&lt;/i&gt;" vertex="1">
+          <mxGeometry height="105" width="240" x="1300" y="332.5" as="geometry" />
+        </mxCell>
+        <mxCell id="tD365" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=15;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;&lt;font&gt;DYNAMICS 365&lt;/font&gt;&lt;/b&gt;&lt;br&gt;Business applications (CRM / ERP)&lt;br&gt;&lt;br&gt;Sales · Customer Service · Field Service&lt;br&gt;Finance · Supply Chain · Business Central&lt;br&gt;&lt;i&gt;&lt;font color=&quot;#555555&quot;&gt;Admin: PPAC for many apps; other service-specific tools may apply&lt;/font&gt;&lt;/i&gt;" vertex="1">
+          <mxGeometry height="105" width="260" x="1290" y="742.5" as="geometry" />
+        </mxCell>
+        <mxCell id="oAzFab" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=15;fontStyle=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Fabric capacity&lt;/b&gt;&lt;br&gt;(F SKU) is an Azure resource&lt;br&gt;Mirroring · ADLS shortcuts" vertex="1">
+          <mxGeometry height="75" width="160" x="530" y="532.5" as="geometry" />
+        </mxCell>
+        <mxCell id="oFabPP" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=15;fontStyle=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Power BI&lt;/b&gt;&lt;br&gt;Fabric workload&lt;br&gt;&amp;amp; Power Platform&lt;br&gt;product" vertex="1">
+          <mxGeometry height="62" width="120" x="870" y="539" as="geometry" />
+        </mxCell>
+        <mxCell id="oPPM365" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=15;fontStyle=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Teams &amp;amp;&lt;br&gt;SharePoint&lt;/b&gt;&lt;br&gt;integration" vertex="1">
+          <mxGeometry height="44" width="110" x="1150" y="433" as="geometry" />
+        </mxCell>
+        <mxCell id="oPPD365" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=15;fontStyle=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Dataverse&lt;/b&gt;&lt;br&gt;(D365 CE apps&lt;br&gt;run on it)" vertex="1">
+          <mxGeometry height="46" width="110" x="1150" y="667" as="geometry" />
+        </mxCell>
+        <mxCell id="eD365Fab" edge="1" parent="1" source="d365" style="endArrow=block;endFill=1;html=1;strokeWidth=2;strokeColor=#333333;fontSize=15;labelBackgroundColor=#ffffff;edgeStyle=none;rounded=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="fabric" value="&lt;b&gt;Link to Fabric&lt;/b&gt;&lt;br&gt;Dataverse → OneLake">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1080" y="875" />
+              <mxPoint x="760" y="875" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eFabM365" edge="1" parent="1" source="fabric" style="endArrow=block;endFill=1;html=1;strokeWidth=2;strokeColor=#333333;fontSize=15;labelBackgroundColor=#ffffff;edgeStyle=none;rounded=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="m365" value="&lt;b&gt;Power BI content&lt;/b&gt; in Teams, Excel &amp;amp; PowerPoint">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="215" />
+              <mxPoint x="1250" y="215" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fillColor=#ffffff;strokeColor=#999999;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;KEY&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;div&gt;&lt;b&gt;Overlap &lt;/b&gt;= shared component or platform relationship&lt;br&gt;&lt;div&gt;&lt;b&gt;Solid arrow &lt;/b&gt;= integration / data flow&lt;br&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;b&gt;Horizontal band &lt;/b&gt;= cross-cutting capability (availability varies by service)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Microsoft SaaS services&amp;nbsp;&lt;/b&gt;generally run on Microsoft-managed cloud infrastructure&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="175" width="320" x="39" y="1090" as="geometry" />
+        </mxCell>
+        <mxCell id="billing" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fillColor=#ffffff;strokeColor=#999999;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;&lt;font&gt;BILLING &amp;amp; CAPACITY&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;font&gt;&lt;b&gt;&lt;br&gt;Azure — &lt;/b&gt;resource consumption through subscriptions&lt;/font&gt;&lt;div&gt;&lt;font&gt;&lt;b&gt;M365 / D365 / Power Platform / Power BI — &lt;/b&gt;user licences and/or capacity, depending on service&lt;/font&gt;&lt;div&gt;&lt;font&gt;&lt;b&gt;Fabric — &lt;/b&gt;F-SKU capacity provisioned through Azure; Power BI Pro / PPU are per-user licenses&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;&lt;b&gt;Copilot — &lt;/b&gt;licensing or capacity requirements vary by product&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="175" width="590" x="370" y="1090" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;fillColor=#ffffff;strokeColor=#999999;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;font&gt;&lt;b&gt;ADMIN PLANE&lt;/b&gt;&lt;/font&gt;&lt;div&gt;&lt;font&gt;&lt;span&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/span&gt;&lt;font&gt;&lt;b&gt;Entra admin center &lt;/b&gt;— directory, users, groups, app registrations, Conditional Access&lt;br&gt;&lt;/font&gt;&lt;/font&gt;&lt;div&gt;&lt;font&gt;&lt;b&gt;M365 admin center &lt;/b&gt;— users, licences, service health and billing for supported subscriptions; roles vary by service&lt;br&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;b&gt;Azure portal &lt;/b&gt;— subscriptions, resources and Azure billing (including Fabric F-SKU capacity)&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font&gt;&lt;b&gt;Power Platform admin center &lt;/b&gt;— environments, Dataverse and DLP; many Dynamics 365 apps&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font&gt;&lt;b&gt;Fabric admin portal &lt;/b&gt;— Fabric tenant settings and capacities&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font&gt;&lt;b&gt;Purview portal · Defender portal &lt;/b&gt;— governance · security; service-specific admin tools may also apply&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="175" width="679" x="980" y="1090" as="geometry" />
+        </mxCell>
+        <mxCell id="copy" parent="1" style="text;html=1;align=right;verticalAlign=middle;fontSize=12;fontColor=#777777;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="© John P Brown 2026" vertex="1">
+          <mxGeometry height="25" width="1620" x="40" y="1275" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
