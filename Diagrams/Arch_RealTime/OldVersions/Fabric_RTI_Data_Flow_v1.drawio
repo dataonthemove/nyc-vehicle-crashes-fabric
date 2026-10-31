@@ -1,0 +1,266 @@
+<mxfile host="Electron">
+  <diagram id="rti-dataflow-v1" name="RTI Data Flow v1">
+    <mxGraphModel dx="1183" dy="683" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1210" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=24;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Real-Time Intelligence in Microsoft Fabric — Data Flow &amp;amp; Component Relationships&lt;/b&gt;" vertex="1">
+          <mxGeometry height="40" width="1300" x="40" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=13;fontColor=#555555;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Left → right = direction of data. Revised from Microsoft&#39;s overview graphic; status as of Oct 2026." vertex="1">
+          <mxGeometry height="24" width="1300" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hub" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;REAL-TIME HUB&lt;/b&gt; — tenant-wide catalog &amp;amp; control plane (stores no data): discover data streams, Fabric / Azure / business events and KQL tables · connect sources · subscribe · set alerts" vertex="1">
+          <mxGeometry height="62" width="1510" x="40" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" parent="1" style="swimlane;html=1;startSize=32;fillColor=#f5f5f5;strokeColor=#666666;swimlaneFillColor=#ffffff;fontSize=15;fontStyle=1;fontFamily=Helvetica;rounded=1;arcSize=3;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="1 · Sources" vertex="1">
+          <mxGeometry height="680" width="230" x="40" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" parent="1" style="swimlane;html=1;startSize=32;fillColor=#dae8fc;strokeColor=#6c8ebf;swimlaneFillColor=#ffffff;fontSize=15;fontStyle=1;fontFamily=Helvetica;rounded=1;arcSize=3;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="2 · Ingest &amp; Process" vertex="1">
+          <mxGeometry height="680" width="250" x="310" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="1" style="swimlane;html=1;startSize=32;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#ffffff;fontSize=15;fontStyle=1;fontFamily=Helvetica;rounded=1;arcSize=3;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="3 · Store &amp; Analyse" vertex="1">
+          <mxGeometry height="680" width="300" x="610" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="1" style="swimlane;html=1;startSize=32;fillColor=#e1d5e7;strokeColor=#9673a6;swimlaneFillColor=#ffffff;fontSize=15;fontStyle=1;fontFamily=Helvetica;rounded=1;arcSize=3;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="4 · Query &amp; Visualise" vertex="1">
+          <mxGeometry height="380" width="260" x="960" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" parent="1" style="swimlane;html=1;startSize=32;fillColor=#f8cecc;strokeColor=#b85450;swimlaneFillColor=#ffffff;fontSize=15;fontStyle=1;fontFamily=Helvetica;rounded=1;arcSize=3;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="5 · Act" vertex="1">
+          <mxGeometry height="460" width="280" x="1270" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Streaming brokers&lt;/b&gt;&lt;br&gt;Event Hubs · IoT Hub · Kafka / Confluent · Kinesis · Pub/Sub · MQTT" vertex="1">
+          <mxGeometry height="72" width="210" x="50" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Database CDC&lt;/b&gt;&lt;br&gt;Azure SQL · SQL Server · PostgreSQL · MySQL · Cosmos DB · MongoDB · Oracle†" vertex="1">
+          <mxGeometry height="72" width="210" x="50" y="331" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Mirrored DB change feed&lt;/b&gt;†&lt;br&gt;(Delta CDF from Fabric Mirroring)" vertex="1">
+          <mxGeometry height="72" width="210" x="50" y="417" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Fabric events&lt;/b&gt;&lt;br&gt;workspace item · job · OneLake · capacity" vertex="1">
+          <mxGeometry height="72" width="210" x="50" y="503" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Azure events&lt;/b&gt;&lt;br&gt;Blob Storage · Event Grid namespace" vertex="1">
+          <mxGeometry height="72" width="210" x="50" y="589" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Business events&lt;/b&gt;†&lt;br&gt;published from Fabric items / UDFs" vertex="1">
+          <mxGeometry height="72" width="210" x="50" y="675" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Custom endpoint&lt;/b&gt;&lt;br&gt;apps &amp;amp; SDKs (Event Hubs · Kafka · AMQP)" vertex="1">
+          <mxGeometry height="72" width="210" x="50" y="761" as="geometry" />
+        </mxCell>
+        <mxCell id="es" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;EVENTSTREAM&lt;/b&gt;&lt;br&gt;&lt;br&gt;Capture → transform → route&lt;br&gt;&lt;br&gt;No-code operators: filter · manage fields · aggregate · group by · join · union · expand&lt;br&gt;&lt;br&gt;SQL operator&lt;br&gt;DeltaFlow CDC shaping†&lt;br&gt;&lt;br&gt;Built on managed Event Hubs (Kafka-compatible)" vertex="1">
+          <mxGeometry height="300" width="220" x="325" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="ds" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Derived stream&lt;/b&gt;&lt;br&gt;transformed output, republished to Real-Time Hub" vertex="1">
+          <mxGeometry height="60" width="220" x="325" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="spark" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Spark notebook / job&lt;/b&gt;&lt;br&gt;Structured Streaming via Eventstream adapter†" vertex="1">
+          <mxGeometry height="72" width="220" x="325" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="eh" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;EVENTHOUSE&lt;/b&gt;&lt;br&gt;(one or more KQL databases)&lt;br&gt;&lt;br&gt;Tables · update policies · materialized views · functions · hot / cold cache&lt;br&gt;&lt;br&gt;Query in KQL or T-SQL&lt;br&gt;&lt;br&gt;Also ingests directly via &#39;Get data&#39; (e.g. Event Hubs) without Eventstream" vertex="1">
+          <mxGeometry height="245" width="240" x="640" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="dtb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Digital twin builder&lt;/b&gt;†&lt;br&gt;asset ontology: map &amp;amp; contextualise lake data; output consumable in Power BI / RT Dashboards" vertex="1">
+          <mxGeometry height="95" width="240" x="640" y="525" as="geometry" />
+        </mxCell>
+        <mxCell id="lh" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Lakehouse&lt;/b&gt;&lt;br&gt;Delta tables (history, reference &amp;amp; batch data)" vertex="1">
+          <mxGeometry height="100" width="240" x="640" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="kqs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;KQL Queryset&lt;/b&gt;&lt;br&gt;saved / shared KQL &amp;amp; T-SQL queries" vertex="1">
+          <mxGeometry height="60" width="220" x="980" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="rtd" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Real-Time Dashboard&lt;/b&gt;&lt;br&gt;KQL tiles, live update" vertex="1">
+          <mxGeometry height="60" width="220" x="980" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="pbi" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Power BI&lt;/b&gt;&lt;br&gt;DirectQuery to KQL DB, or Direct Lake via OneLake" vertex="1">
+          <mxGeometry height="70" width="220" x="980" y="405" as="geometry" />
+        </mxCell>
+        <mxCell id="maps" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Fabric Maps&lt;/b&gt;&lt;br&gt;geospatial layers over KQL / lake data" vertex="1">
+          <mxGeometry height="60" width="220" x="980" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="act" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;ACTIVATOR&lt;/b&gt;&lt;br&gt;&lt;br&gt;Models business objects from events; evaluates rules per object; fires on state transitions (thresholds, changes, absence of data)" vertex="1">
+          <mxGeometry height="215" width="240" x="1290" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="acts" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Actions&lt;/b&gt;&lt;br&gt;Teams message · email&lt;br&gt;Power Automate flow&lt;br&gt;Run Fabric item: pipeline · notebook · Spark job · UDF" vertex="1">
+          <mxGeometry height="120" width="240" x="1290" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="iq" parent="1" style="swimlane;html=1;startSize=32;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#ffffff;fontSize=15;fontStyle=1;fontFamily=Helvetica;rounded=1;arcSize=3;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Fabric IQ (adjacent workload — consumes RTI data)" vertex="1">
+          <mxGeometry height="190" width="590" x="960" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="onto" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Ontology&lt;/b&gt;†&lt;br&gt;entities, relationships &amp;amp; rules bound to Eventhouse / Lakehouse data; grounds agents" vertex="1">
+          <mxGeometry height="120" width="180" x="975" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="dagent" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Data agent&lt;/b&gt;&lt;br&gt;natural-language Q&amp;amp;A; Eventhouse remote MCP for external agents" vertex="1">
+          <mxGeometry height="120" width="180" x="1165" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="opsagent" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Operations agent&lt;/b&gt;‡&lt;br&gt;monitors KQL data, recommends / executes actions" vertex="1">
+          <mxGeometry height="120" width="180" x="1355" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="ol" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=13;fontFamily=Helvetica;align=center;verticalAlign=middle;spacing=6;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;ONELAKE&lt;/b&gt; — single logical lake under every Fabric item · Eventhouse &lt;i&gt;OneLake availability&lt;/i&gt; writes KQL tables as Delta (readable by Lakehouse, Warehouse, Spark, Power BI Direct Lake) · Eventhouse &lt;i&gt;accelerated shortcuts&lt;/i&gt; query lake Delta in place" vertex="1">
+          <mxGeometry height="62" width="1510" x="40" y="925" as="geometry" />
+        </mxCell>
+        <mxCell id="e_src_es" edge="1" parent="1" source="c1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.2647;exitDx=0;exitDy=0;entryX=0;entryY=0.45;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="es" value="events">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_s4_act" edge="1" parent="1" source="s4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="act" value="Fabric &amp; Azure events direct to Activator (no Eventstream)">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="545" />
+              <mxPoint x="290" y="172" />
+              <mxPoint x="1470" y="172" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_es_eh" edge="1" parent="1" source="es" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.1833;exitDx=0;exitDy=0;entryX=0;entryY=0.2245;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="eh" value="Eventhouse&lt;br&gt;destination">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_es_act" edge="1" parent="1" source="es" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=0.8409;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="act" value="Activator destination">
+          <mxGeometry relative="1" x="0.3" as="geometry">
+            <Array as="points">
+              <mxPoint x="510" y="186" />
+              <mxPoint x="1350" y="186" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_es_ds" edge="1" parent="1" source="es" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="ds" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_es_lh" edge="1" parent="1" source="es" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.9333;exitDx=0;exitDy=0;entryX=0;entryY=0.4;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="lh" value="Lakehouse&lt;br&gt;destination">
+          <mxGeometry relative="1" x="0.1" as="geometry">
+            <Array as="points">
+              <mxPoint x="585" y="525" />
+              <mxPoint x="585" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_es_sp" edge="1" parent="1" source="es" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=0;exitY=0.9167;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="spark" value="read stream†">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="520" />
+              <mxPoint x="300" y="726" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_sp_lh" edge="1" parent="1" source="spark" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.6944;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="lh" value="write Delta">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_lh_eh" edge="1" parent="1" source="lh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=0;exitY=0.12;exitDx=0;exitDy=0;entryX=0;entryY=0.8776;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="eh" value="accelerated&lt;br&gt;shortcut">
+          <mxGeometry relative="1" x="0.75" as="geometry">
+            <mxPoint x="-30" as="offset" />
+            <Array as="points">
+              <mxPoint x="625" y="672" />
+              <mxPoint x="625" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_lh_dtb" edge="1" parent="1" source="lh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="dtb" value="asset data mapped">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_eh_kqs" edge="1" parent="1" source="eh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.1224;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="kqs" value="query">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_eh_rtd" edge="1" parent="1" source="eh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.449;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="rtd" value="query">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_eh_pbi" edge="1" parent="1" source="eh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.7959;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="pbi" value="query">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_eh_maps" edge="1" parent="1" source="eh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.8612;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="maps" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="945" y="456" />
+              <mxPoint x="945" y="525" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_eh_iq" edge="1" parent="1" source="eh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.9265;exitDx=0;exitDy=0;entryX=0;entryY=0.5789;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="iq" value="KQL / MCP&lt;br&gt;access">
+          <mxGeometry relative="1" x="0.1" as="geometry">
+            <Array as="points">
+              <mxPoint x="925" y="472" />
+              <mxPoint x="925" y="800" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_eh_ol" edge="1" parent="1" source="eh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.9837;exitDx=0;exitDy=0;entryX=0.5662;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="ol" value="OneLake&lt;br&gt;availability&lt;br&gt;(Delta)">
+          <mxGeometry relative="1" x="0.75" as="geometry">
+            <mxPoint x="-48" as="offset" />
+            <Array as="points">
+              <mxPoint x="895" y="486" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_act_acts" edge="1" parent="1" source="act" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#333333;strokeWidth=2;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="acts" value="fires">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_hub_src" edge="1" parent="1" source="hub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7f7f7f;strokeWidth=1.5;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=6 4;endArrow=open;exitX=0.0762;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="c1" value="catalogs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_hub_es" edge="1" parent="1" source="hub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7f7f7f;strokeWidth=1.5;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=6 4;endArrow=open;exitX=0.2384;exitY=1;exitDx=0;exitDy=0;entryX=0.3409;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="es" value="connect / subscribe">
+          <mxGeometry relative="1" x="-0.8" as="geometry" />
+        </mxCell>
+        <mxCell id="r_hub_eh" edge="1" parent="1" source="hub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7f7f7f;strokeWidth=1.5;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=6 4;endArrow=open;exitX=0.4768;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="eh" value="browse KQL tables">
+          <mxGeometry relative="1" x="-0.8" as="geometry" />
+        </mxCell>
+        <mxCell id="r_hub_act" edge="1" parent="1" source="hub" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7f7f7f;strokeWidth=1.5;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=6 4;endArrow=open;exitX=0.9603;exitY=1;exitDx=0;exitDy=0;entryX=0.8333;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="act" value="set alert">
+          <mxGeometry relative="1" x="-0.8" as="geometry" />
+        </mxCell>
+        <mxCell id="r_kqs_act" edge="1" parent="1" source="kqs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7f7f7f;strokeWidth=1.5;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=6 4;endArrow=open;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.1395;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="act" value="alert rule">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_rtd_act" edge="1" parent="1" source="rtd" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7f7f7f;strokeWidth=1.5;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=6 4;endArrow=open;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5116;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="act" value="alert rule">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_pbi_act" edge="1" parent="1" source="pbi" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7f7f7f;strokeWidth=1.5;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=6 4;endArrow=open;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.907;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="act" value="alert on visual">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_ops_acts" edge="1" parent="1" source="opsagent" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7f7f7f;strokeWidth=1.5;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=6 4;endArrow=open;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.6458;entryY=1;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="acts" value="acts via&lt;br&gt;Power Automate">
+          <mxGeometry relative="1" x="0.4" as="geometry">
+            <mxPoint x="55" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r_lh_ol" edge="1" parent="1" source="lh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7f7f7f;strokeWidth=1.5;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=6 4;endArrow=open;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.4768;entryY=0;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="ol" value="stored in">
+          <mxGeometry relative="1" x="-0.3" as="geometry" />
+        </mxCell>
+        <mxCell id="r_onto_dag" edge="1" parent="1" source="onto" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#7f7f7f;strokeWidth=1.5;fontSize=11;fontFamily=Helvetica;labelBackgroundColor=#ffffff;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=6 4;endArrow=open;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" target="dagent" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="leg" parent="1" style="swimlane;html=1;startSize=32;fillColor=#f5f5f5;strokeColor=#666666;swimlaneFillColor=#ffffff;fontSize=15;fontStyle=1;fontFamily=Helvetica;rounded=1;arcSize=3;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Legend" vertex="1">
+          <mxGeometry height="160" width="520" x="40" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="lg1" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeColor=#333333;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="1060" as="sourcePoint" />
+            <mxPoint x="140" y="1060" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lg1t" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=12;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Data flow&lt;/b&gt; — events / records move along this path" vertex="1">
+          <mxGeometry height="24" width="400" x="150" y="1050" as="geometry" />
+        </mxCell>
+        <mxCell id="lg2" edge="1" parent="1" style="endArrow=open;endFill=1;html=1;strokeColor=#7f7f7f;strokeWidth=1.5;dashed=1;dashPattern=6 4;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="1090" as="sourcePoint" />
+            <mxPoint x="140" y="1090" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lg2t" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=12;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;Relationship&lt;/b&gt; — catalog, subscribe, alert rule, grounding, storage" vertex="1">
+          <mxGeometry height="24" width="400" x="150" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="lg3" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=11;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Fill = stage (header colour of each column). Bold-bordered nodes = the four core RTI items.&lt;br&gt;† = preview · ‡ = reported GA (Gartner, Oct 2026) — not yet confirmed against Microsoft docs.&lt;br&gt;Real-Time Hub and OneLake are planes spanning all stages, not steps in the flow." vertex="1">
+          <mxGeometry height="95" width="490" x="60" y="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="notes" parent="1" style="swimlane;html=1;startSize=32;fillColor=#f5f5f5;strokeColor=#666666;swimlaneFillColor=#ffffff;fontSize=15;fontStyle=1;fontFamily=Helvetica;rounded=1;arcSize=3;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Changes vs Microsoft&#39;s graphic" vertex="1">
+          <mxGeometry height="160" width="970" x="580" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="notesT" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=11;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;b&gt;1.&lt;/b&gt; Every item sits on a labelled path — nothing floats. Real-Time Hub redrawn as a catalog plane (it stores no data), not a flow node.&lt;br&gt;&lt;b&gt;2.&lt;/b&gt; Activator&#39;s real inputs made explicit: Eventstream destination, direct Fabric/Azure events, and alert rules from KQL Queryset, Real-Time Dashboard and Power BI.&lt;br&gt;&lt;b&gt;3.&lt;/b&gt; Lakehouse added as an Eventstream destination; Eventhouse ↔ OneLake shown both ways (OneLake availability out, accelerated shortcuts in).&lt;br&gt;&lt;b&gt;4.&lt;/b&gt; Generic source icons replaced by named source classes, incl. 2026 additions: Oracle CDC, Mirrored DB change feed, business events, DeltaFlow, Spark Structured Streaming.&lt;br&gt;&lt;b&gt;5.&lt;/b&gt; Digital twin builder kept in RTI (still preview) and wired to its lake input; Fabric IQ (Ontology, Data agent, Operations agent) and Fabric Maps added as RTI consumers." vertex="1">
+          <mxGeometry height="160" width="945" x="595" y="1047" as="geometry" />
+        </mxCell>
+        <mxCell id="copy" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontFamily=Helvetica;fontSize=10;align=right;fontColor=#777777;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="© 2026 John P Brown" vertex="1">
+          <mxGeometry height="20" width="300" x="1250" y="1180" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
