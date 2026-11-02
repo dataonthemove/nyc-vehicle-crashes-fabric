@@ -6,6 +6,9 @@
   "worktree": {
     "bgIsolation": "none"
   },
+  "enabledPlugins": {
+    "powerbi-authoring@fabric-collection": true
+  },
   "permissions": {
     "allow": [
       "Bash(powerbi-report-author *)",
