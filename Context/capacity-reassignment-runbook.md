@@ -11,13 +11,21 @@ in order, then fix anything in this runbook that turned out different on the day
 the original trial (started 2026-07-30); rotation 2 was the first move. History:
 `.scratch/Archive/New-Trial-and-capacity-reassignment/spec.md`.
 
+There are two ways to get the new trial (step 1.0 picks one):
+
+- **Self-trial route:** `user7` starts the new trial itself, when Fabric offers one in its profile
+  menu. No extra account needed. Used in rotation 3.
+- **Trial-account route:** a fresh trial account (`user8`, `user9`, …) starts the trial. Used in
+  rotation 2. This is the default whenever `user7` isn't offered a trial.
+
 ## Who is who
 
 - **`user7`: the working account.** It is the only account with a role in any workspace (Admin in
   all four). All Fabric work runs as `user7`: the Fabric web UI, Source Control commits made in
-  Fabric, `az`, MCP and data connections. It never changes between rotations.
-- **Trial accounts (`user8`, then `user9`, …).** Each is a fresh account that exists only to start
-  a trial and host the capacity. It has no workspace role and is never used for development.
+  Fabric, `az`, MCP and data connections. It never changes between rotations. On the self-trial
+  route it also owns the trial capacity (rotations 2 and 3).
+- **Trial accounts (`user8`, then `user9`, …).** Used on the trial-account route only. Each is a
+  fresh account that exists only to start a trial and host the capacity. It has no workspace role and is never used for development.
   Anything committed from Fabric while signed in as a trial account shows up under that account's
   name in ADO history, which happened with `user8` on 2026-09-28/29.
 - **Your local Git/VSC.** Commits and pushes from your machine use your own ADO identity. No rotation
@@ -29,20 +37,27 @@ Decision record: `.scratch/Archive/capacity-rotation-single-account/spec.md` (Pa
 
 The steps below refer to these names.
 
-| Name | What it is | Rotation 2 (2026-09-25) | Rotation 3 (due ~2026-11-24) |
-|---|---|---|---|
-| `OLD_CAPACITY_ID` | Capacity that is about to expire | `f1b1feea-3619-4c62-928e-69eb8d45b7a9` | `e52c9636-f9c4-4f58-94c7-57568d827005` |
-| `OLD_EXPIRY` | Date it expires | 2026-09-28 | ~2026-11-24 (confirm in Admin portal) |
-| `OLD_OWNER` | Trial account that owns it | `Jpb_fabric_user7` | `Jpb_fabric_user8` |
-| `NEW_CAPACITY_ID` | New trial capacity | `e52c9636-f9c4-4f58-94c7-57568d827005` | *fill in at 1.5* |
-| `NEW_CAPACITY_NAME` | Its display name | `Trial-20260925T023943Z-aQK6FvSBUUWGWhfq5mTwIw` | *fill in at 1.5* |
-| `NEW_EXPIRY` | Its expiry (start + 60 days) | ~2026-11-24 | *fill in at 1.5* |
-| `NEW_OWNER` | Trial account that starts it | `Jpb_fabric_user8` | *fill in at 1.1* |
-| Region | Must be the same on both capacities | UK South | UK South |
-| SKU | Trial size | FTL64 | FTL64 |
+| Name | What it is | Rotation 2 (2026-09-25) | Rotation 3 (2026-11-21) | Rotation 4 (due ~2027-01-20) |
+|---|---|---|---|---|
+| Route | Self-trial or trial-account | Trial-account | Self-trial | *pick at 1.0* |
+| `OLD_CAPACITY_ID` | Capacity that is about to expire | `f1b1feea-3619-4c62-928e-69eb8d45b7a9` | `e52c9636-f9c4-4f58-94c7-57568d827005` | `6a614dce-931c-4c90-ac08-eb9ce391005f` |
+| `OLD_EXPIRY` | Date it expires | 2026-09-28 | 2026-11-23 (start + 60 days = 2026-11-24) | ~2027-01-20 (confirm in `user7`'s profile menu) |
+| `OLD_OWNER` | Account that owns it | `Jpb_fabric_user7` | `Jpb_fabric_user8` | `Jpb_fabric_user7` |
+| `NEW_CAPACITY_ID` | New trial capacity | `e52c9636-f9c4-4f58-94c7-57568d827005` | `6a614dce-931c-4c90-ac08-eb9ce391005f` | *fill in at 1.5* |
+| `NEW_CAPACITY_NAME` | Its display name | `Trial-20260925T023943Z-aQK6FvSBUUWGWhfq5mTwIw` | `Trial-20261121T115212Z-sCOa6LwQHkGpl-IdTROH-g` | *fill in at 1.5* |
+| `NEW_EXPIRY` | Its expiry (start + 60 days) | ~2026-11-24 | ~2027-01-20 | *fill in at 1.5* |
+| `NEW_OWNER` | Account that starts it | `Jpb_fabric_user8` | `Jpb_fabric_user7` | *fill in at 1.0 / 1.1* |
+| Region | Must be the same on both capacities | UK South | UK South | UK South |
+| SKU | Trial size | FTL64 | FTL64 | FTL64 |
 
-Rotation 2 is the odd one out: the old owner was `user7` itself. From rotation 3 on, the old owner
-is always the previous trial account.
+The old owner is whoever started the previous trial: `user7` after a self-trial rotation, otherwise
+the previous trial account. When it's `user7` (rotations 2 and 4), the old trial is `user7`'s own,
+so the **Cancel trials** button in `user7`'s profile menu would cancel the live capacity. See Rules.
+
+Rotation 3 spare: `user9` started trial `a419da98-8283-42ba-b29b-0c66b93432a7`
+(`Trial-20261121T104010Z-dmegwsKue0WuG2fuY3fvWw`, UK South, FTL64) on the same day, before `user7`
+was offered its own. It hosts nothing and expires with rotation 3's capacity (~2027-01-20), so it
+can't serve rotation 4. Let it lapse.
 
 Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 
@@ -53,9 +68,11 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
   capacity if Microsoft refuses a new trial.
 - **Never cancel the old trial.** Let it expire on its own. If some items fail to move, they stay
   on the old capacity, and retrying them only works while it is still alive. Finish the move and
-  all of section 4 before `OLD_EXPIRY`.
+  all of section 4 before `OLD_EXPIRY`. Signed in as `user7`, never click **Cancel trials** in the
+  profile menu: it cancels every trial `user7` owns, which after a self-trial rotation is the
+  capacity all four workspaces run on.
 - **Only `user7` works in the workspaces.** Never give a trial account a workspace role, not even
-  as a quick fix.
+  as a quick fix. `user7` owning the trial itself (self-trial route) doesn't break this rule.
 - **Reports need a paid licence, not a bigger capacity.** The capacity pays for the *workspace*.
   Power BI Pro or PPU pays for the *person*. `user7` is on a free licence: its Power BI trial ran out
   in 2026-09 and Microsoft won't give it another. On the free licence `user7` can do all
@@ -64,8 +81,14 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
   workspace, which isn't in Git. Reports that belong in Git wait until `user7` has Pro. If a blocked
   save still leaves a stray report behind, CC deletes it with the Fabric REST API
   (`DELETE /v1/workspaces/{ws}/items/{id}` via `az rest`).
+  **Open question (rotation 3):** after `user7`'s 2026-11-21 self-trial, its profile shows a
+  "Fabric and Power BI trial" with 59 days left, and a `Premium Per User - Reserved` capacity
+  appeared. `user7` may be able to save reports again until ~2027-01-20. Untested: try saving a
+  report in My workspace before relying on it.
 - **Chaining trials may stop working.** Creating a new account for each trial may break Microsoft's
-  trial terms or hit a per-tenant limit. If a new trial is refused at 1.4, stop. The fallback is a
+  trial terms or hit a per-tenant limit. Microsoft offering `user7` a second trial (2026-11-21, about
+  54 days after its first ended) is a lucky break, not a rule: its trial eligibility rules aren't
+  published. If no route gives a new trial at 1.0–1.4, stop. The fallback is a
   paid capacity (F-SKU) or Pro for `user7`, and that's Pat's decision.
 - **Never rebuild from ADO instead.** A rebuild changes every item ID and means recreating the
   deployment pipeline and its rules, re-authorising connections, and reloading all data from the
@@ -82,10 +105,11 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 - **"Failed to resolve name":** a DAX error that just means the model needs refreshing after a
   deploy (Direct Lake hasn't loaded the newly deployed version yet). It isn't broken.
 
-## 1. Set up the new trial account
+## 1. Get the new trial
 
 | # | Step | Who | Where |
 |---|---|---|---|
+| 1.0 | **Pick the route.** Signed in as `user7`, open the profile menu (top right). If it offers to start a trial, take the **self-trial route**: start it, set `NEW_OWNER` = `user7`, do 1.5 (in `user7`'s profile menu or Admin portal → Capacity settings → Trial), skip 1.1–1.4 and 1.6, and use the self-trial route in section 3. If no offer appears, take the **trial-account route** below. Never click *Cancel trials* there. | Pat (as `user7`) | Fabric portal → profile menu |
 | 1.1 | Create `NEW_OWNER` in the tenant, or reuse an account that has no workspace role. | Pat | Entra admin center |
 | 1.2 | Give `NEW_OWNER` the Entra **Fabric Administrator** role. The bulk move in 3.2, of workspaces this account isn't a member of, worked with this role in rotation 2. Whether it's strictly required hasn't been tested, so keep it. | Pat | Entra admin center → Roles |
 | 1.3 | Give `NEW_OWNER` a **Fabric (Free)** licence. | Pat | Microsoft 365 admin center → Licenses |
@@ -105,7 +129,15 @@ Workspace names and IDs: `Context/environment-reference.md` → Workspaces.
 
 ## 3. Move the workspaces
 
-**Normal route: move all four at once, as the new trial account.** This worked first time in
+**Self-trial route: move them as `user7`.** Worked first time in rotation 3. `user7` is both
+capacity admin of its own trial and Admin of every workspace, so it needs no extra permission.
+
+| # | Step | Who | Where |
+|---|---|---|---|
+| 3.0a | Signed in as `user7`, either: Admin portal → Capacity settings → **Trial** → `NEW_CAPACITY_NAME` → Assign workspaces → select all four → apply; or in each workspace, Workspace settings → Workspace type → Trial → `NEW_CAPACITY_NAME` → Apply. | Pat (as `user7`) | Admin portal / Fabric portal |
+| 3.0b | Repeat 3.4, then do the "items that didn't move" check below. | CC | Fabric REST (`az rest GET /v1/workspaces`) or MCP (`list_workspaces`) |
+
+**Trial-account route: move all four at once, as the new trial account.** This worked first time in
 rotation 2.
 
 | # | Step | Who | Where |
@@ -115,8 +147,8 @@ rotation 2.
 | 3.3 | Select Landing, Dev, Test and Prod, then apply. | Pat | Admin portal |
 | 3.4 | Once the move finishes, check that all four are on `NEW_CAPACITY_ID`. | CC | MCP (`list_workspaces`) |
 
-**Backup route: move them one at a time, as `user7`.** Only if the normal route fails. Not needed
-so far.
+**Backup for the trial-account route: move them one at a time, as `user7`.** Only if the bulk move
+above fails. Not needed so far.
 
 | # | Step | Who | Where |
 |---|---|---|---|
@@ -222,6 +254,7 @@ root). Each folder holds one full extract, plus header-only files from runs that
 | Rotation | Date | Route | Outcome |
 |---|---|---|---|
 | 2 | 2026-09-25 | Normal (3.1–3.4) | All four moved, no "not migrated" banners. Checks 4.1–4.11 passed the same day (4.5's return value not viewed). Dev stage load took 4 m 35 s. Follow-up: `.scratch/Archive/New-Trial-and-capacity-reassignment/issues/07-post-expiry-check.md`. |
+| 3 | 2026-11-21 | Self-trial (3.0a) | Late start: 2 days before `OLD_EXPIRY`, no step 2.4 baseline taken. `user9` had started trial `a419da98…` (10:40 UTC) for the trial-account route; `user7`'s profile menu then offered a new trial, which Pat took (`6a614dce…`, 11:52 UTC) and moved all four workspaces onto. `az rest` confirmed all four on `6a614dce…`, FTL64, UK South. **Pending:** "not migrated" banner checks (4.2/4.7), section 4 data checks against the rotation-2 baseline (allow for CDC loads since 2026-10-14), section 6 after 2026-11-23. Fabric MCP server failed to connect this session. |
 | 2 (after expiry) | 2026-09-29 | Section 6 | `user7` is on a free licence; its Power BI trial has ended and no new one is allowed. Semantic-model workflow passed (Update All, model-only Dev → Test deploy, refresh; first run of 4.12). Reports are blocked by the licence. `user8`'s Contributor role in Dev was removed, so `user7` is now the only account in all four workspaces; `user6` is gone. |
 
 Background reading: Microsoft Learn `fabric/fundamentals/fabric-trial`, `fabric/admin/portal-workspaces`,
