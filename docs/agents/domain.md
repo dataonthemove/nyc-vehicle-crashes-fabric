@@ -1,4 +1,4 @@
-# Domain Docs
+("C:\Users\DataO\SourceCode\NYC_VehicleCrashes\docs\adr")# Domain Docs
 
 How the engineering skills should consume this repo's domain documentation when exploring the codebase.
 
@@ -13,7 +13,7 @@ If any of these files don't exist, **proceed silently**. Don't flag their absenc
 ## File structure
 
 Single-context repo (most repos):
-
+("C:\Users\DataO\SourceCode\NYC_VehicleCrashes\docs\adr")
 ```
 /
 ├── CONTEXT.md
