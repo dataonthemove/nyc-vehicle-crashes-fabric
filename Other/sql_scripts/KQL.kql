@@ -1,0 +1,9 @@
+
+
+testTable
+| limit 10
+
+
+.show databases
+| project DatabaseName, PrettyName
+
