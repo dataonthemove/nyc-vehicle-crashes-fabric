@@ -1,4 +1,4 @@
 This is copy. 
 
-The master is here:
+The masters is here:
 C:\Users\DataO\ClaudeGeneral\GeneralStuff

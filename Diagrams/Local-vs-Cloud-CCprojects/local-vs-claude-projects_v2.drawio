@@ -1,0 +1,178 @@
+<mxfile host="Electron">
+  <diagram id="cmp" name="Local vs Projects">
+    <mxGraphModel dx="2447" dy="1414" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1330" background="light-dark(#CCCCCC,#121212)" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c11" parent="1" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b style=&#39;font-size:24px&#39;&gt;Claude Code: local code-first workflow vs. Claude Projects&lt;/b&gt;&lt;br&gt;&lt;span style=&#39;font-size:13px;color:#555&#39;&gt;Hierarchies, caveats and comparison. Checked against code.claude.com/docs/en/claude-projects on 2026-11-25. Projects are in public beta, so details may change.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="1620" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="c12" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontColor=#1f4e79;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b style=&#39;font-size:17px&#39;&gt;A. Local code-first (your Fabric workflow)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="780" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Repo folder&lt;/b&gt;&lt;sup&gt;&lt;b&gt;1&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;e.g. NYC_VehicleCrashes" vertex="1">
+          <mxGeometry height="56" width="300" x="280" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="c14" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;You&lt;/b&gt; =&lt;br&gt;coordinator&lt;sup&gt;&lt;b&gt;2&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;&lt;span style=&#39;font-size:11px&#39;&gt;starts / steers&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="30" x="80" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="c15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Session A&lt;/b&gt;&lt;sup&gt;&lt;b&gt;3&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;Full Claude Code session&lt;br&gt;Repo folder &lt;i&gt;or&lt;/i&gt; its own worktree&lt;sup&gt;&lt;b&gt;4&lt;/b&gt;&lt;/sup&gt;" vertex="1">
+          <mxGeometry height="80" width="290" x="110" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="c16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Session B&lt;/b&gt;&lt;sup&gt;&lt;b&gt;3&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;Full Claude Code session&lt;br&gt;Repo folder &lt;i&gt;or&lt;/i&gt; its own worktree&lt;sup&gt;&lt;b&gt;4&lt;/b&gt;&lt;/sup&gt;" vertex="1">
+          <mxGeometry height="80" width="290" x="460" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="c17" edge="1" parent="1" source="c13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" edge="1" parent="1" source="c13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" edge="1" parent="1" source="c14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.1;entryY=0;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Subagents&lt;sup&gt;&lt;b&gt;5&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;&lt;span style=&#39;font-size:11px&#39;&gt;report to Session A only&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="220" x="145" y="375" as="geometry" />
+        </mxCell>
+        <mxCell id="c21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Subagents&lt;sup&gt;&lt;b&gt;5&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;&lt;span style=&#39;font-size:11px&#39;&gt;report to Session B only&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="220" x="495" y="375" as="geometry" />
+        </mxCell>
+        <mxCell id="c22" edge="1" parent="1" source="c15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c20" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c23" edge="1" parent="1" source="c16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c21" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c24" parent="1" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=none;strokeColor=#6c8ebf;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Tools on your PC&lt;/b&gt;&lt;sup&gt;&lt;b&gt;6&lt;/b&gt;&lt;/sup&gt;: Fabric MCP · Git · PBID files · VSC" vertex="1">
+          <mxGeometry height="32" width="640" x="110" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="c25" parent="1" style="text;html=1;align=left;fontSize=13;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Delivery path&lt;/b&gt; (you control every step)" vertex="1">
+          <mxGeometry height="24" width="400" x="40" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="c26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Local branch" vertex="1">
+          <mxGeometry height="54" width="130" x="50" y="512" as="geometry" />
+        </mxCell>
+        <mxCell id="c27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Commit" vertex="1">
+          <mxGeometry height="54" width="130" x="202" y="512" as="geometry" />
+        </mxCell>
+        <mxCell id="c28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Push to ADO" vertex="1">
+          <mxGeometry height="54" width="130" x="354" y="512" as="geometry" />
+        </mxCell>
+        <mxCell id="c29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Pull request (ADO)" vertex="1">
+          <mxGeometry height="54" width="130" x="506" y="512" as="geometry" />
+        </mxCell>
+        <mxCell id="c30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Fabric workspace sync" vertex="1">
+          <mxGeometry height="54" width="130" x="658" y="512" as="geometry" />
+        </mxCell>
+        <mxCell id="c31" edge="1" parent="1" source="c26" style="html=1;endArrow=block;endFill=1;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c27" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c32" edge="1" parent="1" source="c27" style="html=1;endArrow=block;endFill=1;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c28" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c33" edge="1" parent="1" source="c28" style="html=1;endArrow=block;endFill=1;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c29" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c34" edge="1" parent="1" source="c29" style="html=1;endArrow=block;endFill=1;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c30" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c35" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fontSize=12;spacing=10;fillColor=#f8fbff;strokeColor=#6c8ebf;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Footnotes: A. Local code-first&lt;/b&gt;&lt;br&gt;&lt;sup&gt;&lt;b&gt;1&lt;/b&gt;&lt;/sup&gt; The repo folder carries the CLAUDE.md file, rules, skills, the &lt;code&gt;.mcp.json&lt;/code&gt; file and folder-scoped memory. Any git host works, including ADO.&lt;br&gt;&lt;sup&gt;&lt;b&gt;2&lt;/b&gt;&lt;/sup&gt; You coordinate. In the desktop app, a session can also propose or start sibling sessions, with your approval.&lt;br&gt;&lt;sup&gt;&lt;b&gt;3&lt;/b&gt;&lt;/sup&gt; Sessions in one repo share its files, its CLAUDE.md file and its folder memory. You choose the permission mode per session.&lt;br&gt;&lt;sup&gt;&lt;b&gt;4&lt;/b&gt;&lt;/sup&gt; A worktree is optional. It isolates parallel sessions working in the same repo.&lt;br&gt;&lt;sup&gt;&lt;b&gt;5&lt;/b&gt;&lt;/sup&gt; Subagents are short-lived helpers that report only to the session that started them.&lt;br&gt;&lt;sup&gt;&lt;b&gt;6&lt;/b&gt;&lt;/sup&gt; All tools run locally, so everything stops when the laptop sleeps or closes.&lt;br&gt;&lt;b&gt;Verdict:&lt;/b&gt; this stays the right fit for Fabric, because the Fabric MCP, PBID and ADO all live on or reach from your PC. A local project thread also uses your PC&#39;s tools, including the Fabric MCP; only cloud threads lack it." vertex="1">
+          <mxGeometry height="230" width="780" x="40" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="c36" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontColor=#7f4a00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b style=&#39;font-size:17px&#39;&gt;B. Claude Projects (new, public beta)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="780" x="880" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="c37" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Project&lt;/b&gt;&lt;sup&gt;&lt;b&gt;1&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;e.g. &quot;Fabric&quot; or &quot;DP-600&quot;" vertex="1">
+          <mxGeometry height="56" width="300" x="1120" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="c38" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Coordinator conversation&lt;/b&gt;&lt;sup&gt;&lt;b&gt;2&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;the ongoing chat: plans the work, starts threads, gets their reports" vertex="1">
+          <mxGeometry height="56" width="400" x="1070" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="c39" edge="1" parent="1" source="c37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c38" value="1 : 1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c40" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Thread A, cloud&lt;/b&gt; (default)&lt;sup&gt;&lt;b&gt;3&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;Full Claude Code session&lt;br&gt;Fresh branch in a cloud sandbox" vertex="1">
+          <mxGeometry height="70" width="290" x="950" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="c41" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Thread B, local&lt;/b&gt; (optional)&lt;sup&gt;&lt;b&gt;4&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;Full Claude Code session&lt;br&gt;Connected folder, Worktree toggle optional" vertex="1">
+          <mxGeometry height="70" width="290" x="1300" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="c42" edge="1" parent="1" source="c38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c40" value="1 : many">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c43" edge="1" parent="1" source="c38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c41" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c44" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Subagents&lt;sup&gt;&lt;b&gt;5&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;&lt;span style=&#39;font-size:11px&#39;&gt;report to Thread A only&lt;/span&gt;" vertex="1">
+          <mxGeometry height="45" width="220" x="985" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="c45" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Subagents&lt;sup&gt;&lt;b&gt;5&lt;/b&gt;&lt;/sup&gt;&lt;br&gt;&lt;span style=&#39;font-size:11px&#39;&gt;report to Thread B only&lt;/span&gt;" vertex="1">
+          <mxGeometry height="45" width="220" x="1335" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="c46" edge="1" parent="1" source="c40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c44" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c47" edge="1" parent="1" source="c41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c45" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c48" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=12;dashed=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Coordinator&#39;s own subagents?&lt;br&gt;&lt;span style=&#39;font-size:11px&#39;&gt;unconfirmed&lt;/span&gt;" vertex="1">
+          <mxGeometry height="45" width="170" x="1480" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="c49" edge="1" parent="1" source="c38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;dashed=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c48" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c50" parent="1" style="text;html=1;align=left;fontSize=13;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Delivery path, cloud thread&lt;/b&gt; (coordinator and threads drive it; you approve and merge)" vertex="1">
+          <mxGeometry height="24" width="780" x="880" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="c51" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="New branch from the default branch" vertex="1">
+          <mxGeometry height="54" width="130" x="890" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="c52" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Commit and push to GitHub" vertex="1">
+          <mxGeometry height="54" width="130" x="1042" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="c53" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Pull request (github.com)" vertex="1">
+          <mxGeometry height="54" width="130" x="1194" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="c54" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Auto-fix watches CI and review comments" vertex="1">
+          <mxGeometry height="54" width="130" x="1346" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="c55" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="You merge" vertex="1">
+          <mxGeometry height="54" width="130" x="1498" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="c56" edge="1" parent="1" source="c51" style="html=1;endArrow=block;endFill=1;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c52" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c57" edge="1" parent="1" source="c52" style="html=1;endArrow=block;endFill=1;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c53" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c58" edge="1" parent="1" source="c53" style="html=1;endArrow=block;endFill=1;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c54" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c59" edge="1" parent="1" source="c54" style="html=1;endArrow=block;endFill=1;strokeColor=#82b366;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c55" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c60" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fontSize=12;spacing=10;fillColor=#fffaf3;strokeColor=#d79b00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Footnotes: B. Claude Projects&lt;/b&gt;&lt;br&gt;&lt;sup&gt;&lt;b&gt;1&lt;/b&gt;&lt;/sup&gt; There is one coordinator per project, and each project belongs to one user. Public beta on Pro, Max and Ultra plans (not yet Team or Enterprise), in claude.ai/code, the desktop app and mobile apps, not the CLI, VSC or JetBrains. Usage is heavier than a single session.&lt;br&gt;&lt;sup&gt;&lt;b&gt;2&lt;/b&gt;&lt;/sup&gt; The coordinator sees what threads report back, not every step they take. Approvals happen inside each thread; a chat message to the coordinator doesn&#39;t answer a waiting thread.&lt;br&gt;&lt;sup&gt;&lt;b&gt;3&lt;/b&gt;&lt;/sup&gt; Cloud threads work on &lt;b&gt;github.com repos only&lt;/b&gt;, with the Claude GitHub App installed; ADO, GitLab and Bitbucket aren&#39;t supported. They inherit the project instructions, project memory, and each repo&#39;s CLAUDE.md files, rules and skills. They do &lt;b&gt;not&lt;/b&gt; load &lt;code&gt;.mcp.json&lt;/code&gt;, hooks, permission rules or env settings, so they get &lt;b&gt;no Fabric MCP&lt;/b&gt;. They keep running with the laptop closed. Uncommitted sandbox work can be lost.&lt;br&gt;&lt;sup&gt;&lt;b&gt;4&lt;/b&gt;&lt;/sup&gt; Local threads need the folder connected through Remote Control (Settings › Code). They run in &lt;b&gt;auto mode&lt;/b&gt; and use the folder itself by default. They get the project instructions but not the project memory. Two threads in one folder can overwrite each other&#39;s changes. They pause while the PC sleeps.&lt;br&gt;&lt;sup&gt;&lt;b&gt;5&lt;/b&gt;&lt;/sup&gt; Threads can use subagents for their own side tasks.&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt; local Code-tab sessions stay outside Projects. Projects add a new option; they don&#39;t replace local sessions." vertex="1">
+          <mxGeometry height="260" width="780" x="880" y="568" as="geometry" />
+        </mxCell>
+        <mxCell id="c61" parent="1" style="text;html=1;align=left;verticalAlign=middle;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b style=&#39;font-size:17px&#39;&gt;C. Side-by-side comparison&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="1620" x="40" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="c62" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;overflow=fill;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;table style=&#39;border-collapse:collapse;width:100%;font-size:12px&#39;&gt;&lt;tr&gt;&lt;th style=&#39;border:1px solid #999;padding:6px;background:#e6e6e6;text-align:left&#39;&gt;Level&lt;/th&gt;&lt;th style=&#39;border:1px solid #999;padding:6px;background:#dae8fc;text-align:left&#39;&gt;A. Local code-first (your Fabric workflow)&lt;/th&gt;&lt;th style=&#39;border:1px solid #999;padding:6px;background:#ffe6cc;text-align:left&#39;&gt;B. Projects (new, beta)&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;&lt;b&gt;Top container&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Repo folder, e.g. NYC_VehicleCrashes&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Project, e.g. &amp;quot;Fabric&amp;quot; or &amp;quot;DP-600&amp;quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;&lt;b&gt;Shared context&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;Repo files, CLAUDE.md file, rules, skills, folder memory, .mcp.json file&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;Project instructions, project memory, the repo&amp;#x27;s CLAUDE.md files, rules and skills (no .mcp.json, hooks or permission rules)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;&lt;b&gt;Coordinator&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;You (a session can propose or start sibling sessions, with your approval)&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Coordinator conversation (sees thread reports, not every step)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;&lt;b&gt;Worker unit&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;Session: a full Claude Code session you start and steer&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;Thread: a full Claude Code session the coordinator starts; you can open and steer it&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;&lt;b&gt;Where workers run&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Your PC: the repo folder or its own worktree&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Cloud sandbox (default), or a local connected folder&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;&lt;b&gt;Isolation&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;Optional git worktree&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;Cloud: a fresh branch per thread. Local: the folder by default, Worktree toggle optional&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;&lt;b&gt;Permission mode&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Your choice per session&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Threads usually run in auto mode; any prompt waits inside its thread&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;&lt;b&gt;Helpers&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;Subagents, reporting to their session&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;Subagents, reporting to their thread (coordinator: unconfirmed)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;&lt;b&gt;Tools available&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Fabric MCP, Git, PBID files, VSC&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Cloud: GitHub and claude.ai connectors only. Local: your machine&amp;#x27;s tools&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;&lt;b&gt;Repo host&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;ADO (any host works)&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;github.com only (no ADO)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;&lt;b&gt;Delivery path&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Branch → commit → push to ADO → pull request → Fabric workspace sync&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;Branch → pull request on GitHub (auto-fix watches CI)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;&lt;b&gt;Runs with laptop closed&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;No&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#f7f7f7&#39;&gt;Cloud threads, yes&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;&lt;b&gt;Where available&lt;/b&gt;&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;CLI, desktop app, VSC, JetBrains&lt;/td&gt;&lt;td style=&#39;border:1px solid #bbb;padding:6px;vertical-align:top;background:#ffffff&#39;&gt;claude.ai/code, desktop app, mobile&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="385" width="1620" x="40" y="885" as="geometry" />
+        </mxCell>
+        <mxCell id="c63" parent="1" style="text;html=1;align=left;fontSize=12;fontColor=#555;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;i&gt;The two are separate. Local sessions stay outside Projects unless you move one in with &lt;b&gt;Continue in project&lt;/b&gt;.&lt;/i&gt;" vertex="1">
+          <mxGeometry height="26" width="1620" x="40" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="c64" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2e0;strokeColor=#d79b00;fontSize=12;dashed=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;b&gt;Project instructions + memory&lt;/b&gt;&lt;br&gt;&lt;span style=&#39;font-size:11px&#39;&gt;shared context for threads&lt;/span&gt;" vertex="1">
+          <mxGeometry height="46" width="200" x="890" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="c65" edge="1" parent="1" source="c64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;dashed=1;strokeColor=#d79b00;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="c37" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c66" parent="1" style="text;html=1;align=left;fontSize=12;fontColor=#555;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="&lt;i&gt;A local thread can follow path A instead (ADO → Fabric workspace sync).&lt;/i&gt;" vertex="1">
+          <mxGeometry height="22" width="760" x="890" y="541" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
